@@ -206,7 +206,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-01-18 11:20:28 / 修改时间：11:27:52" itemprop="dateCreated datePublished" datetime="2020-01-18T11:20:28+08:00">2020-01-18</time>
+              <time title="创建时间：2020-01-18 11:20:28 / 修改时间：21:47:08" itemprop="dateCreated datePublished" datetime="2020-01-18T11:20:28+08:00">2020-01-18</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -228,6 +228,13 @@
                 <span class="post-meta-item-text">本文字数：</span>
               <span>6.9k</span>
             </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -238,7 +245,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="简单传送指令"><a href="#简单传送指令" class="headerlink" title="简单传送指令"></a>简单传送指令</h4><h5 id="传送指令"><a href="#传送指令" class="headerlink" title="传送指令"></a>传送指令</h5><p><strong>MOV DEST，SRC</strong> （DEST &lt;= SRC）<br>操作数尺寸必须保持一致<br>立即数永远不能作为目的操作数，CS寄存器不能做目的操作数。EIP不能作为操作数。<br>不影响各标志位状态。<br><img src="en-resource://database/717:1" alt="6ec298d19c5376c81f131509457f3bed.png"></p>
+          <h4 id="简单传送指令"><a href="#简单传送指令" class="headerlink" title="简单传送指令"></a>简单传送指令</h4><h5 id="传送指令"><a href="#传送指令" class="headerlink" title="传送指令"></a>传送指令</h5><p><strong>MOV DEST，SRC</strong> （DEST &lt;= SRC）<br>操作数尺寸必须保持一致<br>立即数永远不能作为目的操作数，CS寄存器不能做目的操作数。EIP不能作为操作数。<br>不影响各标志位状态。<br><img src="/images/%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87.png" alt></p>
 <h5 id="交换指令"><a href="#交换指令" class="headerlink" title="交换指令"></a>交换指令</h5><p><strong>XCHG OPRD1,OPRD2</strong><br>内容交换<br>不能同时是存储单元，也不能有立即数。操作数尺寸一致。</p>
 <h4 id="简单加减指令"><a href="#简单加减指令" class="headerlink" title="简单加减指令"></a>简单加减指令</h4><h5 id="加法指令"><a href="#加法指令" class="headerlink" title="加法指令"></a>加法指令</h5><p><strong>ADD DEST，SRC</strong> （DEST &lt;= DEST + SRC）<br>带进位的加法指令<br><strong>ADC DEST，SRC</strong> （DEST &lt;= DEST + SRC + CF）<br>加法指令ADD，ADC影响标志寄存器中的有关状态标志。</p>
 <h5 id="减法指令"><a href="#减法指令" class="headerlink" title="减法指令"></a>减法指令</h5><p><strong>SUB DEST，SRC</strong> （DEST &lt;= DEST-SRC）<br>带借位的减法指令<br><strong>SBB DEST，SRC</strong> （DEST - SRC - CF = DEST）<br>减法指令SUB，SBB影响标志寄存器中的有关状态标志。</p>
@@ -836,7 +843,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.1k</span>
+              <span>1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -853,17 +867,17 @@
 <h4 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a><strong>2.安装</strong></h4><p>打开文件夹，在目录里按<strong>Shift+右键</strong>，打开命令窗口。输入<br><strong>python setup.py install</strong><br>安装完成</p>
 <h4 id="3-配置"><a href="#3-配置" class="headerlink" title="3.配置"></a><strong>3.配置</strong></h4><p>到自己到python安装目录找到Script目录，打开，因为刚刚已经安装完成，所以里面应该有叫binwalk的没有后缀的文件。根据我的经验，可以不用理他。因为按照正常方式，要是需要用binwalk，需要输入命令比较多一点，想简单一点，可以按照下面的方法。（也是根据网上的一些教程来的，感觉这个挺方便的）。</p>
 <p> 新建一个文件夹（可以在python那个安装目录），并把文件夹的路径加入到系统变量path里（这样在cmd里就可以直接运行了。）<br> 在文件夹里新建一个binwalk.bat文件，内容为以下代码。（代码来自网上教程，自己操作过，莫得问题）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">echo * suggest: you&#39;d better to input the parameters enclosed in double quotes.echo * made by pcat</span><br><span class="line">python &quot;%~dp0\p_binwalk.py&quot; %1 %2 %3 %4 %5 %6 %7 %8 %9</span><br></pre></td></tr></table></figure>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">@echo</span> off</span><br><span class="line">echo * suggest: you'd better <span class="keyword">to</span> input the parameters enclosed in <span class="keyword">double</span> quotes.echo * made by pcat</span><br><span class="line">python <span class="string">"%~dp0\p_binwalk.py"</span> <span class="symbol">%1</span> <span class="symbol">%2</span> <span class="symbol">%3</span> <span class="symbol">%4</span> <span class="symbol">%5</span> <span class="symbol">%6</span> <span class="symbol">%7</span> <span class="symbol">%8</span> <span class="symbol">%9</span></span><br></pre></td></tr></table></figure>
 
 <p>再新建一个p_binwalk.py文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line">import binwalk</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &quot;__main__&quot;:</span><br><span class="line">    lst&#x3D;sys.argv</span><br><span class="line">    if len(lst)&lt;2:</span><br><span class="line">        print(&quot;No files.&quot;)</span><br><span class="line">        exit()</span><br><span class="line">    try:</span><br><span class="line">        if lst[1][0]&#x3D;&#x3D;&#39;-&#39;:</span><br><span class="line">            binwalk.scan(*lst[2:],signature&#x3D;lst[1])</span><br><span class="line">        elif lst[1][0]!&#x3D;&#39;-&#39;:</span><br><span class="line">            binwalk.scan(*lst[1:],signature&#x3D;True)</span><br><span class="line">    except:</span><br><span class="line">        pass</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line">import binwalk</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    lst=sys.argv</span><br><span class="line">    <span class="keyword">if</span> len(lst)&lt;<span class="number">2</span>:</span><br><span class="line">        print(<span class="string">"No files."</span>)</span><br><span class="line">        <span class="keyword">exit</span>()</span><br><span class="line">    try:</span><br><span class="line">        <span class="keyword">if</span> lst[<span class="number">1</span>][<span class="number">0</span>]==<span class="string">'-'</span>:</span><br><span class="line">            binwalk.scan(*lst[<span class="number">2</span>:],signature=lst[<span class="number">1</span>])</span><br><span class="line">        elif lst[<span class="number">1</span>][<span class="number">0</span>]!=<span class="string">'-'</span>:</span><br><span class="line">            binwalk.scan(*lst[<span class="number">1</span>:],signature=True)</span><br><span class="line">    except:</span><br><span class="line">        pass</span><br></pre></td></tr></table></figure>
 <p> 只要这个文件夹的路径在系统变量path里和这2个文件存在着，那么你就可以在cmd里像linux那样使用binwalk了。</p>
 <h4 id="4-常用命令"><a href="#4-常用命令" class="headerlink" title="4.常用命令"></a><strong>4.常用命令</strong></h4><p> -e 分解出压缩包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e 555.gif</span><br></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e <span class="number">555.</span>gif</span><br></pre></td></tr></table></figure>
 <p>-D或者–dd分解某种类型的文件（在windows里要用双括号括起来）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -D&#x3D;jpeg 555.gif</span><br></pre></td></tr></table></figure>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">binwalk </span>-D=<span class="keyword">jpeg </span><span class="number">555</span>.gif</span><br></pre></td></tr></table></figure>
 <p>-M 递归分解扫描出来的文件（得跟-e或者-D配合使用）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -eM 555.gif</span><br></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -eM <span class="number">555.</span>gif</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -920,6 +934,13 @@
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
               <span>357</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -1083,6 +1104,12 @@
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
     <span title="站点总字数">8k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">14 分钟</span>
 </div>
 
         
