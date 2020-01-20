@@ -9,6 +9,8 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -23,11 +25,11 @@
     root: '/',
     scheme: 'Gemini',
     version: '7.7.0',
-    exturl: false,
-    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
-    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    exturl: true,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},
+    copycode: {"enable":true,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
     lazyload: false,
@@ -114,7 +116,8 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-        <p class="site-subtitle">记录学习等</p>
+        <h1 class="site-subtitle" itemprop="description">记录学习等</h1>
+      
   </div>
 
   <div class="site-nav-toggle">
@@ -162,10 +165,8 @@
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 
     <main class="main">
@@ -187,7 +188,7 @@
 
       
     <div class="collection-year">
-      <h1 class="collection-header">2020</h1>
+      <h2 class="collection-header">2020</h2>
     </div>
 
   <article itemscope itemtype="http://schema.org/Article">
@@ -201,11 +202,11 @@
         </time>
       </div>
 
-      <h2 class="post-title">
+      <h3 class="post-title">
           <a class="post-title-link" href="/2020/01/18/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url">
             <span itemprop="name">汇编学习笔记</span>
           </a>
-      </h2>
+      </h3>
 
     </header>
   </article>
@@ -221,11 +222,11 @@
         </time>
       </div>
 
-      <h2 class="post-title">
+      <h3 class="post-title">
           <a class="post-title-link" href="/2020/01/18/binwalk%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/" itemprop="url">
             <span itemprop="name">binwalk安装使用</span>
           </a>
-      </h2>
+      </h3>
 
     </header>
   </article>
@@ -241,11 +242,11 @@
         </time>
       </div>
 
-      <h2 class="post-title">
+      <h3 class="post-title">
           <a class="post-title-link" href="/2020/01/16/hello-world/" itemprop="url">
             <span itemprop="name">Hello World</span>
           </a>
-      </h2>
+      </h3>
 
     </header>
   </article>
@@ -342,13 +343,20 @@
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/Ran-Barry" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Ran-Barry" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL1Jhbi1CYXJyeQ==" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Ran-Barry"><i class="fa fa-fw fa-github"></i>GitHub</span>
       </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhIOiuuOWPr+ivgS80LjAvZGVlZC56aA=="><img src="/images/cc-by-nc-sa 许可证.svg" alt="Creative Commons"></span>
   </div>
 
 
 
       </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
 
     </div>
   </aside>
@@ -381,30 +389,10 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">14 分钟</span>
+    <span title="站点阅读时长">8 分钟</span>
 </div>
 
         
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="总访问量">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
-</div>
 
 
 
@@ -431,6 +419,8 @@
 
 
 <script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
 
 
 
