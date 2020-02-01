@@ -145,17 +145,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">2</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">3</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">2</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">3</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">3</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">4</span></a>
 
   </li>
   </ul>
@@ -178,6 +178,95 @@
             
 
   <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/01/%E5%88%86%E8%A7%A3%E8%B4%A8%E5%9B%A0%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ran-Barry">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/02/01/%E5%88%86%E8%A7%A3%E8%B4%A8%E5%9B%A0%E6%95%B0/" class="post-title-link" itemprop="url">分解质因数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-02-01 19:20:28 / 修改时间：19:25:48" itemprop="dateCreated datePublished" datetime="2020-02-01T19:20:28+08:00">2020-02-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%93%9D%E6%A1%A5%E6%9D%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">蓝桥杯</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="基础练习-分解质因数"><a href="#基础练习-分解质因数" class="headerlink" title="基础练习 分解质因数"></a>基础练习 分解质因数</h1><p><img src="../images/%E5%88%86%E8%A7%A3%E8%B4%A8%E5%9B%A0%E6%95%B0%E5%9B%BE%E7%89%87.png" alt="图片"><br>这里用了两种方法，第一种是暴力解法，超时了，第二种递归，成功AC</p>
+<h2 id="第一种解法-暴力解法："><a href="#第一种解法-暴力解法：" class="headerlink" title="第一种解法 暴力解法："></a>第一种解法 暴力解法：</h2><figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#第一种 暴力解法 超时</span></span><br><span class="line">def isPrime(x): <span class="meta">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i in range(<span class="number">2</span>,<span class="keyword">int</span>(x ** (<span class="number">1</span>/<span class="number">2</span>))+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> x % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> False</span><br><span class="line">    <span class="keyword">return</span> True</span><br><span class="line"></span><br><span class="line">str1 = <span class="keyword">input</span>() <span class="meta">#接收输入</span></span><br><span class="line">arr = str1.split(<span class="string">' '</span>) <span class="meta">#分割成数组</span></span><br><span class="line">a = <span class="keyword">int</span>(arr[<span class="number">0</span>]) <span class="meta">#取出开始值</span></span><br><span class="line">b = <span class="keyword">int</span>(arr[<span class="number">1</span>]) <span class="meta">#取出结束值</span></span><br><span class="line"><span class="keyword">for</span> i in range(a,b+<span class="number">1</span>): <span class="meta">#循环输出每一次的结果</span></span><br><span class="line">    str1 = <span class="string">''</span>.join([<span class="keyword">str</span>(i),<span class="string">'='</span>]) <span class="meta">#先得出前面的</span></span><br><span class="line">    <span class="keyword">if</span> isPrime(i): <span class="meta">#是质数的话就是本身</span></span><br><span class="line">        str1 = <span class="string">''</span>.join([str1,<span class="keyword">str</span>(i)])</span><br><span class="line">        <span class="keyword">print</span>(str1)</span><br><span class="line">    <span class="keyword">else</span>: <span class="meta">#不是质数</span></span><br><span class="line">        tmp = [] <span class="meta">#一个空列表</span></span><br><span class="line">        t = i</span><br><span class="line">        <span class="keyword">while</span> t != <span class="number">1</span>: <span class="meta">#经过一次一次除，最后除到<span class="number">1</span>结束</span></span><br><span class="line">            j = <span class="number">2</span> <span class="meta">#最小的质数为<span class="number">2</span>，从<span class="number">2</span>开始</span></span><br><span class="line">            <span class="keyword">while</span> j &lt;= t: <span class="meta">#从<span class="number">2</span>开始找最小能整除t的值</span></span><br><span class="line">                <span class="keyword">if</span> isPrime(j) <span class="keyword">and</span> t % j == <span class="number">0</span>:</span><br><span class="line">                    tmp.append(j)</span><br><span class="line">                    t /= j</span><br><span class="line">                    <span class="keyword">break</span> <span class="meta">#找到一个就结束，重新开始找</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    j += <span class="number">1</span> <span class="meta">#不符合要求加<span class="number">1</span></span></span><br><span class="line">            <span class="keyword">if</span> t == <span class="number">1</span>: <span class="meta">#当等于<span class="number">1</span>时跳出循环</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="meta">#tmp = sorted(tmp) #因为是从小到大找的，不用排序也行</span></span><br><span class="line">        <span class="keyword">for</span> j in range(len(tmp)): <span class="meta">#然后按照列表开始输出</span></span><br><span class="line">            <span class="keyword">if</span> j == <span class="number">0</span>:</span><br><span class="line">                str1 = str1 + <span class="keyword">str</span>(tmp[j])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                str1 = str1 + <span class="string">'*'</span> + <span class="keyword">str</span>(tmp[j])</span><br><span class="line">        <span class="keyword">print</span>(str1)</span><br></pre></td></tr></table></figure>
+<h2 id="第二种解法-递归"><a href="#第二种解法-递归" class="headerlink" title="第二种解法 递归"></a>第二种解法 递归</h2><p>用乘积的方式进行计算，等于值时得到对应的质因数分解</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#第二种方法 递归</span></span><br><span class="line">def isPrime(<span class="built_in">num</span>): <span class="comment">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,<span class="built_in">num</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">num</span> % i == <span class="number">0</span>:</span><br><span class="line">            <span class="literal">return</span> False</span><br><span class="line">    <span class="literal">return</span> True</span><br><span class="line">def calcuate(<span class="built_in">num</span>,tmp):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,int(<span class="built_in">num</span> ** (<span class="number">1</span>/<span class="number">2</span>)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">num</span> % i == <span class="number">0</span> <span class="keyword">and</span> isPrime(i):</span><br><span class="line">            tmp.append(i)</span><br><span class="line">            <span class="built_in">num</span> = <span class="built_in">num</span><span class="comment"> // i</span></span><br><span class="line">            <span class="literal">return</span> calcuate(<span class="built_in">num</span>,tmp)</span><br><span class="line">    tmp.append(<span class="built_in">num</span>)</span><br><span class="line">    str1 = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="built_in">len</span>(tmp)): <span class="comment">#循环列表返回值</span></span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            str1 += str(tmp[i])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            str1 += <span class="string">'*'</span> + str(tmp[i])</span><br><span class="line">    <span class="literal">return</span> str1    </span><br><span class="line">str1 = input()</span><br><span class="line">arr = str1.<span class="built_in">split</span>(<span class="string">' '</span>)</span><br><span class="line"><span class="keyword">a</span> = int(arr[<span class="number">0</span>])</span><br><span class="line">b = int(arr[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="keyword">a</span>,b+<span class="number">1</span>):</span><br><span class="line">    tmp = []</span><br><span class="line">    str1 = <span class="string">''</span>.join([str(i),<span class="string">'='</span>])</span><br><span class="line">    str1 += calcuate(i,tmp)</span><br><span class="line">    print(str1)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+    <div>
+      
+    </div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
         
   
   
@@ -205,10 +294,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-01-18 11:20:28 / 修改时间：21:47:08" itemprop="dateCreated datePublished" datetime="2020-01-18T11:20:28+08:00">2020-01-18</time>
+              <time title="创建时间：2020-01-18 11:20:28" itemprop="dateCreated datePublished" datetime="2020-01-18T11:20:28+08:00">2020-01-18</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-01 19:23:44" itemprop="dateModified" datetime="2020-02-01T19:23:44+08:00">2020-02-01</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -246,7 +341,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="简单传送指令"><a href="#简单传送指令" class="headerlink" title="简单传送指令"></a>简单传送指令</h4><h5 id="传送指令"><a href="#传送指令" class="headerlink" title="传送指令"></a>传送指令</h5><p><strong>MOV DEST，SRC</strong> （DEST &lt;= SRC）<br>操作数尺寸必须保持一致<br>立即数永远不能作为目的操作数，CS寄存器不能做目的操作数。EIP不能作为操作数。<br>不影响各标志位状态。<br><img src="/images/%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87.png" alt></p>
+          <h4 id="简单传送指令"><a href="#简单传送指令" class="headerlink" title="简单传送指令"></a>简单传送指令</h4><h5 id="传送指令"><a href="#传送指令" class="headerlink" title="传送指令"></a>传送指令</h5><p><strong>MOV DEST，SRC</strong> （DEST &lt;= SRC）<br>操作数尺寸必须保持一致<br>立即数永远不能作为目的操作数，CS寄存器不能做目的操作数。EIP不能作为操作数。<br>不影响各标志位状态。<br><img src="../images/%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87.png" alt="图片"></p>
 <h5 id="交换指令"><a href="#交换指令" class="headerlink" title="交换指令"></a>交换指令</h5><p><strong>XCHG OPRD1,OPRD2</strong><br>内容交换<br>不能同时是存储单元，也不能有立即数。操作数尺寸一致。</p>
 <h4 id="简单加减指令"><a href="#简单加减指令" class="headerlink" title="简单加减指令"></a>简单加减指令</h4><h5 id="加法指令"><a href="#加法指令" class="headerlink" title="加法指令"></a>加法指令</h5><p><strong>ADD DEST，SRC</strong> （DEST &lt;= DEST + SRC）<br>带进位的加法指令<br><strong>ADC DEST，SRC</strong> （DEST &lt;= DEST + SRC + CF）<br>加法指令ADD，ADC影响标志寄存器中的有关状态标志。</p>
 <h5 id="减法指令"><a href="#减法指令" class="headerlink" title="减法指令"></a>减法指令</h5><p><strong>SUB DEST，SRC</strong> （DEST &lt;= DEST-SRC）<br>带借位的减法指令<br><strong>SBB DEST，SRC</strong> （DEST - SRC - CF = DEST）<br>减法指令SUB，SBB影响标志寄存器中的有关状态标志。</p>
@@ -1051,20 +1146,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1111,13 +1206,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">8k</span>
+    <span title="站点总字数">10k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">8 分钟</span>
+    <span title="站点阅读时长">9 分钟</span>
 </div>
 
         
