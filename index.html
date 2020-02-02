@@ -249,6 +249,290 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/02/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ran-Barry">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/02/02/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95/" itemprop="url">矩阵乘法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-02T19:22:08+08:00">
+                2020-02-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%93%9D%E6%A1%A5%E6%9D%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">蓝桥杯</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>题目描述<br><img src="../images/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95.png" alt="题目描述"><br>运用到矩阵幂的方法</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">str1 = input()</span><br><span class="line">arr1 = str1.split(<span class="string">' '</span>)</span><br><span class="line">m = int(arr1[<span class="number">0</span>])</span><br><span class="line">n = int(arr1[<span class="number">1</span>])</span><br><span class="line"><span class="symbol">Arr1</span> = [[] for i in range(m)]</span><br><span class="line"><span class="symbol">Arr2</span> = []</span><br><span class="line"><span class="symbol">Arr3</span> = []</span><br><span class="line">for i in range(m):</span><br><span class="line">    <span class="symbol">Arr2</span>.append([])</span><br><span class="line">    <span class="symbol">Arr3</span>.append([])</span><br><span class="line">    for j in range(m):</span><br><span class="line">        <span class="symbol">Arr2</span>[i].append(<span class="number">0</span>)</span><br><span class="line">        <span class="symbol">Arr3</span>[i].append(<span class="number">0</span>)</span><br><span class="line">for i in range(m):</span><br><span class="line">    str2 = input()</span><br><span class="line">    <span class="symbol">Arr1</span>[i] = str2.split(<span class="string">' '</span>)</span><br><span class="line">for i in range(m):</span><br><span class="line">    for j in range(m):</span><br><span class="line">        <span class="symbol">Arr2</span>[i][j] = <span class="symbol">Arr1</span>[i][j]</span><br><span class="line">        if n == <span class="number">0</span>: #当为<span class="number">0</span>次幂时，为单位矩阵</span><br><span class="line">            if i == j:</span><br><span class="line">                <span class="symbol">Arr3</span>[i][j] = <span class="number">1</span></span><br><span class="line">            else:</span><br><span class="line">                <span class="symbol">Arr3</span>[i][j] = <span class="number">0</span></span><br><span class="line">        else:</span><br><span class="line">            <span class="symbol">Arr3</span>[i][j] = <span class="symbol">Arr1</span>[i][j]</span><br><span class="line">for t in range(n<span class="number">-1</span>):</span><br><span class="line">    for i in range(n):</span><br><span class="line">        for j in range(m):</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">            for k in range(m):</span><br><span class="line">                tmp += int(<span class="symbol">Arr2</span>[i][k]) * int(<span class="symbol">Arr1</span>[k][j]) #矩阵相乘</span><br><span class="line">            <span class="symbol">Arr3</span>[i][j] = tmp</span><br><span class="line">    for i in range(m):</span><br><span class="line">        for j in range(m):</span><br><span class="line">            <span class="symbol">Arr2</span>[i][j] = <span class="symbol">Arr3</span>[i][j]</span><br><span class="line">for i in range(m):</span><br><span class="line">    for j in range(m):</span><br><span class="line">        print(<span class="symbol">Arr3</span>[i][j],end=<span class="string">' '</span>)</span><br><span class="line">    print()</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/02/%E5%9B%9E%E5%BD%A2%E5%8F%96%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ran-Barry">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/02/02/%E5%9B%9E%E5%BD%A2%E5%8F%96%E6%95%B0/" itemprop="url">回形取数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-02T19:15:21+08:00">
+                2020-02-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%93%9D%E6%A1%A5%E6%9D%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">蓝桥杯</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="../images/%E5%9B%9E%E5%BD%A2%E5%8F%96%E6%95%B0.png" alt="题目描述"><br>这个题目按照下右上左的顺序取数，并对每个取过的数进行标记。<br>一下代码提交后为runtime error，不太清楚为啥。之后再继续找找原因</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"># str1 = input()</span><br><span class="line"># arr1 = str1.split(<span class="string">' '</span>)</span><br><span class="line"># m = <span class="built_in">int</span>(arr1[<span class="number">0</span>])</span><br><span class="line"># n = <span class="built_in">int</span>(arr1[<span class="number">1</span>])</span><br><span class="line">m,n = map(<span class="built_in">int</span>,input().split()) #简单写法</span><br><span class="line">Arr = [[] <span class="keyword">for</span> i <span class="keyword">in</span> range(m)]</span><br><span class="line">Arr = [[] * n] * m</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">    Arr[i] = [<span class="built_in">int</span>(j) <span class="keyword">for</span> j <span class="keyword">in</span> input().split()]</span><br><span class="line">#<span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">#    str2 = input()</span><br><span class="line">#    Arr[i] = str2.split(<span class="string">' '</span>)</span><br><span class="line">sum = m * n</span><br><span class="line">i = <span class="number">0</span></span><br><span class="line">j = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> sum &gt; <span class="number">0</span>: #取过的数赋值为<span class="number">-1</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; m <span class="keyword">and</span> Arr[i][j] != <span class="number">-1</span>: #向下取数</span><br><span class="line">        print(Arr[i][j],end=<span class="string">' '</span>)</span><br><span class="line">        Arr[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">    i -= <span class="number">1</span></span><br><span class="line">    j += <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> j &lt; n <span class="keyword">and</span> Arr[i][j] != <span class="number">-1</span>: #向右取数</span><br><span class="line">        print(Arr[i][j],end=<span class="string">' '</span>)</span><br><span class="line">        Arr[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">    j -= <span class="number">1</span></span><br><span class="line">    i -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> i &gt;= <span class="number">0</span> <span class="keyword">and</span> Arr[i][j] != <span class="number">-1</span>: #向上取数</span><br><span class="line">        print(Arr[i][j],end=<span class="string">' '</span>)</span><br><span class="line">        Arr[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        i -= <span class="number">1</span></span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line">    j -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> j &gt;= <span class="number">0</span> <span class="keyword">and</span> Arr[i][j] != <span class="number">-1</span>: #向左取数</span><br><span class="line">        print(Arr[i][j],end=<span class="string">' '</span>)</span><br><span class="line">        Arr[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        j -= <span class="number">1</span></span><br><span class="line">    j += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/01/%E5%88%86%E8%A7%A3%E8%B4%A8%E5%9B%A0%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1387,7 +1671,7 @@
               
                 <a href="/archives%7C%7C%20archive">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
