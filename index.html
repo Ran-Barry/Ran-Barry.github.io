@@ -249,6 +249,151 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/03/%E7%AE%97%E6%B3%95%E6%8F%90%E9%AB%98-%E5%88%86%E8%8B%B9%E6%9E%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ran-Barry">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/02/03/%E7%AE%97%E6%B3%95%E6%8F%90%E9%AB%98-%E5%88%86%E8%8B%B9%E6%9E%9C/" itemprop="url">算法提高 分苹果</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-03T21:55:33+08:00">
+                2020-02-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%93%9D%E6%A1%A5%E6%9D%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">蓝桥杯</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="../images/%E5%88%86%E8%8B%B9%E6%9E%9C.png" alt="图片"><br>看到这道题感觉还可以，花了一会就写出了代码，但提交上却TLE，试着简化了简化还是不行，最后找到了其他大佬的解法，通过差分数组求解</p>
+<h2 id="我的方法和代码如下"><a href="#我的方法和代码如下" class="headerlink" title="我的方法和代码如下"></a>我的方法和代码如下</h2><p>也可解出答案，但是会超时<br>Time Limit Exceeded</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">N</span>,M = <span class="keyword">map</span>(<span class="keyword">int</span>,<span class="built_in">input</span>().<span class="keyword">split</span>(<span class="string">' '</span>))</span><br><span class="line">Arr = [<span class="number">0</span>] * <span class="keyword">N</span></span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(M):</span><br><span class="line">    <span class="keyword">a</span>,<span class="keyword">b</span>,<span class="keyword">c</span> = <span class="keyword">map</span>(<span class="keyword">int</span>,<span class="built_in">input</span>().<span class="keyword">split</span>())</span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">j</span> in <span class="built_in">range</span>(<span class="keyword">a</span>,<span class="keyword">b</span>+<span class="number">1</span>):</span><br><span class="line">        Arr[<span class="keyword">j</span>-<span class="number">1</span>] += <span class="keyword">c</span></span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(<span class="keyword">N</span>):</span><br><span class="line">    <span class="keyword">print</span>(Arr[i],end=<span class="string">' '</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="运用差分数组"><a href="#运用差分数组" class="headerlink" title="运用差分数组"></a>运用差分数组</h2><p>代码很简洁，只计算一次就行<br>f[i] = d[i] - d[i-1]<br>d[2] = f[1]+d[0]+f[2] = d[1] + d[2] -d[1] = d[2]<br>数列第i项的值是可以用差分数组的前i项的和计算的，即d[i] = f[i]的前缀和<br>差分数组其实就相当于通过改变区间前段和末端与其他部分的差值，在最后进行累加的时候实行对整个区间的值的改变</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">N</span>,M = <span class="keyword">map</span>(<span class="keyword">int</span>,<span class="built_in">input</span>().<span class="keyword">split</span>(<span class="string">' '</span>))</span><br><span class="line">Arr = [<span class="number">0</span>] * (<span class="keyword">N</span> + <span class="number">2</span>)</span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(M):</span><br><span class="line">    <span class="keyword">a</span>,<span class="keyword">b</span>,<span class="keyword">c</span> = <span class="keyword">map</span>(<span class="keyword">int</span>,<span class="built_in">input</span>().<span class="keyword">split</span>())</span><br><span class="line">    Arr[<span class="keyword">a</span>] += <span class="keyword">c</span></span><br><span class="line">    Arr[<span class="keyword">b</span>+<span class="number">1</span>] -= <span class="keyword">c</span></span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(<span class="number">1</span>,<span class="keyword">N</span>+<span class="number">1</span>):</span><br><span class="line">    Arr[i] += Arr[i-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">print</span>(Arr[i],end=<span class="string">' '</span>)</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/02/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -630,6 +775,8 @@
 <h2 id="第一种解法-暴力解法："><a href="#第一种解法-暴力解法：" class="headerlink" title="第一种解法 暴力解法："></a>第一种解法 暴力解法：</h2><figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#第一种 暴力解法 超时</span></span><br><span class="line">def isPrime(x): <span class="meta">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i in range(<span class="number">2</span>,<span class="keyword">int</span>(x ** (<span class="number">1</span>/<span class="number">2</span>))+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> x % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> False</span><br><span class="line">    <span class="keyword">return</span> True</span><br><span class="line"></span><br><span class="line">str1 = <span class="keyword">input</span>() <span class="meta">#接收输入</span></span><br><span class="line">arr = str1.split(<span class="string">' '</span>) <span class="meta">#分割成数组</span></span><br><span class="line">a = <span class="keyword">int</span>(arr[<span class="number">0</span>]) <span class="meta">#取出开始值</span></span><br><span class="line">b = <span class="keyword">int</span>(arr[<span class="number">1</span>]) <span class="meta">#取出结束值</span></span><br><span class="line"><span class="keyword">for</span> i in range(a,b+<span class="number">1</span>): <span class="meta">#循环输出每一次的结果</span></span><br><span class="line">    str1 = <span class="string">''</span>.join([<span class="keyword">str</span>(i),<span class="string">'='</span>]) <span class="meta">#先得出前面的</span></span><br><span class="line">    <span class="keyword">if</span> isPrime(i): <span class="meta">#是质数的话就是本身</span></span><br><span class="line">        str1 = <span class="string">''</span>.join([str1,<span class="keyword">str</span>(i)])</span><br><span class="line">        <span class="keyword">print</span>(str1)</span><br><span class="line">    <span class="keyword">else</span>: <span class="meta">#不是质数</span></span><br><span class="line">        tmp = [] <span class="meta">#一个空列表</span></span><br><span class="line">        t = i</span><br><span class="line">        <span class="keyword">while</span> t != <span class="number">1</span>: <span class="meta">#经过一次一次除，最后除到<span class="number">1</span>结束</span></span><br><span class="line">            j = <span class="number">2</span> <span class="meta">#最小的质数为<span class="number">2</span>，从<span class="number">2</span>开始</span></span><br><span class="line">            <span class="keyword">while</span> j &lt;= t: <span class="meta">#从<span class="number">2</span>开始找最小能整除t的值</span></span><br><span class="line">                <span class="keyword">if</span> isPrime(j) <span class="keyword">and</span> t % j == <span class="number">0</span>:</span><br><span class="line">                    tmp.append(j)</span><br><span class="line">                    t /= j</span><br><span class="line">                    <span class="keyword">break</span> <span class="meta">#找到一个就结束，重新开始找</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    j += <span class="number">1</span> <span class="meta">#不符合要求加<span class="number">1</span></span></span><br><span class="line">            <span class="keyword">if</span> t == <span class="number">1</span>: <span class="meta">#当等于<span class="number">1</span>时跳出循环</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="meta">#tmp = sorted(tmp) #因为是从小到大找的，不用排序也行</span></span><br><span class="line">        <span class="keyword">for</span> j in range(len(tmp)): <span class="meta">#然后按照列表开始输出</span></span><br><span class="line">            <span class="keyword">if</span> j == <span class="number">0</span>:</span><br><span class="line">                str1 = str1 + <span class="keyword">str</span>(tmp[j])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                str1 = str1 + <span class="string">'*'</span> + <span class="keyword">str</span>(tmp[j])</span><br><span class="line">        <span class="keyword">print</span>(str1)</span><br></pre></td></tr></table></figure>
 <h2 id="第二种解法-递归"><a href="#第二种解法-递归" class="headerlink" title="第二种解法 递归"></a>第二种解法 递归</h2><p>用乘积的方式进行计算，等于值时得到对应的质因数分解</p>
 <figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#第二种方法 递归</span></span><br><span class="line">def isPrime(<span class="built_in">num</span>): <span class="comment">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,<span class="built_in">num</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">num</span> % i == <span class="number">0</span>:</span><br><span class="line">            <span class="literal">return</span> False</span><br><span class="line">    <span class="literal">return</span> True</span><br><span class="line">def calcuate(<span class="built_in">num</span>,tmp):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,int(<span class="built_in">num</span> ** (<span class="number">1</span>/<span class="number">2</span>)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">num</span> % i == <span class="number">0</span> <span class="keyword">and</span> isPrime(i):</span><br><span class="line">            tmp.append(i)</span><br><span class="line">            <span class="built_in">num</span> = <span class="built_in">num</span><span class="comment"> // i</span></span><br><span class="line">            <span class="literal">return</span> calcuate(<span class="built_in">num</span>,tmp)</span><br><span class="line">    tmp.append(<span class="built_in">num</span>)</span><br><span class="line">    str1 = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="built_in">len</span>(tmp)): <span class="comment">#循环列表返回值</span></span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            str1 += str(tmp[i])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            str1 += <span class="string">'*'</span> + str(tmp[i])</span><br><span class="line">    <span class="literal">return</span> str1    </span><br><span class="line">str1 = input()</span><br><span class="line">arr = str1.<span class="built_in">split</span>(<span class="string">' '</span>)</span><br><span class="line"><span class="keyword">a</span> = int(arr[<span class="number">0</span>])</span><br><span class="line">b = int(arr[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="keyword">a</span>,b+<span class="number">1</span>):</span><br><span class="line">    tmp = []</span><br><span class="line">    str1 = <span class="string">''</span>.join([str(i),<span class="string">'='</span>])</span><br><span class="line">    str1 += calcuate(i,tmp)</span><br><span class="line">    print(str1)</span><br></pre></td></tr></table></figure>
+<h1 id="算法提高-质因数"><a href="#算法提高-质因数" class="headerlink" title="算法提高 质因数"></a>算法提高 质因数</h1><p><img src="../images/%E8%B4%A8%E5%9B%A0%E6%95%B0.png" alt="图片"><br>这个就是上个题的简写版，按照同样的递归方法即可</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">def isPrime(<span class="built_in">num</span>): <span class="comment">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,int(<span class="built_in">num</span> ** (<span class="number">1</span>/<span class="number">2</span>))+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">num</span> % i == <span class="number">0</span>:</span><br><span class="line">            <span class="literal">return</span> False</span><br><span class="line">    <span class="literal">return</span> True</span><br><span class="line">def calcuate(<span class="built_in">num</span>,tmp): <span class="comment">#进行递归求解</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,int(<span class="built_in">num</span> ** (<span class="number">1</span>/<span class="number">2</span>))+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> isPrime(i) <span class="keyword">and</span> <span class="built_in">num</span> % i == <span class="number">0</span>:</span><br><span class="line">            tmp.append(i)</span><br><span class="line">            <span class="comment">#num = num // i</span></span><br><span class="line">            <span class="literal">return</span> calcuate(nu<span class="comment">m//i,tmp)</span></span><br><span class="line">    tmp.append(<span class="built_in">num</span>)</span><br><span class="line">    str1 = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="built_in">len</span>(tmp)):</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            str1 += str(tmp[i])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            str1 += <span class="string">'*'</span> + str(tmp[i])</span><br><span class="line">    <span class="literal">return</span> str1</span><br><span class="line"><span class="keyword">a</span> = eval(input())</span><br><span class="line">tmp = []</span><br><span class="line">str1 = str(<span class="keyword">a</span>) + <span class="string">'='</span> + calcuate(<span class="keyword">a</span>,tmp)</span><br><span class="line">print(str1) <span class="comment">#打印值</span></span><br></pre></td></tr></table></figure>
           
         
       
@@ -1671,7 +1818,7 @@
               
                 <a href="/archives%7C%7C%20archive">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
