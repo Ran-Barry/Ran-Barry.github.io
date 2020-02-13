@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/02/12/images/HTTP%E5%8D%8F%E8%AE%AE/%E5%93%8D%E5%BA%94%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F.png">
 <meta property="og:image" content="http://yoursite.com/2020/02/12/images/HTTP%E5%8D%8F%E8%AE%AE/HTTPS%E9%80%9A%E8%AE%AF%E8%BF%87%E7%A8%8B.jpg">
 <meta property="article:published_time" content="2020-02-12T12:38:19.000Z">
-<meta property="article:modified_time" content="2020-02-12T12:42:01.149Z">
+<meta property="article:modified_time" content="2020-02-12T12:53:46.922Z">
 <meta property="article:author" content="Ran-Barry">
 <meta property="article:tag" content="HTTP协议">
 <meta name="twitter:card" content="summary">
@@ -339,8 +339,10 @@
 <li>作为文档传递协议的<strong>HTTP</strong></li>
 <li>指定文档所在地址的<strong>URL</strong>（Uniform Resource Locator,统一资源定位符）</li>
 <li><strong>URI</strong>（Uniform Resource Identifier,统一资源标识符）<br>URI用字符标识某一互联网资源，URL表示资源的地点（互联网上所处的位置）</li>
-<li><em>URL是一种具体的URI*</em><br>HTTP/1.1是目前主流的HTTP协议版本<h2 id="3-HTTP协议简介"><a href="#3-HTTP协议简介" class="headerlink" title="3.HTTP协议简介"></a>3.HTTP协议简介</h2>客户端和服务器<br><img src="../images/HTTP%E5%8D%8F%E8%AE%AE/%E5%AE%A2%E6%88%B7%E7%AB%AF-%E6%9C%8D%E5%8A%A1%E5%99%A8.png" alt="图片"><br>HTTP是不保存状态的协议，目的是为了更快的处理大量事务。不能进行事务的关联。<br>隐含参数和Cookie技术，能协助HTTP解决无状态问题<h3 id="HTTP-Method-GET"><a href="#HTTP-Method-GET" class="headerlink" title="HTTP Method GET"></a>HTTP Method GET</h3>GET：获取资源 </li>
+<li><em>URL是一种具体的URI*</em><br>HTTP/1.1是目前主流的HTTP协议版本</li>
 </ul>
+<h2 id="3-HTTP协议简介"><a href="#3-HTTP协议简介" class="headerlink" title="3.HTTP协议简介"></a>3.HTTP协议简介</h2><p>客户端和服务器<br><img src="../images/HTTP%E5%8D%8F%E8%AE%AE/%E5%AE%A2%E6%88%B7%E7%AB%AF-%E6%9C%8D%E5%8A%A1%E5%99%A8.png" alt="图片"><br>HTTP是不保存状态的协议，目的是为了更快的处理大量事务。不能进行事务的关联。<br>隐含参数和Cookie技术，能协助HTTP解决无状态问题</p>
+<h3 id="HTTP-Method-GET"><a href="#HTTP-Method-GET" class="headerlink" title="HTTP Method GET"></a>HTTP Method GET</h3><p>GET：获取资源 </p>
 <p>通过URL传<br>请求访问已被URI识别的资源。指定的资源经服务器端解析后返回相应内容。</p>
 <p>如果请求的资源是文本，保持原样返回；如果是像CGI（Common Gateway Interface,通用网关借口)那样的程序，返回经过执行后的输出结果。</p>
 <h3 id="HTTP-Method-POST"><a href="#HTTP-Method-POST" class="headerlink" title="HTTP Method POST"></a>HTTP Method POST</h3><p>POST：传输实体主体</p>
@@ -368,7 +370,9 @@
 </ul>
 </li>
 <li>空行：</li>
-<li>报文主体<br><img src="../images/HTTP%E5%8D%8F%E8%AE%AE/%E8%AF%B7%E6%B1%82%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F.png" alt="图片"><h4 id="响应报文："><a href="#响应报文：" class="headerlink" title="响应报文："></a>响应报文：</h4></li>
+<li>报文主体<br><img src="../images/HTTP%E5%8D%8F%E8%AE%AE/%E8%AF%B7%E6%B1%82%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F.png" alt="图片"></li>
+</ul>
+<h4 id="响应报文："><a href="#响应报文：" class="headerlink" title="响应报文："></a>响应报文：</h4><ul>
 <li>报文首部：<ul>
 <li>状态行</li>
 <li>响应首部字段</li>
@@ -378,8 +382,9 @@
 </ul>
 </li>
 <li>空行</li>
-<li>报文主体<br><img src="../images/HTTP%E5%8D%8F%E8%AE%AE/%E5%93%8D%E5%BA%94%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F.png" alt="图片"><h2 id="5-HTTP状态码"><a href="#5-HTTP状态码" class="headerlink" title="5.HTTP状态码"></a>5.HTTP状态码</h2>【功能】：当客户端向服务器发送请求时，描述返回的请求结果。</li>
+<li>报文主体<br><img src="../images/HTTP%E5%8D%8F%E8%AE%AE/%E5%93%8D%E5%BA%94%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F.png" alt="图片"></li>
 </ul>
+<h2 id="5-HTTP状态码"><a href="#5-HTTP状态码" class="headerlink" title="5.HTTP状态码"></a>5.HTTP状态码</h2><p>【功能】：当客户端向服务器发送请求时，描述返回的请求结果。</p>
 <table>
 <thead>
 <tr>
@@ -413,102 +418,34 @@
 <td>Server Error（服务器错误状态码）</td>
 <td>服务器处理请求出错</td>
 </tr>
+</tbody></table>
+<h4 id="3XX："><a href="#3XX：" class="headerlink" title="3XX："></a>3XX：</h4><ul>
+<li>301 Moved Permanently：永久重定向</li>
+<li>302 Moved Temporarily：临时重定向 希望用户（本次）能使用新的URI访问</li>
+<li>303 See Other：要求用户（用GET定向获取请求的资源）</li>
+<li>304 Not Modified：访问页面没有修改</li>
+<li>307 Temporary Redirect：希望把POST改为GET</li>
+</ul>
+<h4 id="4XX："><a href="#4XX：" class="headerlink" title="4XX："></a>4XX：</h4><ul>
+<li>400 Bad Request:语法错误等造成错误请求</li>
+<li>401 Unauthorized：需要授权认证</li>
+<li>403 Forbidden：访问权限不够</li>
+<li>404 Not Found：没有找到</li>
+</ul>
+<h4 id="5XX："><a href="#5XX：" class="headerlink" title="5XX："></a>5XX：</h4><ul>
+<li>500 Internal Server Error：服务器端执行请求发生错误</li>
+<li>503 Service Unavailable：服务器暂时处于超负载或正在进行停机维护，无法处理请求</li>
+</ul>
+<h2 id="6-HTTP首部"><a href="#6-HTTP首部" class="headerlink" title="6.HTTP首部"></a>6.HTTP首部</h2><h4 id="HTTP报文首部："><a href="#HTTP报文首部：" class="headerlink" title="HTTP报文首部："></a>HTTP报文首部：</h4><p>通用首部字段：</p>
+<table>
+<thead>
 <tr>
-<td>#### 3XX：</td>
-<td></td>
-<td></td>
+<th>首部字段名</th>
+<th>说明</th>
+<th>参数</th>
 </tr>
-<tr>
-<td>* 301 Moved Permanently：永久重定向</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>* 302 Moved Temporarily：临时重定向 希望用户（本次）能使用新的URI访问</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>* 303 See Other：要求用户（用GET定向获取请求的资源）</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>* 304 Not Modified：访问页面没有修改</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>* 307 Temporary Redirect：希望把POST改为GET</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>#### 4XX：</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>* 400 Bad Request:语法错误等造成错误请求</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>* 401 Unauthorized：需要授权认证</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>* 403 Forbidden：访问权限不够</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>* 404 Not Found：没有找到</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>#### 5XX：</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>* 500 Internal Server Error：服务器端执行请求发生错误</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>* 503 Service Unavailable：服务器暂时处于超负载或正在进行停机维护，无法处理请求</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>## 6.HTTP首部</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>#### HTTP报文首部：</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>通用首部字段：</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>首部字段名</td>
-<td>说明</td>
-<td>参数</td>
-</tr>
-<tr>
-<td>——–</td>
-<td>—-</td>
-<td>–</td>
-</tr>
-<tr>
+</thead>
+<tbody><tr>
 <td>Cache-Control</td>
 <td>控制缓存的行为</td>
 <td>private,max-age=0,no-cache等</td>
@@ -553,22 +490,17 @@
 <td>告知用户一些与缓存有关的警告</td>
 <td>[警告码][警告的主机：端口号]“[警告内容]”([日期时间])</td>
 </tr>
+</tbody></table>
+<p>请求首部字段：</p>
+<table>
+<thead>
 <tr>
-<td>请求首部字段：</td>
-<td></td>
-<td></td>
+<th>首部字段名</th>
+<th>说明</th>
+<th>参数</th>
 </tr>
-<tr>
-<td>首部字段名</td>
-<td>说明</td>
-<td>参数</td>
-</tr>
-<tr>
-<td>——–</td>
-<td>—-</td>
-<td>—-</td>
-</tr>
-<tr>
+</thead>
+<tbody><tr>
 <td>Accept</td>
 <td>用户代理可处理的<strong>媒体类型</strong></td>
 <td>type/subtype形式；text/html,text/plain等</td>
@@ -668,22 +600,17 @@
 <td>服务器接收到的Cookeie信息</td>
 <td></td>
 </tr>
+</tbody></table>
+<p>响应首部字段：</p>
+<table>
+<thead>
 <tr>
-<td>响应首部字段：</td>
-<td></td>
-<td></td>
+<th>首部字段名</th>
+<th>说明</th>
+<th>参数</th>
 </tr>
-<tr>
-<td>首部字段名</td>
-<td>说明</td>
-<td>参数</td>
-</tr>
-<tr>
-<td>——-</td>
-<td>—-</td>
-<td>—</td>
-</tr>
-<tr>
+</thead>
+<tbody><tr>
 <td>Accept-Ranges</td>
 <td>是否接受字节范围请求</td>
 <td></td>
@@ -733,22 +660,17 @@
 <td>开始状态管理所使用的Cookie信息</td>
 <td>NAME=VALUE；expires=DATE；path=PATH；domain=域名；Secure；HttpOnly</td>
 </tr>
+</tbody></table>
+<p>实体首部字段：</p>
+<table>
+<thead>
 <tr>
-<td>实体首部字段：</td>
-<td></td>
-<td></td>
+<th>首部字段名</th>
+<th>说明</th>
+<th>参数</th>
 </tr>
-<tr>
-<td>首部字段名</td>
-<td>说明</td>
-<td>参数</td>
-</tr>
-<tr>
-<td>——-</td>
-<td>—-</td>
-<td>—</td>
-</tr>
-<tr>
+</thead>
+<tbody><tr>
 <td>Allow</td>
 <td>资源可支持的HTTP方法</td>
 <td>GET等</td>
@@ -798,47 +720,17 @@
 <td>资源的最后修改日期时间</td>
 <td></td>
 </tr>
-<tr>
-<td>HTTP首部字段是由首部字段名和字段值构成的</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>* Content-Type: 报文主体对象的类型</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>* Keep-Alive：</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>## 7.HTTPS协议简介</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>### 缺点：</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>* 通讯使用明文（不加密），内容可能会被窃听</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>* 不验证通信方的身份，因此有可能遭遇伪装</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>* 无法证明报文的完整性，所以有可能已遭篡改</td>
-<td></td>
-<td></td>
-</tr>
 </tbody></table>
+<p>HTTP首部字段是由首部字段名和字段值构成的</p>
+<ul>
+<li>Content-Type: 报文主体对象的类型</li>
+<li>Keep-Alive：</li>
+</ul>
+<h2 id="7-HTTPS协议简介"><a href="#7-HTTPS协议简介" class="headerlink" title="7.HTTPS协议简介"></a>7.HTTPS协议简介</h2><h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><ul>
+<li>通讯使用明文（不加密），内容可能会被窃听</li>
+<li>不验证通信方的身份，因此有可能遭遇伪装</li>
+<li>无法证明报文的完整性，所以有可能已遭篡改</li>
+</ul>
 <p>HTTP+加密+认证+完整性保护=HTTPS<br><img src="../images/HTTP%E5%8D%8F%E8%AE%AE/HTTPS%E9%80%9A%E8%AE%AF%E8%BF%87%E7%A8%8B.jpg" alt="图片"></p>
 <h2 id="8-HTTP的认证"><a href="#8-HTTP的认证" class="headerlink" title="8.HTTP的认证"></a>8.HTTP的认证</h2><ul>
 <li>BASIC认证（基本认证）</li>
@@ -887,8 +779,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/02/12/11-%E6%96%87%E4%BB%B6%E5%92%8C%E5%BC%82%E5%B8%B8%E2%80%9C/" rel="prev" title="11.文件和异常“">
-                11.文件和异常“ <i class="fa fa-chevron-right"></i>
+              <a href="/2020/02/12/11-%E6%96%87%E4%BB%B6%E5%92%8C%E5%BC%82%E5%B8%B8/" rel="prev" title="11.文件和异常">
+                11.文件和异常 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -966,7 +858,7 @@
               
                 <a href="/archives%7C%7C%20archive">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1031,7 +923,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-环境"><span class="nav-number">1.</span> <span class="nav-text">1.环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-了解WEB"><span class="nav-number">2.</span> <span class="nav-text">2.了解WEB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-HTTP协议简介"><span class="nav-number">3.</span> <span class="nav-text">3.HTTP协议简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-Method-GET"><span class="nav-number">3.1.</span> <span class="nav-text">HTTP Method GET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-Method-POST"><span class="nav-number">3.2.</span> <span class="nav-text">HTTP Method POST</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-Method-PUT"><span class="nav-number">3.3.</span> <span class="nav-text">HTTP Method PUT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-Method-HEAD"><span class="nav-number">3.4.</span> <span class="nav-text">HTTP Method HEAD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-Method-DELETE"><span class="nav-number">3.5.</span> <span class="nav-text">HTTP Method DELETE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cookie的工作原理"><span class="nav-number">3.6.</span> <span class="nav-text">Cookie的工作原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-HTTP报文"><span class="nav-number">4.</span> <span class="nav-text">4.HTTP报文</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#请求报文："><span class="nav-number">4.0.1.</span> <span class="nav-text">请求报文：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#响应报文："><span class="nav-number">4.0.2.</span> <span class="nav-text">响应报文：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-HTTP状态码"><span class="nav-number">5.</span> <span class="nav-text">5.HTTP状态码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-HTTP的认证"><span class="nav-number">6.</span> <span class="nav-text">8.HTTP的认证</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-环境"><span class="nav-number">1.</span> <span class="nav-text">1.环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-了解WEB"><span class="nav-number">2.</span> <span class="nav-text">2.了解WEB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-HTTP协议简介"><span class="nav-number">3.</span> <span class="nav-text">3.HTTP协议简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-Method-GET"><span class="nav-number">3.1.</span> <span class="nav-text">HTTP Method GET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-Method-POST"><span class="nav-number">3.2.</span> <span class="nav-text">HTTP Method POST</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-Method-PUT"><span class="nav-number">3.3.</span> <span class="nav-text">HTTP Method PUT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-Method-HEAD"><span class="nav-number">3.4.</span> <span class="nav-text">HTTP Method HEAD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-Method-DELETE"><span class="nav-number">3.5.</span> <span class="nav-text">HTTP Method DELETE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cookie的工作原理"><span class="nav-number">3.6.</span> <span class="nav-text">Cookie的工作原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-HTTP报文"><span class="nav-number">4.</span> <span class="nav-text">4.HTTP报文</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#请求报文："><span class="nav-number">4.0.1.</span> <span class="nav-text">请求报文：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#响应报文："><span class="nav-number">4.0.2.</span> <span class="nav-text">响应报文：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-HTTP状态码"><span class="nav-number">5.</span> <span class="nav-text">5.HTTP状态码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3XX："><span class="nav-number">5.0.1.</span> <span class="nav-text">3XX：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4XX："><span class="nav-number">5.0.2.</span> <span class="nav-text">4XX：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5XX："><span class="nav-number">5.0.3.</span> <span class="nav-text">5XX：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-HTTP首部"><span class="nav-number">6.</span> <span class="nav-text">6.HTTP首部</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP报文首部："><span class="nav-number">6.0.1.</span> <span class="nav-text">HTTP报文首部：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-HTTPS协议简介"><span class="nav-number">7.</span> <span class="nav-text">7.HTTPS协议简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点："><span class="nav-number">7.1.</span> <span class="nav-text">缺点：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-HTTP的认证"><span class="nav-number">8.</span> <span class="nav-text">8.HTTP的认证</span></a></li></ol></div>
             
 
           </div>
