@@ -249,6 +249,291 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/18/14-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ran-Barry">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/02/18/14-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/" itemprop="url">14.网络编程入门</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-18T21:43:26+08:00">
+                2020-02-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="计算机网络基础"><a href="#计算机网络基础" class="headerlink" title="计算机网络基础"></a>计算机网络基础</h1><h3 id="TCP-IP模型"><a href="#TCP-IP模型" class="headerlink" title="TCP/IP模型"></a>TCP/IP模型</h3><p>实现网络通信的基础是网络通信协议，这些协议通常是由互联网工程任务组（IETF）制定的。所谓“协议”就是通信计算机双方必须共同遵从的一组约定，例如怎样建立连接，怎样相互识别等，网络协议的三要素是：语法、语义和时序。构成我们今天使用的Inter的基础的是TCP/IP协议族，协议族就是一系列的协议及其构成的通信模型，也把这套东西称为TCP/IP模型。与国际标准化组织发布的OSI/RM这个七层模型不同，TCP/IP是一个四层模型，自顶向上依次是：网络接口层、网络层、传输层和应用层。如下图所示。</p>
+<p><img src="../images/Python-100days/TCP-IP-model.png" alt></p>
+<p>IP通常被翻译为网际协议，它服务于网络层，主要实现了寻址和路由的功能。接入网络的每一台主机都需要有自己的IP地址，IP地址就是主机在计算机网络上的身份标识。当然由于IPv4地址的匮乏，我们平常在家里、办公室以及其他可以接入网络的公共区域上网时获得的IP地址并不是全球唯一的IP地址，而是一个区域网中的内部IP地址，通过网络地址转换服务我们也可以实现对网络的访问。计算机网络上有大量的我们称为“路由器”的网络中继设备，它们会存储转发我们发送到网络上的数据分组，让从源头发出的数据最终能够找到传送目的的地通路，这项功能就是所谓的路由。</p>
+<p>TCP全称传输控制协议，它是基于IP提供的寻址和路由器服务而建立起来的负责实现端到端可靠传输的协议，之所以将TCP称为可靠的传输协议是因为TCP想调用者承诺了三件事情：</p>
+<ul>
+<li>数据不传丢不传错（利用握手、校验和重传机制可以实现）。</li>
+<li>流量控制（通过滑动窗口匹配数据发送者和接收着之间的传输速度）。</li>
+<li>拥塞控制（通过RTT时间以及对滑动窗口的控制缓解网络拥堵）。</li>
+</ul>
+<h3 id="网络应用模式"><a href="#网络应用模式" class="headerlink" title="网络应用模式"></a>网络应用模式</h3><ol>
+<li>C/S模式和B/S模式。C指Client（客户端），通常是一个需要安装到某个宿主操作系统上的应用程序；B指Brower（浏览器），它几乎是所有图形化操作系统都默认安装了的一个应用软件；通过C或B都可以实现对S（服务器）的访问。</li>
+<li>去中心化的网络应用模式。不管是B/S还是C/S都需要服务器的存在，服务器就是整个应用模式的中心，而去中心化的网络应用通常没有固定的服务器或者固定的客户端，所有应用的使用者既可以作为资源的提供者也可以作为资源的访问者。</li>
+</ol>
+<h2 id="基于HTTP协议的网络资源的访问"><a href="#基于HTTP协议的网络资源的访问" class="headerlink" title="基于HTTP协议的网络资源的访问"></a>基于HTTP协议的网络资源的访问</h2><h3 id="HTTP（超文本传输协议）"><a href="#HTTP（超文本传输协议）" class="headerlink" title="HTTP（超文本传输协议）"></a>HTTP（超文本传输协议）</h3><p>HTTP是超文本传输协议（Hyper-Text Transfer Proctol）的简称。维基百科解释为：超文本协议是一种用于分布式、协作式和超媒体信息系统的应用层协议，它是万维网数据通信的基础，设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法，通过HTTP或者HTTPS（超文本传输安全协议）请求的资源由URI（统一资源标识符）来标识。阮一峰老师的<a href="http://www.ruanyifeng.com/blog/2016/08/http.html" target="_blank" rel="noopener">《HTTP协议入门》</a></p>
+<h3 id="JSON格式"><a href="#JSON格式" class="headerlink" title="JSON格式"></a>JSON格式</h3><p>JSON（JavaScript Object Notation）是一种轻量级的数据交换语言，该语言以易于阅读的文字（纯文本）为基础，用来传输由属性值或者序列性的值组成的数据对象。尽管JSON是最初只是JavaScript中一种创建对象的字面量语法，但它在当下更是一种独立于语言的数据格式，很多编程语言都支持JSON格式数据的生成和解析，Python内置的json模块也提供了这方面功能。由于JSON是纯文本，它和XML一样都适用于异构系统之间的数据交换，而相较于XML，JSON显得更加的轻便和优雅。下面是表达同样信息的XML和JSON，而JSON的优势是相当直观的。</p>
+<p>XML的例子：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">message</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">from</span>&gt;</span>Alice<span class="tag">&lt;/<span class="name">from</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">to</span>&gt;</span>Bob<span class="tag">&lt;/<span class="name">to</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">content</span>&gt;</span>Will you marry me?<span class="tag">&lt;/<span class="name">content</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">message</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>JSON的例子：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"from"</span>: <span class="string">"Alice"</span>,</span><br><span class="line">    <span class="attr">"to"</span>: <span class="string">"Bob"</span>,</span><br><span class="line">    <span class="attr">"content"</span>: <span class="string">"Will you marry me?"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="requests库"><a href="#requests库" class="headerlink" title="requests库"></a>requests库</h3><p>requests是一个基于HTTP协议来使用网络的第三库，其官方网站有这样的一句介绍它的话：“Requests是唯一的一个非转基因的Python HTTP库，人类可以安全享用。”简单的说，使用requests库可以非常方便的使用HTTP，避免安全缺陷、冗余代码以及“重复发明轮子”（行业黑话，通常用在软件工程领域表示重新创造一个已有的或是早已被优化過的基本方法）。前面的文章中我们已经使用过这个库，下面我们还是通过requests来实现一个访问网络数据接口并从中获取美女图片下载链接然后下载美女图片到本地的例子程序，程序中使用了天行数据提供的网络API。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span>  Thread</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># 继承Thread类创建自定义的线程类：</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DownloadHanlder</span><span class="params">(Thread)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,url)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.url = url</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        filename = self.url[self.url.rfind(<span class="string">'/'</span>)+<span class="number">1</span>:]</span><br><span class="line">        resp = requests.get(self.url)</span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">'/Users/Hao'</span> + filename,<span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(resp.content)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 通过requests模块的get函数获取网络资源</span></span><br><span class="line">    <span class="comment"># 下面的代码中使用了天行数据借口提供的网络API</span></span><br><span class="line">    <span class="comment"># 要使用该数据借口需要在天行数据的网站上注册</span></span><br><span class="line">    <span class="comment"># 然后用自己的Key替换掉下面代码中APIKey即可</span></span><br><span class="line">    resp = requests.get(<span class="string">'http://api.tinanapi.com/meinv/?key=APIKey&amp;num=10'</span>)</span><br><span class="line">    <span class="comment"># 将服务器返回的JSON格式的数据解析为字典</span></span><br><span class="line">    data_model = resp.json()</span><br><span class="line">    <span class="keyword">for</span> mm_dict <span class="keyword">in</span> data_model[<span class="string">'newslist'</span>]:</span><br><span class="line">        url = mm_dict(<span class="string">'picUrl'</span>)</span><br><span class="line">        <span class="comment"># 通过多线程的方式实现图片下载</span></span><br><span class="line">        DownloadHanlder(url).start()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<h2 id="基于传输层协议的套接字编程"><a href="#基于传输层协议的套接字编程" class="headerlink" title="基于传输层协议的套接字编程"></a>基于传输层协议的套接字编程</h2><p>套接字是一套c语言写成的应用程序开发库，主要用于实现进程间通信和网路编程。实际开发使用套接字分为三类：流套接字（TCP套接字）、数据报套接字和原始套接字。</p>
+<h3 id="TCP套接字"><a href="#TCP套接字" class="headerlink" title="TCP套接字"></a>TCP套接字</h3><p>TCP套接字就是使用TCP协议提供的传输服务来实现网络通信的编程接口。<br>下面代码实现一个提供日期的服务器</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> socket import socket,SOCK_STREAM,AF_INET</span><br><span class="line"><span class="keyword">from</span> datetime import datetime</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    # 1.创建套接字对象并指定使用哪种传输服务</span><br><span class="line">    # family = AF_INET - IPv4地址</span><br><span class="line">    # family = AF_INET5 - IPv6地址</span><br><span class="line">    #<span class="built_in"> type </span>= SOCK_STREAM - TCP套接字</span><br><span class="line">    #<span class="built_in"> type </span>= SOCK_DGRAM - UDP套接字</span><br><span class="line">    #<span class="built_in"> type </span>= SOCK_RAW - 原始套接字</span><br><span class="line">   <span class="built_in"> server </span>= socket(<span class="attribute">family</span>=AF_INET,type=SOCK_STREAM)</span><br><span class="line">    # 2.绑定IP地址和端口（端口用于区分不同的服务器）</span><br><span class="line">    # 同一时间在同一个端口上只能绑定一个服务否则报错</span><br><span class="line">    server.bind(<span class="string">'192.168.1.2'</span>,6789)</span><br><span class="line">    # 3.开启监听 - 监听客户端连接到服务器</span><br><span class="line">    # 参数512可以理解为连接队列的大小</span><br><span class="line">    server.listen(512)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        # 4.通过循环接收客户端的连接并作出相应的处理（提供服务）</span><br><span class="line">        # accept方法是一个阻塞方法如果没有客户端连接到服务器代码不会向下执行</span><br><span class="line">        # accept方法返回一个元组其中的第一个元素是客户端对象</span><br><span class="line">        # 第二个元素是连接到服务器的客户端的地址(由IP和端口两部分构成)</span><br><span class="line">        client,addr = server.accept()</span><br><span class="line">        <span class="builtin-name">print</span>(str(addr) + <span class="string">'连接到了服务器.'</span>)</span><br><span class="line">        # 5.发送数据</span><br><span class="line">        client.send(str(datetime.now()).encode(<span class="string">'utf-8'</span>))</span><br><span class="line">        # 6.断开连接</span><br><span class="line">        client.close()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/18/13.%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ran-Barry">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/02/18/13.%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/" itemprop="url">13.进程和线程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-18T21:41:09+08:00">
+                2020-02-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>进程就是操作系统中执行的一个程序，操作系统以进程为单位分配存储空间，每个进程都有自己的地址空间、数据栈以及其他用于跟踪进程执行的辅助数据，操作系统管理所有进程的执行，为它们合理的分配资源。进程可以通过fork或spawn的方式来创建新的进程来执行其他的任务，不过新的进程也有自己独立的内存空间，因此必须通过进程间通信机制（IPC，Inter-Process Communication）来实现数据共享，具体的方式包括管道、信号、套接字、共享内存区等。<br>一个进程还可以拥有多个并发的执行线索，简单的说就是拥有多个可以获得CPU调度的执行单元，这就是所谓的线程。由于线程在同一个进程下，它们可以共享相同的上下文，因此对于进程而言，线程间的信息共享和通信更加容易。当然在单核DDPU系统中，真正的并发是不可能的，因为<strong>在某个时刻能够获得CPU的只有唯一的一个线程，多个线程共享了CPU的执行时间</strong>。使用多线程实现并发编程为程序带来的好处是不言而喻的，最主要的体现是提升程序的性能和改善用户体验。</p>
+<h2 id="Python中的多进程"><a href="#Python中的多进程" class="headerlink" title="Python中的多进程"></a>Python中的多进程</h2><p>Unix和Linux操作系统上提供了fork()系统调用来创建进程，调用fork()函数的是父进程，创建出的是子进程，子进程是父进程的一个拷贝，但是子进程拥有自己的PID。fork()函数非常特殊，它会返回两次，父进程中可以通过fork()函数的返回值得到子进程的PID，而子进程中的返回值永远都是0.Python的OS模块提供了fork()函数。由于Windows系统没有fork()调用，因此要实现跨平台的多进程编程，可以使用multiprocessing模块的Process类来创建子进程，而且该模块还提供了更高级的封装，例如批量启动进程的进程池（Pool）、用于进程间通信的队列（Queue）和管道（Pipe）等。</p>
+<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">from</span> random import randint</span><br><span class="line"><span class="meta">from</span> time import time,sleep</span><br><span class="line"></span><br><span class="line">def download_task(<span class="meta">filename</span>):</span><br><span class="line">    p<span class="meta">rint(</span><span class="string">'开始下载%s...'</span> % <span class="meta">filename</span>)</span><br><span class="line">    time_to_download = ran<span class="meta">dint(</span>5,10)</span><br><span class="line">    sleep(time_to_download)</span><br><span class="line">    p<span class="meta">rint(</span><span class="string">'%s下载完成！耗费了%d秒'</span> % (<span class="meta">filename</span>,time_to_download))</span><br><span class="line"></span><br><span class="line">def ma<span class="meta">in(</span>):</span><br><span class="line">    start =<span class="meta"> time(</span>)</span><br><span class="line">    download_task(<span class="string">'Python从入门到住院.pdf'</span>)</span><br><span class="line">    download_task(<span class="string">'Peking Hot.avi'</span>)</span><br><span class="line">    <span class="meta">end</span> =<span class="meta"> time(</span>)</span><br><span class="line">    p<span class="meta">rint(</span><span class="string">'总共耗费了%.2f秒.'</span> % (<span class="meta">end</span>-start))</span><br><span class="line"></span><br><span class="line"><span class="meta">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    ma<span class="meta">in(</span>)</span><br></pre></td></tr></table></figure>
+<p>这个例子可以得出，如果程序中的代码只能按顺序一点点的往下执行，那么即使执行两个互不相关的下载任务，也需要先等待一个文件下载完成后才能开始下一个下载任务。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> getpgid</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">from</span> <span class="type">time</span> <span class="keyword">import</span> <span class="type">time</span>,sleep</span><br><span class="line"></span><br><span class="line">def download_task(filename):</span><br><span class="line">    print(<span class="string">'启动下载进程，进程号[%d].'</span> % getpid())</span><br><span class="line">    print(<span class="string">'开始下载%s...'</span> % filename)</span><br><span class="line">    time_to_download = randint(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line">    sleep(time_to_download)</span><br><span class="line">    print(<span class="string">'%s下载完成！耗费了%d秒'</span> % (filename,time_to_download))</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    start = <span class="type">time</span>()</span><br><span class="line">    p1 = Process(target=download_task,args=(<span class="string">'Python从入门到住院.pdf'</span>))</span><br><span class="line">    p1.<span class="keyword">start</span>()</span><br><span class="line">    p2 = Process(target=download_task,args=(<span class="string">'Peking Hot.avi'</span>))</span><br><span class="line">    p2.<span class="keyword">start</span>()</span><br><span class="line">    p1.<span class="keyword">join</span>()</span><br><span class="line">    p2.<span class="keyword">join</span>()</span><br><span class="line">    end = <span class="type">time</span>()</span><br><span class="line">    print(<span class="string">'总共耗费了%.2f秒.'</span> % (<span class="keyword">end</span>-<span class="keyword">start</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>上面通过Process类创建了进程对象，通过target参数传入一个函数表示进程启动后要执行的代码，后面args是一个元祖，代表传递给函数的参数。Process和start方法用来启动进程，而join方法表示等待进程执行结束。两个任务同时启动了。</p>
+<p>也可以使用subprocess模块中的类和函数来创建和启动子进程，然后通过管道来和子进程通讯</p>
+<h2 id="Python中的多线程"><a href="#Python中的多线程" class="headerlink" title="Python中的多线程"></a>Python中的多线程</h2><p>Python通过thread模块（现在名为_thread）来实现多线程编程，该模块过于底层，而且很多功能都没有提供，推荐threading模块，该模块对多线程编程提供了更好的面对对象的封装。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="keyword">from</span> <span class="type">time</span> <span class="keyword">import</span> <span class="type">time</span>,sleep</span><br><span class="line"></span><br><span class="line">def download(filename):</span><br><span class="line">    print(<span class="string">'开始下载%s...'</span> % filename)</span><br><span class="line">    time_to_download = randint(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line">    sleep(time_to_download)</span><br><span class="line">    print(<span class="string">'%s下载完成！耗费%d秒'</span> % (filename,time_to_download))</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    start = <span class="type">time</span>()</span><br><span class="line">    t1 = Thread(target=download,args=(<span class="string">'Python从入门到住院.pdf'</span>))</span><br><span class="line">    t1.<span class="keyword">start</span>()</span><br><span class="line">    t2 = Thread(target=download,args=(<span class="string">'Peking Hot.avi'</span>,))</span><br><span class="line">    t2.<span class="keyword">start</span>()</span><br><span class="line">    t1.<span class="keyword">join</span>()</span><br><span class="line">    t2.<span class="keyword">join</span>()</span><br><span class="line">    end = <span class="type">time</span>()</span><br><span class="line">    print(<span class="string">'总共耗费了%.3f秒'</span> % (<span class="keyword">end</span>-<span class="keyword">start</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>直接使用threading模块的Thread类来创建进程，但是我们之前讲过一个非常重要的概念叫“继承”，我们可以从已有的类创建类，因此可以通过继承Thread类的方式来创建自定义的线程类，然后再创建线程对象并启动线程。</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="title">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="title">from</span> time <span class="keyword">import</span> time,sleep</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="type">DownloadTask</span>(<span class="type">Thread</span>):</span></span><br><span class="line"><span class="class">    def __init__(<span class="title">self</span>, <span class="title">filename</span>):</span></span><br><span class="line"><span class="class">        super().__init__()</span></span><br><span class="line"><span class="class">        self._filename = filename</span></span><br><span class="line"><span class="class">    </span></span><br><span class="line"><span class="class">    def run(<span class="title">self</span>):</span></span><br><span class="line"><span class="class">        print('开始下载%<span class="title">s</span>...' % <span class="title">self</span>.<span class="title">_filename</span>)</span></span><br><span class="line"><span class="class">        time_to_download = randint(5,10)</span></span><br><span class="line"><span class="class">        sleep(<span class="title">time_to_download</span>)</span></span><br><span class="line"><span class="class">        print('%<span class="title">s</span>下载完成！耗费%<span class="title">d</span>秒' % (<span class="title">self</span>.<span class="title">_filename</span>,<span class="title">time_to_download</span>))</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">def main():</span></span><br><span class="line"><span class="class">    start = time()</span></span><br><span class="line"><span class="class">    t1 = <span class="type">DownloadTask</span>('<span class="type">Python</span>从入门到住院.<span class="title">pdf'</span>)</span></span><br><span class="line"><span class="class">    t1.start()</span></span><br><span class="line"><span class="class">    t2 = <span class="type">DownloadTask</span>('<span class="type">Peking</span> <span class="type">Hot</span>.<span class="title">avi'</span>)</span></span><br><span class="line"><span class="class">    t2.start()</span></span><br><span class="line"><span class="class">    t1.join()</span></span><br><span class="line"><span class="class">    t2.join()</span></span><br><span class="line"><span class="class">    end = time()</span></span><br><span class="line"><span class="class">    print('总共耗费了%.2<span class="title">f</span>秒' % (<span class="title">end</span>-<span class="title">start</span>))</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">if __name__ == '__main__':</span></span><br><span class="line"><span class="class">    main()</span></span><br></pre></td></tr></table></figure>
+<p>多个线程可以共享进程的内存空间，要实现多个线程间的通信相对简单，设置一个全局变量，多个线程共享这个全局变量即可。但是当多个线程共享同一个变量（称之为资源）的时候，很有可能产生不可控的结果导致程序失效甚至崩溃。如果一个资源被多个线程竞争使用，通常称之为“临界资源”，对“临界资源”的访问需要加上保护，否则资源会处于“混乱”状态。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">from time import sleep</span><br><span class="line">from threading import Thread,Lock</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Account</span>(<span class="title">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(<span class="keyword">self</span>)</span></span><span class="symbol">:</span></span><br><span class="line">        <span class="keyword">self</span>._balance = <span class="number">0</span></span><br><span class="line">        <span class="keyword">self</span>._lock = Lock() <span class="comment">#加锁保护对银行账户的操作</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deposit</span><span class="params">(<span class="keyword">self</span>,money)</span></span><span class="symbol">:</span></span><br><span class="line">        <span class="keyword">self</span>._lock.acquire()</span><br><span class="line">        <span class="symbol">try:</span></span><br><span class="line">            <span class="comment"># 计算存款后的余额</span></span><br><span class="line">            new_balance = <span class="keyword">self</span>._balance + money</span><br><span class="line">            <span class="comment"># 模拟受理存款业务需要0.01秒的时间</span></span><br><span class="line">            sleep(<span class="number">0</span>.<span class="number">01</span>)</span><br><span class="line">            <span class="comment"># 修改账户余额</span></span><br><span class="line">            <span class="keyword">self</span>._balance = new_balance</span><br><span class="line">        <span class="symbol">finally:</span></span><br><span class="line">            <span class="comment"># 在finally中执行释放锁的操作保证正常异常锁都能释放</span></span><br><span class="line">            <span class="keyword">self</span>._lock.release()</span><br><span class="line"></span><br><span class="line">    @property</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">balance</span><span class="params">(<span class="keyword">self</span>)</span></span><span class="symbol">:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span>._balance</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AddMoneyThread</span>(<span class="title">Thread</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(<span class="keyword">self</span>,account,money)</span></span><span class="symbol">:</span></span><br><span class="line">        <span class="keyword">super</span>().__init_<span class="number">_</span>()</span><br><span class="line">        <span class="keyword">self</span>._account = account</span><br><span class="line">        <span class="keyword">self</span>._money = money</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(<span class="keyword">self</span>)</span></span><span class="symbol">:</span></span><br><span class="line">        <span class="keyword">self</span>._account.deposit(<span class="keyword">self</span>._money)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span></span><span class="symbol">:</span></span><br><span class="line">    account = Account()</span><br><span class="line">    threads = []</span><br><span class="line">    <span class="comment"># 创建100个存款的线程向同一个账户存钱</span></span><br><span class="line">    <span class="keyword">for</span> <span class="number">_</span> <span class="keyword">in</span> range(<span class="number">100</span>)<span class="symbol">:</span></span><br><span class="line">        t = AddMoneyThread(account,<span class="number">1</span>)</span><br><span class="line">        threads.append(t)</span><br><span class="line">        t.start()</span><br><span class="line">    <span class="comment"># 等所有存款的线程都执行完毕</span></span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> <span class="symbol">threads:</span></span><br><span class="line">        t.join()</span><br><span class="line">    print(<span class="string">'账户余额为：￥%d元'</span> % account.balance)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name_<span class="number">_</span> == <span class="string">'__main__'</span><span class="symbol">:</span></span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h2 id="多进程还是多线程"><a href="#多进程还是多线程" class="headerlink" title="多进程还是多线程"></a>多进程还是多线程</h2><p>无论是多进程还是多线程，只要数量一多，效率肯定上不去，为什么呢？我们打个比方，假设你不幸正在准备中考，每天晚上需要做语文、数学、英语、物理、化学这5科的作业，每项作业耗时1小时。如果你先花1小时做语文作业，做完了，再花1小时做数学作业，这样，依次全部做完，一共花5小时，这种方式称为单任务模型。如果你打算切换到多任务模型，可以先做1分钟语文，再切换到数学作业，做1分钟，再切换到英语，以此类推，只要切换速度足够快，这种方式就和单核CPU执行多任务是一样的了，以旁观者的角度来看，你就正在同时写5科作业。</p>
+<p>但是，切换作业是有代价的，比如从语文切到数学，要先收拾桌子上的语文书本、钢笔（这叫保存现场），然后，打开数学课本、找出圆规直尺（这叫准备新环境），才能开始做数学作业。操作系统在切换进程或者线程时也是一样的，它需要先保存当前执行的现场环境（CPU寄存器状态、内存页等），然后，把新任务的执行环境准备好（恢复上次的寄存器状态，切换内存页等），才能开始执行。这个切换过程虽然很快，但是也需要耗费时间。如果有几千个任务同时进行，操作系统可能就主要忙着切换任务，根本没有多少时间去执行任务了，这种情况最常见的就是硬盘狂响，点窗口无反应，系统处于假死状态。所以，多任务一旦多到一个限度，反而会使得系统性能急剧下降，最终导致所有任务都做不好。</p>
+<p>是否采用多任务的第二个考虑是任务的类型，可以把任务分为计算密集型和I/O密集型。计算密集型任务的特点是要进行大量的计算，消耗CPU资源，比如对视频进行编码解码或者格式转换等等，这种任务全靠CPU的运算能力，虽然也可以用多任务完成，但是任务越多，花在任务切换的时间就越多，CPU执行任务的效率就越低。计算密集型任务由于主要消耗CPU资源，这类任务用Python这样的脚本语言去执行效率通常很低，最能胜任这类任务的是C语言，我们之前提到了Python中有嵌入C/C++代码的机制。</p>
+<p>除了计算密集型任务，其他的涉及到网络、存储介质I/O的任务都可以视为I/O密集型任务，这类任务的特点是CPU消耗很少，任务的大部分时间都在等待I/O操作完成（因为I/O的速度远远低于CPU和内存的速度）。对于I/O密集型任务，如果启动多任务，就可以减少I/O等待时间从而让CPU高效率的运转。</p>
+<h2 id="单线程-异步I-O"><a href="#单线程-异步I-O" class="headerlink" title="单线程+异步I/O"></a>单线程+异步I/O</h2><p>现代操作系统对I/O操作的改进中最为重要的就是支持异步I/O。如果充分利用操作系统提供的异步I/O支持，就可以用单进程单线程模型来执行多任务，这种全新的模型称为事件驱动模型。Nginx就是支持异步I/O的Web服务器，它在单核CPU上采用单进程模型就可以高效地支持多任务。在多核CPU上，可以运行多个进程（数量与CPU核心数相同），充分利用多核CPU。</p>
+<p>在Python语言中，单线程+异步I/O的编程模型称为协程，有了协程的支持，就可以基于事件驱动编写高效的多任务程序。协程最大的优势就是极高的执行效率，因为子程序切换不是线程切换，而是由程序自身控制，因此，没有线程切换的开销。协程的第二个优势就是不需要多线程的锁机制，因为只有一个线程，也不存在同时写变量冲突，在协程中控制共享资源不用加锁，只需要判断状态就好了，所以执行效率比多线程高很多。如果想要充分利用CPU的多核特性，最简单的方法是多进程+协程，既充分利用多核，又充分发挥协程的高效率，可获得极高的性能。</p>
+<h3 id="例1：将耗时间的任务放到线程中以获得更好的用户体验"><a href="#例1：将耗时间的任务放到线程中以获得更好的用户体验" class="headerlink" title="例1：将耗时间的任务放到线程中以获得更好的用户体验"></a>例1：将耗时间的任务放到线程中以获得更好的用户体验</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> tkinter</span><br><span class="line"><span class="keyword">import</span> tkinter.messagebox</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">DownloadTaskHandler</span><span class="params">(Thread)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">            time.sleep(<span class="number">10</span>)</span><br><span class="line">            tkinter.messagebox.showinfo(<span class="string">'提示'</span>,<span class="string">'下载完成！'</span>)</span><br><span class="line">            <span class="comment"># 启用下载按钮</span></span><br><span class="line">            button1.config(state = tkinter.NORMAL)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">download</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="comment"># 禁用下载按钮</span></span><br><span class="line">        button1.config(state = tkinter.DISABLED)</span><br><span class="line">        <span class="comment"># 通过daemon参数将参数设置为守护线程（主程序退出就不再保留执行）</span></span><br><span class="line">        <span class="comment"># 在线程中处理耗时间的下载任务</span></span><br><span class="line">        DownLoadTaskHandler(daemon=<span class="literal">True</span>.start())</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">show_about</span><span class="params">()</span>:</span></span><br><span class="line">        tkinter.messagebox.showinfo(<span class="string">'关于'</span>,<span class="string">'作者：张三'</span>)</span><br><span class="line">    top = tkinter.TK()</span><br><span class="line">    top.title(<span class="string">'单线程'</span>)</span><br><span class="line">    top.geometry(<span class="string">'200×150'</span>)</span><br><span class="line">    top.wm_attributes(<span class="string">'-topmost'</span>,<span class="literal">True</span>)</span><br><span class="line">    panel = tkinter.Frame(top)</span><br><span class="line">    button1 = tkinter.Button(panel,text=<span class="string">'下载'</span>,command=download)</span><br><span class="line">    button1.pack(side=<span class="string">'left'</span>)</span><br><span class="line">    button2 = tkinter.Button(panel,text=<span class="string">'关于'</span>,command=show_about)</span><br><span class="line">    button2.pack(side=<span class="string">'right'</span>)</span><br><span class="line">    panel.pack(side=<span class="string">'bottom'</span>)</span><br><span class="line">    tkinter.mainloop()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h3 id="例2：使用多进程对复杂任务进行“分而治之”"><a href="#例2：使用多进程对复杂任务进行“分而治之”" class="headerlink" title="例2：使用多进程对复杂任务进行“分而治之”"></a>例2：使用多进程对复杂任务进行“分而治之”</h3><figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">from</span> multiprocessing import Process,Queue</span><br><span class="line"><span class="meta">from</span> random import randint</span><br><span class="line"><span class="meta">from</span> time import time</span><br><span class="line"></span><br><span class="line">def task_handler(curr_list,result_queue):</span><br><span class="line">    total = 0</span><br><span class="line">    for number <span class="meta">in</span> curr_list:</span><br><span class="line">        total += number</span><br><span class="line">    result_queue<span class="meta">.put(</span>total)</span><br><span class="line">def ma<span class="meta">in(</span>):</span><br><span class="line">    processes = []</span><br><span class="line">    number_lisst = [<span class="meta">x</span> for <span class="meta">x</span> <span class="meta">in</span><span class="meta"> range(</span>1,100000001)]</span><br><span class="line">    result_queue = Queue()</span><br><span class="line">    <span class="meta">index</span> = 0</span><br><span class="line">    # 启动8个进程将数据切片后进行运算</span><br><span class="line">    for _ <span class="meta">in</span><span class="meta"> range(</span>8):</span><br><span class="line">        p = Process(target=task_handler,args=(number_lisst[<span class="meta">index</span>:<span class="meta">index</span>+122500000],result_queue))</span><br><span class="line">        <span class="meta">index</span> += 12500000</span><br><span class="line">        processes.append(p)</span><br><span class="line">        p.start()</span><br><span class="line">    # 开始记录所有进程执行完成花费的时间</span><br><span class="line">    start =<span class="meta"> time(</span>)</span><br><span class="line">    for p <span class="meta">in</span> processes:</span><br><span class="line">        p.jo<span class="meta">in(</span>)</span><br><span class="line">    # 合并执行结果</span><br><span class="line">    total = 0</span><br><span class="line">    <span class="meta">while</span> <span class="meta">not</span> result_queue.empty():</span><br><span class="line">        total += result_queue.get()</span><br><span class="line">    p<span class="meta">rint(</span>total)</span><br><span class="line">    <span class="meta">end</span> =<span class="meta"> time(</span>)</span><br><span class="line">    p<span class="meta">rint(</span><span class="string">'Execution time:'</span>,(<span class="meta">end</span>-start),<span class="string">'s'</span>,sep=<span class="string">''</span>)</span><br><span class="line"><span class="meta">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    ma<span class="meta">in(</span>)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/13/12-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2273,294 +2558,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/02/%E5%9B%9E%E5%BD%A2%E5%8F%96%E6%95%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ran-Barry">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/02/%E5%9B%9E%E5%BD%A2%E5%8F%96%E6%95%B0/" itemprop="url">回形取数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-02T19:15:21+08:00">
-                2020-02-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%93%9D%E6%A1%A5%E6%9D%AF/" itemprop="url" rel="index">
-                    <span itemprop="name">蓝桥杯</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="../images/%E5%9B%9E%E5%BD%A2%E5%8F%96%E6%95%B0.png" alt="题目描述"><br>这个题目按照下右上左的顺序取数，并对每个取过的数进行标记。<br>一下代码提交后为runtime error，不太清楚为啥。之后再继续找找原因</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"># str1 = input()</span><br><span class="line"># arr1 = str1.split(<span class="string">' '</span>)</span><br><span class="line"># m = <span class="built_in">int</span>(arr1[<span class="number">0</span>])</span><br><span class="line"># n = <span class="built_in">int</span>(arr1[<span class="number">1</span>])</span><br><span class="line">m,n = map(<span class="built_in">int</span>,input().split()) #简单写法</span><br><span class="line">Arr = [[] <span class="keyword">for</span> i <span class="keyword">in</span> range(m)]</span><br><span class="line">Arr = [[] * n] * m</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">    Arr[i] = [<span class="built_in">int</span>(j) <span class="keyword">for</span> j <span class="keyword">in</span> input().split()]</span><br><span class="line">#<span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">#    str2 = input()</span><br><span class="line">#    Arr[i] = str2.split(<span class="string">' '</span>)</span><br><span class="line">sum = m * n</span><br><span class="line">i = <span class="number">0</span></span><br><span class="line">j = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> sum &gt; <span class="number">0</span>: #取过的数赋值为<span class="number">-1</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; m <span class="keyword">and</span> Arr[i][j] != <span class="number">-1</span>: #向下取数</span><br><span class="line">        print(Arr[i][j],end=<span class="string">' '</span>)</span><br><span class="line">        Arr[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">    i -= <span class="number">1</span></span><br><span class="line">    j += <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> j &lt; n <span class="keyword">and</span> Arr[i][j] != <span class="number">-1</span>: #向右取数</span><br><span class="line">        print(Arr[i][j],end=<span class="string">' '</span>)</span><br><span class="line">        Arr[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">    j -= <span class="number">1</span></span><br><span class="line">    i -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> i &gt;= <span class="number">0</span> <span class="keyword">and</span> Arr[i][j] != <span class="number">-1</span>: #向上取数</span><br><span class="line">        print(Arr[i][j],end=<span class="string">' '</span>)</span><br><span class="line">        Arr[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        i -= <span class="number">1</span></span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line">    j -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> j &gt;= <span class="number">0</span> <span class="keyword">and</span> Arr[i][j] != <span class="number">-1</span>: #向左取数</span><br><span class="line">        print(Arr[i][j],end=<span class="string">' '</span>)</span><br><span class="line">        Arr[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        j -= <span class="number">1</span></span><br><span class="line">    j += <span class="number">1</span></span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/01/%E5%88%86%E8%A7%A3%E8%B4%A8%E5%9B%A0%E6%95%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ran-Barry">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/01/%E5%88%86%E8%A7%A3%E8%B4%A8%E5%9B%A0%E6%95%B0/" itemprop="url">分解质因数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-01T19:20:28+08:00">
-                2020-02-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%93%9D%E6%A1%A5%E6%9D%AF/" itemprop="url" rel="index">
-                    <span itemprop="name">蓝桥杯</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="基础练习-分解质因数"><a href="#基础练习-分解质因数" class="headerlink" title="基础练习 分解质因数"></a>基础练习 分解质因数</h1><p><img src="../images/%E5%88%86%E8%A7%A3%E8%B4%A8%E5%9B%A0%E6%95%B0%E5%9B%BE%E7%89%87.png" alt="图片"><br>这里用了两种方法，第一种是暴力解法，超时了，第二种递归，成功AC</p>
-<h2 id="第一种解法-暴力解法："><a href="#第一种解法-暴力解法：" class="headerlink" title="第一种解法 暴力解法："></a>第一种解法 暴力解法：</h2><figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#第一种 暴力解法 超时</span></span><br><span class="line">def isPrime(x): <span class="meta">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i in range(<span class="number">2</span>,<span class="keyword">int</span>(x ** (<span class="number">1</span>/<span class="number">2</span>))+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> x % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> False</span><br><span class="line">    <span class="keyword">return</span> True</span><br><span class="line"></span><br><span class="line">str1 = <span class="keyword">input</span>() <span class="meta">#接收输入</span></span><br><span class="line">arr = str1.split(<span class="string">' '</span>) <span class="meta">#分割成数组</span></span><br><span class="line">a = <span class="keyword">int</span>(arr[<span class="number">0</span>]) <span class="meta">#取出开始值</span></span><br><span class="line">b = <span class="keyword">int</span>(arr[<span class="number">1</span>]) <span class="meta">#取出结束值</span></span><br><span class="line"><span class="keyword">for</span> i in range(a,b+<span class="number">1</span>): <span class="meta">#循环输出每一次的结果</span></span><br><span class="line">    str1 = <span class="string">''</span>.join([<span class="keyword">str</span>(i),<span class="string">'='</span>]) <span class="meta">#先得出前面的</span></span><br><span class="line">    <span class="keyword">if</span> isPrime(i): <span class="meta">#是质数的话就是本身</span></span><br><span class="line">        str1 = <span class="string">''</span>.join([str1,<span class="keyword">str</span>(i)])</span><br><span class="line">        <span class="keyword">print</span>(str1)</span><br><span class="line">    <span class="keyword">else</span>: <span class="meta">#不是质数</span></span><br><span class="line">        tmp = [] <span class="meta">#一个空列表</span></span><br><span class="line">        t = i</span><br><span class="line">        <span class="keyword">while</span> t != <span class="number">1</span>: <span class="meta">#经过一次一次除，最后除到<span class="number">1</span>结束</span></span><br><span class="line">            j = <span class="number">2</span> <span class="meta">#最小的质数为<span class="number">2</span>，从<span class="number">2</span>开始</span></span><br><span class="line">            <span class="keyword">while</span> j &lt;= t: <span class="meta">#从<span class="number">2</span>开始找最小能整除t的值</span></span><br><span class="line">                <span class="keyword">if</span> isPrime(j) <span class="keyword">and</span> t % j == <span class="number">0</span>:</span><br><span class="line">                    tmp.append(j)</span><br><span class="line">                    t /= j</span><br><span class="line">                    <span class="keyword">break</span> <span class="meta">#找到一个就结束，重新开始找</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    j += <span class="number">1</span> <span class="meta">#不符合要求加<span class="number">1</span></span></span><br><span class="line">            <span class="keyword">if</span> t == <span class="number">1</span>: <span class="meta">#当等于<span class="number">1</span>时跳出循环</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="meta">#tmp = sorted(tmp) #因为是从小到大找的，不用排序也行</span></span><br><span class="line">        <span class="keyword">for</span> j in range(len(tmp)): <span class="meta">#然后按照列表开始输出</span></span><br><span class="line">            <span class="keyword">if</span> j == <span class="number">0</span>:</span><br><span class="line">                str1 = str1 + <span class="keyword">str</span>(tmp[j])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                str1 = str1 + <span class="string">'*'</span> + <span class="keyword">str</span>(tmp[j])</span><br><span class="line">        <span class="keyword">print</span>(str1)</span><br></pre></td></tr></table></figure>
-<h2 id="第二种解法-递归"><a href="#第二种解法-递归" class="headerlink" title="第二种解法 递归"></a>第二种解法 递归</h2><p>用乘积的方式进行计算，等于值时得到对应的质因数分解</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#第二种方法 递归</span></span><br><span class="line">def isPrime(<span class="built_in">num</span>): <span class="comment">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,<span class="built_in">num</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">num</span> % i == <span class="number">0</span>:</span><br><span class="line">            <span class="literal">return</span> False</span><br><span class="line">    <span class="literal">return</span> True</span><br><span class="line">def calcuate(<span class="built_in">num</span>,tmp):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,int(<span class="built_in">num</span> ** (<span class="number">1</span>/<span class="number">2</span>)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">num</span> % i == <span class="number">0</span> <span class="keyword">and</span> isPrime(i):</span><br><span class="line">            tmp.append(i)</span><br><span class="line">            <span class="built_in">num</span> = <span class="built_in">num</span><span class="comment"> // i</span></span><br><span class="line">            <span class="literal">return</span> calcuate(<span class="built_in">num</span>,tmp)</span><br><span class="line">    tmp.append(<span class="built_in">num</span>)</span><br><span class="line">    str1 = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="built_in">len</span>(tmp)): <span class="comment">#循环列表返回值</span></span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            str1 += str(tmp[i])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            str1 += <span class="string">'*'</span> + str(tmp[i])</span><br><span class="line">    <span class="literal">return</span> str1    </span><br><span class="line">str1 = input()</span><br><span class="line">arr = str1.<span class="built_in">split</span>(<span class="string">' '</span>)</span><br><span class="line"><span class="keyword">a</span> = int(arr[<span class="number">0</span>])</span><br><span class="line">b = int(arr[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="keyword">a</span>,b+<span class="number">1</span>):</span><br><span class="line">    tmp = []</span><br><span class="line">    str1 = <span class="string">''</span>.join([str(i),<span class="string">'='</span>])</span><br><span class="line">    str1 += calcuate(i,tmp)</span><br><span class="line">    print(str1)</span><br></pre></td></tr></table></figure>
-<h1 id="算法提高-质因数"><a href="#算法提高-质因数" class="headerlink" title="算法提高 质因数"></a>算法提高 质因数</h1><p><img src="../images/%E8%B4%A8%E5%9B%A0%E6%95%B0.png" alt="图片"><br>这个就是上个题的简写版，按照同样的递归方法即可</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">def isPrime(<span class="built_in">num</span>): <span class="comment">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,int(<span class="built_in">num</span> ** (<span class="number">1</span>/<span class="number">2</span>))+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">num</span> % i == <span class="number">0</span>:</span><br><span class="line">            <span class="literal">return</span> False</span><br><span class="line">    <span class="literal">return</span> True</span><br><span class="line">def calcuate(<span class="built_in">num</span>,tmp): <span class="comment">#进行递归求解</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,int(<span class="built_in">num</span> ** (<span class="number">1</span>/<span class="number">2</span>))+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> isPrime(i) <span class="keyword">and</span> <span class="built_in">num</span> % i == <span class="number">0</span>:</span><br><span class="line">            tmp.append(i)</span><br><span class="line">            <span class="comment">#num = num // i</span></span><br><span class="line">            <span class="literal">return</span> calcuate(nu<span class="comment">m//i,tmp)</span></span><br><span class="line">    tmp.append(<span class="built_in">num</span>)</span><br><span class="line">    str1 = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="built_in">len</span>(tmp)):</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            str1 += str(tmp[i])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            str1 += <span class="string">'*'</span> + str(tmp[i])</span><br><span class="line">    <span class="literal">return</span> str1</span><br><span class="line"><span class="keyword">a</span> = eval(input())</span><br><span class="line">tmp = []</span><br><span class="line">str1 = str(<span class="keyword">a</span>) + <span class="string">'='</span> + calcuate(<span class="keyword">a</span>,tmp)</span><br><span class="line">print(str1) <span class="comment">#打印值</span></span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2611,7 +2608,7 @@
               
                 <a href="/archives%7C%7C%20archive">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
