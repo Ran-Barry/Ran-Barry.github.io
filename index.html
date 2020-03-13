@@ -249,6 +249,205 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/13/Sublime-Text3-Markdown%E6%8F%92%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ran-Barry">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/13/Sublime-Text3-Markdown%E6%8F%92%E4%BB%B6/" itemprop="url">Sublime Text3 Markdown插件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-13T22:26:09+08:00">
+                2020-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" itemprop="url" rel="index">
+                    <span itemprop="name">软件安装</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Markdown插件安装"><a href="#Markdown插件安装" class="headerlink" title="Markdown插件安装"></a>Markdown插件安装</h3><table>
+<thead>
+<tr>
+<th>插件</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MarkdownEditing</td>
+<td>一个提高Sublime中Markdown编辑特性的插件</td>
+</tr>
+<tr>
+<td>MarkdownPreview</td>
+<td>Markdown转HTML，提供在浏览器中的预览功能</td>
+</tr>
+<tr>
+<td>MarkdownLivePreview</td>
+<td>提供在编辑框中实时预览的功能</td>
+</tr>
+<tr>
+<td>LiveReload</td>
+<td>一个提供md/html等文档的实时刷新预览的插件</td>
+</tr>
+</tbody></table>
+<h4 id="MarkdownEditing"><a href="#MarkdownEditing" class="headerlink" title="MarkdownEditing"></a>MarkdownEditing</h4><h5 id="功能："><a href="#功能：" class="headerlink" title="功能："></a>功能：</h5><p>可以高亮显示Markdown语法还支持很多编程语言的语法高亮显示。</p>
+<p><strong>特别注意</strong>：MarkdownEditing只针对 md\mdown\mmd\txt 格式文件才启用。</p>
+<h5 id="效果图："><a href="#效果图：" class="headerlink" title="效果图："></a>效果图：</h5><p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/Sublime%E6%8F%92%E4%BB%B6/01.png" alt="2c15bc4a4995c73ffedb34f232b4af24.png"></p>
+<h4 id="安装报错解决："><a href="#安装报错解决：" class="headerlink" title="安装报错解决："></a>安装报错解决：</h4><p>报错问题<br><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/Sublime%E6%8F%92%E4%BB%B6/02.png" alt="65ed9cb9ead31696bfbf1192852fa61b.png"></p>
+<h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><p>./Data/Local/ 清理掉<br>Session.sublime_session<br>Auto Save Session.sublime_session</p>
+<p>去Local文件夹里删除掉这两个文件，我的只有第一个，删除后重启就可以。</p>
+<h4 id="MarkdownLivePreview"><a href="#MarkdownLivePreview" class="headerlink" title="MarkdownLivePreview"></a>MarkdownLivePreview</h4><h5 id="功能：-1"><a href="#功能：-1" class="headerlink" title="功能："></a>功能：</h5><p>实时预览Markdown文件，左侧为md文件，右侧为预览结果。</p>
+<h5 id="使用："><a href="#使用：" class="headerlink" title="使用："></a>使用：</h5><p>MarkdownLivePreview默认关闭实时预览，既然安装这个插件了，那肯定是要用的。打开方式为在Preferences -&gt; Package Settings -&gt; MarkdownLivePreview -&gt; Settings 的设置的右侧加一条 “markdown_live_preview_on_open”: true,，重启sublime即可。</p>
+<p>为什么不能直接将左侧对应的false改为true，这是因为左侧为默认配置，是不能改的（只读），右侧的编辑区才是用户自定义区。</p>
+<h5 id="效果图：-1"><a href="#效果图：-1" class="headerlink" title="效果图："></a>效果图：</h5><p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/Sublime%E6%8F%92%E4%BB%B6/03.png" alt="219e1ca6d2f5d2d1ac54fa50e086acb3.png"></p>
+<p>但是预览效果并不是很好，不能横向滚动。推荐下面插件。</p>
+<h5 id="MarkdownPreview"><a href="#MarkdownPreview" class="headerlink" title="MarkdownPreview"></a>MarkdownPreview</h5><h6 id="将md文件用浏览器预览——1-常规方法"><a href="#将md文件用浏览器预览——1-常规方法" class="headerlink" title="将md文件用浏览器预览——1.常规方法"></a>将md文件用浏览器预览——1.常规方法</h6><p>1 组合键 Ctrl+Shift+P 调出命令面板</p>
+<p>2 输入mdp找到并选中Markdown Preview： Preview in Browser</p>
+<p>3 出现两个选项：github和markdown。任选其一即可，github是利用GitHub的在线API来解析.md文件，支持在线资源的预览，如在线图片它的解析速度取决于你的联网速度。该方式据说一天只能打开60次。markdown就是传统的本地打开，不支持在线资源的预览。</p>
+<p>4 默认浏览器中显示预览结果</p>
+<h6 id="将md文件用浏览器预览——2-用快捷键打开"><a href="#将md文件用浏览器预览——2-用快捷键打开" class="headerlink" title="将md文件用浏览器预览——2.用快捷键打开"></a>将md文件用浏览器预览——2.用快捷键打开</h6><p>Sublime Text支持自定义快捷键，Markdown </p>
+<p>Preview默认没有快捷键，我们可以自己为Markdown Preview： Preview in Browser设置快捷键。</p>
+<p>方法是在Preferences -&gt; Key Bindings打开的文件的右侧栏的中括号中添加一行代码：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123; </span><br><span class="line">    <span class="attr">"keys"</span>: [<span class="string">"alt+m"</span>],  </span><br><span class="line">    <span class="attr">"command"</span>:<span class="string">"markdown_preview"</span>,</span><br><span class="line">    <span class="attr">"args"</span>: </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"target"</span>: <span class="string">"browser"</span>,      </span><br><span class="line">            <span class="attr">"parser"</span>:<span class="string">"markdown"</span></span><br><span class="line">        &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里：</p>
+<blockquote>
+<p>“alt+m” 可设置为自己喜欢的按键。”parser”: “markdown”也可设置为”parser”:”github”，改为使用Github在线API解析markdown</p>
+</blockquote>
+<p>以上两种方式都有个问题：每次预览都要打开一个新的网页，而且需要手动操作。有没有一个方法，可以打开一个网页后，之后再也不用管，让它实时刷新预览呢？</p>
+<p>有，还很简单，答案就是MarkdownPreview+LiveReload！<br>LiveReload是一个可实时刷新的插件，不仅可用于Markdown，也可用于HTML等。</p>
+<h5 id="最强）实时自动刷新预览：MarkdownPreview-LiveReload"><a href="#最强）实时自动刷新预览：MarkdownPreview-LiveReload" class="headerlink" title="(最强）实时自动刷新预览：MarkdownPreview+LiveReload"></a>(最强）实时自动刷新预览：MarkdownPreview+LiveReload</h5><p><strong>先安装并配置Markdown Preview</strong></p>
+<p>如前Markdown Preview安装成功后，设置前文所述的快捷键（如需），打开其配置文件 Preferences -&gt; Package Settings -&gt; Markdown Preview -&gt; Settings，检查左侧enable_autoreload条目是否为true，若是，跳过。若不是，右侧栏加一条下面这个后重启Sublime:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"enable_autoreload"</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>安装并配置LiveReload</strong></p>
+<p>Ctrl+Shift+p, 输入 Install Package，输入LiveReload, 回车安装</p>
+<p>安装成功后, 再次Ctrl+shift+p, 输入LiveReload: Enable/disable plug-ins, 回车, 选择 Simple Reload with delay (400ms)或者Simple Reload，两者的区别仅仅在于后者没有延迟。</p>
+<p><strong>开始使用</strong></p>
+<p>原文链接：<a href="https://blog.csdn.net/qq_20011607/article/details/81370236" target="_blank" rel="noopener">https://blog.csdn.net/qq_20011607/article/details/81370236</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/13/DES%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -537,6 +736,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" itemprop="url" rel="index">
+                    <span itemprop="name">软件安装</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -568,14 +789,14 @@
           
             <h4 id="Sublime-Text3配置python环境"><a href="#Sublime-Text3配置python环境" class="headerlink" title="Sublime Text3配置python环境"></a>Sublime Text3配置python环境</h4><p>安装参考以前文章，下面说配置</p>
 <p>打开安装好的 sublime text 3，选择编译环境</p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/SublimePython01.png" alt="0e3b5e9cfb36e436416f187edb061fd0.png"></p>
+<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimePython/SublimePython01.png" alt="0e3b5e9cfb36e436416f187edb061fd0.png"></p>
 <p>然后输入</p>
 <blockquote>
 <p>print(“你好”)</p>
 </blockquote>
 <p>然后保存为.py后缀文件</p>
 <p>回到主界面，Ctrl+B运行</p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/SublimePython02.png" alt="89d3fe035435cc1dc56fff80ffd225fc.png"></p>
+<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimePython/SublimePython02.png" alt="89d3fe035435cc1dc56fff80ffd225fc.png"></p>
 <p>中文成功输出，证明配置好了，但还需要按一个插件来支持 input</p>
 <p>安装SublimeREPL插件，使Sublime支持input</p>
 <p>安装好，试着调用。</p>
@@ -583,16 +804,16 @@
 
 <p>跟 Ctrl+B 直接编译不同，利用插件来编译需要先手动 Ctrl+S 保存</p>
 <p><strong>常规调用：</strong></p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/SublimePython03.png" alt="69d5a1b9e9dfe5c1aff1d2e1e1775f36.png"></p>
+<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimePython/SublimePython03.png" alt="69d5a1b9e9dfe5c1aff1d2e1e1775f36.png"></p>
 <p>然后弹出一个新的框，进行输入输出。</p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/SublimePython04.png" alt="fbe8fc6a38764b3605c069357dafdf37.png"></p>
+<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimePython/SublimePython04.png" alt="fbe8fc6a38764b3605c069357dafdf37.png"></p>
 <p><strong>设置快捷键调用：</strong></p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/SublimePython05.png" alt="ded30527af9e541ca4cf0e79bf907cf2.png"></p>
+<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimePython/SublimePython05.png" alt="ded30527af9e541ca4cf0e79bf907cf2.png"></p>
 <p>左边是系统默认设置，我们在右边窗口输入以下设置（另一个 Alt + End 是终止编译的快捷键），Ctrl+S 保存</p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/SublimePython06.png" alt="bc715187792b855d583c10db6cc44403.png"></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[ </span><br><span class="line">&#123; </span><br><span class="line"><span class="attr">"keys"</span>: [<span class="string">"f4"</span>], </span><br><span class="line"><span class="attr">"caption"</span>: <span class="string">"SublimeREPL: Python - RUN current file"</span>, </span><br><span class="line"><span class="attr">"command"</span>: <span class="string">"run_existing_windoww_command"</span>, </span><br><span class="line"><span class="attr">"args"</span>: &#123; <span class="attr">"id"</span>: <span class="string">"repl_python_run"</span>, <span class="attr">"file"</span>: <span class="string">"config/Python/Main.sublime-menu"</span>&#125; &#125;,</span><br><span class="line">&#123; <span class="attr">"keys"</span>: [<span class="string">"alt+end"</span>], <span class="attr">"command"</span>: <span class="string">"exec"</span>, <span class="attr">"args"</span>: &#123;<span class="attr">"kill"</span>: <span class="literal">true</span>&#125; &#125; </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimePython/SublimePython06.png" alt="bc715187792b855d583c10db6cc44403.png"></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[ </span><br><span class="line">    &#123; </span><br><span class="line">        <span class="attr">"keys"</span>: [<span class="string">"f4"</span>], </span><br><span class="line">        <span class="attr">"caption"</span>: <span class="string">"SublimeREPL: Python - RUN current file"</span>, </span><br><span class="line">        <span class="attr">"command"</span>: <span class="string">"run_existing_windoww_command"</span>, </span><br><span class="line">        <span class="attr">"args"</span>: &#123; </span><br><span class="line">            <span class="attr">"id"</span>: <span class="string">"repl_python_run"</span>, </span><br><span class="line">            <span class="attr">"file"</span>: <span class="string">"config/Python/Main.sublime-menu"</span></span><br><span class="line">        &#125; </span><br><span class="line">    &#125;,</span><br><span class="line">        &#123; </span><br><span class="line">            <span class="attr">"keys"</span>: [<span class="string">"alt+end"</span>], </span><br><span class="line">            <span class="attr">"command"</span>: <span class="string">"exec"</span>, </span><br><span class="line">            <span class="attr">"args"</span>: &#123;<span class="attr">"kill"</span>: <span class="literal">true</span>&#125; </span><br><span class="line">        &#125; </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 <p>切换不方便，可以打开两个视图：</p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/SublimePython07.png" alt="c33682bb046be44ffbe99139d83ea249.png"></p>
+<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimePython/SublimePython07.png" alt="c33682bb046be44ffbe99139d83ea249.png"></p>
 <p>本文参考：<br>链接：<a href="https://www.zhihu.com/question/22904994/answer/800236870" target="_blank" rel="noopener">https://www.zhihu.com/question/22904994/answer/800236870</a></p>
 
           
@@ -735,14 +956,14 @@
       
         
           
-            <h4 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h4><p>去官网下载：<a href="http://www.sublimetext.cn/" target="_blank" rel="noopener">http://www.sublimetext.cn/</a></p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime01.png" alt="a48170e3051da81b40ba956fe85ac553.png"></p>
+            <h3 id="Sublime-Text3-安装教程"><a href="#Sublime-Text3-安装教程" class="headerlink" title="Sublime Text3 安装教程"></a>Sublime Text3 安装教程</h3><h4 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h4><p>去官网下载：<a href="http://www.sublimetext.cn/" target="_blank" rel="noopener">http://www.sublimetext.cn/</a></p>
+<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimeInstall/Sublime01.png" alt="a48170e3051da81b40ba956fe85ac553.png"></p>
 <p>用IDM会很慢，可以复制下载链接，用迅雷下载，3秒下载完毕。</p>
 <p>下载完毕，双击安装。选择”Add to explorer context menu”.</p>
 <h4 id="安装package-control插件"><a href="#安装package-control插件" class="headerlink" title="安装package control插件"></a>安装package control插件</h4><p>这是安装sublime的重点。</p>
 <p>手动安装：<br>1 点击<br><a href="https://github.com/wbond/package_control" target="_blank" rel="noopener">https://github.com/wbond/package_control</a>去github下载Package Control安装报下载到本地，下载的文件名为：<br>package_control-master.zip。解压后将文件名改为Package Control；</p>
 <p>2.打开Sublime的Preferences -&gt; Browse Packages菜单，将上面改好名字的Package Control文件夹复制过去,重启就会发现package control。</p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime02.png" alt="be3d5a2e4efd21446517b576426ee60c.png"></p>
+<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimeInstall/Sublime02.png" alt="be3d5a2e4efd21446517b576426ee60c.png"></p>
 <p>3.但是你会发现你点击package control后Install Package不成功，There are no packages available for installation的提示。</p>
 <p>失败原因为官网地址被墙，导致channel_v3文件无法访问。</p>
 <p>解决方法：点击Preferences——&gt;Package Settings——&gt;Package Control——&gt;Settings - User，</p>
@@ -2497,181 +2718,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/12/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ran-Barry">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/12/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/" itemprop="url">Linux基础命令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-12T20:30:22+08:00">
-                2020-02-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><p>【语句格式】</p>
-<blockquote>
-<p>命令名称  [命令参数] [命令对象]</p>
-</blockquote>
-<h3 id="1-获取登录信息-w-who-last-lastb"><a href="#1-获取登录信息-w-who-last-lastb" class="headerlink" title="1.获取登录信息 - w/who/last/lastb"></a>1.获取登录信息 - <strong>w/who/last/lastb</strong></h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ w</span><br><span class="line"> <span class="number">12</span>:<span class="number">32</span>:<span class="number">22</span> up  <span class="number">2</span>:<span class="number">57</span>,  <span class="number">1</span> user,  load average: <span class="number">0.86</span>, <span class="number">1.18</span>, <span class="number">1.13</span></span><br><span class="line">USER     TTY      FROM             <span class="symbol">LOGIN@</span>   IDLE   JCPU   PCPU WHAT</span><br><span class="line">admintor tty1     :<span class="number">0</span>               <span class="number">09</span>:<span class="number">35</span>    <span class="number">2</span>:<span class="number">57</span>m  <span class="number">4</span>:<span class="number">45</span>  <span class="number">11.21</span>s /usr/bin/startdde</span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ clear</span><br><span class="line"></span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ w</span><br><span class="line"> <span class="number">12</span>:<span class="number">32</span>:<span class="number">28</span> up  <span class="number">2</span>:<span class="number">57</span>,  <span class="number">1</span> user,  load average: <span class="number">0.79</span>, <span class="number">1.16</span>, <span class="number">1.13</span></span><br><span class="line">USER     TTY      FROM             <span class="symbol">LOGIN@</span>   IDLE   JCPU   PCPU WHAT</span><br><span class="line">admintor tty1     :<span class="number">0</span>               <span class="number">09</span>:<span class="number">35</span>    <span class="number">2</span>:<span class="number">57</span>m  <span class="number">4</span>:<span class="number">45</span>  <span class="number">11.21</span>s /usr/bin/startdde</span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ who</span><br><span class="line">admintor tty1         <span class="number">2020</span><span class="number">-02</span><span class="number">-08</span> <span class="number">09</span>:<span class="number">35</span> (:<span class="number">0</span>)</span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ whoami</span><br><span class="line">admintor</span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ last</span><br><span class="line">admintor tty1         :<span class="number">0</span>               Sat Feb  <span class="number">8</span> <span class="number">09</span>:<span class="number">35</span>   still logged <span class="keyword">in</span></span><br><span class="line">reboot   system boot  <span class="number">4.15</span><span class="number">.0</span><span class="number">-30</span>deepin- Sat Feb  <span class="number">8</span> <span class="number">17</span>:<span class="number">34</span>   still running</span><br><span class="line">admintor tty1         :<span class="number">0</span>               Fri Feb  <span class="number">7</span> <span class="number">11</span>:<span class="number">43</span> - <span class="number">18</span>:<span class="number">32</span>  (<span class="number">06</span>:<span class="number">49</span>)</span><br><span class="line">reboot   system boot  <span class="number">4.15</span><span class="number">.0</span><span class="number">-30</span>deepin- Fri Feb  <span class="number">7</span> <span class="number">19</span>:<span class="number">42</span> - <span class="number">18</span>:<span class="number">32</span>  (<span class="number">-1</span>:<span class="number">-9</span>)</span><br><span class="line">admintor tty1         :<span class="number">0</span>               Wed Feb  <span class="number">5</span> <span class="number">10</span>:<span class="number">21</span> - <span class="number">14</span>:<span class="number">43</span>  (<span class="number">04</span>:<span class="number">21</span>)</span><br><span class="line">reboot   system boot  <span class="number">4.15</span><span class="number">.0</span><span class="number">-30</span>deepin- Wed Feb  <span class="number">5</span> <span class="number">18</span>:<span class="number">19</span> - <span class="number">14</span>:<span class="number">43</span>  (<span class="number">-3</span>:<span class="number">-36</span>)</span><br><span class="line">admintor tty1         :<span class="number">0</span>               Tue Feb  <span class="number">4</span> <span class="number">09</span>:<span class="number">32</span> - <span class="number">18</span>:<span class="number">16</span>  (<span class="number">08</span>:<span class="number">44</span>)</span><br><span class="line">reboot   system boot  <span class="number">4.15</span><span class="number">.0</span><span class="number">-30</span>deepin- Tue Feb  <span class="number">4</span> <span class="number">17</span>:<span class="number">31</span> - <span class="number">18</span>:<span class="number">17</span>  (<span class="number">00</span>:<span class="number">45</span>)</span><br><span class="line">admintor tty1         :<span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-查看自己使用的Shell-ps"><a href="#2-查看自己使用的Shell-ps" class="headerlink" title="2.查看自己使用的Shell - ps"></a>2.查看自己使用的Shell - <strong>ps</strong></h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ ps</span><br><span class="line">  PID TTY          TIME CMD</span><br><span class="line"><span class="number">19593</span> pts/<span class="number">1</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> bash</span><br><span class="line"><span class="number">20057</span> pts/<span class="number">1</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> ps</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-查看命令的说明和位置-whatis-which-whereis"><a href="#3-查看命令的说明和位置-whatis-which-whereis" class="headerlink" title="3.查看命令的说明和位置 - whatis/which/whereis"></a>3.查看命令的说明和位置 - <strong>whatis/which/whereis</strong></h3><h4 id="whatis"><a href="#whatis" class="headerlink" title="whatis"></a>whatis</h4><p>【功能】在whatis库中搜寻特定的命令 </p>
-<p>【语法】whatis COMMAND</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ whatis ps</span><br><span class="line">ps (<span class="number">1</span>)               - report a snapshot of the current processes.</span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ whatis python</span><br><span class="line">python3<span class="number">.7</span> (<span class="number">1</span>)        - an <span class="built_in">int</span>erpreted, <span class="built_in">int</span>eractive, object-oriented programming language</span><br><span class="line">python (<span class="number">1</span>)           - an <span class="built_in">int</span>erpreted, <span class="built_in">int</span>eractive, object-oriented programming language</span><br></pre></td></tr></table></figure>
-
-<h4 id="whereis"><a href="#whereis" class="headerlink" title="whereis"></a>whereis</h4><p>【功能】 查找文件、手册页、命令等的相关位置</p>
-<p>【语法】 whereis options argument</p>
-<p>【常用选项】 </p>
-<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="deletion">-b:只查找二进制文件位置</span></span><br><span class="line"><span class="deletion">-m:只查找手册页部分</span></span><br></pre></td></tr></table></figure>
-
-<p>【实例】</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">admintor<span class="meta">@admintor</span>-<span class="string">PC:</span>~/Desktop$ whereis ps</span><br><span class="line"><span class="string">ps:</span> <span class="regexp">/usr/</span>bin<span class="regexp">/ps /</span>usr<span class="regexp">/share/</span>man<span class="regexp">/man1/</span>ps<span class="number">.1</span>.gz</span><br><span class="line">admintor<span class="meta">@admintor</span>-<span class="string">PC:</span>~/Desktop$ whereis python</span><br><span class="line"><span class="string">python:</span> <span class="regexp">/usr/</span>bin<span class="regexp">/python /</span>usr<span class="regexp">/bin/</span>python2<span class="number">.7</span>-config <span class="regexp">/usr/</span>bin<span class="regexp">/python3.5-dbg /</span>usr<span class="regexp">/bin/</span>python2<span class="number">.7</span> <span class="regexp">/usr/</span>bin<span class="regexp">/python3.5dm-config /</span>usr<span class="regexp">/bin/</span>python3<span class="number">.5</span> <span class="regexp">/usr/</span>bin<span class="regexp">/python3.5m /</span>usr<span class="regexp">/bin/</span>python3<span class="number">.5</span>dm <span class="regexp">/usr/</span>bin<span class="regexp">/python3.5-dbg-config /</span>usr<span class="regexp">/lib/</span>python2<span class="number">.7</span> <span class="regexp">/usr/</span>lib<span class="regexp">/python3.5 /</span>etc<span class="regexp">/python /</span>etc<span class="regexp">/python2.7 /</span>etc<span class="regexp">/python3.5 /</span>usr<span class="regexp">/local/</span>bin<span class="regexp">/python3.7 /</span>usr<span class="regexp">/local/</span>bin<span class="regexp">/python3.7m /</span>usr<span class="regexp">/local/</span>bin<span class="regexp">/python3.7m-config /</span>usr<span class="regexp">/local/</span>lib<span class="regexp">/python3.7 /</span>usr<span class="regexp">/local/</span>lib<span class="regexp">/python2.7 /</span>usr<span class="regexp">/local/</span>lib<span class="regexp">/python3.5 /</span>usr<span class="regexp">/include/</span>python2<span class="number">.7</span> <span class="regexp">/usr/</span>include<span class="regexp">/python3.5m /</span>usr<span class="regexp">/include/</span>python3<span class="number">.5</span>dm <span class="regexp">/usr/</span>share<span class="regexp">/python /</span>usr<span class="regexp">/share/</span>man<span class="regexp">/man1/</span>python<span class="number">.1</span>.gz</span><br></pre></td></tr></table></figure>
-
-<h4 id="which"><a href="#which" class="headerlink" title="which"></a>which</h4><p>【功能】 查看<strong>可执行命令</strong>的路径</p>
-<p>【语法】which COMMAND</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">admintor<span class="meta">@admintor</span>-<span class="string">PC:</span>~/Desktop$ which ps</span><br><span class="line"><span class="regexp">/usr/</span>bin/ps</span><br><span class="line">admintor<span class="meta">@admintor</span>-<span class="string">PC:</span>~/Desktop$ which python</span><br><span class="line"><span class="regexp">/usr/</span>bin/python</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-清除屏幕上显示的内容-clear"><a href="#4-清除屏幕上显示的内容-clear" class="headerlink" title="4.清除屏幕上显示的内容 - clear"></a>4.清除屏幕上显示的内容 - <strong>clear</strong></h3><h3 id="5-查看帮助文档-man-info-help-apropos"><a href="#5-查看帮助文档-man-info-help-apropos" class="headerlink" title="5.查看帮助文档 - man/info/help/apropos"></a>5.查看帮助文档 - <strong>man/info/help/apropos</strong></h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">admintor@admintor-PC:~/Desktop$ ps --help</span><br><span class="line"></span><br><span class="line">Usage:</span><br><span class="line"> ps [options]</span><br><span class="line"></span><br><span class="line"> Try <span class="string">'ps --help &lt;simple|list|output|threads|misc|all&gt;'</span></span><br><span class="line">  <span class="keyword">or</span> <span class="string">'ps --help &lt;s|l|o|t|m|a&gt;'</span></span><br><span class="line"> <span class="keyword">for</span> additional help text.</span><br><span class="line"></span><br><span class="line"><span class="keyword">For</span> more details see ps(1).</span><br><span class="line">admintor@admintor-PC:~/Desktop$ man ps</span><br><span class="line">PS(1)                                                   <span class="built_in"> User </span>Commands                                                    PS(1)</span><br><span class="line"></span><br><span class="line">NAME</span><br><span class="line">       ps - report a snapshot of the current processes.</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">       ps [options]</span><br><span class="line"></span><br><span class="line">DESCRIPTION</span><br><span class="line"><span class="built_in">..</span>.</span><br></pre></td></tr></table></figure>
-
-<h3 id="6-查看系统和主机名-uname-hostname"><a href="#6-查看系统和主机名-uname-hostname" class="headerlink" title="6.查看系统和主机名 - uname/hostname"></a>6.查看系统和主机名 - <strong>uname/hostname</strong></h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">admintor<span class="meta">@admintor</span>-<span class="string">PC:</span>~/Desktop$ uname</span><br><span class="line">Linux</span><br><span class="line">admintor<span class="meta">@admintor</span>-<span class="string">PC:</span>~/Desktop$ hostname</span><br><span class="line">admintor-PC</span><br></pre></td></tr></table></figure>
-
-<h3 id="7-时间和日期-date-cal"><a href="#7-时间和日期-date-cal" class="headerlink" title="7.时间和日期 - date/cal"></a>7.时间和日期 - <strong>date/cal</strong></h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ date</span><br><span class="line"><span class="number">2020</span>年 <span class="number">02</span>月 <span class="number">08</span>日 星期六 <span class="number">15</span>:<span class="number">56</span>:<span class="number">50</span> CST</span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ cal</span><br><span class="line">      二月 <span class="number">2020</span>         </span><br><span class="line">日 一 二 三 四 五 六  </span><br><span class="line">                   <span class="number">1</span>  </span><br><span class="line"> <span class="number">2</span>  <span class="number">3</span>  <span class="number">4</span>  <span class="number">5</span>  <span class="number">6</span>  <span class="number">7</span>  <span class="number">8</span>  </span><br><span class="line"> <span class="number">9</span> <span class="number">10</span> <span class="number">11</span> <span class="number">12</span> <span class="number">13</span> <span class="number">14</span> <span class="number">15</span>  </span><br><span class="line"><span class="number">16</span> <span class="number">17</span> <span class="number">18</span> <span class="number">19</span> <span class="number">20</span> <span class="number">21</span> <span class="number">22</span>  </span><br><span class="line"><span class="number">23</span> <span class="number">24</span> <span class="number">25</span> <span class="number">26</span> <span class="number">27</span> <span class="number">28</span> <span class="number">29</span>  </span><br><span class="line">                      </span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ cal <span class="number">5</span> <span class="number">2017</span></span><br><span class="line">      五月 <span class="number">2017</span>         </span><br><span class="line">日 一 二 三 四 五 六  </span><br><span class="line">    <span class="number">1</span>  <span class="number">2</span>  <span class="number">3</span>  <span class="number">4</span>  <span class="number">5</span>  <span class="number">6</span>  </span><br><span class="line"> <span class="number">7</span>  <span class="number">8</span>  <span class="number">9</span> <span class="number">10</span> <span class="number">11</span> <span class="number">12</span> <span class="number">13</span>  </span><br><span class="line"><span class="number">14</span> <span class="number">15</span> <span class="number">16</span> <span class="number">17</span> <span class="number">18</span> <span class="number">19</span> <span class="number">20</span>  </span><br><span class="line"><span class="number">21</span> <span class="number">22</span> <span class="number">23</span> <span class="number">24</span> <span class="number">25</span> <span class="number">26</span> <span class="number">27</span>  </span><br><span class="line"><span class="number">28</span> <span class="number">29</span> <span class="number">30</span> <span class="number">31</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="8-重启和关机-reboot-shutdown"><a href="#8-重启和关机-reboot-shutdown" class="headerlink" title="8.重启和关机 - reboot/shutdown"></a>8.重启和关机 - <strong>reboot/shutdown</strong></h3><h3 id="9-退出登录-exit-logout"><a href="#9-退出登录-exit-logout" class="headerlink" title="9.退出登录 - exit/logout"></a>9.退出登录 - <strong>exit/logout</strong></h3><h3 id="10-查看历史命令-history"><a href="#10-查看历史命令-history" class="headerlink" title="10.查看历史命令 - history"></a>10.查看历史命令 - <strong>history</strong></h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ history</span><br><span class="line">...</span><br><span class="line"><span class="number">441</span>  whatis python</span><br><span class="line"><span class="number">442</span>  whereis ps</span><br><span class="line"><span class="number">443</span>  whereis python</span><br><span class="line"><span class="number">444</span>  which ps</span><br><span class="line"><span class="number">445</span>  which python</span><br><span class="line"><span class="number">446</span>  ps --help</span><br><span class="line"><span class="number">447</span>  man ps</span><br><span class="line"><span class="number">448</span>  uname</span><br><span class="line"><span class="number">449</span>  hostname</span><br><span class="line"><span class="number">450</span>  date</span><br><span class="line"><span class="number">451</span>  cal</span><br><span class="line"><span class="number">452</span>  cal <span class="number">5</span> <span class="number">2017</span></span><br><span class="line"><span class="number">453</span>  history</span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ !<span class="number">452</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看到历史命令后，可以用！历史命令编号来重新执行该命令；通过history -c 可以清除历史命令。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2722,7 +2768,7 @@
               
                 <a href="/archives%7C%7C%20archive">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
