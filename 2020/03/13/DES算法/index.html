@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/03/13/images/%E7%AE%97%E6%B3%95/DES%E7%AE%97%E6%B3%95/06.png">
 <meta property="og:image" content="http://yoursite.com/2020/03/13/images/%E7%AE%97%E6%B3%95/DES%E7%AE%97%E6%B3%95/07.png">
 <meta property="article:published_time" content="2020-03-13T13:37:58.000Z">
-<meta property="article:modified_time" content="2020-03-13T13:47:05.373Z">
+<meta property="article:modified_time" content="2020-03-14T01:30:11.806Z">
 <meta property="article:author" content="Ran-Barry">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -401,7 +401,7 @@
 <blockquote>
 <p>14,17,11,24,1,5<br>3,28,15,6,21,10<br>23,19,12,4,26,8<br>16,7,27,20,13,2<br>41,52,31,37,47,55<br>30,40,51,45,33,48<br>44.,49,39,56,34,53<br>46,42,50,36,29,32</p>
 </blockquote>
-<h5 id="明文扩展置换"><a href="#明文扩展置换" class="headerlink" title="明文扩展置换"></a>明文扩展置换</h5><p>输入明文右侧32位，最后变为48位。</p>
+<h5 id="明文扩展置换（E盒扩展）"><a href="#明文扩展置换（E盒扩展）" class="headerlink" title="明文扩展置换（E盒扩展）"></a>明文扩展置换（E盒扩展）</h5><p>输入初始置换后明文右侧32位，最后变为48位。</p>
 <p><img src="../images/%E7%AE%97%E6%B3%95/DES%E7%AE%97%E6%B3%95/03.png" alt="ca8801b6152ca8f712914df35f077989.png"></p>
 <p>扩展规则如下：</p>
 <p><img src="../images/%E7%AE%97%E6%B3%95/DES%E7%AE%97%E6%B3%95/04.png" alt="39726d21a7ff43ec18c06d4d8f3c2bd7.png"></p>
@@ -411,7 +411,7 @@
 <h5 id="S盒替代"><a href="#S盒替代" class="headerlink" title="S盒替代"></a>S盒替代</h5><p>压缩后的密钥与扩展分组异或以后得到48位的数据，将这个数据送入S盒，进行替代运算。替代由8个不同的S盒完成，每个S盒有6位输入4位输出。48位输入分为8个6位的分组，一个分组对应一个S盒，对应的S盒对各组进行代替操作。</p>
 <p><img src="../images/%E7%AE%97%E6%B3%95/DES%E7%AE%97%E6%B3%95/05.png" alt="130b775c24f796bf9a930d813808389b.png"></p>
 <p><img src="../images/%E7%AE%97%E6%B3%95/DES%E7%AE%97%E6%B3%95/06.png" alt="734d32e5dad6ee761f501b0703cc5e6d.png"></p>
-<p>一个S盒就是一个4行16列的表，盒中的每一项都是一个4位的数。S盒的6个输入确定了其对应的输出在哪一行哪一列，输入的高低两位做为行数H，中间四位做为列数L，在S-BOX中查找第H行L列对应的数据(&lt;32)。</p>
+<p>一个S盒就是一个4行16列的表，盒中的每一项都是一个4位的数。S盒的6个输入确定了其对应的输出在哪一行哪一列，输入的<strong>高低两位做为行数H</strong>，<strong>中间四位做为列数L</strong>，在S-BOX中查找第H行L列对应的数据(&lt;32)，每一行每一列从0开始。</p>
 <h6 id="8个S盒"><a href="#8个S盒" class="headerlink" title="8个S盒"></a>8个S盒</h6><p><strong>S盒1：</strong></p>
 <blockquote>
 <p>14,4,13,1,2,15,11,8,3,10,6,12,5,9,0,7,<br>0,15,7,4,14,2,13,1,10,6,12,11,9,5,3,8,<br>4,1,14,8,13,6,2,11,15,12,9,7,3,10,5,0,<br>15,12,8,2,4,9,1,7,5,11,3,14,10,0,6,13,</p>
@@ -579,7 +579,7 @@
               
                 <a href="/archives%7C%7C%20archive">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -644,7 +644,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#DES算法详解"><span class="nav-number">1.</span> <span class="nav-text">DES算法详解</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#算法简介"><span class="nav-number">1.1.</span> <span class="nav-text">算法简介</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#明文初始置换（IP初始置换）"><span class="nav-number">1.2.</span> <span class="nav-text">明文初始置换（IP初始置换）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#密钥初始置换"><span class="nav-number">1.3.</span> <span class="nav-text">密钥初始置换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生成16个48位的子密钥"><span class="nav-number">1.4.</span> <span class="nav-text">生成16个48位的子密钥</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#第一轮循环左移1位"><span class="nav-number">1.4.1.</span> <span class="nav-text">第一轮循环左移1位</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#明文扩展置换"><span class="nav-number">1.5.</span> <span class="nav-text">明文扩展置换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#S盒替代"><span class="nav-number">1.6.</span> <span class="nav-text">S盒替代</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#8个S盒"><span class="nav-number">1.6.1.</span> <span class="nav-text">8个S盒</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#P盒置换"><span class="nav-number">1.7.</span> <span class="nav-text">P盒置换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#末置换"><span class="nav-number">1.8.</span> <span class="nav-text">末置换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#DES的解密"><span class="nav-number">1.9.</span> <span class="nav-text">DES的解密</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#DES算法详解"><span class="nav-number">1.</span> <span class="nav-text">DES算法详解</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#算法简介"><span class="nav-number">1.1.</span> <span class="nav-text">算法简介</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#明文初始置换（IP初始置换）"><span class="nav-number">1.2.</span> <span class="nav-text">明文初始置换（IP初始置换）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#密钥初始置换"><span class="nav-number">1.3.</span> <span class="nav-text">密钥初始置换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生成16个48位的子密钥"><span class="nav-number">1.4.</span> <span class="nav-text">生成16个48位的子密钥</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#第一轮循环左移1位"><span class="nav-number">1.4.1.</span> <span class="nav-text">第一轮循环左移1位</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#明文扩展置换（E盒扩展）"><span class="nav-number">1.5.</span> <span class="nav-text">明文扩展置换（E盒扩展）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#S盒替代"><span class="nav-number">1.6.</span> <span class="nav-text">S盒替代</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#8个S盒"><span class="nav-number">1.6.1.</span> <span class="nav-text">8个S盒</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#P盒置换"><span class="nav-number">1.7.</span> <span class="nav-text">P盒置换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#末置换"><span class="nav-number">1.8.</span> <span class="nav-text">末置换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#DES的解密"><span class="nav-number">1.9.</span> <span class="nav-text">DES的解密</span></a></li></ol></li></ol></div>
             
 
           </div>
