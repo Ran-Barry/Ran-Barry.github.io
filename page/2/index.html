@@ -249,6 +249,237 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/12/11-%E6%96%87%E4%BB%B6%E5%92%8C%E5%BC%82%E5%B8%B8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ran-Barry">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/02/12/11-%E6%96%87%E4%BB%B6%E5%92%8C%E5%BC%82%E5%B8%B8/" itemprop="url">11.文件和异常</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-12T20:43:03+08:00">
+                2020-02-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="11-文件和异常"><a href="#11-文件和异常" class="headerlink" title="11.文件和异常"></a><strong>11.文件和异常</strong></h2><p>在Python中实现文件的读写操作通过内置的open函数，我们可以指定文件名、操作模式、编码信息等来获得操作文件的对象，接下来就可以对文件进行读写操作了。</p>
+<p>读写函数：</p>
+<table>
+<thead>
+<tr>
+<th>操作模式</th>
+<th>具体含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>‘r’</td>
+<td>读取（默认）</td>
+</tr>
+<tr>
+<td>‘w’</td>
+<td>写入（会先截断之前的内容）</td>
+</tr>
+<tr>
+<td>‘x’</td>
+<td>写入，如果文件已经存在会发生异常</td>
+</tr>
+<tr>
+<td>‘a’</td>
+<td>追加，讲内容写入到已有文件的末尾</td>
+</tr>
+<tr>
+<td>‘b’</td>
+<td>二进制模式</td>
+</tr>
+<tr>
+<td>‘t’</td>
+<td>文本模式（默认）</td>
+</tr>
+<tr>
+<td>‘+’</td>
+<td>更新（既可以读又可以写）</td>
+</tr>
+</tbody></table>
+<h2 id="读写文本文件"><a href="#读写文本文件" class="headerlink" title="读写文本文件"></a>读写文本文件</h2><p>读取文本文件时，需要在使用open函数时指定好带路径的文件名（可以使用相对路径或绝对路径）并将文件模式设置为‘r’（如果不指定，默认值也是’r’），然后通过encoding参数指定编码（如果不指定，默认值为None，那么在读取文件时使用的是操作系统默认的编码），如果不能保证保存文件时使用的编码方式与encoding参数指定的编码方式是一致的，那么就可能因无法解码字符而导致读取失败。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    f = <span class="literal">None</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        f = open(<span class="string">'致橡树.txt'</span>,<span class="string">'r'</span>,encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">        print(f.read())</span><br><span class="line">    <span class="keyword">except</span> FileNotFoundError:</span><br><span class="line">        print(<span class="string">'无法打开指定的文件！'</span>)</span><br><span class="line">    <span class="keyword">except</span> LookupError:</span><br><span class="line">        print(<span class="string">'指定了未知的编码！'</span>)</span><br><span class="line">    <span class="keyword">except</span> UnicodeDecodeError:</span><br><span class="line">        print(<span class="string">'读取文件时解码错误！'</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        <span class="keyword">if</span> f:</span><br><span class="line">            f.close()</span><br><span class="line"></span><br><span class="line">可以用<span class="keyword">with</span>代替<span class="keyword">finally</span></span><br><span class="line"><span class="comment"># def main():</span></span><br><span class="line"><span class="comment">#     try:</span></span><br><span class="line"><span class="comment">#         with open('致橡树.txt','r',encoding='utf-8') as f:</span></span><br><span class="line"><span class="comment">#             print(f.read())</span></span><br><span class="line"><span class="comment">#     except FileNotFoundError:</span></span><br><span class="line"><span class="comment">#         print('无法打开指定的文件！')</span></span><br><span class="line"><span class="comment">#     except LookupError:</span></span><br><span class="line"><span class="comment">#         print('指定了未知的编码！')</span></span><br><span class="line"><span class="comment">#     except UnicodeDecodeError:</span></span><br><span class="line"><span class="comment">#         print('读取文件时解码错误！')</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>通过for-in循环逐行读取或者用readline方法将文件按行读取到一个列表容器：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import <span class="built_in">time</span></span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    <span class="comment"># 一次性读取整个文件内容</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">'致橡树.txt'</span>,<span class="string">'r'</span>,encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        print(f.<span class="built_in">read</span>())</span><br><span class="line">    <span class="comment"># 通过for-in循环逐行读取</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">'致橡树.txt'</span>,mode=<span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> <span class="built_in">line</span> <span class="keyword">in</span> f:</span><br><span class="line">            print(<span class="built_in">line</span>,<span class="keyword">end</span>=<span class="string">''</span>)</span><br><span class="line">            <span class="built_in">time</span>.sleep(<span class="number">0.5</span>)</span><br><span class="line">    print()</span><br><span class="line">    <span class="comment"># 读取文件按行读取到列表中</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">'致橡树.txt'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">lines</span> = f.readlines()</span><br><span class="line">    print(<span class="keyword">lines</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">   main()</span><br></pre></td></tr></table></figure>
+<p>文本信息写入文件文件使用open函数,指定好文件名并将文件模式设置’w’即可。如果需要对文件内容进行追加式写入，应该将模式设置为’a’。如果要写入的文件不存在会自动创建文件而不是引发异常。下面的例子演示了如何将1-9999之间的素数分别写入三个文件中（1-99之间的素数保存在a.txt中，100-999之间的素数保存在b.txt中，1000-9999之间的素数保存在c.txt中）。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">from math import <span class="built_in">sqrt</span></span><br><span class="line"></span><br><span class="line">def is_prime(n):</span><br><span class="line">    <span class="string">""</span><span class="string">"判断素数"</span><span class="string">""</span></span><br><span class="line">    assert n &gt; <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> factor in <span class="built_in">range</span>(<span class="number">2</span>,<span class="keyword">int</span>(<span class="built_in">sqrt</span>(n)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> n % factor == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> False</span><br><span class="line">    <span class="keyword">return</span> True <span class="keyword">if</span> n != <span class="number">1</span> <span class="keyword">else</span> False</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    filenames = (<span class="string">'a.txt'</span>,<span class="string">'b.txt'</span>,<span class="string">'c.txt'</span>)</span><br><span class="line">    fs_list = []</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">for</span> filename in filename<span class="variable">s:</span></span><br><span class="line">            fs_list.<span class="keyword">append</span>(<span class="keyword">open</span>(filename,<span class="string">'w'</span>,encoding=<span class="string">'utf-8'</span>))</span><br><span class="line">        <span class="keyword">for</span> <span class="keyword">number</span> in <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">10000</span>):</span><br><span class="line">            <span class="keyword">if</span> is_prime(<span class="keyword">number</span>):</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">number</span> &lt; <span class="number">100</span>:</span><br><span class="line">                    fs_list[<span class="number">0</span>].<span class="keyword">write</span>(str(<span class="keyword">number</span>)+<span class="string">'\n'</span>)</span><br><span class="line">                elif <span class="keyword">number</span> &lt; <span class="number">1000</span>:</span><br><span class="line">                    fs_list[<span class="number">1</span>].<span class="keyword">write</span>(str(<span class="keyword">number</span>) + <span class="string">'\n'</span>)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    fs_list[<span class="number">2</span>].<span class="keyword">write</span>(str(<span class="keyword">number</span>) + <span class="string">'\n'</span>)</span><br><span class="line">    except IOError <span class="keyword">as</span> <span class="keyword">ex</span>:</span><br><span class="line">        <span class="keyword">print</span>(<span class="keyword">ex</span>)</span><br><span class="line">        <span class="keyword">print</span>(<span class="string">'写文件时发生错误！'</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        <span class="keyword">for</span> fs in fs_lis<span class="variable">t:</span></span><br><span class="line">            fs.<span class="keyword">close</span>()</span><br><span class="line">    <span class="keyword">print</span>(<span class="string">'操作完成！'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h2 id="读写二进制文件"><a href="#读写二进制文件" class="headerlink" title="读写二进制文件"></a>读写二进制文件</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">复制图片文件功能</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">'guido.jpg'</span>,<span class="string">'rb'</span>) <span class="keyword">as</span> fs1:</span><br><span class="line">            data = fs1.read()</span><br><span class="line">            print(type(data)) <span class="comment">#&lt;class 'bytes'&gt;</span></span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">'优秀.jpg'</span>,<span class="string">'wb'</span>) <span class="keyword">as</span> fs2:</span><br><span class="line">            fs2.write(data)</span><br><span class="line">    <span class="keyword">except</span> FileNotFoundError <span class="keyword">as</span> e:</span><br><span class="line">        print(<span class="string">'指定的文件无法打开.'</span>)</span><br><span class="line">    <span class="keyword">except</span> IOError <span class="keyword">as</span> e:</span><br><span class="line">        print(<span class="string">'读写文件时出现错误.'</span>)</span><br><span class="line">    print(<span class="string">'程序执行结束.'</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h2 id="读写JSON-JavaScript-Object-Notation-文件"><a href="#读写JSON-JavaScript-Object-Notation-文件" class="headerlink" title="读写JSON(JavaScript Object Notation)文件"></a>读写JSON(JavaScript Object Notation)文件</h2><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"name"</span>: ’张三‘，</span><br><span class="line">    <span class="string">"age"</span>: <span class="number">35</span>,</span><br><span class="line">    <span class="string">"qq"</span>: <span class="number">957658</span>,</span><br><span class="line">    <span class="string">"friends"</span>: [<span class="string">'王大锤'</span>,<span class="string">'白元芳'</span>],</span><br><span class="line">    <span class="string">"cars"</span>: [</span><br><span class="line">        &#123;<span class="string">"brand"</span>: <span class="string">'BYD'</span>, <span class="string">'max_speed'</span>:<span class="number">180</span>&#125;</span><br><span class="line">        &#123;<span class="string">"brand"</span>: <span class="string">'Audi'</span>,<span class="string">'max_speed'</span>:<span class="number">280</span>&#125;,</span><br><span class="line">        &#123;<span class="string">"brand"</span>: <span class="string">'Benz'</span>,<span class="string">'max_speed'</span>:<span class="number">320</span>&#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JSON跟Python中字典其实是一样一样的，事实上JSON的数据类型和Python的数据类型是很容易找到对用关系的</p>
+<table>
+<thead>
+<tr>
+<th>JSON</th>
+<th>Python</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>object</td>
+<td>dict</td>
+</tr>
+<tr>
+<td>array</td>
+<td>list</td>
+</tr>
+<tr>
+<td>string</td>
+<td>str</td>
+</tr>
+<tr>
+<td>number(int/real)</td>
+<td>int/float</td>
+</tr>
+<tr>
+<td>true/false</td>
+<td>True/False</td>
+</tr>
+<tr>
+<td>null</td>
+<td>None</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Python</th>
+<th>JSON</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dict</td>
+<td>object</td>
+</tr>
+<tr>
+<td>list,tuple</td>
+<td>array</td>
+</tr>
+<tr>
+<td>str</td>
+<td>string</td>
+</tr>
+<tr>
+<td>int,float,int-&amp;float-derived Enums</td>
+<td>number</td>
+</tr>
+<tr>
+<td>True/Flase</td>
+<td>true/false</td>
+</tr>
+<tr>
+<td>None</td>
+<td>null</td>
+</tr>
+</tbody></table>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/12/HTTP%E5%8D%8F%E8%AE%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2612,163 +2843,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/18/binwalk%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ran-Barry">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/18/binwalk%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/" itemprop="url">binwalk安装使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-18T11:14:45+08:00">
-                2020-01-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/" itemprop="url" rel="index">
-                    <span itemprop="name">软件安装</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>网上也有这个安装教程，我是看完之后根据自己的安装总结一下。以备以后使用。<br>这个软件就是对图片进行分析，看是否包含有文件压缩包。</p>
-<h4 id="1-下载"><a href="#1-下载" class="headerlink" title="1.下载"></a><strong>1.下载</strong></h4><p>github项目：<a href="https://github.com/devttys0/binwalk" target="_blank" rel="noopener">安装链接</a><br>需要已经下载python，python2或python3都行。<br>下载完zip文件，下载完解压。</p>
-<h4 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a><strong>2.安装</strong></h4><p>打开文件夹，在目录里按<strong>Shift+右键</strong>，打开命令窗口。输入<br><strong>python setup.py install</strong><br>安装完成</p>
-<h4 id="3-配置"><a href="#3-配置" class="headerlink" title="3.配置"></a><strong>3.配置</strong></h4><p>到自己到python安装目录找到Script目录，打开，因为刚刚已经安装完成，所以里面应该有叫binwalk的没有后缀的文件。根据我的经验，可以不用理他。因为按照正常方式，要是需要用binwalk，需要输入命令比较多一点，想简单一点，可以按照下面的方法。（也是根据网上的一些教程来的，感觉这个挺方便的）。</p>
-<p> 新建一个文件夹（可以在python那个安装目录），并把文件夹的路径加入到系统变量path里（这样在cmd里就可以直接运行了。）<br> 在文件夹里新建一个binwalk.bat文件，内容为以下代码。（代码来自网上教程，自己操作过，莫得问题）</p>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">@echo</span> off</span><br><span class="line">echo * suggest: you'd better <span class="keyword">to</span> input the parameters enclosed in <span class="keyword">double</span> quotes.echo * made by pcat</span><br><span class="line">python <span class="string">"%~dp0\p_binwalk.py"</span> <span class="symbol">%1</span> <span class="symbol">%2</span> <span class="symbol">%3</span> <span class="symbol">%4</span> <span class="symbol">%5</span> <span class="symbol">%6</span> <span class="symbol">%7</span> <span class="symbol">%8</span> <span class="symbol">%9</span></span><br></pre></td></tr></table></figure>
-
-<p>再新建一个p_binwalk.py文件</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line">import binwalk</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    lst=sys.argv</span><br><span class="line">    <span class="keyword">if</span> len(lst)&lt;<span class="number">2</span>:</span><br><span class="line">        print(<span class="string">"No files."</span>)</span><br><span class="line">        <span class="keyword">exit</span>()</span><br><span class="line">    try:</span><br><span class="line">        <span class="keyword">if</span> lst[<span class="number">1</span>][<span class="number">0</span>]==<span class="string">'-'</span>:</span><br><span class="line">            binwalk.scan(*lst[<span class="number">2</span>:],signature=lst[<span class="number">1</span>])</span><br><span class="line">        elif lst[<span class="number">1</span>][<span class="number">0</span>]!=<span class="string">'-'</span>:</span><br><span class="line">            binwalk.scan(*lst[<span class="number">1</span>:],signature=True)</span><br><span class="line">    except:</span><br><span class="line">        pass</span><br></pre></td></tr></table></figure>
-<p> 只要这个文件夹的路径在系统变量path里和这2个文件存在着，那么你就可以在cmd里像linux那样使用binwalk了。</p>
-<h4 id="4-常用命令"><a href="#4-常用命令" class="headerlink" title="4.常用命令"></a><strong>4.常用命令</strong></h4><p> -e 分解出压缩包</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e <span class="number">555.</span>gif</span><br></pre></td></tr></table></figure>
-<p>-D或者–dd分解某种类型的文件（在windows里要用双括号括起来）</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">binwalk </span>-D=<span class="keyword">jpeg </span><span class="number">555</span>.gif</span><br></pre></td></tr></table></figure>
-<p>-M 递归分解扫描出来的文件（得跟-e或者-D配合使用）</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -eM <span class="number">555.</span>gif</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2819,7 +2893,7 @@
               
                 <a href="/archives%7C%7C%20archive">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2830,7 +2904,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -2841,7 +2915,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
