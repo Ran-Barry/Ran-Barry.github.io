@@ -249,6 +249,396 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/13/12-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ran-Barry">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/02/13/12-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" itemprop="url">12.字符串和正则表达式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-13T19:27:41+08:00">
+                2020-02-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p><a href="https://deerchao.cn/tutorials/regex/regex.htm" target="_blank" rel="noopener">正则表达式30分钟入门</a></p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>解释</th>
+<th>事例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.</td>
+<td>匹配任意字符</td>
+<td>b.t</td>
+<td>可以匹配bat/but/b#t/b1t等</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配字母/数字/下划线</td>
+<td>b\wt</td>
+<td>可以匹配bat/b1t/b_t等，但不能匹配b#t</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>匹配空白字符（包括\r、\n、\t等）</td>
+<td>love\syou</td>
+<td>可以匹配love you</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>匹配数字</td>
+<td>\d\d</td>
+<td>可以匹配01/23/99等</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配字符串的开始</td>
+<td>^The</td>
+<td>可以匹配The开头的字符串</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配字符串的结束</td>
+<td>.exe$</td>
+<td>可以匹配.exe结尾的字符串</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>匹配非字母/数字/下划线</td>
+<td>b\Wt</td>
+<td>可以匹配b#t/b@t等 但不能匹配but/b1t/b_t等</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>匹配非空白字符</td>
+<td>love\Syou</td>
+<td>可以匹配Love#you等 但不能匹配love you等</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>匹配非数字</td>
+<td>\d\D</td>
+<td>可以匹配9a/3#/0Fd等</td>
+</tr>
+<tr>
+<td>\B</td>
+<td>匹配非单词边界</td>
+<td>\Bio\B</td>
+<td></td>
+</tr>
+<tr>
+<td>[]</td>
+<td>匹配来自字符集的任意单一字符</td>
+<td>[aeoou]</td>
+<td>可以匹配任一原因字母字符</td>
+</tr>
+<tr>
+<td>[^]</td>
+<td>匹配不在字符集中的任意单一字符</td>
+<td>[^aeiou]</td>
+<td>可以匹配任一非元音字母字符</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配0次或多次</td>
+<td>\W*</td>
+<td></td>
+</tr>
+<tr>
+<td>+</td>
+<td>匹配1次或多次</td>
+<td>\W+</td>
+<td></td>
+</tr>
+<tr>
+<td>?</td>
+<td>匹配0次或1次</td>
+<td>\W?</td>
+<td></td>
+</tr>
+<tr>
+<td>{N}</td>
+<td>匹配N次</td>
+<td>\w{3}</td>
+<td></td>
+</tr>
+<tr>
+<td>{M,}</td>
+<td>匹配至少M次</td>
+<td>\w{3,}</td>
+<td></td>
+</tr>
+<tr>
+<td>{M,N}</td>
+<td>匹配至少M次至多N次</td>
+<td>\w{3,6}</td>
+<td></td>
+</tr>
+<tr>
+<td>|</td>
+<td>分支</td>
+<td>foo | bar</td>
+<td>可以匹配foo或者bar</td>
+</tr>
+<tr>
+<td>(?#)</td>
+<td>注释</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>(exp)</td>
+<td>匹配exp并捕获到自动命名的组中</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>(?&lt;name&gt;exp)</td>
+<td>匹配exp并捕获到名为name的组中</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>(?:exp)</td>
+<td>匹配exp但是不捕获匹配的文本</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>(?=exp)</td>
+<td>匹配exp前面的位置</td>
+<td>\b\w(?=ing)</td>
+<td>可以匹配I’m dancing中的danc</td>
+</tr>
+<tr>
+<td>(?&lt;=exp)</td>
+<td>匹配exp后面的位置</td>
+<td>(?&lt;=\bdanc)\w+\b</td>
+<td>可以匹配I love dancing and reading中的第一个ing</td>
+</tr>
+<tr>
+<td>(?!exp)</td>
+<td>匹配后面不是exp的位置</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>(?&lt;!exp)</td>
+<td>匹配前面不是exp的位置</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>*?</td>
+<td>重复任意次，但尽可能少重复</td>
+<td>a.<em>b a.</em>?b</td>
+<td>将正则表达式应用与aabab，前者会匹配整个字符串aabab，后者会匹配aab和ab两个字符串</td>
+</tr>
+<tr>
+<td>+?</td>
+<td>重复1次或多次，但尽可能少重复</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>??</td>
+<td>重复0次或1次，但尽可能少重复</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>{M,N}?</td>
+<td>重复M到N次，但尽可能少重复</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>{M,}?</td>
+<td>重复M次以上，但尽可能少重复</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>说明：如果需要匹配的字符是正则表达式中的特殊字符，那么可以使用\进行转义处理，例如想匹配小数点可以写成.就可以了，因为直接写.会匹配任意字符；同理，想匹配圆括号必须写成(和)，否则圆括号被视为正则表达式中的分组。</p>
+</blockquote>
+<h2 id="Python对正则表达式的支持"><a href="#Python对正则表达式的支持" class="headerlink" title="Python对正则表达式的支持"></a>Python对正则表达式的支持</h2><p>Python提供了re模块来支持正则表达式相关操作，下面时re模块中的核心函数</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>conpile(pattern,flags=0)</td>
+<td>编译正则表达式返回正则表达式对象</td>
+</tr>
+<tr>
+<td>match(pattern,string,flags=0)</td>
+<td>用正则表达式匹配字符串 成功返回匹配对象 否则返回None</td>
+</tr>
+<tr>
+<td>search(pattern,string,flags=0)</td>
+<td>搜索字符串中第一次出现正则表达式的模块 成功返回匹配对象 否则返回None</td>
+</tr>
+<tr>
+<td>split(pattern,string,maxsplit=0,flags=0)</td>
+<td>用正则表达式指定的模块分隔符拆分字符串 返回列表</td>
+</tr>
+<tr>
+<td>sub(pattern,repl,string,count=0,flags=0)</td>
+<td>用指定的字符串替换元字符串中与正则表达式匹配的模式 可以用count指定替换的次数</td>
+</tr>
+<tr>
+<td>fullmatch(pattern,string,flags=0)</td>
+<td>match函数的完全匹配（从字符串开始到结尾）版本</td>
+</tr>
+<tr>
+<td>findall(pattern,string,flags=0)</td>
+<td>查找字符串所有与正则表达式匹配的模式 返回字符串的列表</td>
+</tr>
+<tr>
+<td>finditer(pattern,string,flags=0)</td>
+<td>查找字符串所有与正则表达式匹配的模式 返回一个迭代器</td>
+</tr>
+<tr>
+<td>purge()</td>
+<td>清除隐式编译的正则表达式的缓存</td>
+</tr>
+<tr>
+<td>re.l/re.IGNORECASE</td>
+<td>忽略大小写匹配标记</td>
+</tr>
+<tr>
+<td>re.M/re.MULTILINE</td>
+<td>多行匹配标记</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>说明： 上面提到的re模块中的这些函数，实际开发中也可以用正则表达式对象的方法替代对这些函数的使用，如果一个正则表达式需要重复的使用，那么先通过compile函数编译正则表达式并创建出正则表达式对象无疑是更为明智的选择。</p>
+</blockquote>
+<h3 id="例1："><a href="#例1：" class="headerlink" title="例1："></a>例1：</h3><p>验证输入用户名和qq号是否有效并给出对应的提示信息<br>要求：用户名必须由字母、数字或下划线构成且长度在6-20个字符之间，qq号是5-12的数字且首位不能为0</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    username = input(<span class="string">'请输入用户名：'</span>)</span><br><span class="line">    qq = input(<span class="string">'请输入qq号：'</span>)</span><br><span class="line">    <span class="comment"># match函数的第一个参数是正则表达式字符串或正则表达式对象</span></span><br><span class="line">    <span class="comment"># 第二个参数是要跟正则表达式做匹配的字符串对象</span></span><br><span class="line">    m1 = re.match(<span class="string">r'^[0-9a-z-A-Z_]&#123;6,20&#125;$'</span>,username)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> m1:</span><br><span class="line">        print(<span class="string">'请输入有效的用户名.'</span>)</span><br><span class="line">    m2 = re.match(<span class="string">r'^[1-9]\d&#123;4,11&#125;$'</span>,qq)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> m2:</span><br><span class="line">        print(<span class="string">'请输入有效的QQ号.'</span>)</span><br><span class="line">    <span class="keyword">if</span> m1 <span class="keyword">and</span> m2:</span><br><span class="line">        print(<span class="string">'你输入的信息是有效的！'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>提示： 上面在书写正则表达式时使用了“原始字符串”的写法（在字符串前面加上了r），<br>所谓“原始字符串”就是字符串中的每个字符都是它原始的意义，说得更直接一点就是字符串中没有所谓的转义字符啦。<br>因为正则表达式中有很多元字符和需要进行转义的地方，如果不使用原始字符串就需要将反斜杠写作\，<br>例如表示数字的\d得书写成\d，这样不仅写起来不方便，阅读的时候也会很吃力。</p>
+</blockquote>
+<h3 id="例2：从一段文字中提取出国内手机号码"><a href="#例2：从一段文字中提取出国内手机号码" class="headerlink" title="例2：从一段文字中提取出国内手机号码"></a>例2：从一段文字中提取出国内手机号码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 创建正则表达式对象 使用了前瞻和回顾来保证手机号前后不应该出现数字</span></span><br><span class="line">    pattern = re.compile(<span class="string">r'(?&lt;=\D)1[34578]\d&#123;9&#125;(?=\D)'</span>)</span><br><span class="line">    sentence = <span class="string">'重要的事情说8130123456789遍，我的手机号是13512346789这个靓号，不是15600998765，也是110或119，王大锤的手机号才是15600998765。'</span></span><br><span class="line">    <span class="comment"># 查找所有匹配并保存到一个列表中</span></span><br><span class="line">    mylist = re.findall(pattern,sentence)</span><br><span class="line">    print(mylist)</span><br><span class="line">    print(<span class="string">'--------华丽的分割线--------'</span>)</span><br><span class="line">    <span class="comment"># 通过迭代器取出匹配对象并获得匹配的内容</span></span><br><span class="line">    <span class="keyword">for</span> temp <span class="keyword">in</span> pattern.finditer(sentence):</span><br><span class="line">        print(temp.group())</span><br><span class="line">    print(<span class="string">'--------华丽的分割线--------'</span>)</span><br><span class="line">    <span class="comment"># 通过search函数指定搜索位置找出所有的匹配</span></span><br><span class="line">    m = pattern.search(sentence)</span><br><span class="line">    <span class="keyword">while</span> m:</span><br><span class="line">        print(m.group())</span><br><span class="line">        m = pattern.search(sentence,m.end())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h3 id="例3-替换字符串中的不良内容"><a href="#例3-替换字符串中的不良内容" class="headerlink" title="例3 替换字符串中的不良内容"></a>例3 替换字符串中的不良内容</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    sentence = <span class="string">'你丫是傻叉吗？我操你大爷的.Fuck you.'</span></span><br><span class="line">    purified = re.sub(<span class="string">'[操肏艹]|fuck|shit|傻[比屄逼叉缺吊屌]|煞笔'</span>,<span class="string">'*'</span>,sentence,flags=re.IGNORECASE)</span><br><span class="line">    print(purified)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h3 id="例4：拆分长字符串"><a href="#例4：拆分长字符串" class="headerlink" title="例4：拆分长字符串"></a>例4：拆分长字符串</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    poem = <span class="string">'窗前明月光，疑是地上霜。举头望明月，低头思故乡。'</span></span><br><span class="line">    sentence_list = re.split(<span class="string">r'[,。，.]'</span>,poem)</span><br><span class="line">    <span class="keyword">while</span> <span class="string">''</span> <span class="keyword">in</span> sentence_list:</span><br><span class="line">        sentence_list.remove(<span class="string">''</span>)</span><br><span class="line">    print(sentence_list)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/12/11-%E6%96%87%E4%BB%B6%E5%92%8C%E5%BC%82%E5%B8%B8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2171,678 +2561,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/18/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ran-Barry">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/18/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url">汇编学习笔记</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-18T11:20:28+08:00">
-                2020-01-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/College-Study/" itemprop="url" rel="index">
-                    <span itemprop="name">College Study</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简单传送指令"><a href="#简单传送指令" class="headerlink" title="简单传送指令"></a>简单传送指令</h4><h5 id="传送指令"><a href="#传送指令" class="headerlink" title="传送指令"></a>传送指令</h5><p><strong>MOV DEST，SRC</strong> （DEST &lt;= SRC）<br>操作数尺寸必须保持一致<br>立即数永远不能作为目的操作数，CS寄存器不能做目的操作数。EIP不能作为操作数。<br>不影响各标志位状态。<br><img src="../images/%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87.png" alt="图片"></p>
-<h5 id="交换指令"><a href="#交换指令" class="headerlink" title="交换指令"></a>交换指令</h5><p><strong>XCHG OPRD1,OPRD2</strong><br>内容交换<br>不能同时是存储单元，也不能有立即数。操作数尺寸一致。</p>
-<h4 id="简单加减指令"><a href="#简单加减指令" class="headerlink" title="简单加减指令"></a>简单加减指令</h4><h5 id="加法指令"><a href="#加法指令" class="headerlink" title="加法指令"></a>加法指令</h5><p><strong>ADD DEST，SRC</strong> （DEST &lt;= DEST + SRC）<br>带进位的加法指令<br><strong>ADC DEST，SRC</strong> （DEST &lt;= DEST + SRC + CF）<br>加法指令ADD，ADC影响标志寄存器中的有关状态标志。</p>
-<h5 id="减法指令"><a href="#减法指令" class="headerlink" title="减法指令"></a>减法指令</h5><p><strong>SUB DEST，SRC</strong> （DEST &lt;= DEST-SRC）<br>带借位的减法指令<br><strong>SBB DEST，SRC</strong> （DEST - SRC - CF = DEST）<br>减法指令SUB，SBB影响标志寄存器中的有关状态标志。</p>
-<h5 id="加一指令"><a href="#加一指令" class="headerlink" title="加一指令"></a>加一指令</h5><p><strong>INC DEST</strong>  （DEST &lt;= DEST + 1）<br>不影响标志寄存器中的进位标志（CF），会影响其他状态标志。</p>
-<h5 id="减一指令"><a href="#减一指令" class="headerlink" title="减一指令"></a>减一指令</h5><p><strong>DEC DEST</strong> （DEST &lt;= DEST -1)<br>不影响标志寄存器中的进位标志（CF），会影响其他状态标志。</p>
-<h5 id="去补指令"><a href="#去补指令" class="headerlink" title="去补指令"></a>去补指令</h5><p><strong>NEG OPRD</strong> （OPRD &lt;= 0-OPRD)<br>会影响标志寄存器中的有关状态标志。如果操作数为0，那么使得进位标志为0，否则进位标志为1。</p>
-<h4 id="状态标志"><a href="#状态标志" class="headerlink" title="状态标志"></a>状态标志</h4><table>
-<thead>
-<tr>
-<th><strong>状态标志</strong></th>
-<th><strong>作用</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>进位标志（CF）</td>
-<td>主要反应算数运算是否产生进位或借位。如果运算结果的最高位产生一个进位或借位，则CF被置1，否则CF被清0。</td>
-</tr>
-<tr>
-<td>零标志（ZF）</td>
-<td>反应运算结果是否为0. 如果运算结果为0，则ZF被置1，否则ZF被清0。</td>
-</tr>
-<tr>
-<td>符号标志（SF）</td>
-<td>反应运算结果的符号位。SF与运算结果的最高位相同，如果运算结果的最高位为1，则SF被置1，否则被清0。<strong>二进制表示的最高位</strong></td>
-</tr>
-<tr>
-<td>溢出标志（OF）</td>
-<td>反应<strong>有符号数</strong>加减运算是否引起溢出。如果溢出，OF置1，否则清0 （正数加上正数变成负数，负数加上负数变成正数。正数减去负数变成负数，负数减去正数变成正数）</td>
-</tr>
-<tr>
-<td>奇偶标志（PF）</td>
-<td>反应运算结果<strong>最低字节</strong>中含有“1”的位数是偶数还是奇数。是偶数，PF置1，否则，清0. （可进行奇偶校验）</td>
-</tr>
-<tr>
-<td>辅助进位标志（AF）</td>
-<td>反应算术运算中第3位是否产生进位或借位，或者最低的4位是否有进位或借位。如果产生进位或借位，AF置1，否则清0。</td>
-</tr>
-</tbody></table>
-<h4 id="状态标志操作指令"><a href="#状态标志操作指令" class="headerlink" title="状态标志操作指令"></a>状态标志操作指令</h4><table>
-<thead>
-<tr>
-<th>指令</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>清进位标志指令（CLC）</td>
-<td>使进位标志CF为0</td>
-</tr>
-<tr>
-<td>置进位标志指令（STC）</td>
-<td>使进位标志CF为1</td>
-</tr>
-<tr>
-<td>进位标志取反指令（CMC）</td>
-<td>使进位标志CF取反</td>
-</tr>
-<tr>
-<td>获取状态标志操作（LAHF）</td>
-<td>把标志寄存器的低8位，送到通用寄存器AH中。对标志位自身不产生影响。</td>
-</tr>
-<tr>
-<td>设置状态标志操作指令（SAHF）</td>
-<td>对标志寄存器中低8位状态标志产生影响，使得SF，ZF，AF，PF和CF分别成为来自寄存器AH中对应位的值，但保留位（位1，位3和位5）不受影响</td>
-</tr>
-</tbody></table>
-<h4 id="寻址方式"><a href="#寻址方式" class="headerlink" title="寻址方式"></a>寻址方式</h4><p><strong>立即寻址</strong><br>操作数是立即数。<br><strong>寄存器寻址</strong><br><strong>直接寻址</strong><br>操作数在存储器中。直接寻址的地址要放在括号中，在源程序中，往往用变量名表示。<br><strong>寄存器间接寻址</strong><br>操作数在存储器中。</p>
-<h4 id="取有效地址指令"><a href="#取有效地址指令" class="headerlink" title="取有效地址指令"></a>取有效地址指令</h4><p><strong>LEA REG，OPRD</strong><br>把操作数OPRD的有效地址传送到操作数REG，原操作数OPRD必须是一个存储器操作数，目的操作数REG必须是一个16位或者32位通用寄存器。<br><strong>不影响各标志。</strong></p>
-<h4 id="条件转移指令"><a href="#条件转移指令" class="headerlink" title="条件转移指令"></a>条件转移指令</h4><table>
-<thead>
-<tr>
-<th>指令格式</th>
-<th>转移条件</th>
-<th>转移说明</th>
-<th>其他说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>JZ</td>
-<td>ZF=1</td>
-<td>等于0转移（jump if zero</td>
-<td>单个标志</td>
-</tr>
-<tr>
-<td>JE</td>
-<td>ZF = 1</td>
-<td>相等转移（jump if equal）</td>
-<td>单个标志</td>
-</tr>
-<tr>
-<td>JNZ</td>
-<td>ZF=0</td>
-<td>不等于0转移（Jump if not zero）</td>
-<td>单个标志</td>
-</tr>
-<tr>
-<td>JNE</td>
-<td>ZF=0</td>
-<td>不相等转移（Jump if not equal）</td>
-<td>单个标志</td>
-</tr>
-<tr>
-<td>JS</td>
-<td>SF=1</td>
-<td>为负转移（jump if sign）</td>
-<td>单个标志</td>
-</tr>
-<tr>
-<td>JNS</td>
-<td>SF=0</td>
-<td>为正转移（Jump if not sign）</td>
-<td>单个标志</td>
-</tr>
-<tr>
-<td>JO</td>
-<td>OF=1</td>
-<td>溢出转移（Jump if overflow）</td>
-<td>单个标志</td>
-</tr>
-<tr>
-<td>JNO</td>
-<td>OF=0</td>
-<td>不溢出转移（Jump if not overflow）</td>
-<td>单个标志</td>
-</tr>
-<tr>
-<td>JP</td>
-<td>PF=1</td>
-<td>偶转移（Jump if parity）</td>
-<td>单个标志</td>
-</tr>
-<tr>
-<td>JPE</td>
-<td>PF=1</td>
-<td>偶转移（Jump if parity even）</td>
-<td>单个标志</td>
-</tr>
-<tr>
-<td>JNP</td>
-<td>PF=1</td>
-<td>奇转移（Jump if not parity）</td>
-<td>单个标志</td>
-</tr>
-<tr>
-<td>JPO</td>
-<td>PF=1</td>
-<td>奇转移（Jump if parity odd）</td>
-<td>单个标志</td>
-</tr>
-<tr>
-<td>JB</td>
-<td>PF=1</td>
-<td>低于转移（Jump if below）</td>
-<td>单个标志（无符号数）</td>
-</tr>
-<tr>
-<td>JNAE</td>
-<td>PF=1</td>
-<td>不高于等于转移（Jump if not above or equal）</td>
-<td>单个标志（无符号数）</td>
-</tr>
-<tr>
-<td>JC</td>
-<td>PF=1</td>
-<td>进位位被置转移（Jump if carry）</td>
-<td>单个标志（无符号数）</td>
-</tr>
-<tr>
-<td>JNB</td>
-<td>CF=0</td>
-<td>不低于转移（Jump if not below）</td>
-<td>单个标志（无符号数）</td>
-</tr>
-<tr>
-<td>JAE</td>
-<td>CF=0</td>
-<td>高于等于转移（Jump if above or equal）</td>
-<td>单个标志(无符号数）</td>
-</tr>
-<tr>
-<td>JNC</td>
-<td>CF=0</td>
-<td>进位位被清转移（Jump if not carry）</td>
-<td>单个标志（无符号数）</td>
-</tr>
-<tr>
-<td>JBE</td>
-<td>CF=1或者ZF=1</td>
-<td>低于等于转移（Jump if below or equal）</td>
-<td>两个标志（无符号数）</td>
-</tr>
-<tr>
-<td>JNA</td>
-<td>CF=1或者ZF=1</td>
-<td>不高于转移（Jump if not above）</td>
-<td>两个标志（无符号数）</td>
-</tr>
-<tr>
-<td>JNBE</td>
-<td>CF=0并且ZF=0</td>
-<td>不低于等于转移（Jump if not below or equal）</td>
-<td>两个标志（无符号数）</td>
-</tr>
-<tr>
-<td>JA</td>
-<td>CF=0并且ZF=0</td>
-<td>高于转移（Jump if above）</td>
-<td>两个标志（无符号数）</td>
-</tr>
-<tr>
-<td>JL</td>
-<td>SF！=OF</td>
-<td>小于转移（jump if less）</td>
-<td>两个标志（有符号数）</td>
-</tr>
-<tr>
-<td>JNGE</td>
-<td>SF！=OF</td>
-<td>不大于等于转移（Jump if not greater or equal）</td>
-<td>两个标志（有符号数）</td>
-</tr>
-<tr>
-<td>JNL</td>
-<td>SF=OF</td>
-<td>不小于转移（Jump if not less）</td>
-<td>两个标志（有符号数）</td>
-</tr>
-<tr>
-<td>JGE</td>
-<td>SF=OF</td>
-<td>大于等于转移（Jump if greater or equal）</td>
-<td>两个标志（有符号数）</td>
-</tr>
-<tr>
-<td>JLE</td>
-<td>ZF=1或者SF！=OF</td>
-<td>小于等于转移（Jump if not less）</td>
-<td>三个标志（有符号数）</td>
-</tr>
-<tr>
-<td>JNG</td>
-<td>ZF=1或者SF！=OF</td>
-<td>不大于转移（Jump if not greater）</td>
-<td>三个标志（有符号数）</td>
-</tr>
-<tr>
-<td>JNLE</td>
-<td>ZF=0并且SF=OF</td>
-<td>不小于等于转移（Jump if not less or equal）</td>
-<td>三个标志（有符号数）</td>
-</tr>
-<tr>
-<td>JG</td>
-<td>ZF=0并且SF=OF</td>
-<td>大于转移（Jump if greater）</td>
-<td>三个标志（有符号数）</td>
-</tr>
-<tr>
-<td>JCXZ</td>
-<td>CX=0</td>
-<td>计数器CX为0转移</td>
-<td>与标志无关</td>
-</tr>
-<tr>
-<td>JECXZ</td>
-<td>ECX=0</td>
-<td>计数器ECX为0转移</td>
-<td>与标志无关</td>
-</tr>
-<tr>
-<td>JMP OPRD/LABEL</td>
-<td></td>
-<td>无条件跳转指令</td>
-<td></td>
-</tr>
-</tbody></table>
-<h5 id="比较指令"><a href="#比较指令" class="headerlink" title="比较指令"></a>比较指令</h5><p><strong>CMP DEST，SRC</strong><br>根据DEST-SRC的差来<strong>影响标志寄存器中的各状态标志</strong>，但不把作为结果的差发送到目的操作数DEST。</p>
-<h5 id="无条件转移指令"><a href="#无条件转移指令" class="headerlink" title="无条件转移指令"></a>无条件转移指令</h5><p><strong>JMP LABEL</strong><br>无条件转移，不影响标志。</p>
-<h5 id="堆栈的主要用途"><a href="#堆栈的主要用途" class="headerlink" title="堆栈的主要用途"></a>堆栈的主要用途</h5><ul>
-<li>保护寄存器内容或者保护现场</li>
-<li>保护返回地址</li>
-<li>传递参数</li>
-<li>安排局部变量或者临时变量</li>
-</ul>
-<p><strong>PUSH SRC</strong><br>将源操作数SRC压入堆栈。<br><strong>POP DEST</strong><br>从栈顶弹出一个双字或者字数据到目的操作数DEST。<br><strong>堆栈指令不影响标志位</strong><br>压入或弹出16位或32位数应加前缀WORD PTR或DWORD PTR.(寄存器除外）</p>
-<h5 id="通用寄存器全进栈指令和全出栈指令"><a href="#通用寄存器全进栈指令和全出栈指令" class="headerlink" title="通用寄存器全进栈指令和全出栈指令"></a>通用寄存器全进栈指令和全出栈指令</h5><p><strong>PUSHA</strong><br><strong>POPA</strong><br>16位通用寄存器指令。压入顺序为AX，CX，DX，BX，SP，BP，SI，DI。<br>出栈顺序相反。<br><strong>PUSHAD</strong><br><strong>POPAD</strong><br>32位通用寄存器指令。压入顺序EAX，ECX，EDX，EBX，ESP，EBP，ESI，EDI。<br>出栈顺序相反。</p>
-<h4 id="乘除运算指令"><a href="#乘除运算指令" class="headerlink" title="乘除运算指令"></a>乘除运算指令</h4><h5 id="无符号数乘法指令"><a href="#无符号数乘法指令" class="headerlink" title="无符号数乘法指令"></a>无符号数乘法指令</h5><p><strong>MUL OPRD</strong><br>OPRD是字节操作数，则把AL中的无符号数与OPRD相乘，16位结果送到AX中；如果OPRD是字操作数，则把AX中的无符号数与OPRD相乘，32位结果送到寄存器对DX：AX中，DX含高16位，AX含低16位。如果OPRD是双字操作数，则把EAX中的无符号数与OPRD相乘，64位结果送到寄存器对EDX：EAX中，EDX含高32位，EAX含低32位。<br><strong>OPRD不能是立即数。</strong></p>
-<h5 id="有符号数乘法指令"><a href="#有符号数乘法指令" class="headerlink" title="有符号数乘法指令"></a>有符号数乘法指令</h5><p><strong>IMUL OPRD</strong><br>隐含操作数 AL，AX和EAX，跟OPRD尺寸有关<br><strong>IMUL DEST，SRC</strong>（DEST &lt;= DEST * SRC）<br>SRC可以为立即数。<br><strong>IMUL DEST，SRC1，SRC2</strong>（DEST &lt;= SRC1 * SRC2）<br>SRC1不能是立即数，SRC2只能是立即数</p>
-<p>如果乘积的高半部分（字节相乘时为AH）不等于0，则标志CF=1，OF=1；否则CF=0，OF=0.对其他标志为无定义。</p>
-<h5 id="无符号数除法指令"><a href="#无符号数除法指令" class="headerlink" title="无符号数除法指令"></a>无符号数除法指令</h5><p><strong>DIV OPRD</strong><br>如果OPRD是字节操作数，则把AX中的无符号数除以OPRD，所得商送到AL中，余数送到AH中；如果OPRD是子操作数，则把寄存器对DX：AX中的无符号数除以OPRD，所得商送到AX，余数送到DX中。如果OPRD是双字操作数，则把寄存器对EDX：EAX中的无符号数除以OPRD，所得商送到EAX中，余数送到EDX中。<br><strong>OPRD不能是立即数</strong></p>
-<h5 id="有符号数除法指令"><a href="#有符号数除法指令" class="headerlink" title="有符号数除法指令"></a>有符号数除法指令</h5><p><strong>IDIV OPRD</strong></p>
-<p>除法指令对状态标志的影响无定义。</p>
-<h4 id="符号扩展指令"><a href="#符号扩展指令" class="headerlink" title="符号扩展指令"></a>符号扩展指令</h4><table>
-<thead>
-<tr>
-<th>指令</th>
-<th>作用</th>
-<th>详情</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>CBW</td>
-<td>字节转换为字指令</td>
-<td>把寄存器AL中的符号扩展到寄存器AH。若AL最高位为0，AH=0，若AL最高位为1，AH=OFFH</td>
-</tr>
-<tr>
-<td>CWD</td>
-<td>字转换为双字指令</td>
-<td>把寄存器AX中的符号扩展到寄存器DX。若AX最高位为0，DX=0，若AX最高位为1，DX=OFFFFH</td>
-</tr>
-<tr>
-<td>CDQ</td>
-<td>双字转换为四字指令</td>
-<td>把寄存器EAX中的符号扩展到寄存器EDX。若EAX最高位为0，EDX=0，若EAX最高位为1，EDX=OFFFFFFFFH</td>
-</tr>
-<tr>
-<td>CWDE</td>
-<td>另一条字转换为双字指令</td>
-<td>把寄存器AX中的符号扩展到寄存器EAX。若AX最高位为0，EAX的高16位都为0，若AX最高位为1，则EAX的高16位都为1.</td>
-</tr>
-<tr>
-<td>这四条指令不影响状态标志位。</td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h4 id="扩展传送指令"><a href="#扩展传送指令" class="headerlink" title="扩展传送指令"></a>扩展传送指令</h4><h5 id="符号扩展传送指令"><a href="#符号扩展传送指令" class="headerlink" title="符号扩展传送指令"></a>符号扩展传送指令</h5><p><strong>MOVSX DEST，SRC</strong><br>把源操作数SRC符号扩展后送至目的操作数DEST。<br>不改变源操作数，也不影响标志寄存器中的状态标志。</p>
-<h5 id="零扩展传送指令"><a href="#零扩展传送指令" class="headerlink" title="零扩展传送指令"></a>零扩展传送指令</h5><p><strong>MOVZX DEST，SRC</strong><br>把源操作数SRC扩展后送至目的操作数DEST。<br>不改变源操作数，也不影响标志寄存器中的状态标志。</p>
-<h4 id="逻辑运算指令"><a href="#逻辑运算指令" class="headerlink" title="逻辑运算指令"></a>逻辑运算指令</h4><table>
-<thead>
-<tr>
-<th>指令</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>NOT OPRD</td>
-<td>操作数按位取反，送回OPRD 对标志没有影响</td>
-</tr>
-<tr>
-<td>AND DEST，SRC</td>
-<td>两个操作数按位与操作，使CF=0，OF=0，其他标志反映运算结果，AF未定义</td>
-</tr>
-<tr>
-<td>OR DEST，SRC</td>
-<td>按位或运算 使CF=0，OF=0，其他标志反应运算结果，AF未定义</td>
-</tr>
-<tr>
-<td>XOR DEST，SRC</td>
-<td>按位异或运算 使CF=0，OF=0，其他标志反应运算结果，AF未定义</td>
-</tr>
-<tr>
-<td>TEST DEST，SRC</td>
-<td>两个操作数按位与，但不送到DEST，CF=0，OF=0，其他标志反应运算结果</td>
-</tr>
-</tbody></table>
-<h4 id="移位指令"><a href="#移位指令" class="headerlink" title="移位指令"></a>移位指令</h4><table>
-<thead>
-<tr>
-<th>指令</th>
-<th>作用</th>
-<th>详情</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>SAL OPRD，count</td>
-<td>算术左移指令</td>
-<td>操作数OPRD左移count位，每向左移动一位，右边用0补足一位，移出的最高位进入标志位CF。状态CF受影响；SF、ZF和PF反映移位后的结果；标志OF受影响较复杂，AF未定义</td>
-</tr>
-<tr>
-<td>SHL OPRD，count</td>
-<td>逻辑左移指令</td>
-<td>操作数OPRD左移count位，每向左移动一位，右边用0补足一位，移出的最高位进入标志位CF。状态CF受影响；SF、ZF和PF反映移位后的结果；标志OF受影响较复杂，AF未定义</td>
-</tr>
-<tr>
-<td>SAR OPRD，count</td>
-<td>算术右移指令</td>
-<td>操作数OPRD右移count位，每向右移动一位，左边符号保持不变，移出的最低位进入标志位CF。状态CF受影响；SF、ZF和PF反映移位后的结果；标志OF受影响较复杂，AF未定义</td>
-</tr>
-<tr>
-<td>SHR OPRD，count</td>
-<td>逻辑右移指令</td>
-<td>操作数OPRD右移count位，每向右移动一位，左边用0补足，移出的最低位进入标志位CF。状态CF受影响；SF、ZF和PF反映移位后的结果；标志OF受影响较复杂，AF未定义</td>
-</tr>
-<tr>
-<td>ROL OPRD，count</td>
-<td>左循环移位指令</td>
-<td>OPRD循环左移count位，每向左移一位，操作数的最高位移入最低位，同时最高位移入进位标志CF。标志CF受影响，标志OF受影响情况较复杂，其他状态标志不受影响。</td>
-</tr>
-<tr>
-<td>ROR OPRD，count</td>
-<td>右循环移位指令</td>
-<td>OPRD循环右移count位，每向右移一位，操作数的最低位移入最高位，同时最低位移入进位标志CF。标志CF受影响，标志OF受影响情况较复杂，其他状态标志不受影响。</td>
-</tr>
-<tr>
-<td>RCL OPRD，count</td>
-<td>带进位左循环移位指令</td>
-<td>把操作数OPRD连同CF循环左移count位，每向左移一位，操作数的最高位移入进位标志CF，CF移入操作数的最低位。标志CF受影响，标志OF受影响情况较复杂，其他状态标志不受影响。</td>
-</tr>
-<tr>
-<td>RCR OPRD，count</td>
-<td>带进位右循环移位指令</td>
-<td>把操作数OPRD连同CF循环右移count位，每向右移一位，操作数的最低位移入进位标志CF，CF移入操作数的最高位。标志CF受影响，标志OF受影响情况较复杂，其他状态标志不受影响。</td>
-</tr>
-<tr>
-<td>SHLD OPRD1，OPRD2，count</td>
-<td>双精度左移指令</td>
-<td>OPRD1左移指定count位，低端端空出的位用操作数OPRD2高端的count位填补，OPRD2内容保持不变。OPRD1中最后移出的位保留在进位标志CF中。</td>
-</tr>
-<tr>
-<td>SHRD OPRD1，OPRD2，count</td>
-<td>双精度右移指令</td>
-<td>OPRD1右移指定count位，高端空出的位用操作数OPRD2低端的count位填补，OPRD2内容保持不变。OPRD1中最后移出的位保留在进位标志CF中</td>
-</tr>
-</tbody></table>
-<h4 id="循环指令"><a href="#循环指令" class="headerlink" title="循环指令"></a>循环指令</h4><p><strong>循环指令不影响各标志</strong></p>
-<table>
-<thead>
-<tr>
-<th>指令</th>
-<th>格式</th>
-<th>详情</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>计数循环指令</td>
-<td>LOOP LABEL</td>
-<td>使寄存器ECX值减1，如果结果不等于0，则转移到标号LABEL处，否则顺序执行LOOP后的指令 相当于 DEC ECX， JNZ LABEL 两条指令</td>
-</tr>
-<tr>
-<td>等于/全零循环指令</td>
-<td>LOOPE LABEL/LOOPZ LABEL</td>
-<td>使寄存器ECX值减1，如果结果不等于0，且零标志ZF等于1，转移到标号LABEL处，否则顺序执行。指令本身实施的寄存器ECX减1不影响标志</td>
-</tr>
-<tr>
-<td>不等于/非零循环指令</td>
-<td>LOOPNE LABEL/LOOPNZ LABEL</td>
-<td>使寄存器ECX值减1，如果结果不等于0，且零标志ZF等于0，转移到标号LABEL处，否则顺序执行。指令本身实施的寄存器ECX减1不影响标志</td>
-</tr>
-<tr>
-<td>计数器转移指令</td>
-<td>JECXZ LABEL</td>
-<td>当寄存器ECX值等于0时转移到标号LABEL处，否则顺序执行。</td>
-</tr>
-</tbody></table>
-<h4 id="字符串操作"><a href="#字符串操作" class="headerlink" title="字符串操作"></a>字符串操作</h4><p>字符串操作的方向由标志寄存器中的<strong>方向标志DF</strong>控制<br>当方向标志DF复位（为0）时，操作方向是由低到高，按递增方式调整寄存器ESI或EDI的值；<br>当方向标志DF置位（为1）时，操作方向是由高到低，按递减方式调整寄存器ESI或EDI的值。</p>
-<table>
-<thead>
-<tr>
-<th>指令</th>
-<th>格式</th>
-<th>详情</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>字符串装入字节</td>
-<td>LODSB</td>
-<td>把寄存器ESI指向的一个字节数据装入到累加器AL中，根据方向标志DF复位或置为使ESI的值增1或减1</td>
-</tr>
-<tr>
-<td>字符串装入字</td>
-<td>LODSW</td>
-<td>把寄存器ESI指向的一个字数据装入到累加器AX中，根据方向标志DF复位或置为使ESI的值增2或减2</td>
-</tr>
-<tr>
-<td>字符串装入双字</td>
-<td>LODSD</td>
-<td>把寄存器ESI指向的一个双字数据装入到累加器AX中，根据方向标志DF复位或置为使ESI的值增4或减4</td>
-</tr>
-<tr>
-<td>存储字节</td>
-<td>STOSB</td>
-<td>STOSB把累加器AL的内容送到寄存器ED所指向的存储单元中，然后根据方向标志DF复位或置位使EDI的值增1或减1.</td>
-</tr>
-<tr>
-<td>存储字</td>
-<td>STOSW</td>
-<td>STOSW把累加器AX的内容送到寄存器EDI所指向的存储单元中，然后根据方向标志DF使EDI的值增2或减2</td>
-</tr>
-<tr>
-<td>存储双字</td>
-<td>STOSD</td>
-<td>STOSD把累加器EAX的内容送到寄存器EDI所指向的存储单元中，然后根据方向标志DF使ED的值增4或减4。</td>
-</tr>
-<tr>
-<td>字节传送</td>
-<td>MOVSB</td>
-<td>MOVSB把寄存器ESI所指向的一个字节数据传送到由寄存器EDI所指向的存储单元中，然后根据方向标志DF复位或置位使ESI和EDI的值分别增1或减1.不会影响AL。不影响标志</td>
-</tr>
-<tr>
-<td>字传送</td>
-<td>MOVSW</td>
-<td>MOVSW把寄存器ESI所指向的一个字数据传送到由寄存器EDI所指向的存储单元中，然后根据方向标志DF使ESI和EDI的值分别增2或减2。不影响标志</td>
-</tr>
-<tr>
-<td>双字传送</td>
-<td>MOVSD</td>
-<td>MOVSD把寄存器ESI所指向的一个双字数据传送到由寄存器ED所指向的存储单元中，然后根据方向标志DF使ESI和EDI的值分别增4或减4.不影响标志</td>
-</tr>
-<tr>
-<td>串字节扫描</td>
-<td>SCASB</td>
-<td>SCASB把累加器AL的内容与由寄存器EDI所指向一个字节数据采用择减方式比较，相减结果反映到各状态标志（CF、ZF、OF、SF、PF和AF），但不影响两个提作数，然后根据方向标志DF复位或置位使EDI的值增1或减1。</td>
-</tr>
-<tr>
-<td>串字扫描</td>
-<td>SCASW</td>
-<td>SCASW把累加器AX的内容与由寄存器EDI所指向的一个字数据比较结果影响标志，然后EDI的值增2或减2.</td>
-</tr>
-<tr>
-<td>串双字扫描</td>
-<td>SCASD</td>
-<td>SCASD把累加器EAX的内容与由寄存器ED所指向的一个双字数据比较，结果影响标志，然后EDI的值增4或减4。</td>
-</tr>
-<tr>
-<td>串字节比较</td>
-<td>CMPSB</td>
-<td>CMPSB把寄存器ESI所指向的一个字节数据与由寄存器ED所指向的个字节数据采用相减方式出较，相减结果反映到各状态标志（CE、ZF、OF、SF、PF和AF）不影响两个操作数，根据方向标志DF复位或置位是ESI和EDI的值分别增1或减1</td>
-</tr>
-<tr>
-<td>串字比较</td>
-<td>CMPSW</td>
-<td>CMPSW把寄存器ESI所指向的一个字数据与由寄存器EDI所指向的个字数据比较，结果影响标志，然后按调整值2调整ESI和EDI的值</td>
-</tr>
-<tr>
-<td>串双字比较</td>
-<td>CMPSD</td>
-<td>CMPSD把寄存器ESI所指向的一个双字数据与由寄存器EDI所指向的一个双字数据比较，结果影响标志，然后按调整值4调整ESI和EDI的值。</td>
-</tr>
-</tbody></table>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2893,7 +2611,7 @@
               
                 <a href="/archives%7C%7C%20archive">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
