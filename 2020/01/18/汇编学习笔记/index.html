@@ -79,16 +79,16 @@
 
 
 
-<meta name="description" content="简单传送指令传送指令MOV DEST，SRC （DEST &lt;&#x3D; SRC）操作数尺寸必须保持一致立即数永远不能作为目的操作数，CS寄存器不能做目的操作数。EIP不能作为操作数。不影响各标志位状态。 交换指令XCHG OPRD1,OPRD2内容交换不能同时是存储单元，也不能有立即数。操作数尺寸一致。 简单加减指令加法指令ADD DEST，SRC （DEST &lt;&#x3D; DEST + SRC）带进">
+<meta name="description" content="简单传送指令传送指令MOV DEST，SRC （DEST &lt;&#x3D; SRC）操作数尺寸必须保持一致立即数永远不能作为目的操作数，CS寄存器不能做目的操作数。EIP不能作为操作数。不影响各标志位状态。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="汇编学习笔记">
 <meta property="og:url" content="http://yoursite.com/2020/01/18/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Hello">
-<meta property="og:description" content="简单传送指令传送指令MOV DEST，SRC （DEST &lt;&#x3D; SRC）操作数尺寸必须保持一致立即数永远不能作为目的操作数，CS寄存器不能做目的操作数。EIP不能作为操作数。不影响各标志位状态。 交换指令XCHG OPRD1,OPRD2内容交换不能同时是存储单元，也不能有立即数。操作数尺寸一致。 简单加减指令加法指令ADD DEST，SRC （DEST &lt;&#x3D; DEST + SRC）带进">
+<meta property="og:description" content="简单传送指令传送指令MOV DEST，SRC （DEST &lt;&#x3D; SRC）操作数尺寸必须保持一致立即数永远不能作为目的操作数，CS寄存器不能做目的操作数。EIP不能作为操作数。不影响各标志位状态。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/2020/01/18/images/%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87.png">
 <meta property="article:published_time" content="2020-01-18T03:20:28.000Z">
-<meta property="article:modified_time" content="2020-02-01T11:23:44.070Z">
+<meta property="article:modified_time" content="2020-03-27T12:52:02.637Z">
 <meta property="article:author" content="Ran-Barry">
 <meta property="article:tag" content="汇编学习">
 <meta name="twitter:card" content="summary">
@@ -349,7 +349,9 @@
       
 
       
-        <h4 id="简单传送指令"><a href="#简单传送指令" class="headerlink" title="简单传送指令"></a>简单传送指令</h4><h5 id="传送指令"><a href="#传送指令" class="headerlink" title="传送指令"></a>传送指令</h5><p><strong>MOV DEST，SRC</strong> （DEST &lt;= SRC）<br>操作数尺寸必须保持一致<br>立即数永远不能作为目的操作数，CS寄存器不能做目的操作数。EIP不能作为操作数。<br>不影响各标志位状态。<br><img src="../images/%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87.png" alt="图片"></p>
+        <h4 id="简单传送指令"><a href="#简单传送指令" class="headerlink" title="简单传送指令"></a>简单传送指令</h4><h5 id="传送指令"><a href="#传送指令" class="headerlink" title="传送指令"></a>传送指令</h5><p><strong>MOV DEST，SRC</strong> （DEST &lt;= SRC）<br>操作数尺寸必须保持一致<br>立即数永远不能作为目的操作数，CS寄存器不能做目的操作数。EIP不能作为操作数。<br>不影响各标志位状态。</p>
+<a id="more"></a>
+<p><img src="../images/%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87.png" alt="图片"></p>
 <h5 id="交换指令"><a href="#交换指令" class="headerlink" title="交换指令"></a>交换指令</h5><p><strong>XCHG OPRD1,OPRD2</strong><br>内容交换<br>不能同时是存储单元，也不能有立即数。操作数尺寸一致。</p>
 <h4 id="简单加减指令"><a href="#简单加减指令" class="headerlink" title="简单加减指令"></a>简单加减指令</h4><h5 id="加法指令"><a href="#加法指令" class="headerlink" title="加法指令"></a>加法指令</h5><p><strong>ADD DEST，SRC</strong> （DEST &lt;= DEST + SRC）<br>带进位的加法指令<br><strong>ADC DEST，SRC</strong> （DEST &lt;= DEST + SRC + CF）<br>加法指令ADD，ADC影响标志寄存器中的有关状态标志。</p>
 <h5 id="减法指令"><a href="#减法指令" class="headerlink" title="减法指令"></a>减法指令</h5><p><strong>SUB DEST，SRC</strong> （DEST &lt;= DEST-SRC）<br>带借位的减法指令<br><strong>SBB DEST，SRC</strong> （DEST - SRC - CF = DEST）<br>减法指令SUB，SBB影响标志寄存器中的有关状态标志。</p>

@@ -319,280 +319,14 @@
 
       
         
-          
-            <h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p><a href="https://deerchao.cn/tutorials/regex/regex.htm" target="_blank" rel="noopener">正则表达式30分钟入门</a></p>
-<table>
-<thead>
-<tr>
-<th>符号</th>
-<th>解释</th>
-<th>事例</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>.</td>
-<td>匹配任意字符</td>
-<td>b.t</td>
-<td>可以匹配bat/but/b#t/b1t等</td>
-</tr>
-<tr>
-<td>\w</td>
-<td>匹配字母/数字/下划线</td>
-<td>b\wt</td>
-<td>可以匹配bat/b1t/b_t等，但不能匹配b#t</td>
-</tr>
-<tr>
-<td>\s</td>
-<td>匹配空白字符（包括\r、\n、\t等）</td>
-<td>love\syou</td>
-<td>可以匹配love you</td>
-</tr>
-<tr>
-<td>\d</td>
-<td>匹配数字</td>
-<td>\d\d</td>
-<td>可以匹配01/23/99等</td>
-</tr>
-<tr>
-<td>^</td>
-<td>匹配字符串的开始</td>
-<td>^The</td>
-<td>可以匹配The开头的字符串</td>
-</tr>
-<tr>
-<td>$</td>
-<td>匹配字符串的结束</td>
-<td>.exe$</td>
-<td>可以匹配.exe结尾的字符串</td>
-</tr>
-<tr>
-<td>\W</td>
-<td>匹配非字母/数字/下划线</td>
-<td>b\Wt</td>
-<td>可以匹配b#t/b@t等 但不能匹配but/b1t/b_t等</td>
-</tr>
-<tr>
-<td>\S</td>
-<td>匹配非空白字符</td>
-<td>love\Syou</td>
-<td>可以匹配Love#you等 但不能匹配love you等</td>
-</tr>
-<tr>
-<td>\D</td>
-<td>匹配非数字</td>
-<td>\d\D</td>
-<td>可以匹配9a/3#/0Fd等</td>
-</tr>
-<tr>
-<td>\B</td>
-<td>匹配非单词边界</td>
-<td>\Bio\B</td>
-<td></td>
-</tr>
-<tr>
-<td>[]</td>
-<td>匹配来自字符集的任意单一字符</td>
-<td>[aeoou]</td>
-<td>可以匹配任一原因字母字符</td>
-</tr>
-<tr>
-<td>[^]</td>
-<td>匹配不在字符集中的任意单一字符</td>
-<td>[^aeiou]</td>
-<td>可以匹配任一非元音字母字符</td>
-</tr>
-<tr>
-<td>*</td>
-<td>匹配0次或多次</td>
-<td>\W*</td>
-<td></td>
-</tr>
-<tr>
-<td>+</td>
-<td>匹配1次或多次</td>
-<td>\W+</td>
-<td></td>
-</tr>
-<tr>
-<td>?</td>
-<td>匹配0次或1次</td>
-<td>\W?</td>
-<td></td>
-</tr>
-<tr>
-<td>{N}</td>
-<td>匹配N次</td>
-<td>\w{3}</td>
-<td></td>
-</tr>
-<tr>
-<td>{M,}</td>
-<td>匹配至少M次</td>
-<td>\w{3,}</td>
-<td></td>
-</tr>
-<tr>
-<td>{M,N}</td>
-<td>匹配至少M次至多N次</td>
-<td>\w{3,6}</td>
-<td></td>
-</tr>
-<tr>
-<td>|</td>
-<td>分支</td>
-<td>foo | bar</td>
-<td>可以匹配foo或者bar</td>
-</tr>
-<tr>
-<td>(?#)</td>
-<td>注释</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(exp)</td>
-<td>匹配exp并捕获到自动命名的组中</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(?&lt;name&gt;exp)</td>
-<td>匹配exp并捕获到名为name的组中</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(?:exp)</td>
-<td>匹配exp但是不捕获匹配的文本</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(?=exp)</td>
-<td>匹配exp前面的位置</td>
-<td>\b\w(?=ing)</td>
-<td>可以匹配I’m dancing中的danc</td>
-</tr>
-<tr>
-<td>(?&lt;=exp)</td>
-<td>匹配exp后面的位置</td>
-<td>(?&lt;=\bdanc)\w+\b</td>
-<td>可以匹配I love dancing and reading中的第一个ing</td>
-</tr>
-<tr>
-<td>(?!exp)</td>
-<td>匹配后面不是exp的位置</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>(?&lt;!exp)</td>
-<td>匹配前面不是exp的位置</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>*?</td>
-<td>重复任意次，但尽可能少重复</td>
-<td>a.<em>b a.</em>?b</td>
-<td>将正则表达式应用与aabab，前者会匹配整个字符串aabab，后者会匹配aab和ab两个字符串</td>
-</tr>
-<tr>
-<td>+?</td>
-<td>重复1次或多次，但尽可能少重复</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>??</td>
-<td>重复0次或1次，但尽可能少重复</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>{M,N}?</td>
-<td>重复M到N次，但尽可能少重复</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>{M,}?</td>
-<td>重复M次以上，但尽可能少重复</td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>说明：如果需要匹配的字符是正则表达式中的特殊字符，那么可以使用\进行转义处理，例如想匹配小数点可以写成.就可以了，因为直接写.会匹配任意字符；同理，想匹配圆括号必须写成(和)，否则圆括号被视为正则表达式中的分组。</p>
-</blockquote>
-<h2 id="Python对正则表达式的支持"><a href="#Python对正则表达式的支持" class="headerlink" title="Python对正则表达式的支持"></a>Python对正则表达式的支持</h2><p>Python提供了re模块来支持正则表达式相关操作，下面时re模块中的核心函数</p>
-<table>
-<thead>
-<tr>
-<th>函数</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>conpile(pattern,flags=0)</td>
-<td>编译正则表达式返回正则表达式对象</td>
-</tr>
-<tr>
-<td>match(pattern,string,flags=0)</td>
-<td>用正则表达式匹配字符串 成功返回匹配对象 否则返回None</td>
-</tr>
-<tr>
-<td>search(pattern,string,flags=0)</td>
-<td>搜索字符串中第一次出现正则表达式的模块 成功返回匹配对象 否则返回None</td>
-</tr>
-<tr>
-<td>split(pattern,string,maxsplit=0,flags=0)</td>
-<td>用正则表达式指定的模块分隔符拆分字符串 返回列表</td>
-</tr>
-<tr>
-<td>sub(pattern,repl,string,count=0,flags=0)</td>
-<td>用指定的字符串替换元字符串中与正则表达式匹配的模式 可以用count指定替换的次数</td>
-</tr>
-<tr>
-<td>fullmatch(pattern,string,flags=0)</td>
-<td>match函数的完全匹配（从字符串开始到结尾）版本</td>
-</tr>
-<tr>
-<td>findall(pattern,string,flags=0)</td>
-<td>查找字符串所有与正则表达式匹配的模式 返回字符串的列表</td>
-</tr>
-<tr>
-<td>finditer(pattern,string,flags=0)</td>
-<td>查找字符串所有与正则表达式匹配的模式 返回一个迭代器</td>
-</tr>
-<tr>
-<td>purge()</td>
-<td>清除隐式编译的正则表达式的缓存</td>
-</tr>
-<tr>
-<td>re.l/re.IGNORECASE</td>
-<td>忽略大小写匹配标记</td>
-</tr>
-<tr>
-<td>re.M/re.MULTILINE</td>
-<td>多行匹配标记</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>说明： 上面提到的re模块中的这些函数，实际开发中也可以用正则表达式对象的方法替代对这些函数的使用，如果一个正则表达式需要重复的使用，那么先通过compile函数编译正则表达式并创建出正则表达式对象无疑是更为明智的选择。</p>
-</blockquote>
-<h3 id="例1："><a href="#例1：" class="headerlink" title="例1："></a>例1：</h3><p>验证输入用户名和qq号是否有效并给出对应的提示信息<br>要求：用户名必须由字母、数字或下划线构成且长度在6-20个字符之间，qq号是5-12的数字且首位不能为0</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    username = input(<span class="string">'请输入用户名：'</span>)</span><br><span class="line">    qq = input(<span class="string">'请输入qq号：'</span>)</span><br><span class="line">    <span class="comment"># match函数的第一个参数是正则表达式字符串或正则表达式对象</span></span><br><span class="line">    <span class="comment"># 第二个参数是要跟正则表达式做匹配的字符串对象</span></span><br><span class="line">    m1 = re.match(<span class="string">r'^[0-9a-z-A-Z_]&#123;6,20&#125;$'</span>,username)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> m1:</span><br><span class="line">        print(<span class="string">'请输入有效的用户名.'</span>)</span><br><span class="line">    m2 = re.match(<span class="string">r'^[1-9]\d&#123;4,11&#125;$'</span>,qq)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> m2:</span><br><span class="line">        print(<span class="string">'请输入有效的QQ号.'</span>)</span><br><span class="line">    <span class="keyword">if</span> m1 <span class="keyword">and</span> m2:</span><br><span class="line">        print(<span class="string">'你输入的信息是有效的！'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>提示： 上面在书写正则表达式时使用了“原始字符串”的写法（在字符串前面加上了r），<br>所谓“原始字符串”就是字符串中的每个字符都是它原始的意义，说得更直接一点就是字符串中没有所谓的转义字符啦。<br>因为正则表达式中有很多元字符和需要进行转义的地方，如果不使用原始字符串就需要将反斜杠写作\，<br>例如表示数字的\d得书写成\d，这样不仅写起来不方便，阅读的时候也会很吃力。</p>
-</blockquote>
-<h3 id="例2：从一段文字中提取出国内手机号码"><a href="#例2：从一段文字中提取出国内手机号码" class="headerlink" title="例2：从一段文字中提取出国内手机号码"></a>例2：从一段文字中提取出国内手机号码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 创建正则表达式对象 使用了前瞻和回顾来保证手机号前后不应该出现数字</span></span><br><span class="line">    pattern = re.compile(<span class="string">r'(?&lt;=\D)1[34578]\d&#123;9&#125;(?=\D)'</span>)</span><br><span class="line">    sentence = <span class="string">'重要的事情说8130123456789遍，我的手机号是13512346789这个靓号，不是15600998765，也是110或119，王大锤的手机号才是15600998765。'</span></span><br><span class="line">    <span class="comment"># 查找所有匹配并保存到一个列表中</span></span><br><span class="line">    mylist = re.findall(pattern,sentence)</span><br><span class="line">    print(mylist)</span><br><span class="line">    print(<span class="string">'--------华丽的分割线--------'</span>)</span><br><span class="line">    <span class="comment"># 通过迭代器取出匹配对象并获得匹配的内容</span></span><br><span class="line">    <span class="keyword">for</span> temp <span class="keyword">in</span> pattern.finditer(sentence):</span><br><span class="line">        print(temp.group())</span><br><span class="line">    print(<span class="string">'--------华丽的分割线--------'</span>)</span><br><span class="line">    <span class="comment"># 通过search函数指定搜索位置找出所有的匹配</span></span><br><span class="line">    m = pattern.search(sentence)</span><br><span class="line">    <span class="keyword">while</span> m:</span><br><span class="line">        print(m.group())</span><br><span class="line">        m = pattern.search(sentence,m.end())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-<h3 id="例3-替换字符串中的不良内容"><a href="#例3-替换字符串中的不良内容" class="headerlink" title="例3 替换字符串中的不良内容"></a>例3 替换字符串中的不良内容</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    sentence = <span class="string">'你丫是傻叉吗？我操你大爷的.Fuck you.'</span></span><br><span class="line">    purified = re.sub(<span class="string">'[操肏艹]|fuck|shit|傻[比屄逼叉缺吊屌]|煞笔'</span>,<span class="string">'*'</span>,sentence,flags=re.IGNORECASE)</span><br><span class="line">    print(purified)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-<h3 id="例4：拆分长字符串"><a href="#例4：拆分长字符串" class="headerlink" title="例4：拆分长字符串"></a>例4：拆分长字符串</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    poem = <span class="string">'窗前明月光，疑是地上霜。举头望明月，低头思故乡。'</span></span><br><span class="line">    sentence_list = re.split(<span class="string">r'[,。，.]'</span>,poem)</span><br><span class="line">    <span class="keyword">while</span> <span class="string">''</span> <span class="keyword">in</span> sentence_list:</span><br><span class="line">        sentence_list.remove(<span class="string">''</span>)</span><br><span class="line">    print(sentence_list)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-
-          
+          <h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p><a href="https://deerchao.cn/tutorials/regex/regex.htm" target="_blank" rel="noopener">正则表达式30分钟入门</a></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/13/12-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -709,121 +443,14 @@
 
       
         
-          
-            <h2 id="11-文件和异常"><a href="#11-文件和异常" class="headerlink" title="11.文件和异常"></a><strong>11.文件和异常</strong></h2><p>在Python中实现文件的读写操作通过内置的open函数，我们可以指定文件名、操作模式、编码信息等来获得操作文件的对象，接下来就可以对文件进行读写操作了。</p>
-<p>读写函数：</p>
-<table>
-<thead>
-<tr>
-<th>操作模式</th>
-<th>具体含义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>‘r’</td>
-<td>读取（默认）</td>
-</tr>
-<tr>
-<td>‘w’</td>
-<td>写入（会先截断之前的内容）</td>
-</tr>
-<tr>
-<td>‘x’</td>
-<td>写入，如果文件已经存在会发生异常</td>
-</tr>
-<tr>
-<td>‘a’</td>
-<td>追加，讲内容写入到已有文件的末尾</td>
-</tr>
-<tr>
-<td>‘b’</td>
-<td>二进制模式</td>
-</tr>
-<tr>
-<td>‘t’</td>
-<td>文本模式（默认）</td>
-</tr>
-<tr>
-<td>‘+’</td>
-<td>更新（既可以读又可以写）</td>
-</tr>
-</tbody></table>
-<h2 id="读写文本文件"><a href="#读写文本文件" class="headerlink" title="读写文本文件"></a>读写文本文件</h2><p>读取文本文件时，需要在使用open函数时指定好带路径的文件名（可以使用相对路径或绝对路径）并将文件模式设置为‘r’（如果不指定，默认值也是’r’），然后通过encoding参数指定编码（如果不指定，默认值为None，那么在读取文件时使用的是操作系统默认的编码），如果不能保证保存文件时使用的编码方式与encoding参数指定的编码方式是一致的，那么就可能因无法解码字符而导致读取失败。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    f = <span class="literal">None</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        f = open(<span class="string">'致橡树.txt'</span>,<span class="string">'r'</span>,encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">        print(f.read())</span><br><span class="line">    <span class="keyword">except</span> FileNotFoundError:</span><br><span class="line">        print(<span class="string">'无法打开指定的文件！'</span>)</span><br><span class="line">    <span class="keyword">except</span> LookupError:</span><br><span class="line">        print(<span class="string">'指定了未知的编码！'</span>)</span><br><span class="line">    <span class="keyword">except</span> UnicodeDecodeError:</span><br><span class="line">        print(<span class="string">'读取文件时解码错误！'</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        <span class="keyword">if</span> f:</span><br><span class="line">            f.close()</span><br><span class="line"></span><br><span class="line">可以用<span class="keyword">with</span>代替<span class="keyword">finally</span></span><br><span class="line"><span class="comment"># def main():</span></span><br><span class="line"><span class="comment">#     try:</span></span><br><span class="line"><span class="comment">#         with open('致橡树.txt','r',encoding='utf-8') as f:</span></span><br><span class="line"><span class="comment">#             print(f.read())</span></span><br><span class="line"><span class="comment">#     except FileNotFoundError:</span></span><br><span class="line"><span class="comment">#         print('无法打开指定的文件！')</span></span><br><span class="line"><span class="comment">#     except LookupError:</span></span><br><span class="line"><span class="comment">#         print('指定了未知的编码！')</span></span><br><span class="line"><span class="comment">#     except UnicodeDecodeError:</span></span><br><span class="line"><span class="comment">#         print('读取文件时解码错误！')</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-<p>通过for-in循环逐行读取或者用readline方法将文件按行读取到一个列表容器：</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import <span class="built_in">time</span></span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    <span class="comment"># 一次性读取整个文件内容</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">'致橡树.txt'</span>,<span class="string">'r'</span>,encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        print(f.<span class="built_in">read</span>())</span><br><span class="line">    <span class="comment"># 通过for-in循环逐行读取</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">'致橡树.txt'</span>,mode=<span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> <span class="built_in">line</span> <span class="keyword">in</span> f:</span><br><span class="line">            print(<span class="built_in">line</span>,<span class="keyword">end</span>=<span class="string">''</span>)</span><br><span class="line">            <span class="built_in">time</span>.sleep(<span class="number">0.5</span>)</span><br><span class="line">    print()</span><br><span class="line">    <span class="comment"># 读取文件按行读取到列表中</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">'致橡树.txt'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">lines</span> = f.readlines()</span><br><span class="line">    print(<span class="keyword">lines</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">   main()</span><br></pre></td></tr></table></figure>
-<p>文本信息写入文件文件使用open函数,指定好文件名并将文件模式设置’w’即可。如果需要对文件内容进行追加式写入，应该将模式设置为’a’。如果要写入的文件不存在会自动创建文件而不是引发异常。下面的例子演示了如何将1-9999之间的素数分别写入三个文件中（1-99之间的素数保存在a.txt中，100-999之间的素数保存在b.txt中，1000-9999之间的素数保存在c.txt中）。</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">from math import <span class="built_in">sqrt</span></span><br><span class="line"></span><br><span class="line">def is_prime(n):</span><br><span class="line">    <span class="string">""</span><span class="string">"判断素数"</span><span class="string">""</span></span><br><span class="line">    assert n &gt; <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> factor in <span class="built_in">range</span>(<span class="number">2</span>,<span class="keyword">int</span>(<span class="built_in">sqrt</span>(n)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> n % factor == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> False</span><br><span class="line">    <span class="keyword">return</span> True <span class="keyword">if</span> n != <span class="number">1</span> <span class="keyword">else</span> False</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    filenames = (<span class="string">'a.txt'</span>,<span class="string">'b.txt'</span>,<span class="string">'c.txt'</span>)</span><br><span class="line">    fs_list = []</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">for</span> filename in filename<span class="variable">s:</span></span><br><span class="line">            fs_list.<span class="keyword">append</span>(<span class="keyword">open</span>(filename,<span class="string">'w'</span>,encoding=<span class="string">'utf-8'</span>))</span><br><span class="line">        <span class="keyword">for</span> <span class="keyword">number</span> in <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">10000</span>):</span><br><span class="line">            <span class="keyword">if</span> is_prime(<span class="keyword">number</span>):</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">number</span> &lt; <span class="number">100</span>:</span><br><span class="line">                    fs_list[<span class="number">0</span>].<span class="keyword">write</span>(str(<span class="keyword">number</span>)+<span class="string">'\n'</span>)</span><br><span class="line">                elif <span class="keyword">number</span> &lt; <span class="number">1000</span>:</span><br><span class="line">                    fs_list[<span class="number">1</span>].<span class="keyword">write</span>(str(<span class="keyword">number</span>) + <span class="string">'\n'</span>)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    fs_list[<span class="number">2</span>].<span class="keyword">write</span>(str(<span class="keyword">number</span>) + <span class="string">'\n'</span>)</span><br><span class="line">    except IOError <span class="keyword">as</span> <span class="keyword">ex</span>:</span><br><span class="line">        <span class="keyword">print</span>(<span class="keyword">ex</span>)</span><br><span class="line">        <span class="keyword">print</span>(<span class="string">'写文件时发生错误！'</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        <span class="keyword">for</span> fs in fs_lis<span class="variable">t:</span></span><br><span class="line">            fs.<span class="keyword">close</span>()</span><br><span class="line">    <span class="keyword">print</span>(<span class="string">'操作完成！'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-<h2 id="读写二进制文件"><a href="#读写二进制文件" class="headerlink" title="读写二进制文件"></a>读写二进制文件</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">复制图片文件功能</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">'guido.jpg'</span>,<span class="string">'rb'</span>) <span class="keyword">as</span> fs1:</span><br><span class="line">            data = fs1.read()</span><br><span class="line">            print(type(data)) <span class="comment">#&lt;class 'bytes'&gt;</span></span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">'优秀.jpg'</span>,<span class="string">'wb'</span>) <span class="keyword">as</span> fs2:</span><br><span class="line">            fs2.write(data)</span><br><span class="line">    <span class="keyword">except</span> FileNotFoundError <span class="keyword">as</span> e:</span><br><span class="line">        print(<span class="string">'指定的文件无法打开.'</span>)</span><br><span class="line">    <span class="keyword">except</span> IOError <span class="keyword">as</span> e:</span><br><span class="line">        print(<span class="string">'读写文件时出现错误.'</span>)</span><br><span class="line">    print(<span class="string">'程序执行结束.'</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-<h2 id="读写JSON-JavaScript-Object-Notation-文件"><a href="#读写JSON-JavaScript-Object-Notation-文件" class="headerlink" title="读写JSON(JavaScript Object Notation)文件"></a>读写JSON(JavaScript Object Notation)文件</h2><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"name"</span>: ’张三‘，</span><br><span class="line">    <span class="string">"age"</span>: <span class="number">35</span>,</span><br><span class="line">    <span class="string">"qq"</span>: <span class="number">957658</span>,</span><br><span class="line">    <span class="string">"friends"</span>: [<span class="string">'王大锤'</span>,<span class="string">'白元芳'</span>],</span><br><span class="line">    <span class="string">"cars"</span>: [</span><br><span class="line">        &#123;<span class="string">"brand"</span>: <span class="string">'BYD'</span>, <span class="string">'max_speed'</span>:<span class="number">180</span>&#125;</span><br><span class="line">        &#123;<span class="string">"brand"</span>: <span class="string">'Audi'</span>,<span class="string">'max_speed'</span>:<span class="number">280</span>&#125;,</span><br><span class="line">        &#123;<span class="string">"brand"</span>: <span class="string">'Benz'</span>,<span class="string">'max_speed'</span>:<span class="number">320</span>&#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>JSON跟Python中字典其实是一样一样的，事实上JSON的数据类型和Python的数据类型是很容易找到对用关系的</p>
-<table>
-<thead>
-<tr>
-<th>JSON</th>
-<th>Python</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>object</td>
-<td>dict</td>
-</tr>
-<tr>
-<td>array</td>
-<td>list</td>
-</tr>
-<tr>
-<td>string</td>
-<td>str</td>
-</tr>
-<tr>
-<td>number(int/real)</td>
-<td>int/float</td>
-</tr>
-<tr>
-<td>true/false</td>
-<td>True/False</td>
-</tr>
-<tr>
-<td>null</td>
-<td>None</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>Python</th>
-<th>JSON</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>dict</td>
-<td>object</td>
-</tr>
-<tr>
-<td>list,tuple</td>
-<td>array</td>
-</tr>
-<tr>
-<td>str</td>
-<td>string</td>
-</tr>
-<tr>
-<td>int,float,int-&amp;float-derived Enums</td>
-<td>number</td>
-</tr>
-<tr>
-<td>True/Flase</td>
-<td>true/false</td>
-</tr>
-<tr>
-<td>None</td>
-<td>null</td>
-</tr>
-</tbody></table>
-
-          
+          <h2 id="11-文件和异常"><a href="#11-文件和异常" class="headerlink" title="11.文件和异常"></a><strong>11.文件和异常</strong></h2><p>在Python中实现文件的读写操作通过内置的open函数，我们可以指定文件名、操作模式、编码信息等来获得操作文件的对象，接下来就可以对文件进行读写操作了。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/12/11-%E6%96%87%E4%BB%B6%E5%92%8C%E5%BC%82%E5%B8%B8/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -940,415 +567,14 @@
 
       
         
-          
-            <h2 id="1-环境"><a href="#1-环境" class="headerlink" title="1.环境"></a>1.环境</h2><h2 id="2-了解WEB"><a href="#2-了解WEB" class="headerlink" title="2.了解WEB"></a>2.了解WEB</h2><p>Web使用一种名为HTTP（HyperText Transfer Protocol，超文本运输协议）的协议作为规范，完成从客户端到服务器端等一系列运作流程。Web是建立在HTTP（TCP/80)协议上通信的。<br>WWW（万维网）这一名称，是Web浏览器当年用来浏览超文本的客户端应用程序时的名称。现在表示这一系列的集合，简称Web</p>
-<ul>
-<li>页面的文本标记语言<strong>HTML</strong>（HyperText Markup Language,超文本标记语言）</li>
-<li>作为文档传递协议的<strong>HTTP</strong></li>
-<li>指定文档所在地址的<strong>URL</strong>（Uniform Resource Locator,统一资源定位符）</li>
-<li><strong>URI</strong>（Uniform Resource Identifier,统一资源标识符）<br>URI用字符标识某一互联网资源，URL表示资源的地点（互联网上所处的位置）</li>
-<li><em>URL是一种具体的URI*</em><br>HTTP/1.1是目前主流的HTTP协议版本</li>
-</ul>
-<h2 id="3-HTTP协议简介"><a href="#3-HTTP协议简介" class="headerlink" title="3.HTTP协议简介"></a>3.HTTP协议简介</h2><p>客户端和服务器<br><img src="../images/HTTP%E5%8D%8F%E8%AE%AE/%E5%AE%A2%E6%88%B7%E7%AB%AF-%E6%9C%8D%E5%8A%A1%E5%99%A8.png" alt="图片"><br>HTTP是不保存状态的协议，目的是为了更快的处理大量事务。不能进行事务的关联。<br>隐含参数和Cookie技术，能协助HTTP解决无状态问题</p>
-<h3 id="HTTP-Method-GET"><a href="#HTTP-Method-GET" class="headerlink" title="HTTP Method GET"></a>HTTP Method GET</h3><p>GET：获取资源 </p>
-<p>通过URL传<br>请求访问已被URI识别的资源。指定的资源经服务器端解析后返回相应内容。</p>
-<p>如果请求的资源是文本，保持原样返回；如果是像CGI（Common Gateway Interface,通用网关借口)那样的程序，返回经过执行后的输出结果。</p>
-<h3 id="HTTP-Method-POST"><a href="#HTTP-Method-POST" class="headerlink" title="HTTP Method POST"></a>HTTP Method POST</h3><p>POST：传输实体主体</p>
-<p>以下用POST</p>
-<ul>
-<li>请求中包含数据更新等副作用时</li>
-<li>发送敏感信息时（防止Referer安全隐患）</li>
-<li>发送的信息量很多时（URL长度有限）</li>
-</ul>
-<p>副作用：指除了获取资源（内容）以外的其他操作。比如，追加/更新/删除服务器端的数据、购买商品、注册/删除用户等操作。</p>
-<h3 id="HTTP-Method-PUT"><a href="#HTTP-Method-PUT" class="headerlink" title="HTTP Method PUT"></a>HTTP Method PUT</h3><p>PUT：传输文件 </p>
-<p>存在安全隐患一般文件上传采用POST</p>
-<h3 id="HTTP-Method-HEAD"><a href="#HTTP-Method-HEAD" class="headerlink" title="HTTP Method HEAD"></a>HTTP Method HEAD</h3><p>HEAD：获得报文首部</p>
-<p>与GET方法一样，只是不返回报文主体部分，用于确认URI的有效性及资源更新的日期时间等。</p>
-<h3 id="HTTP-Method-DELETE"><a href="#HTTP-Method-DELETE" class="headerlink" title="HTTP Method DELETE"></a>HTTP Method DELETE</h3><p>用来删除文件，是与PUT相反的的方法。DELETE方法按请求URI删除指定的资源<br><img src="../images/HTTP%E5%8D%8F%E8%AE%AE/HTTP%E6%94%AF%E6%8C%81%E7%9A%84%E6%96%B9%E6%B3%95.png" alt="图片"></p>
-<h3 id="Cookie的工作原理"><a href="#Cookie的工作原理" class="headerlink" title="Cookie的工作原理"></a>Cookie的工作原理</h3><p><img src="../images/HTTP%E5%8D%8F%E8%AE%AE/%E6%B2%A1%E6%9C%89Cookie%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%AF%B7%E6%B1%82.png" alt><br><img src="../images/HTTP%E5%8D%8F%E8%AE%AE/%E5%AD%98%E6%9C%89Cookie%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%AF%B7%E6%B1%82.png" alt></p>
-<h2 id="4-HTTP报文"><a href="#4-HTTP报文" class="headerlink" title="4.HTTP报文"></a>4.HTTP报文</h2><p>请求端的HTTP报文叫请求报文，响应端的HTTP报文叫响应报文。</p>
-<h4 id="请求报文："><a href="#请求报文：" class="headerlink" title="请求报文："></a>请求报文：</h4><ul>
-<li>报文首部：<ul>
-<li>请求行</li>
-<li>请求首部字段</li>
-<li>通用首部字段</li>
-<li>实体首部字段</li>
-<li>其他</li>
-</ul>
-</li>
-<li>空行：</li>
-<li>报文主体<br><img src="../images/HTTP%E5%8D%8F%E8%AE%AE/%E8%AF%B7%E6%B1%82%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F.png" alt="图片"></li>
-</ul>
-<h4 id="响应报文："><a href="#响应报文：" class="headerlink" title="响应报文："></a>响应报文：</h4><ul>
-<li>报文首部：<ul>
-<li>状态行</li>
-<li>响应首部字段</li>
-<li>通用首部字段</li>
-<li>实体首部字段</li>
-<li>其他</li>
-</ul>
-</li>
-<li>空行</li>
-<li>报文主体<br><img src="../images/HTTP%E5%8D%8F%E8%AE%AE/%E5%93%8D%E5%BA%94%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F.png" alt="图片"></li>
-</ul>
-<h2 id="5-HTTP状态码"><a href="#5-HTTP状态码" class="headerlink" title="5.HTTP状态码"></a>5.HTTP状态码</h2><p>【功能】：当客户端向服务器发送请求时，描述返回的请求结果。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>类别</th>
-<th>原因短语</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1XX</td>
-<td>Informational(信息性状态码）</td>
-<td>接收的请求正在处理</td>
-</tr>
-<tr>
-<td>2XX</td>
-<td>Success（成功状态码）</td>
-<td>请求正常处理完毕</td>
-</tr>
-<tr>
-<td>3XX</td>
-<td>Redirection（重定向状态码）</td>
-<td>需要进行附加操作以完成请求</td>
-</tr>
-<tr>
-<td>4XX</td>
-<td>Client Error（客户端错误状态码）</td>
-<td>服务器无法处理请求</td>
-</tr>
-<tr>
-<td>5XX</td>
-<td>Server Error（服务器错误状态码）</td>
-<td>服务器处理请求出错</td>
-</tr>
-</tbody></table>
-<h4 id="3XX："><a href="#3XX：" class="headerlink" title="3XX："></a>3XX：</h4><ul>
-<li>301 Moved Permanently：永久重定向</li>
-<li>302 Moved Temporarily：临时重定向 希望用户（本次）能使用新的URI访问</li>
-<li>303 See Other：要求用户（用GET定向获取请求的资源）</li>
-<li>304 Not Modified：访问页面没有修改</li>
-<li>307 Temporary Redirect：希望把POST改为GET</li>
-</ul>
-<h4 id="4XX："><a href="#4XX：" class="headerlink" title="4XX："></a>4XX：</h4><ul>
-<li>400 Bad Request:语法错误等造成错误请求</li>
-<li>401 Unauthorized：需要授权认证</li>
-<li>403 Forbidden：访问权限不够</li>
-<li>404 Not Found：没有找到</li>
-</ul>
-<h4 id="5XX："><a href="#5XX：" class="headerlink" title="5XX："></a>5XX：</h4><ul>
-<li>500 Internal Server Error：服务器端执行请求发生错误</li>
-<li>503 Service Unavailable：服务器暂时处于超负载或正在进行停机维护，无法处理请求</li>
-</ul>
-<h2 id="6-HTTP首部"><a href="#6-HTTP首部" class="headerlink" title="6.HTTP首部"></a>6.HTTP首部</h2><h4 id="HTTP报文首部："><a href="#HTTP报文首部：" class="headerlink" title="HTTP报文首部："></a>HTTP报文首部：</h4><p>通用首部字段：</p>
-<table>
-<thead>
-<tr>
-<th>首部字段名</th>
-<th>说明</th>
-<th>参数</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Cache-Control</td>
-<td>控制缓存的行为</td>
-<td>private,max-age=0,no-cache等</td>
-</tr>
-<tr>
-<td>Connection</td>
-<td>逐跳首部、持久连接的管理</td>
-<td>Keep-Alive/close</td>
-</tr>
-<tr>
-<td>Date</td>
-<td>创建报文的日期时间</td>
-<td>Tue,03 Jul 2012 04:40:59 GMT</td>
-</tr>
-<tr>
-<td>Pragma</td>
-<td>报文指令</td>
-<td></td>
-</tr>
-<tr>
-<td>Trailer</td>
-<td>说明报文主体后记录了哪些字段</td>
-<td></td>
-</tr>
-<tr>
-<td>Transfer-Encoding</td>
-<td>指定报文主体的传输编码方式</td>
-<td>chunked等</td>
-</tr>
-<tr>
-<td>Upgrade</td>
-<td>升级为其他协议</td>
-<td>是否可使用更高的版本进行通讯</td>
-</tr>
-<tr>
-<td>Via</td>
-<td>追踪客户端与服务器之间的请求和响应报文的传输路径</td>
-<td></td>
-</tr>
-<tr>
-<td>Warning</td>
-<td>告知用户一些与缓存有关的警告</td>
-<td>[警告码][警告的主机：端口号]“[警告内容]”([日期时间])</td>
-</tr>
-</tbody></table>
-<p>请求首部字段：</p>
-<table>
-<thead>
-<tr>
-<th>首部字段名</th>
-<th>说明</th>
-<th>参数</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Accept</td>
-<td>用户代理可处理的<strong>媒体类型</strong></td>
-<td>type/subtype形式；text/html,text/plain等</td>
-</tr>
-<tr>
-<td>Accept-Charset</td>
-<td>优先的<strong>字符集</strong></td>
-<td>utf-8等</td>
-</tr>
-<tr>
-<td>Accept-Language</td>
-<td>优先的语言</td>
-<td>zh-cn等</td>
-</tr>
-<tr>
-<td>Accept-Encoding</td>
-<td>优先编码内容</td>
-<td>gzip等</td>
-</tr>
-<tr>
-<td>Authorization</td>
-<td>通知服务器，用户代理的认证信息</td>
-<td>转码认证</td>
-</tr>
-<tr>
-<td>Expect</td>
-<td>期待服务器的特定行为</td>
-<td>例：100-continue</td>
-</tr>
-<tr>
-<td>From</td>
-<td>用户的电子邮箱地址</td>
-<td>例：<a href="mailto:info@hacker.jp">info@hacker.jp</a></td>
-</tr>
-<tr>
-<td>Host</td>
-<td>请求资源所在服务器</td>
-<td>必须包含；例：<a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a></td>
-</tr>
-<tr>
-<td>If-Match</td>
-<td>条件请求</td>
-<td>例：”123456</td>
-</tr>
-<tr>
-<td>If-Modified-Since</td>
-<td>比较资源的更新时间</td>
-<td></td>
-</tr>
-<tr>
-<td>If–None-Match</td>
-<td>比较实体标记（与If-Match相反）</td>
-<td></td>
-</tr>
-<tr>
-<td>If-Range</td>
-<td>资源未更新时发送实体Byte的范围请求</td>
-<td></td>
-</tr>
-<tr>
-<td>If-Unmodified-Since</td>
-<td>比较资源的更新时间（与If-Modified-Since相反）</td>
-<td></td>
-</tr>
-<tr>
-<td>Max-Forwards</td>
-<td>最大传输逐跳数</td>
-<td></td>
-</tr>
-<tr>
-<td>Proxy-Authorization</td>
-<td>代理服务器要求客户端的认证信息</td>
-<td></td>
-</tr>
-<tr>
-<td>Range</td>
-<td>实体的字节范围要求</td>
-<td></td>
-</tr>
-<tr>
-<td>Referer</td>
-<td>对请求URI的原始获取方</td>
-<td></td>
-</tr>
-<tr>
-<td>TE</td>
-<td>传输编码的优先级</td>
-<td></td>
-</tr>
-<tr>
-<td>User-Agent</td>
-<td>HTTP客户端程序的信息</td>
-<td>系统，浏览器，ip地址</td>
-</tr>
-<tr>
-<td>Cookie</td>
-<td>服务器接收到的Cookeie信息</td>
-<td></td>
-</tr>
-</tbody></table>
-<p>响应首部字段：</p>
-<table>
-<thead>
-<tr>
-<th>首部字段名</th>
-<th>说明</th>
-<th>参数</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Accept-Ranges</td>
-<td>是否接受字节范围请求</td>
-<td></td>
-</tr>
-<tr>
-<td>Age</td>
-<td>推算资源创建经过时间</td>
-<td>例：600</td>
-</tr>
-<tr>
-<td>ETag</td>
-<td>客户端实体标示</td>
-<td></td>
-</tr>
-<tr>
-<td>Location</td>
-<td>令客户端重定向至URI</td>
-<td>重定向目的地</td>
-</tr>
-<tr>
-<td>Prox-Authenticate</td>
-<td>代理服务器对客户端的认证信息</td>
-<td></td>
-</tr>
-<tr>
-<td>Retry-After</td>
-<td>对再次发起请求的时机要求</td>
-<td></td>
-</tr>
-<tr>
-<td>Server</td>
-<td>HTTP服务器的安装信息</td>
-<td>具有安全隐患</td>
-</tr>
-<tr>
-<td>Vary</td>
-<td>代理服务器缓存的管理信息</td>
-<td></td>
-</tr>
-<tr>
-<td>WWW-Authenticate</td>
-<td>服务器对客户端的认证信息</td>
-<td>访问认证</td>
-</tr>
-<tr>
-<td>Set-Cookie</td>
-<td>开始状态管理所使用的Cookie信息</td>
-<td>NAME=VALUE；expires=DATE；path=PATH；domain=域名；Secure；HttpOnly</td>
-</tr>
-</tbody></table>
-<p>实体首部字段：</p>
-<table>
-<thead>
-<tr>
-<th>首部字段名</th>
-<th>说明</th>
-<th>参数</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Allow</td>
-<td>资源可支持的HTTP方法</td>
-<td>GET等</td>
-</tr>
-<tr>
-<td>Content-Encoding</td>
-<td>实体主体适用的编码方式</td>
-<td>gzip等</td>
-</tr>
-<tr>
-<td>Content-Language</td>
-<td>实体主体的自然语言</td>
-<td>zh-cn等</td>
-</tr>
-<tr>
-<td>Content-Length</td>
-<td>实体主体的大小（单位：字节）</td>
-<td>15000等</td>
-</tr>
-<tr>
-<td>Content-Location</td>
-<td>替代对应资源的URI</td>
-<td></td>
-</tr>
-<tr>
-<td>Content-MD5</td>
-<td>实体主体的报文摘要</td>
-<td></td>
-</tr>
-<tr>
-<td>Content-Range</td>
-<td>实体主体的位置范围</td>
-<td></td>
-</tr>
-<tr>
-<td>Content-Type</td>
-<td>实体主体的媒体类型</td>
-<td></td>
-</tr>
-<tr>
-<td>Expires</td>
-<td>实体主体过期的日期时间</td>
-<td></td>
-</tr>
-<tr>
-<td>Last-Modified</td>
-<td>资源的最后修改日期时间</td>
-<td></td>
-</tr>
-</tbody></table>
-<p>HTTP首部字段是由首部字段名和字段值构成的</p>
-<ul>
-<li>Content-Type: 报文主体对象的类型</li>
-<li>Keep-Alive：</li>
-</ul>
-<h2 id="7-HTTPS协议简介"><a href="#7-HTTPS协议简介" class="headerlink" title="7.HTTPS协议简介"></a>7.HTTPS协议简介</h2><h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><ul>
-<li>通讯使用明文（不加密），内容可能会被窃听</li>
-<li>不验证通信方的身份，因此有可能遭遇伪装</li>
-<li>无法证明报文的完整性，所以有可能已遭篡改</li>
-</ul>
-<p>HTTP+加密+认证+完整性保护=HTTPS<br><img src="../images/HTTP%E5%8D%8F%E8%AE%AE/HTTPS%E9%80%9A%E8%AE%AF%E8%BF%87%E7%A8%8B.jpg" alt="图片"></p>
-<h2 id="8-HTTP的认证"><a href="#8-HTTP的认证" class="headerlink" title="8.HTTP的认证"></a>8.HTTP的认证</h2><ul>
-<li>BASIC认证（基本认证）</li>
-<li>DIGEST认证（摘要认证）</li>
-<li>SSL客户端认证</li>
-<li>FormBase认证（基于表单认证）</li>
-<li>Windows统一认证（Keberos认证，NTLM认证）</li>
-</ul>
-
-          
+          <h2 id="1-环境"><a href="#1-环境" class="headerlink" title="1.环境"></a>1.环境</h2><h2 id="2-了解WEB"><a href="#2-了解WEB" class="headerlink" title="2.了解WEB"></a>2.了解WEB</h2><p>Web使用一种名为HTTP（HyperText Transfer Protocol，超文本运输协议）的协议作为规范，完成从客户端到服务器端等一系列运作流程。Web是建立在HTTP（TCP/80)协议上通信的。<br>WWW（万维网）这一名称，是Web浏览器当年用来浏览超文本的客户端应用程序时的名称。现在表示这一系列的集合，简称Web</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/12/HTTP%E5%8D%8F%E8%AE%AE/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1487,145 +713,14 @@
 
       
         
-          
-            <h2 id="文件和文件夹操作"><a href="#文件和文件夹操作" class="headerlink" title="文件和文件夹操作"></a>文件和文件夹操作</h2><h3 id="1-创建-删除空目录-mkdir-rmdir"><a href="#1-创建-删除空目录-mkdir-rmdir" class="headerlink" title="1.创建/删除空目录 - mkdir/rmdir"></a>1.创建/删除空目录 - <strong>mkdir/rmdir</strong></h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">root ~</span>]<span class="meta"># mkdir abc</span></span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># mkdir -p xyz/abc</span></span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># rmdir abc</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-创建-删除文件-touch-rm"><a href="#2-创建-删除文件-touch-rm" class="headerlink" title="2.创建/删除文件 - **touch/rm"></a>2.创建/删除文件 - **touch/rm</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">root ~</span>]<span class="meta"># touch readme.txt</span></span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># touch <span class="meta-keyword">error</span>.txt</span></span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># rm <span class="meta-keyword">error</span>.txt</span></span><br><span class="line">rm: <span class="keyword">remove</span> regular empty file ‘error.txt’? y</span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># rm -rf xyz</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>touch命令用于创建空白文件或修改文件时间。在Linux系统中一个文件有三种时间：<ul>
-<li>更改内容的时间 - mtime</li>
-<li>更改权限的时间呢 - ctime</li>
-<li>最后访问时间 - atime</li>
-</ul>
-</li>
-<li>rm的几个重要参数<ul>
-<li>-i: 交互式删除，每个删除项都会进行询问</li>
-<li>-r：删除目录并递归的删除目录中的文件和目录</li>
-<li>-f：强制删除，忽略不存在的文件，没有任何提示</li>
-</ul>
-</li>
-</ul>
-<h3 id="3-切换和查看当前工作目录-cd-pwd"><a href="#3-切换和查看当前工作目录-cd-pwd" class="headerlink" title="3.切换和查看当前工作目录 - cd/pwd"></a>3.切换和查看当前工作目录 - <strong>cd/pwd</strong></h3><p>说明：</p>
-<blockquote>
-<p>cd命令后面可以跟相对路径（以当前路径作为参照）或绝对路径（以/开关）来切换到指定的目录，也可以用cd .. 来返回上一级目录。请大家想一想，如果要返回到上上一级目录应该给cd命令加上什么样的参数呢？</p>
-</blockquote>
-<h3 id="4-查看目录内容-ls"><a href="#4-查看目录内容-ls" class="headerlink" title="4.查看目录内容 - ls"></a>4.查看目录内容 - <strong>ls</strong></h3><ul>
-<li>-l：以长格式查看文件和目录</li>
-<li>-a：显示以点开头的文件和目录（隐藏文件）</li>
-<li>-R：遇到目录要进行递归展开（继续列出目录下面的文件和目录）</li>
-<li>-d：只列出目录，不列出其他内容</li>
-<li>-s/-t：按大小/时间排序</li>
-</ul>
-<blockquote>
-<p>ls -l 可以简写为ll</p>
-</blockquote>
-<h3 id="5-查看文件内容-cat-tac-head-tail-more-less-rev-od"><a href="#5-查看文件内容-cat-tac-head-tail-more-less-rev-od" class="headerlink" title="5.查看文件内容 - cat/tac/head/tail/more/less/rev/od"></a>5.查看文件内容 - <strong>cat/tac/head/tail/more/less/rev/od</strong></h3><ul>
-<li>cat: 由第一行开始显示内容，并将所有内容输出</li>
-<li>tac: 从最后一行倒序显示内容，并将所有内容输出</li>
-<li>rev：从每一行的最后一个字符显示到第一个字符</li>
-<li>head：只显示头几行</li>
-<li>tail：只显示后几行</li>
-<li>more：根据窗口大小，一页一页的显示文件内容</li>
-<li>less：和more类似，但其优点可以往前翻页，而且进行可以搜索字符</li>
-<li>od：以八进制、十进制、十六进制和ASCII码的格式来显示文件或者流<ul>
-<li>od [-A 地址进制] [-t 显示格式] 文件名</li>
-<li>-A 指定地址进制包括：<ul>
-<li>o:八进制（系统默认值）</li>
-<li>d：十进制</li>
-<li>x：十六进制</li>
-<li>n：不打印位移值</li>
-</ul>
-</li>
-<li>-t：指定数据的显示格式的主要参数有：<ul>
-<li>c：ASCII字符或反斜杠序列（如\n）</li>
-<li>d：有符号十进制数</li>
-<li>f：浮点数</li>
-<li>o：八进制（系统默认值）</li>
-<li>u：无符号十进制数</li>
-<li>x：十六进制数</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="6-拷贝-移动文件-cp-mv"><a href="#6-拷贝-移动文件-cp-mv" class="headerlink" title="6.拷贝/移动文件 - cp/mv"></a>6.拷贝/移动文件 - <strong>cp/mv</strong></h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">root ~</span>]<span class="meta"># mkdir backup</span></span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># cp sohu.html backup/</span></span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># cd backup</span></span><br><span class="line">[<span class="meta">root backup</span>]<span class="meta"># ls</span></span><br><span class="line">sohu.html</span><br><span class="line">[<span class="meta">root backup</span>]<span class="meta"># mv sohu.html sohu_index.html</span></span><br><span class="line">[<span class="meta">root backup</span>]<span class="meta"># ls</span></span><br><span class="line">sohu_index.html</span><br></pre></td></tr></table></figure>
-
-<h3 id="7-文件重命名-rename"><a href="#7-文件重命名-rename" class="headerlink" title="7.文件重命名 - rename"></a>7.文件重命名 - <strong>rename</strong></h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[root@iZwz97tbgo9lkabnat2lo8Z ~]</span># <span class="selector-tag">rename</span> <span class="selector-class">.htm</span> <span class="selector-class">.html</span> *<span class="selector-class">.htm</span></span><br></pre></td></tr></table></figure>
-<h3 id="8-查找文件和查找内容-find-grep"><a href="#8-查找文件和查找内容-find-grep" class="headerlink" title="8.查找文件和查找内容 - find/grep"></a>8.查找文件和查找内容 - <strong>find/grep</strong></h3><p>【find】：find 路径 参数 文件名<br>参数：</p>
-<ul>
-<li>-name：根据文件名查找</li>
-<li>-perm：根据文件权限查找</li>
-<li>-prune：该选项可以排除某些查找目录</li>
-<li>-user：根据文件属主查找</li>
-<li>-group：根据文件属组查找</li>
-<li>-mtime -n | +n 根据文件更改时间查找</li>
-<li>-type：根据文件类型查找、<ul>
-<li>-f: 文件</li>
-<li>-d：目录</li>
-<li>-c：字符设备文件</li>
-<li>-b：块设备文件</li>
-<li>-l：链接文件</li>
-<li>-p：管道文件</li>
-</ul>
-</li>
-<li>-size -n +n 按文件大小查找<br>【grep】：grep [选项] [文本] 文件<blockquote>
-<p>说明：grep在搜索字符串时可以使用正则表达式，如果需要使用正则表达式可以用grep -E 或直接使用egrep</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="9-创建链接和查看链接-ln-readlink"><a href="#9-创建链接和查看链接-ln-readlink" class="headerlink" title="9.创建链接和查看链接 -ln/readlink"></a>9.创建链接和查看链接 -<strong>ln/readlink</strong></h3><p>软链接：</p>
-<ul>
-<li>存放另一个文件的路径的形式</li>
-<li>可以跨文件系统，硬链接不可以</li>
-<li>可以对一个不存在的文件名进行链接，硬链接必须有源文件</li>
-<li>可以对目录进行链接</li>
-</ul>
-<p>硬链接：</p>
-<ul>
-<li>以文本副本的形式存在，不占用实际空间</li>
-<li>不允许给目录创建硬链接</li>
-<li>只有在同一个文件系统中才能创建</li>
-<li>删除其中一个硬链接文件并不影响其他有相同inode号的文件</li>
-</ul>
-<blockquote>
-<p>【ln】：[参数] [源文件目录] [目标文件或目录]</p>
-</blockquote>
-<p>主要参数：</p>
-<ul>
-<li>-i:交互模式，文件存在则提示用户是否覆盖</li>
-<li>-s 软链接（符号链接）</li>
-<li>-d 允许超级用户制作目录的硬链接</li>
-<li>-b 删除，覆盖以前建立的链接</li>
-</ul>
-<h3 id="10-压缩-解压缩和归档-解归档-gzip-gunzip-xz"><a href="#10-压缩-解压缩和归档-解归档-gzip-gunzip-xz" class="headerlink" title="10.压缩/解压缩和归档/解归档 - gzip/gunzip/xz"></a>10.压缩/解压缩和归档/解归档 - <strong>gzip/gunzip/xz</strong></h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[<span class="symbol">root@</span>iZwz97tbgo9lkabnat2lo8Z ~]# wget http:<span class="comment">//download.redis.io/releases/redis-4.0.10.tar.gz</span></span><br><span class="line">-<span class="number">-2018</span><span class="number">-06</span><span class="number">-20</span> <span class="number">19</span>:<span class="number">29</span>:<span class="number">59</span>--  http:<span class="comment">//download.redis.io/releases/redis-4.0.10.tar.gz</span></span><br><span class="line">Resolving download.redis.io (download.redis.io)... <span class="number">109.74</span><span class="number">.203</span><span class="number">.151</span></span><br><span class="line">Connecting to download.redis.io (download.redis.io)|<span class="number">109.74</span><span class="number">.203</span><span class="number">.151</span>|:<span class="number">80.</span>.. connected.</span><br><span class="line">HTTP request sent, awaiting response... <span class="number">200</span> OK</span><br><span class="line">Length: <span class="number">1738465</span> (<span class="number">1.7</span>M) [application/x-gzip]</span><br><span class="line">Saving to: ‘redis<span class="number">-4.0</span><span class="number">.10</span>.tar.gz’</span><br><span class="line"><span class="number">100</span>%[==================================================&gt;] <span class="number">1</span>,<span class="number">738</span>,<span class="number">465</span>   <span class="number">70.1</span>KB/s   <span class="keyword">in</span> <span class="number">74</span>s</span><br><span class="line"><span class="number">2018</span><span class="number">-06</span><span class="number">-20</span> <span class="number">19</span>:<span class="number">31</span>:<span class="number">14</span> (<span class="number">22.9</span> KB/s) - ‘redis<span class="number">-4.0</span><span class="number">.10</span>.tar.gz’ saved [<span class="number">1738465</span>/<span class="number">1738465</span>]</span><br><span class="line">[<span class="symbol">root@</span>iZwz97tbgo9lkabnat2lo8Z ~]# ls redis*</span><br><span class="line">redis<span class="number">-4.0</span><span class="number">.10</span>.tar.gz</span><br><span class="line">[<span class="symbol">root@</span>iZwz97tbgo9lkabnat2lo8Z ~]# gunzip redis<span class="number">-4.0</span><span class="number">.10</span>.tar.gz</span><br><span class="line">[<span class="symbol">root@</span>iZwz97tbgo9lkabnat2lo8Z ~]# ls redis*</span><br><span class="line">redis<span class="number">-4.0</span><span class="number">.10</span>.tar</span><br></pre></td></tr></table></figure>
-
-<h3 id="11-归档和解归档-tar"><a href="#11-归档和解归档-tar" class="headerlink" title="11.归档和解归档 - tar"></a>11.归档和解归档 - <strong>tar</strong></h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[<span class="symbol">root@</span>iZwz97tbgo9lkabnat2lo8Z ~]# tar -xvf redis<span class="number">-4.0</span><span class="number">.10</span>.tar</span><br><span class="line">redis<span class="number">-4.0</span><span class="number">.10</span>/</span><br><span class="line">redis<span class="number">-4.0</span><span class="number">.10</span>/.gitignore</span><br><span class="line">redis<span class="number">-4.0</span><span class="number">.10</span>/<span class="number">00</span>-RELEASENOTES</span><br><span class="line">redis<span class="number">-4.0</span><span class="number">.10</span>/BUGS</span><br><span class="line">redis<span class="number">-4.0</span><span class="number">.10</span>/CONTRIBUTING</span><br><span class="line">redis<span class="number">-4.0</span><span class="number">.10</span>/COPYING</span><br><span class="line">redis<span class="number">-4.0</span><span class="number">.10</span>/INSTALL</span><br><span class="line">redis<span class="number">-4.0</span><span class="number">.10</span>/MANIFESTO</span><br><span class="line">redis<span class="number">-4.0</span><span class="number">.10</span>/Makefile</span><br><span class="line">redis<span class="number">-4.0</span><span class="number">.10</span>/README.md</span><br><span class="line">redis<span class="number">-4.0</span><span class="number">.10</span>/deps/</span><br><span class="line">redis<span class="number">-4.0</span><span class="number">.10</span>/deps/Makefile</span><br><span class="line">redis<span class="number">-4.0</span><span class="number">.10</span>/deps/README.md</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>说明：归档（也称为创建归档）和解归档都使用tar命令，通常创建归档需要-cvf三个参数，其中c表示创建（create），v表示显示创建归档详情（verbose），f表示指定归档的文件（file）；解归档需要加上-xvf参数，其中x表示抽取（extract），其他两个参数跟创建归档相同。</p>
-</blockquote>
-<h3 id="12-将标准输入转成命令行参数-xargs"><a href="#12-将标准输入转成命令行参数-xargs" class="headerlink" title="12.将标准输入转成命令行参数 - xargs"></a>12.将标准输入转成命令行参数 - <strong>xargs</strong></h3><p>下面的命令会将查找当前路径下的html文件，然后通过xargs将这些文件作为参数传给rm命令，实现查找并删除文件的操作</p>
-<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@iZwz97tbgo9lkabnat2lo8Z ~]# find . -<span class="keyword">type</span> <span class="type">f </span>-name <span class="string">"*.html"</span> | xargs rm -f</span><br></pre></td></tr></table></figure>
-
-<p>下面的命令讲a.txt文件中的多行内容变成一行输出到b.txt文件中，其中&lt;表示从a.txt中读取输入，&gt;表示讲命令的执行结果输出到b.txt中</p>
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@iZwz97tbgo9lkabnat2lo8Z ~]<span class="comment"># xargs &lt; a.txt &gt; b.txt</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>说明：这个命令就像上面演示的那样常在管道（实现进程间通信的一种方式）和重定向（重新指定输入输出的位置）操作中用到，后面的内容中会讲到管道操作和输入输出重定向操作。</p>
-</blockquote>
-<h3 id="13-显示文件或目录-basename-dirname"><a href="#13-显示文件或目录-basename-dirname" class="headerlink" title="13.显示文件或目录 - basename/dirname"></a>13.显示文件或目录 - <strong>basename/dirname</strong></h3><h3 id="14-其他相关工具"><a href="#14-其他相关工具" class="headerlink" title="14.其他相关工具"></a>14.其他相关工具</h3><ul>
-<li>sort - 对内容排序</li>
-<li>uniq - 去掉相邻重复内容</li>
-<li>tr - 替换指定内容为新内容</li>
-<li>cut/paste - 剪切/粘贴内容</li>
-<li>split - 拆分文件</li>
-<li>file - 判断文件类型</li>
-<li>wc - 统计文件行数、单词数、字节数</li>
-<li>iconv - 编码转换</li>
-</ul>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">[root ~]# cat foo.txt</span><br><span class="line">grape</span><br><span class="line">apple</span><br><span class="line">pitaya</span><br><span class="line">[root ~]# cat bar.txt</span><br><span class="line"><span class="number">100</span></span><br><span class="line"><span class="number">200</span></span><br><span class="line"><span class="number">300</span></span><br><span class="line"><span class="number">400</span></span><br><span class="line">[root ~]# paste foo.txt bar.txt</span><br><span class="line">grape   <span class="number">100</span></span><br><span class="line">apple   <span class="number">200</span></span><br><span class="line">pitaya  <span class="number">300</span></span><br><span class="line">        <span class="number">400</span></span><br><span class="line">[root ~]# paste foo.txt bar.txt &gt; hello.txt</span><br><span class="line">[root ~]# cut -b <span class="number">4</span><span class="number">-8</span> hello.txt</span><br><span class="line">pe      <span class="number">10</span></span><br><span class="line">le      <span class="number">20</span></span><br><span class="line">aya     <span class="number">3</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line">[root ~]# cat hello.txt | tr <span class="string">'\t'</span> <span class="string">','</span></span><br><span class="line">grape,<span class="number">100</span></span><br><span class="line">apple,<span class="number">200</span></span><br><span class="line">pitaya,<span class="number">300</span></span><br><span class="line">,<span class="number">400</span></span><br><span class="line">[root ~]# split -l <span class="number">100</span> sohu.html hello</span><br><span class="line">[root ~]# wget https:<span class="comment">//www.baidu.com/img/bd_logo1.png</span></span><br><span class="line">[root ~]# file bd_logo1.png</span><br><span class="line">bd_logo1.png: PNG image data, <span class="number">540</span> x <span class="number">258</span>, <span class="number">8</span>-bit colormap, non-<span class="built_in">int</span>erlaced</span><br><span class="line">[root ~]# wc sohu.html</span><br><span class="line">  <span class="number">2979</span>   <span class="number">6355</span> <span class="number">212527</span> sohu.html</span><br><span class="line">[root ~]# wc -l sohu.html</span><br><span class="line"><span class="number">2979</span> sohu.html</span><br><span class="line">[root ~]# wget http:<span class="comment">//www.qq.com -O qq.html</span></span><br><span class="line">[root ~]# iconv -f gb2312 -t utf<span class="number">-8</span> qq.html</span><br></pre></td></tr></table></figure>
-          
+          <h2 id="文件和文件夹操作"><a href="#文件和文件夹操作" class="headerlink" title="文件和文件夹操作"></a>文件和文件夹操作</h2><h3 id="1-创建-删除空目录-mkdir-rmdir"><a href="#1-创建-删除空目录-mkdir-rmdir" class="headerlink" title="1.创建/删除空目录 - mkdir/rmdir"></a>1.创建/删除空目录 - <strong>mkdir/rmdir</strong></h3>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/12/Linux%E4%BD%BF%E7%94%A8%E7%A8%8B%E5%BA%8F/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1764,43 +859,17 @@
 
       
         
-          
-            <h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><p>【语句格式】</p>
+          <h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><p>【语句格式】</p>
 <blockquote>
 <p>命令名称  [命令参数] [命令对象]</p>
 </blockquote>
-<h3 id="1-获取登录信息-w-who-last-lastb"><a href="#1-获取登录信息-w-who-last-lastb" class="headerlink" title="1.获取登录信息 - w/who/last/lastb"></a>1.获取登录信息 - <strong>w/who/last/lastb</strong></h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ w</span><br><span class="line"> <span class="number">12</span>:<span class="number">32</span>:<span class="number">22</span> up  <span class="number">2</span>:<span class="number">57</span>,  <span class="number">1</span> user,  load average: <span class="number">0.86</span>, <span class="number">1.18</span>, <span class="number">1.13</span></span><br><span class="line">USER     TTY      FROM             <span class="symbol">LOGIN@</span>   IDLE   JCPU   PCPU WHAT</span><br><span class="line">admintor tty1     :<span class="number">0</span>               <span class="number">09</span>:<span class="number">35</span>    <span class="number">2</span>:<span class="number">57</span>m  <span class="number">4</span>:<span class="number">45</span>  <span class="number">11.21</span>s /usr/bin/startdde</span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ clear</span><br><span class="line"></span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ w</span><br><span class="line"> <span class="number">12</span>:<span class="number">32</span>:<span class="number">28</span> up  <span class="number">2</span>:<span class="number">57</span>,  <span class="number">1</span> user,  load average: <span class="number">0.79</span>, <span class="number">1.16</span>, <span class="number">1.13</span></span><br><span class="line">USER     TTY      FROM             <span class="symbol">LOGIN@</span>   IDLE   JCPU   PCPU WHAT</span><br><span class="line">admintor tty1     :<span class="number">0</span>               <span class="number">09</span>:<span class="number">35</span>    <span class="number">2</span>:<span class="number">57</span>m  <span class="number">4</span>:<span class="number">45</span>  <span class="number">11.21</span>s /usr/bin/startdde</span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ who</span><br><span class="line">admintor tty1         <span class="number">2020</span><span class="number">-02</span><span class="number">-08</span> <span class="number">09</span>:<span class="number">35</span> (:<span class="number">0</span>)</span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ whoami</span><br><span class="line">admintor</span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ last</span><br><span class="line">admintor tty1         :<span class="number">0</span>               Sat Feb  <span class="number">8</span> <span class="number">09</span>:<span class="number">35</span>   still logged <span class="keyword">in</span></span><br><span class="line">reboot   system boot  <span class="number">4.15</span><span class="number">.0</span><span class="number">-30</span>deepin- Sat Feb  <span class="number">8</span> <span class="number">17</span>:<span class="number">34</span>   still running</span><br><span class="line">admintor tty1         :<span class="number">0</span>               Fri Feb  <span class="number">7</span> <span class="number">11</span>:<span class="number">43</span> - <span class="number">18</span>:<span class="number">32</span>  (<span class="number">06</span>:<span class="number">49</span>)</span><br><span class="line">reboot   system boot  <span class="number">4.15</span><span class="number">.0</span><span class="number">-30</span>deepin- Fri Feb  <span class="number">7</span> <span class="number">19</span>:<span class="number">42</span> - <span class="number">18</span>:<span class="number">32</span>  (<span class="number">-1</span>:<span class="number">-9</span>)</span><br><span class="line">admintor tty1         :<span class="number">0</span>               Wed Feb  <span class="number">5</span> <span class="number">10</span>:<span class="number">21</span> - <span class="number">14</span>:<span class="number">43</span>  (<span class="number">04</span>:<span class="number">21</span>)</span><br><span class="line">reboot   system boot  <span class="number">4.15</span><span class="number">.0</span><span class="number">-30</span>deepin- Wed Feb  <span class="number">5</span> <span class="number">18</span>:<span class="number">19</span> - <span class="number">14</span>:<span class="number">43</span>  (<span class="number">-3</span>:<span class="number">-36</span>)</span><br><span class="line">admintor tty1         :<span class="number">0</span>               Tue Feb  <span class="number">4</span> <span class="number">09</span>:<span class="number">32</span> - <span class="number">18</span>:<span class="number">16</span>  (<span class="number">08</span>:<span class="number">44</span>)</span><br><span class="line">reboot   system boot  <span class="number">4.15</span><span class="number">.0</span><span class="number">-30</span>deepin- Tue Feb  <span class="number">4</span> <span class="number">17</span>:<span class="number">31</span> - <span class="number">18</span>:<span class="number">17</span>  (<span class="number">00</span>:<span class="number">45</span>)</span><br><span class="line">admintor tty1         :<span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-查看自己使用的Shell-ps"><a href="#2-查看自己使用的Shell-ps" class="headerlink" title="2.查看自己使用的Shell - ps"></a>2.查看自己使用的Shell - <strong>ps</strong></h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ ps</span><br><span class="line">  PID TTY          TIME CMD</span><br><span class="line"><span class="number">19593</span> pts/<span class="number">1</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> bash</span><br><span class="line"><span class="number">20057</span> pts/<span class="number">1</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> ps</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-查看命令的说明和位置-whatis-which-whereis"><a href="#3-查看命令的说明和位置-whatis-which-whereis" class="headerlink" title="3.查看命令的说明和位置 - whatis/which/whereis"></a>3.查看命令的说明和位置 - <strong>whatis/which/whereis</strong></h3><h4 id="whatis"><a href="#whatis" class="headerlink" title="whatis"></a>whatis</h4><p>【功能】在whatis库中搜寻特定的命令 </p>
-<p>【语法】whatis COMMAND</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ whatis ps</span><br><span class="line">ps (<span class="number">1</span>)               - report a snapshot of the current processes.</span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ whatis python</span><br><span class="line">python3<span class="number">.7</span> (<span class="number">1</span>)        - an <span class="built_in">int</span>erpreted, <span class="built_in">int</span>eractive, object-oriented programming language</span><br><span class="line">python (<span class="number">1</span>)           - an <span class="built_in">int</span>erpreted, <span class="built_in">int</span>eractive, object-oriented programming language</span><br></pre></td></tr></table></figure>
-
-<h4 id="whereis"><a href="#whereis" class="headerlink" title="whereis"></a>whereis</h4><p>【功能】 查找文件、手册页、命令等的相关位置</p>
-<p>【语法】 whereis options argument</p>
-<p>【常用选项】 </p>
-<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="deletion">-b:只查找二进制文件位置</span></span><br><span class="line"><span class="deletion">-m:只查找手册页部分</span></span><br></pre></td></tr></table></figure>
-
-<p>【实例】</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">admintor<span class="meta">@admintor</span>-<span class="string">PC:</span>~/Desktop$ whereis ps</span><br><span class="line"><span class="string">ps:</span> <span class="regexp">/usr/</span>bin<span class="regexp">/ps /</span>usr<span class="regexp">/share/</span>man<span class="regexp">/man1/</span>ps<span class="number">.1</span>.gz</span><br><span class="line">admintor<span class="meta">@admintor</span>-<span class="string">PC:</span>~/Desktop$ whereis python</span><br><span class="line"><span class="string">python:</span> <span class="regexp">/usr/</span>bin<span class="regexp">/python /</span>usr<span class="regexp">/bin/</span>python2<span class="number">.7</span>-config <span class="regexp">/usr/</span>bin<span class="regexp">/python3.5-dbg /</span>usr<span class="regexp">/bin/</span>python2<span class="number">.7</span> <span class="regexp">/usr/</span>bin<span class="regexp">/python3.5dm-config /</span>usr<span class="regexp">/bin/</span>python3<span class="number">.5</span> <span class="regexp">/usr/</span>bin<span class="regexp">/python3.5m /</span>usr<span class="regexp">/bin/</span>python3<span class="number">.5</span>dm <span class="regexp">/usr/</span>bin<span class="regexp">/python3.5-dbg-config /</span>usr<span class="regexp">/lib/</span>python2<span class="number">.7</span> <span class="regexp">/usr/</span>lib<span class="regexp">/python3.5 /</span>etc<span class="regexp">/python /</span>etc<span class="regexp">/python2.7 /</span>etc<span class="regexp">/python3.5 /</span>usr<span class="regexp">/local/</span>bin<span class="regexp">/python3.7 /</span>usr<span class="regexp">/local/</span>bin<span class="regexp">/python3.7m /</span>usr<span class="regexp">/local/</span>bin<span class="regexp">/python3.7m-config /</span>usr<span class="regexp">/local/</span>lib<span class="regexp">/python3.7 /</span>usr<span class="regexp">/local/</span>lib<span class="regexp">/python2.7 /</span>usr<span class="regexp">/local/</span>lib<span class="regexp">/python3.5 /</span>usr<span class="regexp">/include/</span>python2<span class="number">.7</span> <span class="regexp">/usr/</span>include<span class="regexp">/python3.5m /</span>usr<span class="regexp">/include/</span>python3<span class="number">.5</span>dm <span class="regexp">/usr/</span>share<span class="regexp">/python /</span>usr<span class="regexp">/share/</span>man<span class="regexp">/man1/</span>python<span class="number">.1</span>.gz</span><br></pre></td></tr></table></figure>
-
-<h4 id="which"><a href="#which" class="headerlink" title="which"></a>which</h4><p>【功能】 查看<strong>可执行命令</strong>的路径</p>
-<p>【语法】which COMMAND</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">admintor<span class="meta">@admintor</span>-<span class="string">PC:</span>~/Desktop$ which ps</span><br><span class="line"><span class="regexp">/usr/</span>bin/ps</span><br><span class="line">admintor<span class="meta">@admintor</span>-<span class="string">PC:</span>~/Desktop$ which python</span><br><span class="line"><span class="regexp">/usr/</span>bin/python</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-清除屏幕上显示的内容-clear"><a href="#4-清除屏幕上显示的内容-clear" class="headerlink" title="4.清除屏幕上显示的内容 - clear"></a>4.清除屏幕上显示的内容 - <strong>clear</strong></h3><h3 id="5-查看帮助文档-man-info-help-apropos"><a href="#5-查看帮助文档-man-info-help-apropos" class="headerlink" title="5.查看帮助文档 - man/info/help/apropos"></a>5.查看帮助文档 - <strong>man/info/help/apropos</strong></h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">admintor@admintor-PC:~/Desktop$ ps --help</span><br><span class="line"></span><br><span class="line">Usage:</span><br><span class="line"> ps [options]</span><br><span class="line"></span><br><span class="line"> Try <span class="string">'ps --help &lt;simple|list|output|threads|misc|all&gt;'</span></span><br><span class="line">  <span class="keyword">or</span> <span class="string">'ps --help &lt;s|l|o|t|m|a&gt;'</span></span><br><span class="line"> <span class="keyword">for</span> additional help text.</span><br><span class="line"></span><br><span class="line"><span class="keyword">For</span> more details see ps(1).</span><br><span class="line">admintor@admintor-PC:~/Desktop$ man ps</span><br><span class="line">PS(1)                                                   <span class="built_in"> User </span>Commands                                                    PS(1)</span><br><span class="line"></span><br><span class="line">NAME</span><br><span class="line">       ps - report a snapshot of the current processes.</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">       ps [options]</span><br><span class="line"></span><br><span class="line">DESCRIPTION</span><br><span class="line"><span class="built_in">..</span>.</span><br></pre></td></tr></table></figure>
-
-<h3 id="6-查看系统和主机名-uname-hostname"><a href="#6-查看系统和主机名-uname-hostname" class="headerlink" title="6.查看系统和主机名 - uname/hostname"></a>6.查看系统和主机名 - <strong>uname/hostname</strong></h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">admintor<span class="meta">@admintor</span>-<span class="string">PC:</span>~/Desktop$ uname</span><br><span class="line">Linux</span><br><span class="line">admintor<span class="meta">@admintor</span>-<span class="string">PC:</span>~/Desktop$ hostname</span><br><span class="line">admintor-PC</span><br></pre></td></tr></table></figure>
-
-<h3 id="7-时间和日期-date-cal"><a href="#7-时间和日期-date-cal" class="headerlink" title="7.时间和日期 - date/cal"></a>7.时间和日期 - <strong>date/cal</strong></h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ date</span><br><span class="line"><span class="number">2020</span>年 <span class="number">02</span>月 <span class="number">08</span>日 星期六 <span class="number">15</span>:<span class="number">56</span>:<span class="number">50</span> CST</span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ cal</span><br><span class="line">      二月 <span class="number">2020</span>         </span><br><span class="line">日 一 二 三 四 五 六  </span><br><span class="line">                   <span class="number">1</span>  </span><br><span class="line"> <span class="number">2</span>  <span class="number">3</span>  <span class="number">4</span>  <span class="number">5</span>  <span class="number">6</span>  <span class="number">7</span>  <span class="number">8</span>  </span><br><span class="line"> <span class="number">9</span> <span class="number">10</span> <span class="number">11</span> <span class="number">12</span> <span class="number">13</span> <span class="number">14</span> <span class="number">15</span>  </span><br><span class="line"><span class="number">16</span> <span class="number">17</span> <span class="number">18</span> <span class="number">19</span> <span class="number">20</span> <span class="number">21</span> <span class="number">22</span>  </span><br><span class="line"><span class="number">23</span> <span class="number">24</span> <span class="number">25</span> <span class="number">26</span> <span class="number">27</span> <span class="number">28</span> <span class="number">29</span>  </span><br><span class="line">                      </span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ cal <span class="number">5</span> <span class="number">2017</span></span><br><span class="line">      五月 <span class="number">2017</span>         </span><br><span class="line">日 一 二 三 四 五 六  </span><br><span class="line">    <span class="number">1</span>  <span class="number">2</span>  <span class="number">3</span>  <span class="number">4</span>  <span class="number">5</span>  <span class="number">6</span>  </span><br><span class="line"> <span class="number">7</span>  <span class="number">8</span>  <span class="number">9</span> <span class="number">10</span> <span class="number">11</span> <span class="number">12</span> <span class="number">13</span>  </span><br><span class="line"><span class="number">14</span> <span class="number">15</span> <span class="number">16</span> <span class="number">17</span> <span class="number">18</span> <span class="number">19</span> <span class="number">20</span>  </span><br><span class="line"><span class="number">21</span> <span class="number">22</span> <span class="number">23</span> <span class="number">24</span> <span class="number">25</span> <span class="number">26</span> <span class="number">27</span>  </span><br><span class="line"><span class="number">28</span> <span class="number">29</span> <span class="number">30</span> <span class="number">31</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="8-重启和关机-reboot-shutdown"><a href="#8-重启和关机-reboot-shutdown" class="headerlink" title="8.重启和关机 - reboot/shutdown"></a>8.重启和关机 - <strong>reboot/shutdown</strong></h3><h3 id="9-退出登录-exit-logout"><a href="#9-退出登录-exit-logout" class="headerlink" title="9.退出登录 - exit/logout"></a>9.退出登录 - <strong>exit/logout</strong></h3><h3 id="10-查看历史命令-history"><a href="#10-查看历史命令-history" class="headerlink" title="10.查看历史命令 - history"></a>10.查看历史命令 - <strong>history</strong></h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ history</span><br><span class="line">...</span><br><span class="line"><span class="number">441</span>  whatis python</span><br><span class="line"><span class="number">442</span>  whereis ps</span><br><span class="line"><span class="number">443</span>  whereis python</span><br><span class="line"><span class="number">444</span>  which ps</span><br><span class="line"><span class="number">445</span>  which python</span><br><span class="line"><span class="number">446</span>  ps --help</span><br><span class="line"><span class="number">447</span>  man ps</span><br><span class="line"><span class="number">448</span>  uname</span><br><span class="line"><span class="number">449</span>  hostname</span><br><span class="line"><span class="number">450</span>  date</span><br><span class="line"><span class="number">451</span>  cal</span><br><span class="line"><span class="number">452</span>  cal <span class="number">5</span> <span class="number">2017</span></span><br><span class="line"><span class="number">453</span>  history</span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ !<span class="number">452</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看到历史命令后，可以用！历史命令编号来重新执行该命令；通过history -c 可以清除历史命令。</p>
-</blockquote>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/12/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1939,20 +1008,14 @@
 
       
         
-          
-            <p><img src="../images/s01%E4%B8%B2.png" alt="图片"></p>
-<h1 id="直接计算-暴力求解"><a href="#直接计算-暴力求解" class="headerlink" title="直接计算 暴力求解"></a>直接计算 暴力求解</h1><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">eval</span>(<span class="built_in">input</span>())</span><br><span class="line">str1 = <span class="string">'0'</span></span><br><span class="line"><span class="keyword">if</span> n == <span class="number">0</span>:</span><br><span class="line">    <span class="keyword">print</span>(str1)</span><br><span class="line">    <span class="keyword">else</span>:     #通过两个字符串，一个作为对照一个进行运算，一轮结束后重新赋值后再运算</span><br><span class="line">    <span class="keyword">for</span> i in <span class="built_in">range</span>(n):          </span><br><span class="line">        str2 = <span class="string">''</span></span><br><span class="line">        <span class="keyword">for</span> i in <span class="built_in">range</span>(<span class="built_in">len</span>(str1)):</span><br><span class="line">            <span class="keyword">if</span> str1[i] == <span class="string">'0'</span>:</span><br><span class="line">                str2 += <span class="string">'1'</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                str2 += <span class="string">'01'</span></span><br><span class="line">        str1 = str2</span><br><span class="line">    <span class="keyword">print</span>(str1)</span><br></pre></td></tr></table></figure>
-<h1 id="递归运算"><a href="#递归运算" class="headerlink" title="递归运算"></a>递归运算</h1><h2 id="规律："><a href="#规律：" class="headerlink" title="规律："></a>规律：</h2><p>起始  0</p>
-<p>n=1:   1</p>
-<p>n=2:   01</p>
-<p>n=3:   101</p>
-<p>n=4:   01101</p>
-<p>n=5:   10101101</p>
-<p>发现一个串是由前两个串拼接起来</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def ans(n):</span><br><span class="line">    <span class="keyword">if</span> n == 0:</span><br><span class="line">        <span class="builtin-name">print</span>(<span class="string">'0'</span>,<span class="attribute">end</span>=<span class="string">''</span>)</span><br><span class="line">    elif n == 1:</span><br><span class="line">        <span class="builtin-name">print</span>(<span class="string">'1'</span>,<span class="attribute">end</span>=<span class="string">''</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        ans(n-2)</span><br><span class="line">        ans(n-1)</span><br><span class="line">n = eval(input())</span><br><span class="line">ans(n)</span><br></pre></td></tr></table></figure>
-<h1 id="来个错误的事例"><a href="#来个错误的事例" class="headerlink" title="来个错误的事例"></a>来个错误的事例</h1><p>python字符串一旦创建，里边的元素不可以更改，可以重新赋值，或者变换为列表进行替换</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">eval</span>(<span class="built_in">input</span>())</span><br><span class="line">str1 = <span class="string">'0'</span></span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(n):</span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">j</span> in <span class="built_in">range</span>(<span class="built_in">len</span>(str1)):</span><br><span class="line">        <span class="keyword">if</span> str1[<span class="keyword">j</span>] == <span class="string">'0'</span>:</span><br><span class="line">            str1[<span class="keyword">j</span>] = <span class="string">"1"</span> #这里语法错误,元素无法更改</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            str1.<span class="keyword">insert</span>(<span class="keyword">j</span>,<span class="string">"0"</span>)</span><br><span class="line">            <span class="keyword">j</span> += <span class="number">1</span></span><br><span class="line"><span class="keyword">print</span>(str1)</span><br></pre></td></tr></table></figure>
-          
+          <p><img src="../images/s01%E4%B8%B2.png" alt="图片"></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/04/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0-s01%E4%B8%B2/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -2091,13 +1154,14 @@
 
       
         
-          
-            <p><img src="../images/%E5%88%86%E8%8B%B9%E6%9E%9C.png" alt="图片"><br>看到这道题感觉还可以，花了一会就写出了代码，但提交上却TLE，试着简化了简化还是不行，最后找到了其他大佬的解法，通过差分数组求解</p>
-<h2 id="我的方法和代码如下"><a href="#我的方法和代码如下" class="headerlink" title="我的方法和代码如下"></a>我的方法和代码如下</h2><p>也可解出答案，但是会超时<br>Time Limit Exceeded</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">N</span>,M = <span class="keyword">map</span>(<span class="keyword">int</span>,<span class="built_in">input</span>().<span class="keyword">split</span>(<span class="string">' '</span>))</span><br><span class="line">Arr = [<span class="number">0</span>] * <span class="keyword">N</span></span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(M):</span><br><span class="line">    <span class="keyword">a</span>,<span class="keyword">b</span>,<span class="keyword">c</span> = <span class="keyword">map</span>(<span class="keyword">int</span>,<span class="built_in">input</span>().<span class="keyword">split</span>())</span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">j</span> in <span class="built_in">range</span>(<span class="keyword">a</span>,<span class="keyword">b</span>+<span class="number">1</span>):</span><br><span class="line">        Arr[<span class="keyword">j</span>-<span class="number">1</span>] += <span class="keyword">c</span></span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(<span class="keyword">N</span>):</span><br><span class="line">    <span class="keyword">print</span>(Arr[i],end=<span class="string">' '</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="运用差分数组"><a href="#运用差分数组" class="headerlink" title="运用差分数组"></a>运用差分数组</h2><p>代码很简洁，只计算一次就行<br>f[i] = d[i] - d[i-1]<br>d[2] = f[1]+d[0]+f[2] = d[1] + d[2] -d[1] = d[2]<br>数列第i项的值是可以用差分数组的前i项的和计算的，即d[i] = f[i]的前缀和<br>差分数组其实就相当于通过改变区间前段和末端与其他部分的差值，在最后进行累加的时候实行对整个区间的值的改变</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">N</span>,M = <span class="keyword">map</span>(<span class="keyword">int</span>,<span class="built_in">input</span>().<span class="keyword">split</span>(<span class="string">' '</span>))</span><br><span class="line">Arr = [<span class="number">0</span>] * (<span class="keyword">N</span> + <span class="number">2</span>)</span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(M):</span><br><span class="line">    <span class="keyword">a</span>,<span class="keyword">b</span>,<span class="keyword">c</span> = <span class="keyword">map</span>(<span class="keyword">int</span>,<span class="built_in">input</span>().<span class="keyword">split</span>())</span><br><span class="line">    Arr[<span class="keyword">a</span>] += <span class="keyword">c</span></span><br><span class="line">    Arr[<span class="keyword">b</span>+<span class="number">1</span>] -= <span class="keyword">c</span></span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(<span class="number">1</span>,<span class="keyword">N</span>+<span class="number">1</span>):</span><br><span class="line">    Arr[i] += Arr[i-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">print</span>(Arr[i],end=<span class="string">' '</span>)</span><br></pre></td></tr></table></figure>
-          
+          <p><img src="../images/%E5%88%86%E8%8B%B9%E6%9E%9C.png" alt="图片"><br>看到这道题感觉还可以，花了一会就写出了代码，但提交上却TLE，试着简化了简化还是不行，最后找到了其他大佬的解法，通过差分数组求解</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/03/%E7%AE%97%E6%B3%95%E6%8F%90%E9%AB%98-%E5%88%86%E8%8B%B9%E6%9E%9C/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -2236,10 +1300,14 @@
 
       
         
-          
-            <p>题目描述<br><img src="../images/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95.png" alt="题目描述"><br>运用到矩阵幂的方法</p>
-<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">str1 = input()</span><br><span class="line">arr1 = str1.split(<span class="string">' '</span>)</span><br><span class="line">m = int(arr1[<span class="number">0</span>])</span><br><span class="line">n = int(arr1[<span class="number">1</span>])</span><br><span class="line"><span class="symbol">Arr1</span> = [[] for i in range(m)]</span><br><span class="line"><span class="symbol">Arr2</span> = []</span><br><span class="line"><span class="symbol">Arr3</span> = []</span><br><span class="line">for i in range(m):</span><br><span class="line">    <span class="symbol">Arr2</span>.append([])</span><br><span class="line">    <span class="symbol">Arr3</span>.append([])</span><br><span class="line">    for j in range(m):</span><br><span class="line">        <span class="symbol">Arr2</span>[i].append(<span class="number">0</span>)</span><br><span class="line">        <span class="symbol">Arr3</span>[i].append(<span class="number">0</span>)</span><br><span class="line">for i in range(m):</span><br><span class="line">    str2 = input()</span><br><span class="line">    <span class="symbol">Arr1</span>[i] = str2.split(<span class="string">' '</span>)</span><br><span class="line">for i in range(m):</span><br><span class="line">    for j in range(m):</span><br><span class="line">        <span class="symbol">Arr2</span>[i][j] = <span class="symbol">Arr1</span>[i][j]</span><br><span class="line">        if n == <span class="number">0</span>: #当为<span class="number">0</span>次幂时，为单位矩阵</span><br><span class="line">            if i == j:</span><br><span class="line">                <span class="symbol">Arr3</span>[i][j] = <span class="number">1</span></span><br><span class="line">            else:</span><br><span class="line">                <span class="symbol">Arr3</span>[i][j] = <span class="number">0</span></span><br><span class="line">        else:</span><br><span class="line">            <span class="symbol">Arr3</span>[i][j] = <span class="symbol">Arr1</span>[i][j]</span><br><span class="line">for t in range(n<span class="number">-1</span>):</span><br><span class="line">    for i in range(n):</span><br><span class="line">        for j in range(m):</span><br><span class="line">            tmp = <span class="number">0</span></span><br><span class="line">            for k in range(m):</span><br><span class="line">                tmp += int(<span class="symbol">Arr2</span>[i][k]) * int(<span class="symbol">Arr1</span>[k][j]) #矩阵相乘</span><br><span class="line">            <span class="symbol">Arr3</span>[i][j] = tmp</span><br><span class="line">    for i in range(m):</span><br><span class="line">        for j in range(m):</span><br><span class="line">            <span class="symbol">Arr2</span>[i][j] = <span class="symbol">Arr3</span>[i][j]</span><br><span class="line">for i in range(m):</span><br><span class="line">    for j in range(m):</span><br><span class="line">        print(<span class="symbol">Arr3</span>[i][j],end=<span class="string">' '</span>)</span><br><span class="line">    print()</span><br></pre></td></tr></table></figure>
-          
+          <p>题目描述<br><img src="../images/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95.png" alt="题目描述"><br>运用到矩阵幂的方法</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/02/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -2378,10 +1446,14 @@
 
       
         
-          
-            <p><img src="../images/%E5%9B%9E%E5%BD%A2%E5%8F%96%E6%95%B0.png" alt="题目描述"><br>这个题目按照下右上左的顺序取数，并对每个取过的数进行标记。<br>一下代码提交后为runtime error，不太清楚为啥。之后再继续找找原因</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"># str1 = input()</span><br><span class="line"># arr1 = str1.split(<span class="string">' '</span>)</span><br><span class="line"># m = <span class="built_in">int</span>(arr1[<span class="number">0</span>])</span><br><span class="line"># n = <span class="built_in">int</span>(arr1[<span class="number">1</span>])</span><br><span class="line">m,n = map(<span class="built_in">int</span>,input().split()) #简单写法</span><br><span class="line">Arr = [[] <span class="keyword">for</span> i <span class="keyword">in</span> range(m)]</span><br><span class="line">Arr = [[] * n] * m</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">    Arr[i] = [<span class="built_in">int</span>(j) <span class="keyword">for</span> j <span class="keyword">in</span> input().split()]</span><br><span class="line">#<span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">#    str2 = input()</span><br><span class="line">#    Arr[i] = str2.split(<span class="string">' '</span>)</span><br><span class="line">sum = m * n</span><br><span class="line">i = <span class="number">0</span></span><br><span class="line">j = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> sum &gt; <span class="number">0</span>: #取过的数赋值为<span class="number">-1</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; m <span class="keyword">and</span> Arr[i][j] != <span class="number">-1</span>: #向下取数</span><br><span class="line">        print(Arr[i][j],end=<span class="string">' '</span>)</span><br><span class="line">        Arr[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">    i -= <span class="number">1</span></span><br><span class="line">    j += <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> j &lt; n <span class="keyword">and</span> Arr[i][j] != <span class="number">-1</span>: #向右取数</span><br><span class="line">        print(Arr[i][j],end=<span class="string">' '</span>)</span><br><span class="line">        Arr[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">    j -= <span class="number">1</span></span><br><span class="line">    i -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> i &gt;= <span class="number">0</span> <span class="keyword">and</span> Arr[i][j] != <span class="number">-1</span>: #向上取数</span><br><span class="line">        print(Arr[i][j],end=<span class="string">' '</span>)</span><br><span class="line">        Arr[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        i -= <span class="number">1</span></span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line">    j -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> j &gt;= <span class="number">0</span> <span class="keyword">and</span> Arr[i][j] != <span class="number">-1</span>: #向左取数</span><br><span class="line">        print(Arr[i][j],end=<span class="string">' '</span>)</span><br><span class="line">        Arr[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        j -= <span class="number">1</span></span><br><span class="line">    j += <span class="number">1</span></span><br></pre></td></tr></table></figure>
-          
+          <p><img src="../images/%E5%9B%9E%E5%BD%A2%E5%8F%96%E6%95%B0.png" alt="题目描述"><br>这个题目按照下右上左的顺序取数，并对每个取过的数进行标记。<br>一下代码提交后为runtime error，不太清楚为啥。之后再继续找找原因</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/02/%E5%9B%9E%E5%BD%A2%E5%8F%96%E6%95%B0/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -2520,14 +1592,14 @@
 
       
         
-          
-            <h1 id="基础练习-分解质因数"><a href="#基础练习-分解质因数" class="headerlink" title="基础练习 分解质因数"></a>基础练习 分解质因数</h1><p><img src="../images/%E5%88%86%E8%A7%A3%E8%B4%A8%E5%9B%A0%E6%95%B0%E5%9B%BE%E7%89%87.png" alt="图片"><br>这里用了两种方法，第一种是暴力解法，超时了，第二种递归，成功AC</p>
-<h2 id="第一种解法-暴力解法："><a href="#第一种解法-暴力解法：" class="headerlink" title="第一种解法 暴力解法："></a>第一种解法 暴力解法：</h2><figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#第一种 暴力解法 超时</span></span><br><span class="line">def isPrime(x): <span class="meta">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i in range(<span class="number">2</span>,<span class="keyword">int</span>(x ** (<span class="number">1</span>/<span class="number">2</span>))+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> x % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> False</span><br><span class="line">    <span class="keyword">return</span> True</span><br><span class="line"></span><br><span class="line">str1 = <span class="keyword">input</span>() <span class="meta">#接收输入</span></span><br><span class="line">arr = str1.split(<span class="string">' '</span>) <span class="meta">#分割成数组</span></span><br><span class="line">a = <span class="keyword">int</span>(arr[<span class="number">0</span>]) <span class="meta">#取出开始值</span></span><br><span class="line">b = <span class="keyword">int</span>(arr[<span class="number">1</span>]) <span class="meta">#取出结束值</span></span><br><span class="line"><span class="keyword">for</span> i in range(a,b+<span class="number">1</span>): <span class="meta">#循环输出每一次的结果</span></span><br><span class="line">    str1 = <span class="string">''</span>.join([<span class="keyword">str</span>(i),<span class="string">'='</span>]) <span class="meta">#先得出前面的</span></span><br><span class="line">    <span class="keyword">if</span> isPrime(i): <span class="meta">#是质数的话就是本身</span></span><br><span class="line">        str1 = <span class="string">''</span>.join([str1,<span class="keyword">str</span>(i)])</span><br><span class="line">        <span class="keyword">print</span>(str1)</span><br><span class="line">    <span class="keyword">else</span>: <span class="meta">#不是质数</span></span><br><span class="line">        tmp = [] <span class="meta">#一个空列表</span></span><br><span class="line">        t = i</span><br><span class="line">        <span class="keyword">while</span> t != <span class="number">1</span>: <span class="meta">#经过一次一次除，最后除到<span class="number">1</span>结束</span></span><br><span class="line">            j = <span class="number">2</span> <span class="meta">#最小的质数为<span class="number">2</span>，从<span class="number">2</span>开始</span></span><br><span class="line">            <span class="keyword">while</span> j &lt;= t: <span class="meta">#从<span class="number">2</span>开始找最小能整除t的值</span></span><br><span class="line">                <span class="keyword">if</span> isPrime(j) <span class="keyword">and</span> t % j == <span class="number">0</span>:</span><br><span class="line">                    tmp.append(j)</span><br><span class="line">                    t /= j</span><br><span class="line">                    <span class="keyword">break</span> <span class="meta">#找到一个就结束，重新开始找</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    j += <span class="number">1</span> <span class="meta">#不符合要求加<span class="number">1</span></span></span><br><span class="line">            <span class="keyword">if</span> t == <span class="number">1</span>: <span class="meta">#当等于<span class="number">1</span>时跳出循环</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="meta">#tmp = sorted(tmp) #因为是从小到大找的，不用排序也行</span></span><br><span class="line">        <span class="keyword">for</span> j in range(len(tmp)): <span class="meta">#然后按照列表开始输出</span></span><br><span class="line">            <span class="keyword">if</span> j == <span class="number">0</span>:</span><br><span class="line">                str1 = str1 + <span class="keyword">str</span>(tmp[j])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                str1 = str1 + <span class="string">'*'</span> + <span class="keyword">str</span>(tmp[j])</span><br><span class="line">        <span class="keyword">print</span>(str1)</span><br></pre></td></tr></table></figure>
-<h2 id="第二种解法-递归"><a href="#第二种解法-递归" class="headerlink" title="第二种解法 递归"></a>第二种解法 递归</h2><p>用乘积的方式进行计算，等于值时得到对应的质因数分解</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#第二种方法 递归</span></span><br><span class="line">def isPrime(<span class="built_in">num</span>): <span class="comment">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,<span class="built_in">num</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">num</span> % i == <span class="number">0</span>:</span><br><span class="line">            <span class="literal">return</span> False</span><br><span class="line">    <span class="literal">return</span> True</span><br><span class="line">def calcuate(<span class="built_in">num</span>,tmp):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,int(<span class="built_in">num</span> ** (<span class="number">1</span>/<span class="number">2</span>)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">num</span> % i == <span class="number">0</span> <span class="keyword">and</span> isPrime(i):</span><br><span class="line">            tmp.append(i)</span><br><span class="line">            <span class="built_in">num</span> = <span class="built_in">num</span><span class="comment"> // i</span></span><br><span class="line">            <span class="literal">return</span> calcuate(<span class="built_in">num</span>,tmp)</span><br><span class="line">    tmp.append(<span class="built_in">num</span>)</span><br><span class="line">    str1 = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="built_in">len</span>(tmp)): <span class="comment">#循环列表返回值</span></span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            str1 += str(tmp[i])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            str1 += <span class="string">'*'</span> + str(tmp[i])</span><br><span class="line">    <span class="literal">return</span> str1    </span><br><span class="line">str1 = input()</span><br><span class="line">arr = str1.<span class="built_in">split</span>(<span class="string">' '</span>)</span><br><span class="line"><span class="keyword">a</span> = int(arr[<span class="number">0</span>])</span><br><span class="line">b = int(arr[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="keyword">a</span>,b+<span class="number">1</span>):</span><br><span class="line">    tmp = []</span><br><span class="line">    str1 = <span class="string">''</span>.join([str(i),<span class="string">'='</span>])</span><br><span class="line">    str1 += calcuate(i,tmp)</span><br><span class="line">    print(str1)</span><br></pre></td></tr></table></figure>
-<h1 id="算法提高-质因数"><a href="#算法提高-质因数" class="headerlink" title="算法提高 质因数"></a>算法提高 质因数</h1><p><img src="../images/%E8%B4%A8%E5%9B%A0%E6%95%B0.png" alt="图片"><br>这个就是上个题的简写版，按照同样的递归方法即可</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">def isPrime(<span class="built_in">num</span>): <span class="comment">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,int(<span class="built_in">num</span> ** (<span class="number">1</span>/<span class="number">2</span>))+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">num</span> % i == <span class="number">0</span>:</span><br><span class="line">            <span class="literal">return</span> False</span><br><span class="line">    <span class="literal">return</span> True</span><br><span class="line">def calcuate(<span class="built_in">num</span>,tmp): <span class="comment">#进行递归求解</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,int(<span class="built_in">num</span> ** (<span class="number">1</span>/<span class="number">2</span>))+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> isPrime(i) <span class="keyword">and</span> <span class="built_in">num</span> % i == <span class="number">0</span>:</span><br><span class="line">            tmp.append(i)</span><br><span class="line">            <span class="comment">#num = num // i</span></span><br><span class="line">            <span class="literal">return</span> calcuate(nu<span class="comment">m//i,tmp)</span></span><br><span class="line">    tmp.append(<span class="built_in">num</span>)</span><br><span class="line">    str1 = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="built_in">len</span>(tmp)):</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            str1 += str(tmp[i])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            str1 += <span class="string">'*'</span> + str(tmp[i])</span><br><span class="line">    <span class="literal">return</span> str1</span><br><span class="line"><span class="keyword">a</span> = eval(input())</span><br><span class="line">tmp = []</span><br><span class="line">str1 = str(<span class="keyword">a</span>) + <span class="string">'='</span> + calcuate(<span class="keyword">a</span>,tmp)</span><br><span class="line">print(str1) <span class="comment">#打印值</span></span><br></pre></td></tr></table></figure>
-          
+          <h1 id="基础练习-分解质因数"><a href="#基础练习-分解质因数" class="headerlink" title="基础练习 分解质因数"></a>基础练习 分解质因数</h1><p><img src="../images/%E5%88%86%E8%A7%A3%E8%B4%A8%E5%9B%A0%E6%95%B0%E5%9B%BE%E7%89%87.png" alt="图片"><br>这里用了两种方法，第一种是暴力解法，超时了，第二种递归，成功AC</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/01/%E5%88%86%E8%A7%A3%E8%B4%A8%E5%9B%A0%E6%95%B0/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

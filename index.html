@@ -341,39 +341,15 @@
 
       
         
-          
-            <h3 id="攻防世界"><a href="#攻防世界" class="headerlink" title="攻防世界"></a>攻防世界</h3><h4 id="WebWp"><a href="#WebWp" class="headerlink" title="WebWp"></a>WebWp</h4><p><a href="https://adworld.xctf.org.cn/" target="_blank" rel="noopener">题目地址</a></p>
+          <h3 id="攻防世界"><a href="#攻防世界" class="headerlink" title="攻防世界"></a>攻防世界</h3><h4 id="WebWp"><a href="#WebWp" class="headerlink" title="WebWp"></a>WebWp</h4><p><a href="https://adworld.xctf.org.cn/" target="_blank" rel="noopener">题目地址</a></p>
 <h5 id="view-source"><a href="#view-source" class="headerlink" title="view-source"></a>view-source</h5><p>打开直接右键得到flag。</p>
-<h5 id="robots"><a href="#robots" class="headerlink" title="robots"></a>robots</h5><p>robots是一个爬虫协议，规定了访客可以访问哪些文件，以.txt文本显示。在地址栏后添加robots.txt进入robots页面。<br>显示flag_ls_h3re.php，然后访问，得到flag。</p>
-<h5 id="backup"><a href="#backup" class="headerlink" title="backup"></a>backup</h5><p>.bak为电脑自动设置的备份文件。<br>直接地址添加/index.php.bak可得备份文件，打开可得flag。</p>
-<h5 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h5><p>这道题两种做法<br>第一种：<br>直接f12，打开network，<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/01.png" alt="f3738a25ab605fb8b8784491c5d5d040.png"><br>然后在地址栏加入cookie.php<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/02.png" alt="06588c1507fd173426276b57b1bc78c6.png"><br>得到flag<br>第二种：bp<br>抓包<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/03.png" alt="47324d9ace2eb7d38401ec00e3d4712b.png"><br>然后在地址栏加入cookie.php，再次抓包<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/04.png" alt="58b7bd929b82db184ea5de4a06f57aa2.png"><br>也可得到flag。</p>
-<h5 id="disabled-button"><a href="#disabled-button" class="headerlink" title="disabled_button"></a>disabled_button</h5><p>打开后有个不能按的按钮，f12，发现属性为disabled<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/05.png" alt="fe780a899cc3c93e902cd2152b5affcc.png"><br>把这个删掉，刷新，得到flag。<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/06.png" alt="a6f9938bcbbeea57a26079e2c846572f.png"></p>
-<h5 id="weak-auth"><a href="#weak-auth" class="headerlink" title="weak_auth"></a>weak_auth</h5><p>进去是这个页面，是爆破没错了。<br>先随便输入一下，弹窗提示为admin登录，那么用户名应该为admin了。接着就是弱口令，直接bp。<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/07.png" alt="fc49e7907a0c4e73ea41c09d35a41fb0.png"><br>抓包，送到Intruder，payload选择passwords<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/08.png" alt="7747c15f7d116759e4663af4910c97f4.png"><br>开始爆破。<br>然后找到长度不一样的即为密码。<br>然后登录即可找到flag。</p>
-<h5 id="simple-php"><a href="#simple-php" class="headerlink" title="simple_php"></a>simple_php</h5><p>构造地址如下：<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/09.png" alt="ef06b27efbeaeceb70a6d0a74f699a78.png"><br>php是弱类型，所以’0’==0成立，b能是数字，可以构造b为数组b[]=5678，或者在b后加字母，比较时默认只比较数字部分。</p>
-<h5 id="get-post"><a href="#get-post" class="headerlink" title="get_post"></a>get_post</h5><p>这个就是简单的get，post了。<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/10.png" alt="1186692dbbbcd5c3bb80c810b428c343.png"></p>
-<h5 id="xff-referer"><a href="#xff-referer" class="headerlink" title="xff_referer"></a>xff_referer</h5><p>提示ip地址为123.123.123.123<br>该题掌握X-Forwarded-For和Referer的知识：<br>简称XFF，代表客户端，是HTTP的请求端真实的IP。<br>Referer是header的一部分，当浏览器向web服务器发送请求的时候，一般会带上Referer，告诉服务器我是从哪个页面链接过来的，服务器基此可以获得一些信息用于处理。referer 是http的拓展头部，作用是记录当前请求页面的来源页面的地址。服务器使用referer确认访问来源，如果referer内容不符合要求，服务器可以拦截或者重定向请求。<br>用bp抓包修改<br>右键送到Repeater，添加X-Forwarded-For:123.123.123.123，go，显示如下页面<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/11.png" alt="d0eab203ed63605eade4469542c943dc.png"><br>还要构造referer。<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/12.png" alt="5a7243e1dbb8e1ec66250fa2b5be76c3.png"><br>得出flag。</p>
-<h5 id="webshell"><a href="#webshell" class="headerlink" title="webshell"></a>webshell</h5><p>这道题就是菜刀的基本使用。<br>打开菜刀输入url，<img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/13.png" alt="f9713fc76cf46bad206a7058fe79d3e5.png"><br>打开flag.txt得到flag。</p>
-<h5 id="command-execution"><a href="#command-execution" class="headerlink" title="command_execution"></a>command_execution</h5><p>这是命令执行漏洞，也就是用户通过浏览器在远程服务器上执行任意系统命令，这是第一次接触。参考了网上的wp。<br>先试一下本机127.0.0.1，有回显。<img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/14.png" alt="5552db0ea1c328d3cd82b16311af227b.png"><br>这个是可以添加连接符的，比如&amp;&amp;||等，这里试一下输入127.0.0.1&amp;&amp;dir<br>dir就是显示目录内容。<img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/15.png" alt="25da5b930a0600f6a16b047bd5ae061a.png"><br>回显有index.php<br>然后试试输入flag关键词</p>
-<blockquote>
-<p>127.0.0.1 &amp;&amp; find / -name “flag.*”</p>
-</blockquote>
-<p><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/16.png" alt="26fb9ef994a699ca100e4f2ba704627d.png"></p>
-<p>找到位置，然后开始输入</p>
-<blockquote>
-<p>127.0.0.1 &amp;&amp; cat /home/flag.txt</p>
-</blockquote>
-<p>得到flag。</p>
-<h5 id="simple-js"><a href="#simple-js" class="headerlink" title="simple_js"></a>simple_js</h5><p>查看源代码，是js代码。整理一下。<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/17.png" alt="4be7a3fec6b950d9c10e7bb8c5ad816d.png"><br>代码功能是把一串用逗号分隔的数字按ascii转成字符串，然后输出。</p>
-<p>代码有很多没有用的变量，需要进行修改。<br>代码中有这样的ascii串，</p>
-<blockquote>
-<p>\x35\x35\x2c\x35\x36\x2c\x35\x34\x2c\x37\x39\x2c\x31\x31\x35\x2c\x36\x39\x2c\x31\x31\x34\x2c\x31\x31\x36\x2c\x31\x30\x37\x2c\x34\x39\x2c\x35\x30</p>
-</blockquote>
-<p>转码后为55,56,54,79,115,69,114,116,107,49,50<br>再通过ascii转换<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/18.png" alt="281beda85aabf6c406af0984f3958bfb.png"><br>连起来就是flag。</p>
-<h5 id="baby-web"><a href="#baby-web" class="headerlink" title="baby_web"></a>baby_web</h5><p>提示说初始页面，想到index.html,不行又试了试index.php，到network里边响应头找到flag。<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/19.png" alt="bf357a9dcbe4bc5f3b6c6ce1ebe5889f.png"></p>
-<h5 id="Training-WWW-Robots"><a href="#Training-WWW-Robots" class="headerlink" title="Training-WWW-Robots"></a>Training-WWW-Robots</h5><p>提示robots，先看看robots文件，<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/20.png" alt="4a00ff9dcd6407567359d55d029b173a.png"><br>有个fl0g.php，打开看看。<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/21.png" alt="dafa7304aed10e61657aba39dc534c5a.png"><br>得到flag。</p>
-<h5 id="php-rce"><a href="#php-rce" class="headerlink" title="php_rce"></a>php_rce</h5><p>打开试了半天，不知道是干哈的，没办法，搜一下吧。是thinkphp5 rce漏洞，这个以前没有见过。<br><img src="../images/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/Web/22.png" alt="6c7f65ceff78de22ac1b3536a1421eec.png"><br><a href="https://blog.csdn.net/qq_40884727/article/details/101452478" target="_blank" rel="noopener">ThinkPHP5.x rec漏洞分析与复现</a></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -512,29 +488,15 @@
 
       
         
-          
-            <p>这次跟着去水了一把。平常也练了一些，但见到这些题，也只能说是见识面太窄，还是慢慢积累吧。</p>
+          <p>这次跟着去水了一把。平常也练了一些，但见到这些题，也只能说是见识面太窄，还是慢慢积累吧。</p>
 <p><a href="https://buuoj.cn/challenges" target="_blank" rel="noopener">题目地址</a></p>
-<h4 id="签到-y1ng"><a href="#签到-y1ng" class="headerlink" title="签到-y1ng"></a>签到-y1ng</h4><p>QkpEe1czbGMwbWVfVDBfQkpEQ1RGfQ==<br>直接base64解码得到falg</p>
-<h4 id="老文盲了1"><a href="#老文盲了1" class="headerlink" title="老文盲了1"></a>老文盲了1</h4><p>附件下载完打开是一行生僻字，</p>
-<blockquote>
-<p>罼雧締眔擴灝淛匶襫黼瀬鎶軄鶛驕鳓哵眔鞹鰝</p>
-</blockquote>
-<p>着实是无头绪，在后来hint的提示下，知道是读音。然后一个一个百度，连起来读一下知道flag。</p>
-<blockquote>
-<p>bi ji di da kuo hao zhe jiu shi fu lai ge zhi jie jiao le ba da guo hao</p>
-</blockquote>
-<h4 id="A-beautiful-picture"><a href="#A-beautiful-picture" class="headerlink" title="A beautiful picture"></a>A beautiful picture</h4><p><img src="../images/BJDCTF&#32;2nd/A&#32;beautiful&#32;picture/1.png" alt="picture"></p>
-<p>这个就是标准隐写了，打开WinHex，改一下图片的高度，改到最大。<br><img src="../images/BJDCTF&#32;2nd/A&#32;beautiful&#32;picture/Winhex.png" alt="picture"></p>
-<p>然后得到flag。<br><img src="../images/BJDCTF&#32;2nd/A&#32;beautiful&#32;picture/2.png" alt="picture"></p>
-<h4 id="灵能精通"><a href="#灵能精通" class="headerlink" title="灵能精通"></a>灵能精通</h4><p>这个题是猪圈密码的变形，可以根据提米描述，然后查一下这段话可以知道是圣堂武士密码。<br><img src="../images/BJDCTF&#32;2nd/jpg/tu.png" alt="picture"></p>
-<p><img src="../images/BJDCTF&#32;2nd/jpg/piglater.png" alt="picture"></p>
-<h4 id="燕言燕语"><a href="#燕言燕语" class="headerlink" title="燕言燕语"></a>燕言燕语</h4><p>给的是一串字符串，直接hex转string：得到yanzi ZJQ{xilzv_iqssuhoc_suzjg}<br><img src="../images/BJDCTF&#32;2nd/%E7%87%95%E8%A8%80%E7%87%95%E8%AF%AD/str.png" alt="picture"><br>然后就是换位密码，试过不是栅栏，从网上得知是维吉尼亚密码。yanzi是key。接下来就是解密了。</p>
-<p><img src="../images/BJDCTF&#32;2nd/%E7%87%95%E8%A8%80%E7%87%95%E8%AF%AD/flag.png" alt="picture"></p>
-<h4 id="cat-flag"><a href="#cat-flag" class="headerlink" title="cat flag"></a>cat flag</h4><p>这个是根据图中只有两种形态，想到二进制，鸡腿为1，然后二进制转字符串。<br><img src="../images/BJDCTF&#32;2nd/cat/catflag.png" alt="picture"></p>
-<h4 id="小姐姐"><a href="#小姐姐" class="headerlink" title="小姐姐"></a>小姐姐</h4><p>压缩包直接解压缩得到图片，然后用winhex打开，搜BJD得到flag。<br><img src="../images/BJDCTF&#32;2nd/%E5%B0%8F%E5%A7%90%E5%A7%90/xjj.png" alt="picture"></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/25/BJDCTF-2nd/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -673,47 +635,18 @@
 
       
         
-          
-            <h2 id="AES算法"><a href="#AES算法" class="headerlink" title="AES算法"></a>AES算法</h2><p>AES算法是迭代型分组密码算法</p>
+          <h2 id="AES算法"><a href="#AES算法" class="headerlink" title="AES算法"></a>AES算法</h2><p>AES算法是迭代型分组密码算法</p>
 <h4 id="基本参数："><a href="#基本参数：" class="headerlink" title="基本参数："></a>基本参数：</h4><ul>
 <li>分组长度：128比特</li>
 <li>密钥长度：128、192或256比特</li>
-<li>圈数：10、12或14圈，与密钥长度相对应。</li>
-</ul>
-<p><img src="../images/%E7%AE%97%E6%B3%95/AES/01.png" alt="0e3a70192e194b783ac4ce688cae36bb.png"></p>
-<p>前9次加密过程除了密钥都一样，最后一次加密过程没有列混淆。</p>
-<h3 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h3><h4 id="字节代替变换-S盒"><a href="#字节代替变换-S盒" class="headerlink" title="字节代替变换(S盒)"></a>字节代替变换(S盒)</h4><p>字节代替变换时关于字节的非线性变换，它将字节矩阵中每一个字节利用同一个S盒变换为另一个字节。变换后位置不变。</p>
-<p>由两个可逆变换复合而成。</p>
-<ul>
-<li>将每一个字节变换为它在有限域GF(2^8)中的乘法逆。并规定0变换到其自身。</li>
-<li>对上一步骤的变换结果用二元域上的一个仿射变换作用。<br>S盒</li>
-</ul>
-<p>也可以直接按照s盒的表进行替换<br><img src="../images/%E7%AE%97%E6%B3%95/AES/02.png" alt="daedb9641b23bd557f9c88801265bba9.png"><br><img src="../images/%E7%AE%97%E6%B3%95/AES/03.png" alt="86fe95a3443cf677cd411272a670467b.png"></p>
-<p>S和S-1分别为16x16的矩阵，完成一个8比特输入到8比特输出的映射，输入的高4-bit对应的值作为行标，低4-bit对应的值作为列标。假设输入字节的值为a=a7a6a5a4a3a2a1a0，则输出值为S[a7a6a5a4][a3a2a1a0]，S-1的变换也同理。</p>
-<h4 id="行移位变换"><a href="#行移位变换" class="headerlink" title="行移位变换"></a>行移位变换</h4><p>如果将一个字节矩阵的行从上到下分别称为第0，1，2，3行，则行移位变换的作用就是将这个字节矩阵的第i行循环移位左移i个字节。<br><img src="../images/%E7%AE%97%E6%B3%95/AES/04.png" alt="cd416635aa2f10677a8033eea21cb1a9.png"></p>
-<h4 id="列混合变换"><a href="#列混合变换" class="headerlink" title="列混合变换"></a>列混合变换</h4><p>列混合变换对一个字节矩阵逐列进行变换<img src="../images/%E7%AE%97%E6%B3%95/AES/05.png" alt="affc4a23e5dc09d1200a8036cc65c23e.png"></p>
-<p><img src="../images/%E7%AE%97%E6%B3%95/AES/06.png" alt="303b72e95c24fbe9dfaa32d71bb6f51f.png"></p>
-<h4 id="圈密钥加"><a href="#圈密钥加" class="headerlink" title="圈密钥加"></a>圈密钥加</h4><p>圈密钥是通过密钥生成算法从初始密钥中产生，其长度等于分组长度。</p>
-<p><img src="../images/%E7%AE%97%E6%B3%95/AES/07.png" alt="b2ed713bb65a9a284d605200ae187a11.png"></p>
-<h4 id="密钥扩展算法"><a href="#密钥扩展算法" class="headerlink" title="密钥扩展算法"></a>密钥扩展算法</h4><p>AES算法的圈密钥长度等于分组长度128比特，即4个32位字，若迭代圈数为Nr，则连同入口密钥，共需4(Nr+1)个32位字的密钥。</p>
-<p><img src="../images/%E7%AE%97%E6%B3%95/AES/08.png" alt="a7275851176f61b27426a798a083a0ed.png"><br>密钥扩展说明：</p>
-<ul>
-<li><p>将种子密钥按图(a)的格式排列，其中k0、k1、……、k15依次表示种子密钥的一个字<br>节；排列后用4个32比特的字表示，分别记为w[0]、w[1]、w[2]、w[3]；　　　　</p>
-</li>
-<li><p>按照如下方式，依次求解w[j]，其中j是整数并且属于[4,43]；　　　　</p>
-</li>
-<li><p>若j%4=0,则w[j]=w[j-4]⊕g(w[j-1]),否则w[j]=w[j-4]⊕w[j-1]；　　函数g的流程说明：　　　　</p>
-<ul>
-<li>将w循环左移8比特；　　　　</li>
-<li>分别对每个字节做S盒置换；　　　　</li>
-<li>32比特的常量（RC[j/4],0,0,0）进行异或，RC是一个一维数组，其值如下。（RC的值只需要有10个，而此处用了11个，实际上RC[0]在运算中没有用到，增加RC[0]是为了便于程序中用数组表示。由于j的最小取值是4，j/4的最小取值则是1，因此不会产生错误。）</li>
-</ul>
-</li>
-</ul>
-<p>RC = {0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36}</p>
-<p>参考：<br><a href="https://www.cnblogs.com/luop/p/4334160.html" target="_blank" rel="noopener">https://www.cnblogs.com/luop/p/4334160.html</a></p>
-
-          
+<li>圈数：10、12或14圈，与密钥长度相对应。</li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/22/AES%E7%AE%97%E6%B3%95/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -852,8 +785,7 @@
 
       
         
-          
-            <h4 id="安装Apache"><a href="#安装Apache" class="headerlink" title="安装Apache"></a>安装Apache</h4><h5 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h5><p>从Apache官网下载安装包<br>地址：<a href="https://httpd.apache.org/docs/current/platform/windows.html" target="_blank" rel="noopener">https://httpd.apache.org/docs/current/platform/windows.html</a></p>
+          <h4 id="安装Apache"><a href="#安装Apache" class="headerlink" title="安装Apache"></a>安装Apache</h4><h5 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h5><p>从Apache官网下载安装包<br>地址：<a href="https://httpd.apache.org/docs/current/platform/windows.html" target="_blank" rel="noopener">https://httpd.apache.org/docs/current/platform/windows.html</a></p>
 <p><img src="../images/ApachePhpMysql/01.png" alt="fae813d878164ac1c2cb18ee88b34665.png"></p>
 <h5 id="解压安装"><a href="#解压安装" class="headerlink" title="解压安装"></a>解压安装</h5><p>记住解压路径<br>用管理员身份运行cmd<br>进入安装目录bin文件夹下，执行一下代码<br>安装：</p>
 <blockquote>
@@ -874,53 +806,13 @@
 </blockquote>
 <h4 id="安装PHP"><a href="#安装PHP" class="headerlink" title="安装PHP"></a>安装PHP</h4><h5 id="下载PHP压缩包"><a href="#下载PHP压缩包" class="headerlink" title="下载PHP压缩包"></a>下载PHP压缩包</h5><p>下载地址：<br><a href="https://windows.php.net/download/" target="_blank" rel="noopener">https://windows.php.net/download/</a></p>
 <p>下载VC15 x64 Thread Safe下的zip压缩包，并且解压到想要安装的目录下。</p>
-<h5 id="配置Apache支持PHP解析"><a href="#配置Apache支持PHP解析" class="headerlink" title="配置Apache支持PHP解析"></a>配置Apache支持PHP解析</h5><p>打开Apache配置文件，Apache24/conf/httpd.conf<br>在一堆#LoadModule最下方加上</p>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#加载PHP</span></span><br><span class="line">LoadModule php7_module 'D:<span class="string">/server/php7/php7apache2_4.dll</span>'</span><br><span class="line"><span class="comment">#加载PHP配置</span></span><br><span class="line">PHPIniDir 'D:<span class="string">/server/php7</span>'</span><br><span class="line"><span class="comment">#分配给PHP</span></span><br><span class="line">AddType application/x-httpd-php <span class="string">.php</span> <span class="string">.html</span> <span class="string">.htm</span></span><br></pre></td></tr></table></figure>
-
-<p>说明：LoadModule是加载模块关键字，php7_module是模块名，C:/PHP7/php7apache2_4.dll是Apache支持PHP解析的dll库文件</p>
-<p>PHPIniDir是配置文件目录关键字，’C:/PHP7’是php.ini文件所在目录，此配置实现重启Apache，php的配置同时生效。</p>
-<p>AddType关键字添加解析类型，application/x-httpd-php .php表示所有以.php结尾的文件都会使用php解析。</p>
-<h5 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h5><p>先写一个index.php</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?php</span></span></span><br><span class="line"><span class="php">    <span class="keyword">echo</span> <span class="string">"hello world"</span>;</span></span><br><span class="line"><span class="php"><span class="meta">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>保存到Aapche24的htdocs目录下<br><img src="../images/ApachePhpMysql/06.png" alt="fac7d760c2cde8a4fc8383d1584dd631.png"><br>运行Apche服务，输入localhost:81/index.php</p>
-<p><img src="../images/ApachePhpMysql/07.png" alt="08c99e9c03dcf20656e1fbb7a4d29b9b.png"><br>可以看到配置成功</p>
-<h4 id="安装MySql"><a href="#安装MySql" class="headerlink" title="安装MySql"></a>安装MySql</h4><p>B站视频<br><a href="https://www.bilibili.com/video/av90016352/?spm_id_from=333.788.b_636f6d6d656e74.9" target="_blank" rel="noopener">https://www.bilibili.com/video/av90016352/?spm_id_from=333.788.b_636f6d6d656e74.9</a><br>视频讲的非常细。<br>本文链接<a href="https://www.cnblogs.com/honeynan/p/12408119.html" target="_blank" rel="noopener">https://www.cnblogs.com/honeynan/p/12408119.html</a><br><a href="https://www.jb51.net/article/179326.htm" target="_blank" rel="noopener">https://www.jb51.net/article/179326.htm</a></p>
-<h5 id="下载安装包"><a href="#下载安装包" class="headerlink" title="下载安装包"></a>下载安装包</h5><p>下载地址：</p>
-<p><a href="https://dev.mysql.com/downloads/installer/" target="_blank" rel="noopener">https://dev.mysql.com/downloads/installer/</a></p>
-<h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><p>双击安装包，进行安装<br><img src="../images/ApachePhpMysql/08.png" alt="9bbdd5fa383a0c6e5aaa42d7ee8173cb.png"><br>之后一直next，或者execute、finish就行<br>下面到了最为关键的步骤 ，现在、马上、立刻，拿一支笔、拿一个笔记本（不是随便一张纸）！！！下面的东西需要记。<br><img src="../images/ApachePhpMysql/09.png" alt="7f2181ee01ebdef60377c3a06dd68aa6.png"></p>
-<p>如图所示Port（端口号）后边有黄色惊叹号，说明当前默认的端口号被占用，需要更换端口号。</p>
-<p><img src="../images/ApachePhpMysql/10.png" alt="93413f99729f79bb3b2f5a5e0678dac1.png"></p>
-<p>如图所示，可更换为3303，切记！更换后的端口号一定要牢记，最好整理到常用的笔记本上。记录好之后，单机NEXT，NEXT。<br><img src="../images/ApachePhpMysql/11.png" alt="915c0c94e183826e7beab433e04bc933.png"></p>
-<p>接下来同样相当重要，为你的root用户设置密码，设置密码时一定要先把要设置的密码记录下来，再输入。　　　　<br>密码设置成功后，可以选择添加用户，也可以等待安装成功后再添加。<br><img src="../images/ApachePhpMysql/12.png" alt="815996a5c3e320c20e9ca1f717a2659e.png"><br>可以修改服务名，一般默认，点Next<br><img src="../images/ApachePhpMysql/13.png" alt="0dce8c164a04bd3bd6a6c933d740c99c.png"></p>
-<p>Excute-&gt;NEXT-&gt;Finish-&gt;NEXT-&gt;Finish。<br><img src="../images/ApachePhpMysql/14.png" alt="30759c576eab18e76d205d76150a681b.png"></p>
-<h5 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h5><p>一般在c盘programfile里边mysql，mysql server 8.0的bin文件夹，把这个文件夹加到path路径<br>最后添加配置文件<br><img src="../images/ApachePhpMysql/15.png" alt="dd021ce3e54c94b050fd9f42fcdce233.png"><br><img src="../images/ApachePhpMysql/16.png" alt="24a9bee4141fc6c8dc1a9a029856c270.png"><br>如果没有那个my.ini文件，得新建配置</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment"># 设置3306端口</span></span><br><span class="line"><span class="attr">port</span>=<span class="number">3306</span></span><br><span class="line"><span class="comment"># 设置mysql的安装目录</span></span><br><span class="line"><span class="attr">basedir</span>=C:\Program Files\MySQL</span><br><span class="line"><span class="comment"># 设置mysql数据库的数据的存放目录</span></span><br><span class="line"><span class="attr">datadir</span>=C:\Program Files\MySQL\Data</span><br><span class="line"><span class="comment"># 允许最大连接数</span></span><br><span class="line"><span class="attr">max_connections</span>=<span class="number">200</span></span><br><span class="line"><span class="comment"># 允许连接失败的次数。</span></span><br><span class="line"><span class="attr">max_connect_errors</span>=<span class="number">10</span></span><br><span class="line"><span class="comment"># 服务端使用的字符集默认为UTF8</span></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br><span class="line"><span class="comment"># 创建新表时将使用的默认存储引擎</span></span><br><span class="line"><span class="attr">default-storage-engine</span>=INNODB</span><br><span class="line"><span class="comment"># 默认使用“mysql_native_password”插件认证</span></span><br><span class="line"><span class="comment">#mysql_native_password</span></span><br><span class="line"><span class="attr">default_authentication_plugin</span>=mysql_native_password</span><br><span class="line"><span class="section">[mysql]</span></span><br><span class="line"><span class="comment"># 设置mysql客户端默认字符集</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="comment"># 设置mysql客户端连接服务端时默认使用的端口</span></span><br><span class="line"><span class="attr">port</span>=<span class="number">3306</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br></pre></td></tr></table></figure>
-
-<p>保存文件为my.ini</p>
-<p>以管理员身份运行命令提示符（即：cmd）,进入mysql安装目录，输入mysqld –initialize –console，9P0gYk-?0,kT就是初始密码，一定要记录。<br><img src="../images/ApachePhpMysql/17.png" alt="32c9b7579832abece521cd30dd7704ad.png"></p>
-<p>继续在命令行中输入mysqld –install，如果出现 Service successfully installed.即为成功！<br><img src="../images/ApachePhpMysql/18.png" alt="713357933579e641187568091bb23b96.png"></p>
-<p>如果出现以下内容，需要删除原有服务。<br><img src="../images/ApachePhpMysql/19.png" alt="f2da3a64d75ac392e2a3b29d639939d6.png"></p>
-<p>删除原有服务需要在命令行中输入：sc delete mysql。　　<br>之后再次输入：mysqld –install。</p>
-<p>mysql服务安装成功后，需要启动服务。在命令行中输入：net start mysql 。<br><img src="../images/ApachePhpMysql/20.png" alt="e5ad7930e0283529225d166988df2559.png"><br><img src="../images/ApachePhpMysql/21.png" alt="e5ad7930e0283529225d166988df2559.png"></p>
-<p>到此，mysql数据库全部安装、配置完毕，可以正常使用了！　　<br>登录mysql，在命令行中输入：mysql -uroot -p 回车，输入root密码。也可以使用用户登录，将root改为你自己的用户名即可。　　</p>
-<p>注！ -p后边可以直接跟密码吗？可以！但是这样会让你的数据库密码暴露出来，所以建议大家以后先回车，再输入密码，mysql会为你隐藏密码。</p>
-<p><strong>登录时如果出现如图所示的情况：</strong><br><img src="../images/ApachePhpMysql/22.png" alt="c9b6176840d71c0bd896242bd2bd5039.png"></p>
-<p>在输入密码的时候输入初始密码：<br><img src="../images/ApachePhpMysql/23.png" alt="a7a55fca2f1f377dce8c3cea67ba8161.png"></p>
-<p>登录成功后，在操作数据库的时候会报以下错误：</p>
-<blockquote>
-<p>ERROR 1820 (HY000): You must reset your password using ALTER USER statement before executing this statement.</p>
-</blockquote>
-<p>这是因为此时你的密码时初始密码，你需要先修改密码才可以继续操作。　　修改密码如下：</p>
-<blockquote>
-<p>alter user ‘root’@’localhost’ identified by ‘123456’;</p>
-</blockquote>
-<p>最后的“123456”替换为你想要设置的密码，切记不要设置为纯数字或者纯密码，密码太简单也会报错。　　修改完之后，提示OK，说明修改成功！<br><img src="../images/ApachePhpMysql/24.png" alt="e36d06b8932c0f8573e39dbdd3ccd955.png"></p>
-<p>PS：如果当登录时出现无法登录的情况或者忘记root密码（请先检查mysql服务是否已开启），请看一下文章</p>
-<p><a href="https://www.cnblogs.com/honeynan/p/12408144.html" target="_blank" rel="noopener">https://www.cnblogs.com/honeynan/p/12408144.html</a></p>
-<p>root密码 root</p>
-<p>root@localhost密码PXz8s+quq8&gt;k</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/17/Apache-PHP-MySQL%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1059,67 +951,14 @@
 
       
         
-          
-            <h3 id="Markdown插件安装"><a href="#Markdown插件安装" class="headerlink" title="Markdown插件安装"></a>Markdown插件安装</h3><table>
-<thead>
-<tr>
-<th>插件</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>MarkdownEditing</td>
-<td>一个提高Sublime中Markdown编辑特性的插件</td>
-</tr>
-<tr>
-<td>MarkdownPreview</td>
-<td>Markdown转HTML，提供在浏览器中的预览功能</td>
-</tr>
-<tr>
-<td>MarkdownLivePreview</td>
-<td>提供在编辑框中实时预览的功能</td>
-</tr>
-<tr>
-<td>LiveReload</td>
-<td>一个提供md/html等文档的实时刷新预览的插件</td>
-</tr>
-</tbody></table>
-<h4 id="MarkdownEditing"><a href="#MarkdownEditing" class="headerlink" title="MarkdownEditing"></a>MarkdownEditing</h4><h5 id="功能："><a href="#功能：" class="headerlink" title="功能："></a>功能：</h5><p>可以高亮显示Markdown语法还支持很多编程语言的语法高亮显示。</p>
-<p><strong>特别注意</strong>：MarkdownEditing只针对 md\mdown\mmd\txt 格式文件才启用。</p>
-<h5 id="效果图："><a href="#效果图：" class="headerlink" title="效果图："></a>效果图：</h5><p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/Sublime%E6%8F%92%E4%BB%B6/01.png" alt="2c15bc4a4995c73ffedb34f232b4af24.png"></p>
-<h4 id="安装报错解决："><a href="#安装报错解决：" class="headerlink" title="安装报错解决："></a>安装报错解决：</h4><p>报错问题<br><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/Sublime%E6%8F%92%E4%BB%B6/02.png" alt="65ed9cb9ead31696bfbf1192852fa61b.png"></p>
-<h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><p>./Data/Local/ 清理掉<br>Session.sublime_session<br>Auto Save Session.sublime_session</p>
-<p>去Local文件夹里删除掉这两个文件，我的只有第一个，删除后重启就可以。</p>
-<h4 id="MarkdownLivePreview"><a href="#MarkdownLivePreview" class="headerlink" title="MarkdownLivePreview"></a>MarkdownLivePreview</h4><h5 id="功能：-1"><a href="#功能：-1" class="headerlink" title="功能："></a>功能：</h5><p>实时预览Markdown文件，左侧为md文件，右侧为预览结果。</p>
-<h5 id="使用："><a href="#使用：" class="headerlink" title="使用："></a>使用：</h5><p>MarkdownLivePreview默认关闭实时预览，既然安装这个插件了，那肯定是要用的。打开方式为在Preferences -&gt; Package Settings -&gt; MarkdownLivePreview -&gt; Settings 的设置的右侧加一条 “markdown_live_preview_on_open”: true,，重启sublime即可。</p>
-<p>为什么不能直接将左侧对应的false改为true，这是因为左侧为默认配置，是不能改的（只读），右侧的编辑区才是用户自定义区。</p>
-<h5 id="效果图：-1"><a href="#效果图：-1" class="headerlink" title="效果图："></a>效果图：</h5><p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/Sublime%E6%8F%92%E4%BB%B6/03.png" alt="219e1ca6d2f5d2d1ac54fa50e086acb3.png"></p>
-<p>但是预览效果并不是很好，不能横向滚动。推荐下面插件。</p>
-<h5 id="MarkdownPreview"><a href="#MarkdownPreview" class="headerlink" title="MarkdownPreview"></a>MarkdownPreview</h5><h6 id="将md文件用浏览器预览——1-常规方法"><a href="#将md文件用浏览器预览——1-常规方法" class="headerlink" title="将md文件用浏览器预览——1.常规方法"></a>将md文件用浏览器预览——1.常规方法</h6><p>1 组合键 Ctrl+Shift+P 调出命令面板</p>
-<p>2 输入mdp找到并选中Markdown Preview： Preview in Browser</p>
-<p>3 出现两个选项：github和markdown。任选其一即可，github是利用GitHub的在线API来解析.md文件，支持在线资源的预览，如在线图片它的解析速度取决于你的联网速度。该方式据说一天只能打开60次。markdown就是传统的本地打开，不支持在线资源的预览。</p>
-<p>4 默认浏览器中显示预览结果</p>
-<h6 id="将md文件用浏览器预览——2-用快捷键打开"><a href="#将md文件用浏览器预览——2-用快捷键打开" class="headerlink" title="将md文件用浏览器预览——2.用快捷键打开"></a>将md文件用浏览器预览——2.用快捷键打开</h6><p>Sublime Text支持自定义快捷键，Markdown </p>
-<p>Preview默认没有快捷键，我们可以自己为Markdown Preview： Preview in Browser设置快捷键。</p>
-<p>方法是在Preferences -&gt; Key Bindings打开的文件的右侧栏的中括号中添加一行代码：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123; </span><br><span class="line">    <span class="attr">"keys"</span>: [<span class="string">"alt+m"</span>],  </span><br><span class="line">    <span class="attr">"command"</span>:<span class="string">"markdown_preview"</span>,</span><br><span class="line">    <span class="attr">"args"</span>: </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"target"</span>: <span class="string">"browser"</span>,      </span><br><span class="line">            <span class="attr">"parser"</span>:<span class="string">"markdown"</span></span><br><span class="line">        &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这里：</p>
-<blockquote>
-<p>“alt+m” 可设置为自己喜欢的按键。”parser”: “markdown”也可设置为”parser”:”github”，改为使用Github在线API解析markdown</p>
-</blockquote>
-<p>以上两种方式都有个问题：每次预览都要打开一个新的网页，而且需要手动操作。有没有一个方法，可以打开一个网页后，之后再也不用管，让它实时刷新预览呢？</p>
-<p>有，还很简单，答案就是MarkdownPreview+LiveReload！<br>LiveReload是一个可实时刷新的插件，不仅可用于Markdown，也可用于HTML等。</p>
-<h5 id="最强）实时自动刷新预览：MarkdownPreview-LiveReload"><a href="#最强）实时自动刷新预览：MarkdownPreview-LiveReload" class="headerlink" title="(最强）实时自动刷新预览：MarkdownPreview+LiveReload"></a>(最强）实时自动刷新预览：MarkdownPreview+LiveReload</h5><p><strong>先安装并配置Markdown Preview</strong></p>
-<p>如前Markdown Preview安装成功后，设置前文所述的快捷键（如需），打开其配置文件 Preferences -&gt; Package Settings -&gt; Markdown Preview -&gt; Settings，检查左侧enable_autoreload条目是否为true，若是，跳过。若不是，右侧栏加一条下面这个后重启Sublime:</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"enable_autoreload"</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>安装并配置LiveReload</strong></p>
-<p>Ctrl+Shift+p, 输入 Install Package，输入LiveReload, 回车安装</p>
-<p>安装成功后, 再次Ctrl+shift+p, 输入LiveReload: Enable/disable plug-ins, 回车, 选择 Simple Reload with delay (400ms)或者Simple Reload，两者的区别仅仅在于后者没有延迟。</p>
-<p><strong>开始使用</strong></p>
-<p>原文链接：<a href="https://blog.csdn.net/qq_20011607/article/details/81370236" target="_blank" rel="noopener">https://blog.csdn.net/qq_20011607/article/details/81370236</a></p>
-
-          
+          <h3 id="Markdown插件安装"><a href="#Markdown插件安装" class="headerlink" title="Markdown插件安装"></a>Markdown插件安装</h3>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/13/Sublime-Text3-Markdown%E6%8F%92%E4%BB%B6/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1258,114 +1097,14 @@
 
       
         
-          
-            <h4 id="DES算法详解"><a href="#DES算法详解" class="headerlink" title="DES算法详解"></a>DES算法详解</h4><h5 id="算法简介"><a href="#算法简介" class="headerlink" title="算法简介"></a>算法简介</h5><p>DES是一个分组加密算法，典型的DES以64位为分组数据加密，加密和解密用的是同一算法。<br>它的密钥长度是56比特。尽管从规格上来说，DES的密钥长度是64比特，但由于每个7比特会设置一个用于错误检验的比特，因此实质上其密钥长度是56比特。</p>
-<p>算法流程：<br><img src="../images/%E7%AE%97%E6%B3%95/DES%E7%AE%97%E6%B3%95/01.png" alt="9090bbfe6a422c74e42749050102f862.png"></p>
-<h5 id="明文初始置换（IP初始置换）"><a href="#明文初始置换（IP初始置换）" class="headerlink" title="明文初始置换（IP初始置换）"></a>明文初始置换（IP初始置换）</h5><p>IP置换目的是将输入的64位明文数据块按位重新组合，并把输出分为L0，R0两部分，每部分各长32位。</p>
-<p><strong>注意：这里的数字表示的是原数据的位置，不是数据</strong></p>
-<p>置换规则如下表：</p>
-<blockquote>
-<p>58,50,42,34,26,18,10,2,<br>60,52,44,36,28,20,12,4,<br>62,54,46,38,30,22,14,6,<br>64,56,48,40,32,24,16,8,<br>57,49,41,33,25,17, 9,1,<br>59,51,43,35,27,19,11,3,<br>61,53,45,37,29,21,13,5,<br>63,55,47,39,31,23,15,7,</p>
-</blockquote>
-<p>即将第58位明文换到第一个位置，第50位明文换到第2位。以此类推。</p>
-<p>L0:</p>
-<blockquote>
-<p>58,50,42,34,26,18,10,2,<br>60,52,44,36,28,20,12,4,<br>62,54,46,38,30,22,14,6,<br>64,56,48,40,32,24,16,8,</p>
-</blockquote>
-<p>R0:</p>
-<blockquote>
-<p>57,49,41,33,25,17, 9,1,<br>59,51,43,35,27,19,11,3,<br>61,53,45,37,29,21,13,5,<br>63,55,47,39,31,23,15,7,</p>
-</blockquote>
-<h5 id="密钥初始置换"><a href="#密钥初始置换" class="headerlink" title="密钥初始置换"></a>密钥初始置换</h5><p><strong>操作对象是64位秘钥</strong></p>
-<p>不考虑每个字节的第8位，DES的密钥由64位减至56位，每个字节的第8位作为奇偶校验位。产生的56位密钥由下表生成（注意表中没有8，16，24，32，40，48，56和64这8位）：</p>
-<p><strong>注意：这里的数字表示的是原数据的位置，不是数据</strong></p>
-<p>C0:</p>
-<blockquote>
-<p>57,49,41,33,25,17,9<br>1,58,50,42,34,26,18<br>10,2,59,51,43,35,27<br>19,11,3,60,52,44,36</p>
-</blockquote>
-<p>D0:</p>
-<blockquote>
-<p>63,55,47,39,31,23,15<br>7,62,54,46,38,30,22<br>14,6,61,53,45,37,29<br>21,13,5,28,20,12,4</p>
-</blockquote>
-<h5 id="生成16个48位的子密钥"><a href="#生成16个48位的子密钥" class="headerlink" title="生成16个48位的子密钥"></a>生成16个48位的子密钥</h5><p>在DES的每一轮中，从56位密钥产生出不同的48子密钥，确定这些子密钥的方式如下：</p>
-<p>1）将56位密钥分成两部分，每部分28位。</p>
-<p>2）根据轮数，这两部分分别循环左移1位或2位。每轮移动的位数如下表：</p>
-<p><img src="../images/%E7%AE%97%E6%B3%95/DES%E7%AE%97%E6%B3%95/02.png" alt="15b5906b4985620fae91c07441373fd3.png"></p>
-<h6 id="第一轮循环左移1位"><a href="#第一轮循环左移1位" class="headerlink" title="第一轮循环左移1位"></a>第一轮循环左移1位</h6><p>C1:</p>
-<blockquote>
-<p>49,41,33,25,17,9,1<br>58,50,42,34,26,18,10<br>2,59,51,43,35,27,19<br>11,3,60,52,44,36,57</p>
-</blockquote>
-<p>D1:</p>
-<blockquote>
-<p>55,47,39,31,23,15,7,<br>62,54,46,38,30,22,14,<br>6,61,53,45,37,29,21,<br>13,5,28,20,12,4,63</p>
-</blockquote>
-<p>以此类推，根据每轮移动的位数，得到16组新密钥。</p>
-<p>然后通过置换2表得出16个48位子密钥。</p>
-<p><strong>置换表2</strong></p>
-<blockquote>
-<p>14,17,11,24,1,5<br>3,28,15,6,21,10<br>23,19,12,4,26,8<br>16,7,27,20,13,2<br>41,52,31,37,47,55<br>30,40,51,45,33,48<br>44.,49,39,56,34,53<br>46,42,50,36,29,32</p>
-</blockquote>
-<h5 id="明文扩展置换（E盒扩展）"><a href="#明文扩展置换（E盒扩展）" class="headerlink" title="明文扩展置换（E盒扩展）"></a>明文扩展置换（E盒扩展）</h5><p>输入初始置换后明文右侧32位，最后变为48位。</p>
-<p><img src="../images/%E7%AE%97%E6%B3%95/DES%E7%AE%97%E6%B3%95/03.png" alt="ca8801b6152ca8f712914df35f077989.png"></p>
-<p>扩展规则如下：</p>
-<p><img src="../images/%E7%AE%97%E6%B3%95/DES%E7%AE%97%E6%B3%95/04.png" alt="39726d21a7ff43ec18c06d4d8f3c2bd7.png"></p>
-<blockquote>
-<p>32,1,2,3,4,5,<br>4,5,6,7,8,9,<br>8,9,10,11,12,13,<br>12,13,14,15,16,17,<br>16,17,18,19,20,21,<br>20,21,22,23,24,25,<br>24,25,26,27,28,29,<br>28,29,30,31,32,1</p>
-</blockquote>
-<h5 id="S盒替代"><a href="#S盒替代" class="headerlink" title="S盒替代"></a>S盒替代</h5><p>压缩后的密钥与扩展分组异或以后得到48位的数据，将这个数据送入S盒，进行替代运算。替代由8个不同的S盒完成，每个S盒有6位输入4位输出。48位输入分为8个6位的分组，一个分组对应一个S盒，对应的S盒对各组进行代替操作。</p>
-<p><img src="../images/%E7%AE%97%E6%B3%95/DES%E7%AE%97%E6%B3%95/05.png" alt="130b775c24f796bf9a930d813808389b.png"></p>
-<p><img src="../images/%E7%AE%97%E6%B3%95/DES%E7%AE%97%E6%B3%95/06.png" alt="734d32e5dad6ee761f501b0703cc5e6d.png"></p>
-<p>一个S盒就是一个4行16列的表，盒中的每一项都是一个4位的数。S盒的6个输入确定了其对应的输出在哪一行哪一列，输入的<strong>高低两位做为行数H</strong>，<strong>中间四位做为列数L</strong>，在S-BOX中查找第H行L列对应的数据(&lt;32)，每一行每一列从0开始。</p>
-<h6 id="8个S盒"><a href="#8个S盒" class="headerlink" title="8个S盒"></a>8个S盒</h6><p><strong>S盒1：</strong></p>
-<blockquote>
-<p>14,4,13,1,2,15,11,8,3,10,6,12,5,9,0,7,<br>0,15,7,4,14,2,13,1,10,6,12,11,9,5,3,8,<br>4,1,14,8,13,6,2,11,15,12,9,7,3,10,5,0,<br>15,12,8,2,4,9,1,7,5,11,3,14,10,0,6,13,</p>
-</blockquote>
-<p><strong>S盒2：</strong></p>
-<blockquote>
-<p>15,1,8,14,6,11,3,4,9,7,2,13,12,0,5,10,<br>3,13,4,7,15,2,8,14,12,0,1,10,6,9,11,5,<br>0,14,7,11,10,4,13,1,5,8,12,6,9,3,2,15,<br>13,8,10,1,3,15,4,2,11,6,7,12,0,5,14,9,</p>
-</blockquote>
-<p><strong>S盒3：</strong></p>
-<blockquote>
-<p>10,0,9,14,6,3,15,5,1,13,12,7,11,4,2,8,<br>13,7,0,9,3,4,6,10,2,8,5,14,12,11,15,1,<br>13,6,4,9,8,15,3,0,11,1,2,12,5,10,14,7,<br>1,10,13,0,6,9,8,7,4,15,14,3,11,5,2,12,</p>
-</blockquote>
-<p><strong>S盒4：</strong></p>
-<blockquote>
-<p>7,13,14,3,0,6,9,10,1,2,8,5,11,12,4,15,<br>13,8,11,5,6,15,0,3,4,7,2,12,1,10,14,9,<br>10,6,9,0,12,11,7,13,15,1,3,14,5,2,8,4,<br>3,15,0,6,10,1,13,8,9,4,5,11,12,7,2,14,</p>
-</blockquote>
-<p><strong>S盒5：</strong></p>
-<blockquote>
-<p>2,12,4,1,7,10,11,6,8,5,3,15,13,0,14,9,<br>14,11,2,12,4,7,13,1,5,0,15,10,3,9,8,6,<br>4,2,1,11,10,13,7,8,15,9,12,5,6,3,0,14,<br>11,8,12,7,1,14,2,13,6,15,0,9,10,4,5,3,</p>
-</blockquote>
-<p><strong>S盒6：</strong></p>
-<blockquote>
-<p>12,1,10,15,9,2,6,8,0,13,3,4,14,7,5,11,<br>10,15,4,2,7,12,9,5,6,1,13,14,0,11,3,8,<br>9,14,15,5,2,8,12,3,7,0,4,10,1,13,11,6,<br>4,3,2,12,9,5,15,10,11,14,1,7,6,0,8,13,</p>
-</blockquote>
-<p><strong>S盒7：</strong></p>
-<blockquote>
-<p>4,11,2,14,15,0,8,13,3,12,9,7,5,10,6,1,<br>13,0,11,7,4,9,1,10,14,3,5,12,2,15,8,6,<br>1,4,11,13,12,3,7,14,10,15,6,8,0,5,9,2,<br>6,11,13,8,1,4,10,7,9,5,0,15,14,2,3,12,</p>
-</blockquote>
-<p><strong>S盒8：</strong></p>
-<blockquote>
-<p>13,2,8,4,6,15,11,1,10,9,3,14,5,0,12,7,<br>1,15,13,8,10,3,7,4,12,5,6,11,0,14,9,2,<br>7,11,4,1,9,12,14,2,0,6,10,13,15,3,5,8,<br>2,1,14,7,4,10,8,13,15,12,9,0,3,5,6,11,</p>
-</blockquote>
-<p><img src="../images/%E7%AE%97%E6%B3%95/DES%E7%AE%97%E6%B3%95/07.png" alt="5c79891ddb9cda188777b0475500e3ab.png"></p>
-<p>例如，假设S盒8的输入为110011，第1位和第6位组合为11，对应于S盒8的第3行；第2位到第5位为1001，对应于S盒8的第9列。S盒8的第3行第9列的数字为12，因此用1100来代替110011。注意，S盒的行列计数都是从0开始。</p>
-<p>代替过程产生8个4位的分组，组合在一起形成32位数据。</p>
-<p>S盒代替是DES算法的关键步骤，所有的其他的运算都是线性的，易于分析，而S盒是非线性的，相比于其他步骤，提供了更好安全性。</p>
-<h5 id="P盒置换"><a href="#P盒置换" class="headerlink" title="P盒置换"></a>P盒置换</h5><p>S盒代替运算的32位输出按照P盒进行置换。该置换把输入的每位映射到输出位，任何一位不能被映射两次，也不能被略去，映射规则如下表：</p>
-<blockquote>
-<p>16,7,20,21,29,12,28,17,1,15,23,26,5,18,31,10,<br>2,8,24,14,32,27,3,9,19,13,30,6,22,11,4,25,</p>
-</blockquote>
-<p>表中的数字代表原数据中此位置的数据在新数据中的位置，即原数据块的第16位放到新数据的第1位，第7位放到第2位，……依此类推，第25位放到第32位。</p>
-<p>最后，P盒置换的结果与最初的64位分组左半部分L0异或，然后左、右半部分交换，接着开始另一轮</p>
-<h5 id="末置换"><a href="#末置换" class="headerlink" title="末置换"></a>末置换</h5><p>末置换是初始置换的逆过程，DES最后一轮后，左、右两半部分并未进行交换，而是两部分合并形成一个分组做为末置换的输入。末置换规则如下：</p>
-<blockquote>
-<p>40,8,48,16,56,24,64,32,39,7,47,15,55,23,63,31,<br>38,6,46,14,54,22,62,30,37,5,45,13,53,21,61,29,<br>36,4,44,12,52,20,60,28,35,3,43,11,51,19,59,27,<br>34,2,42,10,50,18,58,26,33,1,41,9,49,17,57,25,</p>
-</blockquote>
-<h5 id="DES的解密"><a href="#DES的解密" class="headerlink" title="DES的解密"></a>DES的解密</h5><p>加密和解密可以使用相同的算法。加密和解密唯一不同的是秘钥的次序是相反的。就是说如果每一轮的加密秘钥分别是K1、K2、K3…K16，那么解密秘钥就是K16、K15、K14…K1。为每一轮产生秘钥的算法也是循环的。加密是秘钥循环左移，解密是秘钥循环右移。解密秘钥每次移动的位数是：0、1、2、2、2、2、2、2、1、2、2、2、2、2、2、1。</p>
-<p>本文参考链接：<br>原文链接：<a href="https://blog.csdn.net/qq_27570955/article/details/52442092" target="_blank" rel="noopener">https://blog.csdn.net/qq_27570955/article/details/52442092</a><br><a href="https://www.cnblogs.com/songwenlong/p/5944139.html" target="_blank" rel="noopener">https://www.cnblogs.com/songwenlong/p/5944139.html</a></p>
-
-          
+          <h4 id="DES算法详解"><a href="#DES算法详解" class="headerlink" title="DES算法详解"></a>DES算法详解</h4><h5 id="算法简介"><a href="#算法简介" class="headerlink" title="算法简介"></a>算法简介</h5><p>DES是一个分组加密算法，典型的DES以64位为分组数据加密，加密和解密用的是同一算法。<br>它的密钥长度是56比特。尽管从规格上来说，DES的密钥长度是64比特，但由于每个7比特会设置一个用于错误检验的比特，因此实质上其密钥长度是56比特。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/13/DES%E7%AE%97%E6%B3%95/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1504,37 +1243,15 @@
 
       
         
-          
-            <h4 id="Sublime-Text3配置python环境"><a href="#Sublime-Text3配置python环境" class="headerlink" title="Sublime Text3配置python环境"></a>Sublime Text3配置python环境</h4><p>安装参考以前文章，下面说配置</p>
+          <h4 id="Sublime-Text3配置python环境"><a href="#Sublime-Text3配置python环境" class="headerlink" title="Sublime Text3配置python环境"></a>Sublime Text3配置python环境</h4><p>安装参考以前文章，下面说配置</p>
 <p>打开安装好的 sublime text 3，选择编译环境</p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimePython/SublimePython01.png" alt="0e3b5e9cfb36e436416f187edb061fd0.png"></p>
-<p>然后输入</p>
-<blockquote>
-<p>print(“你好”)</p>
-</blockquote>
-<p>然后保存为.py后缀文件</p>
-<p>回到主界面，Ctrl+B运行</p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimePython/SublimePython02.png" alt="89d3fe035435cc1dc56fff80ffd225fc.png"></p>
-<p>中文成功输出，证明配置好了，但还需要按一个插件来支持 input</p>
-<p>安装SublimeREPL插件，使Sublime支持input</p>
-<p>安装好，试着调用。</p>
-<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">num</span> = <span class="function"><span class="title">input</span>(<span class="string">"今天几月几日:"</span>)</span></span><br><span class="line"><span class="function"><span class="title">print</span>(<span class="variable">num</span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>跟 Ctrl+B 直接编译不同，利用插件来编译需要先手动 Ctrl+S 保存</p>
-<p><strong>常规调用：</strong></p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimePython/SublimePython03.png" alt="69d5a1b9e9dfe5c1aff1d2e1e1775f36.png"></p>
-<p>然后弹出一个新的框，进行输入输出。</p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimePython/SublimePython04.png" alt="fbe8fc6a38764b3605c069357dafdf37.png"></p>
-<p><strong>设置快捷键调用：</strong></p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimePython/SublimePython05.png" alt="ded30527af9e541ca4cf0e79bf907cf2.png"></p>
-<p>左边是系统默认设置，我们在右边窗口输入以下设置（另一个 Alt + End 是终止编译的快捷键），Ctrl+S 保存</p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimePython/SublimePython06.png" alt="bc715187792b855d583c10db6cc44403.png"></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[ </span><br><span class="line">    &#123; </span><br><span class="line">        <span class="attr">"keys"</span>: [<span class="string">"f4"</span>], </span><br><span class="line">        <span class="attr">"caption"</span>: <span class="string">"SublimeREPL: Python - RUN current file"</span>, </span><br><span class="line">        <span class="attr">"command"</span>: <span class="string">"run_existing_windoww_command"</span>, </span><br><span class="line">        <span class="attr">"args"</span>: &#123; </span><br><span class="line">            <span class="attr">"id"</span>: <span class="string">"repl_python_run"</span>, </span><br><span class="line">            <span class="attr">"file"</span>: <span class="string">"config/Python/Main.sublime-menu"</span></span><br><span class="line">        &#125; </span><br><span class="line">    &#125;,</span><br><span class="line">        &#123; </span><br><span class="line">            <span class="attr">"keys"</span>: [<span class="string">"alt+end"</span>], </span><br><span class="line">            <span class="attr">"command"</span>: <span class="string">"exec"</span>, </span><br><span class="line">            <span class="attr">"args"</span>: &#123;<span class="attr">"kill"</span>: <span class="literal">true</span>&#125; </span><br><span class="line">        &#125; </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>切换不方便，可以打开两个视图：</p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimePython/SublimePython07.png" alt="c33682bb046be44ffbe99139d83ea249.png"></p>
-<p>本文参考：<br>链接：<a href="https://www.zhihu.com/question/22904994/answer/800236870" target="_blank" rel="noopener">https://www.zhihu.com/question/22904994/answer/800236870</a></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1673,28 +1390,16 @@
 
       
         
-          
-            <h3 id="Sublime-Text3-安装教程"><a href="#Sublime-Text3-安装教程" class="headerlink" title="Sublime Text3 安装教程"></a>Sublime Text3 安装教程</h3><h4 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h4><p>去官网下载：<a href="http://www.sublimetext.cn/" target="_blank" rel="noopener">http://www.sublimetext.cn/</a></p>
+          <h3 id="Sublime-Text3-安装教程"><a href="#Sublime-Text3-安装教程" class="headerlink" title="Sublime Text3 安装教程"></a>Sublime Text3 安装教程</h3><h4 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h4><p>去官网下载：<a href="http://www.sublimetext.cn/" target="_blank" rel="noopener">http://www.sublimetext.cn/</a></p>
 <p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimeInstall/Sublime01.png" alt="a48170e3051da81b40ba956fe85ac553.png"></p>
 <p>用IDM会很慢，可以复制下载链接，用迅雷下载，3秒下载完毕。</p>
-<p>下载完毕，双击安装。选择”Add to explorer context menu”.</p>
-<h4 id="安装package-control插件"><a href="#安装package-control插件" class="headerlink" title="安装package control插件"></a>安装package control插件</h4><p>这是安装sublime的重点。</p>
-<p>手动安装：<br>1 点击<br><a href="https://github.com/wbond/package_control" target="_blank" rel="noopener">https://github.com/wbond/package_control</a>去github下载Package Control安装报下载到本地，下载的文件名为：<br>package_control-master.zip。解压后将文件名改为Package Control；</p>
-<p>2.打开Sublime的Preferences -&gt; Browse Packages菜单，将上面改好名字的Package Control文件夹复制过去,重启就会发现package control。</p>
-<p><img src="../images/%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/Sublime/SublimeInstall/Sublime02.png" alt="be3d5a2e4efd21446517b576426ee60c.png"></p>
-<p>3.但是你会发现你点击package control后Install Package不成功，There are no packages available for installation的提示。</p>
-<p>失败原因为官网地址被墙，导致channel_v3文件无法访问。</p>
-<p>解决方法：点击Preferences——&gt;Package Settings——&gt;Package Control——&gt;Settings - User，</p>
-<p>打开配置文件添加地址：</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"channels"</span>:</span><br><span class="line">[<span class="meta"></span></span><br><span class="line"><span class="meta"><span class="meta-string">"https://github.com/JavenZ/channel_v3/raw/master/channel_v3.json"</span></span></span><br><span class="line"><span class="meta"></span>],</span><br></pre></td></tr></table></figure>
-
-<p>以下两个地址任选一</p>
-<p>GitHub地址：<a href="https://github.com/JavenZ/channel_v3/raw/master/channel_v3.json" target="_blank" rel="noopener">https://github.com/JavenZ/channel_v3/raw/master/channel_v3.json</a></p>
-<p>国内地址：<a href="https://attachments-cdn.shimo.im/OykO0AIRnX0aeB4d/channel_v3.json" target="_blank" rel="noopener">https://attachments-cdn.shimo.im/OykO0AIRnX0aeB4d/channel_v3.json</a></p>
-<p>以上json文件引用地址由简书作者Javen_01（知乎ID孙悟菜）提供，如果地址失效可以去他的GitHub查看最新地址。</p>
-<p>下载完就可以下载插件。</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/12/Sublime-Text3-Install/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1811,35 +1516,14 @@
 
       
         
-          
-            <h1 id="计算机网络基础"><a href="#计算机网络基础" class="headerlink" title="计算机网络基础"></a>计算机网络基础</h1><h3 id="TCP-IP模型"><a href="#TCP-IP模型" class="headerlink" title="TCP/IP模型"></a>TCP/IP模型</h3><p>实现网络通信的基础是网络通信协议，这些协议通常是由互联网工程任务组（IETF）制定的。所谓“协议”就是通信计算机双方必须共同遵从的一组约定，例如怎样建立连接，怎样相互识别等，网络协议的三要素是：语法、语义和时序。构成我们今天使用的Inter的基础的是TCP/IP协议族，协议族就是一系列的协议及其构成的通信模型，也把这套东西称为TCP/IP模型。与国际标准化组织发布的OSI/RM这个七层模型不同，TCP/IP是一个四层模型，自顶向上依次是：网络接口层、网络层、传输层和应用层。如下图所示。</p>
-<p><img src="../images/Python-100days/TCP-IP-model.png" alt></p>
-<p>IP通常被翻译为网际协议，它服务于网络层，主要实现了寻址和路由的功能。接入网络的每一台主机都需要有自己的IP地址，IP地址就是主机在计算机网络上的身份标识。当然由于IPv4地址的匮乏，我们平常在家里、办公室以及其他可以接入网络的公共区域上网时获得的IP地址并不是全球唯一的IP地址，而是一个区域网中的内部IP地址，通过网络地址转换服务我们也可以实现对网络的访问。计算机网络上有大量的我们称为“路由器”的网络中继设备，它们会存储转发我们发送到网络上的数据分组，让从源头发出的数据最终能够找到传送目的的地通路，这项功能就是所谓的路由。</p>
-<p>TCP全称传输控制协议，它是基于IP提供的寻址和路由器服务而建立起来的负责实现端到端可靠传输的协议，之所以将TCP称为可靠的传输协议是因为TCP想调用者承诺了三件事情：</p>
-<ul>
-<li>数据不传丢不传错（利用握手、校验和重传机制可以实现）。</li>
-<li>流量控制（通过滑动窗口匹配数据发送者和接收着之间的传输速度）。</li>
-<li>拥塞控制（通过RTT时间以及对滑动窗口的控制缓解网络拥堵）。</li>
-</ul>
-<h3 id="网络应用模式"><a href="#网络应用模式" class="headerlink" title="网络应用模式"></a>网络应用模式</h3><ol>
-<li>C/S模式和B/S模式。C指Client（客户端），通常是一个需要安装到某个宿主操作系统上的应用程序；B指Brower（浏览器），它几乎是所有图形化操作系统都默认安装了的一个应用软件；通过C或B都可以实现对S（服务器）的访问。</li>
-<li>去中心化的网络应用模式。不管是B/S还是C/S都需要服务器的存在，服务器就是整个应用模式的中心，而去中心化的网络应用通常没有固定的服务器或者固定的客户端，所有应用的使用者既可以作为资源的提供者也可以作为资源的访问者。</li>
-</ol>
-<h2 id="基于HTTP协议的网络资源的访问"><a href="#基于HTTP协议的网络资源的访问" class="headerlink" title="基于HTTP协议的网络资源的访问"></a>基于HTTP协议的网络资源的访问</h2><h3 id="HTTP（超文本传输协议）"><a href="#HTTP（超文本传输协议）" class="headerlink" title="HTTP（超文本传输协议）"></a>HTTP（超文本传输协议）</h3><p>HTTP是超文本传输协议（Hyper-Text Transfer Proctol）的简称。维基百科解释为：超文本协议是一种用于分布式、协作式和超媒体信息系统的应用层协议，它是万维网数据通信的基础，设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法，通过HTTP或者HTTPS（超文本传输安全协议）请求的资源由URI（统一资源标识符）来标识。阮一峰老师的<a href="http://www.ruanyifeng.com/blog/2016/08/http.html" target="_blank" rel="noopener">《HTTP协议入门》</a></p>
-<h3 id="JSON格式"><a href="#JSON格式" class="headerlink" title="JSON格式"></a>JSON格式</h3><p>JSON（JavaScript Object Notation）是一种轻量级的数据交换语言，该语言以易于阅读的文字（纯文本）为基础，用来传输由属性值或者序列性的值组成的数据对象。尽管JSON是最初只是JavaScript中一种创建对象的字面量语法，但它在当下更是一种独立于语言的数据格式，很多编程语言都支持JSON格式数据的生成和解析，Python内置的json模块也提供了这方面功能。由于JSON是纯文本，它和XML一样都适用于异构系统之间的数据交换，而相较于XML，JSON显得更加的轻便和优雅。下面是表达同样信息的XML和JSON，而JSON的优势是相当直观的。</p>
-<p>XML的例子：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">message</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">from</span>&gt;</span>Alice<span class="tag">&lt;/<span class="name">from</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">to</span>&gt;</span>Bob<span class="tag">&lt;/<span class="name">to</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">content</span>&gt;</span>Will you marry me?<span class="tag">&lt;/<span class="name">content</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">message</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>JSON的例子：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"from"</span>: <span class="string">"Alice"</span>,</span><br><span class="line">    <span class="attr">"to"</span>: <span class="string">"Bob"</span>,</span><br><span class="line">    <span class="attr">"content"</span>: <span class="string">"Will you marry me?"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="requests库"><a href="#requests库" class="headerlink" title="requests库"></a>requests库</h3><p>requests是一个基于HTTP协议来使用网络的第三库，其官方网站有这样的一句介绍它的话：“Requests是唯一的一个非转基因的Python HTTP库，人类可以安全享用。”简单的说，使用requests库可以非常方便的使用HTTP，避免安全缺陷、冗余代码以及“重复发明轮子”（行业黑话，通常用在软件工程领域表示重新创造一个已有的或是早已被优化過的基本方法）。前面的文章中我们已经使用过这个库，下面我们还是通过requests来实现一个访问网络数据接口并从中获取美女图片下载链接然后下载美女图片到本地的例子程序，程序中使用了天行数据提供的网络API。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span>  Thread</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># 继承Thread类创建自定义的线程类：</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DownloadHanlder</span><span class="params">(Thread)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,url)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.url = url</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        filename = self.url[self.url.rfind(<span class="string">'/'</span>)+<span class="number">1</span>:]</span><br><span class="line">        resp = requests.get(self.url)</span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">'/Users/Hao'</span> + filename,<span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(resp.content)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 通过requests模块的get函数获取网络资源</span></span><br><span class="line">    <span class="comment"># 下面的代码中使用了天行数据借口提供的网络API</span></span><br><span class="line">    <span class="comment"># 要使用该数据借口需要在天行数据的网站上注册</span></span><br><span class="line">    <span class="comment"># 然后用自己的Key替换掉下面代码中APIKey即可</span></span><br><span class="line">    resp = requests.get(<span class="string">'http://api.tinanapi.com/meinv/?key=APIKey&amp;num=10'</span>)</span><br><span class="line">    <span class="comment"># 将服务器返回的JSON格式的数据解析为字典</span></span><br><span class="line">    data_model = resp.json()</span><br><span class="line">    <span class="keyword">for</span> mm_dict <span class="keyword">in</span> data_model[<span class="string">'newslist'</span>]:</span><br><span class="line">        url = mm_dict(<span class="string">'picUrl'</span>)</span><br><span class="line">        <span class="comment"># 通过多线程的方式实现图片下载</span></span><br><span class="line">        DownloadHanlder(url).start()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-
-<h2 id="基于传输层协议的套接字编程"><a href="#基于传输层协议的套接字编程" class="headerlink" title="基于传输层协议的套接字编程"></a>基于传输层协议的套接字编程</h2><p>套接字是一套c语言写成的应用程序开发库，主要用于实现进程间通信和网路编程。实际开发使用套接字分为三类：流套接字（TCP套接字）、数据报套接字和原始套接字。</p>
-<h3 id="TCP套接字"><a href="#TCP套接字" class="headerlink" title="TCP套接字"></a>TCP套接字</h3><p>TCP套接字就是使用TCP协议提供的传输服务来实现网络通信的编程接口。<br>下面代码实现一个提供日期的服务器</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> socket import socket,SOCK_STREAM,AF_INET</span><br><span class="line"><span class="keyword">from</span> datetime import datetime</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    # 1.创建套接字对象并指定使用哪种传输服务</span><br><span class="line">    # family = AF_INET - IPv4地址</span><br><span class="line">    # family = AF_INET5 - IPv6地址</span><br><span class="line">    #<span class="built_in"> type </span>= SOCK_STREAM - TCP套接字</span><br><span class="line">    #<span class="built_in"> type </span>= SOCK_DGRAM - UDP套接字</span><br><span class="line">    #<span class="built_in"> type </span>= SOCK_RAW - 原始套接字</span><br><span class="line">   <span class="built_in"> server </span>= socket(<span class="attribute">family</span>=AF_INET,type=SOCK_STREAM)</span><br><span class="line">    # 2.绑定IP地址和端口（端口用于区分不同的服务器）</span><br><span class="line">    # 同一时间在同一个端口上只能绑定一个服务否则报错</span><br><span class="line">    server.bind(<span class="string">'192.168.1.2'</span>,6789)</span><br><span class="line">    # 3.开启监听 - 监听客户端连接到服务器</span><br><span class="line">    # 参数512可以理解为连接队列的大小</span><br><span class="line">    server.listen(512)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        # 4.通过循环接收客户端的连接并作出相应的处理（提供服务）</span><br><span class="line">        # accept方法是一个阻塞方法如果没有客户端连接到服务器代码不会向下执行</span><br><span class="line">        # accept方法返回一个元组其中的第一个元素是客户端对象</span><br><span class="line">        # 第二个元素是连接到服务器的客户端的地址(由IP和端口两部分构成)</span><br><span class="line">        client,addr = server.accept()</span><br><span class="line">        <span class="builtin-name">print</span>(str(addr) + <span class="string">'连接到了服务器.'</span>)</span><br><span class="line">        # 5.发送数据</span><br><span class="line">        client.send(str(datetime.now()).encode(<span class="string">'utf-8'</span>))</span><br><span class="line">        # 6.断开连接</span><br><span class="line">        client.close()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-          
+          <h1 id="计算机网络基础"><a href="#计算机网络基础" class="headerlink" title="计算机网络基础"></a>计算机网络基础</h1><h3 id="TCP-IP模型"><a href="#TCP-IP模型" class="headerlink" title="TCP/IP模型"></a>TCP/IP模型</h3><p>实现网络通信的基础是网络通信协议，这些协议通常是由互联网工程任务组（IETF）制定的。所谓“协议”就是通信计算机双方必须共同遵从的一组约定，例如怎样建立连接，怎样相互识别等，网络协议的三要素是：语法、语义和时序。构成我们今天使用的Inter的基础的是TCP/IP协议族，协议族就是一系列的协议及其构成的通信模型，也把这套东西称为TCP/IP模型。与国际标准化组织发布的OSI/RM这个七层模型不同，TCP/IP是一个四层模型，自顶向上依次是：网络接口层、网络层、传输层和应用层。如下图所示。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/18/14-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1956,30 +1640,14 @@
 
       
         
-          
-            <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>进程就是操作系统中执行的一个程序，操作系统以进程为单位分配存储空间，每个进程都有自己的地址空间、数据栈以及其他用于跟踪进程执行的辅助数据，操作系统管理所有进程的执行，为它们合理的分配资源。进程可以通过fork或spawn的方式来创建新的进程来执行其他的任务，不过新的进程也有自己独立的内存空间，因此必须通过进程间通信机制（IPC，Inter-Process Communication）来实现数据共享，具体的方式包括管道、信号、套接字、共享内存区等。<br>一个进程还可以拥有多个并发的执行线索，简单的说就是拥有多个可以获得CPU调度的执行单元，这就是所谓的线程。由于线程在同一个进程下，它们可以共享相同的上下文，因此对于进程而言，线程间的信息共享和通信更加容易。当然在单核DDPU系统中，真正的并发是不可能的，因为<strong>在某个时刻能够获得CPU的只有唯一的一个线程，多个线程共享了CPU的执行时间</strong>。使用多线程实现并发编程为程序带来的好处是不言而喻的，最主要的体现是提升程序的性能和改善用户体验。</p>
-<h2 id="Python中的多进程"><a href="#Python中的多进程" class="headerlink" title="Python中的多进程"></a>Python中的多进程</h2><p>Unix和Linux操作系统上提供了fork()系统调用来创建进程，调用fork()函数的是父进程，创建出的是子进程，子进程是父进程的一个拷贝，但是子进程拥有自己的PID。fork()函数非常特殊，它会返回两次，父进程中可以通过fork()函数的返回值得到子进程的PID，而子进程中的返回值永远都是0.Python的OS模块提供了fork()函数。由于Windows系统没有fork()调用，因此要实现跨平台的多进程编程，可以使用multiprocessing模块的Process类来创建子进程，而且该模块还提供了更高级的封装，例如批量启动进程的进程池（Pool）、用于进程间通信的队列（Queue）和管道（Pipe）等。</p>
-<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">from</span> random import randint</span><br><span class="line"><span class="meta">from</span> time import time,sleep</span><br><span class="line"></span><br><span class="line">def download_task(<span class="meta">filename</span>):</span><br><span class="line">    p<span class="meta">rint(</span><span class="string">'开始下载%s...'</span> % <span class="meta">filename</span>)</span><br><span class="line">    time_to_download = ran<span class="meta">dint(</span>5,10)</span><br><span class="line">    sleep(time_to_download)</span><br><span class="line">    p<span class="meta">rint(</span><span class="string">'%s下载完成！耗费了%d秒'</span> % (<span class="meta">filename</span>,time_to_download))</span><br><span class="line"></span><br><span class="line">def ma<span class="meta">in(</span>):</span><br><span class="line">    start =<span class="meta"> time(</span>)</span><br><span class="line">    download_task(<span class="string">'Python从入门到住院.pdf'</span>)</span><br><span class="line">    download_task(<span class="string">'Peking Hot.avi'</span>)</span><br><span class="line">    <span class="meta">end</span> =<span class="meta"> time(</span>)</span><br><span class="line">    p<span class="meta">rint(</span><span class="string">'总共耗费了%.2f秒.'</span> % (<span class="meta">end</span>-start))</span><br><span class="line"></span><br><span class="line"><span class="meta">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    ma<span class="meta">in(</span>)</span><br></pre></td></tr></table></figure>
-<p>这个例子可以得出，如果程序中的代码只能按顺序一点点的往下执行，那么即使执行两个互不相关的下载任务，也需要先等待一个文件下载完成后才能开始下一个下载任务。</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> getpgid</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">from</span> <span class="type">time</span> <span class="keyword">import</span> <span class="type">time</span>,sleep</span><br><span class="line"></span><br><span class="line">def download_task(filename):</span><br><span class="line">    print(<span class="string">'启动下载进程，进程号[%d].'</span> % getpid())</span><br><span class="line">    print(<span class="string">'开始下载%s...'</span> % filename)</span><br><span class="line">    time_to_download = randint(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line">    sleep(time_to_download)</span><br><span class="line">    print(<span class="string">'%s下载完成！耗费了%d秒'</span> % (filename,time_to_download))</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    start = <span class="type">time</span>()</span><br><span class="line">    p1 = Process(target=download_task,args=(<span class="string">'Python从入门到住院.pdf'</span>))</span><br><span class="line">    p1.<span class="keyword">start</span>()</span><br><span class="line">    p2 = Process(target=download_task,args=(<span class="string">'Peking Hot.avi'</span>))</span><br><span class="line">    p2.<span class="keyword">start</span>()</span><br><span class="line">    p1.<span class="keyword">join</span>()</span><br><span class="line">    p2.<span class="keyword">join</span>()</span><br><span class="line">    end = <span class="type">time</span>()</span><br><span class="line">    print(<span class="string">'总共耗费了%.2f秒.'</span> % (<span class="keyword">end</span>-<span class="keyword">start</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-<p>上面通过Process类创建了进程对象，通过target参数传入一个函数表示进程启动后要执行的代码，后面args是一个元祖，代表传递给函数的参数。Process和start方法用来启动进程，而join方法表示等待进程执行结束。两个任务同时启动了。</p>
-<p>也可以使用subprocess模块中的类和函数来创建和启动子进程，然后通过管道来和子进程通讯</p>
-<h2 id="Python中的多线程"><a href="#Python中的多线程" class="headerlink" title="Python中的多线程"></a>Python中的多线程</h2><p>Python通过thread模块（现在名为_thread）来实现多线程编程，该模块过于底层，而且很多功能都没有提供，推荐threading模块，该模块对多线程编程提供了更好的面对对象的封装。</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="keyword">from</span> <span class="type">time</span> <span class="keyword">import</span> <span class="type">time</span>,sleep</span><br><span class="line"></span><br><span class="line">def download(filename):</span><br><span class="line">    print(<span class="string">'开始下载%s...'</span> % filename)</span><br><span class="line">    time_to_download = randint(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line">    sleep(time_to_download)</span><br><span class="line">    print(<span class="string">'%s下载完成！耗费%d秒'</span> % (filename,time_to_download))</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    start = <span class="type">time</span>()</span><br><span class="line">    t1 = Thread(target=download,args=(<span class="string">'Python从入门到住院.pdf'</span>))</span><br><span class="line">    t1.<span class="keyword">start</span>()</span><br><span class="line">    t2 = Thread(target=download,args=(<span class="string">'Peking Hot.avi'</span>,))</span><br><span class="line">    t2.<span class="keyword">start</span>()</span><br><span class="line">    t1.<span class="keyword">join</span>()</span><br><span class="line">    t2.<span class="keyword">join</span>()</span><br><span class="line">    end = <span class="type">time</span>()</span><br><span class="line">    print(<span class="string">'总共耗费了%.3f秒'</span> % (<span class="keyword">end</span>-<span class="keyword">start</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-<p>直接使用threading模块的Thread类来创建进程，但是我们之前讲过一个非常重要的概念叫“继承”，我们可以从已有的类创建类，因此可以通过继承Thread类的方式来创建自定义的线程类，然后再创建线程对象并启动线程。</p>
-<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="title">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="title">from</span> time <span class="keyword">import</span> time,sleep</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="type">DownloadTask</span>(<span class="type">Thread</span>):</span></span><br><span class="line"><span class="class">    def __init__(<span class="title">self</span>, <span class="title">filename</span>):</span></span><br><span class="line"><span class="class">        super().__init__()</span></span><br><span class="line"><span class="class">        self._filename = filename</span></span><br><span class="line"><span class="class">    </span></span><br><span class="line"><span class="class">    def run(<span class="title">self</span>):</span></span><br><span class="line"><span class="class">        print('开始下载%<span class="title">s</span>...' % <span class="title">self</span>.<span class="title">_filename</span>)</span></span><br><span class="line"><span class="class">        time_to_download = randint(5,10)</span></span><br><span class="line"><span class="class">        sleep(<span class="title">time_to_download</span>)</span></span><br><span class="line"><span class="class">        print('%<span class="title">s</span>下载完成！耗费%<span class="title">d</span>秒' % (<span class="title">self</span>.<span class="title">_filename</span>,<span class="title">time_to_download</span>))</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">def main():</span></span><br><span class="line"><span class="class">    start = time()</span></span><br><span class="line"><span class="class">    t1 = <span class="type">DownloadTask</span>('<span class="type">Python</span>从入门到住院.<span class="title">pdf'</span>)</span></span><br><span class="line"><span class="class">    t1.start()</span></span><br><span class="line"><span class="class">    t2 = <span class="type">DownloadTask</span>('<span class="type">Peking</span> <span class="type">Hot</span>.<span class="title">avi'</span>)</span></span><br><span class="line"><span class="class">    t2.start()</span></span><br><span class="line"><span class="class">    t1.join()</span></span><br><span class="line"><span class="class">    t2.join()</span></span><br><span class="line"><span class="class">    end = time()</span></span><br><span class="line"><span class="class">    print('总共耗费了%.2<span class="title">f</span>秒' % (<span class="title">end</span>-<span class="title">start</span>))</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">if __name__ == '__main__':</span></span><br><span class="line"><span class="class">    main()</span></span><br></pre></td></tr></table></figure>
-<p>多个线程可以共享进程的内存空间，要实现多个线程间的通信相对简单，设置一个全局变量，多个线程共享这个全局变量即可。但是当多个线程共享同一个变量（称之为资源）的时候，很有可能产生不可控的结果导致程序失效甚至崩溃。如果一个资源被多个线程竞争使用，通常称之为“临界资源”，对“临界资源”的访问需要加上保护，否则资源会处于“混乱”状态。</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">from time import sleep</span><br><span class="line">from threading import Thread,Lock</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Account</span>(<span class="title">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(<span class="keyword">self</span>)</span></span><span class="symbol">:</span></span><br><span class="line">        <span class="keyword">self</span>._balance = <span class="number">0</span></span><br><span class="line">        <span class="keyword">self</span>._lock = Lock() <span class="comment">#加锁保护对银行账户的操作</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deposit</span><span class="params">(<span class="keyword">self</span>,money)</span></span><span class="symbol">:</span></span><br><span class="line">        <span class="keyword">self</span>._lock.acquire()</span><br><span class="line">        <span class="symbol">try:</span></span><br><span class="line">            <span class="comment"># 计算存款后的余额</span></span><br><span class="line">            new_balance = <span class="keyword">self</span>._balance + money</span><br><span class="line">            <span class="comment"># 模拟受理存款业务需要0.01秒的时间</span></span><br><span class="line">            sleep(<span class="number">0</span>.<span class="number">01</span>)</span><br><span class="line">            <span class="comment"># 修改账户余额</span></span><br><span class="line">            <span class="keyword">self</span>._balance = new_balance</span><br><span class="line">        <span class="symbol">finally:</span></span><br><span class="line">            <span class="comment"># 在finally中执行释放锁的操作保证正常异常锁都能释放</span></span><br><span class="line">            <span class="keyword">self</span>._lock.release()</span><br><span class="line"></span><br><span class="line">    @property</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">balance</span><span class="params">(<span class="keyword">self</span>)</span></span><span class="symbol">:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span>._balance</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AddMoneyThread</span>(<span class="title">Thread</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(<span class="keyword">self</span>,account,money)</span></span><span class="symbol">:</span></span><br><span class="line">        <span class="keyword">super</span>().__init_<span class="number">_</span>()</span><br><span class="line">        <span class="keyword">self</span>._account = account</span><br><span class="line">        <span class="keyword">self</span>._money = money</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(<span class="keyword">self</span>)</span></span><span class="symbol">:</span></span><br><span class="line">        <span class="keyword">self</span>._account.deposit(<span class="keyword">self</span>._money)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span></span><span class="symbol">:</span></span><br><span class="line">    account = Account()</span><br><span class="line">    threads = []</span><br><span class="line">    <span class="comment"># 创建100个存款的线程向同一个账户存钱</span></span><br><span class="line">    <span class="keyword">for</span> <span class="number">_</span> <span class="keyword">in</span> range(<span class="number">100</span>)<span class="symbol">:</span></span><br><span class="line">        t = AddMoneyThread(account,<span class="number">1</span>)</span><br><span class="line">        threads.append(t)</span><br><span class="line">        t.start()</span><br><span class="line">    <span class="comment"># 等所有存款的线程都执行完毕</span></span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> <span class="symbol">threads:</span></span><br><span class="line">        t.join()</span><br><span class="line">    print(<span class="string">'账户余额为：￥%d元'</span> % account.balance)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name_<span class="number">_</span> == <span class="string">'__main__'</span><span class="symbol">:</span></span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-<h2 id="多进程还是多线程"><a href="#多进程还是多线程" class="headerlink" title="多进程还是多线程"></a>多进程还是多线程</h2><p>无论是多进程还是多线程，只要数量一多，效率肯定上不去，为什么呢？我们打个比方，假设你不幸正在准备中考，每天晚上需要做语文、数学、英语、物理、化学这5科的作业，每项作业耗时1小时。如果你先花1小时做语文作业，做完了，再花1小时做数学作业，这样，依次全部做完，一共花5小时，这种方式称为单任务模型。如果你打算切换到多任务模型，可以先做1分钟语文，再切换到数学作业，做1分钟，再切换到英语，以此类推，只要切换速度足够快，这种方式就和单核CPU执行多任务是一样的了，以旁观者的角度来看，你就正在同时写5科作业。</p>
-<p>但是，切换作业是有代价的，比如从语文切到数学，要先收拾桌子上的语文书本、钢笔（这叫保存现场），然后，打开数学课本、找出圆规直尺（这叫准备新环境），才能开始做数学作业。操作系统在切换进程或者线程时也是一样的，它需要先保存当前执行的现场环境（CPU寄存器状态、内存页等），然后，把新任务的执行环境准备好（恢复上次的寄存器状态，切换内存页等），才能开始执行。这个切换过程虽然很快，但是也需要耗费时间。如果有几千个任务同时进行，操作系统可能就主要忙着切换任务，根本没有多少时间去执行任务了，这种情况最常见的就是硬盘狂响，点窗口无反应，系统处于假死状态。所以，多任务一旦多到一个限度，反而会使得系统性能急剧下降，最终导致所有任务都做不好。</p>
-<p>是否采用多任务的第二个考虑是任务的类型，可以把任务分为计算密集型和I/O密集型。计算密集型任务的特点是要进行大量的计算，消耗CPU资源，比如对视频进行编码解码或者格式转换等等，这种任务全靠CPU的运算能力，虽然也可以用多任务完成，但是任务越多，花在任务切换的时间就越多，CPU执行任务的效率就越低。计算密集型任务由于主要消耗CPU资源，这类任务用Python这样的脚本语言去执行效率通常很低，最能胜任这类任务的是C语言，我们之前提到了Python中有嵌入C/C++代码的机制。</p>
-<p>除了计算密集型任务，其他的涉及到网络、存储介质I/O的任务都可以视为I/O密集型任务，这类任务的特点是CPU消耗很少，任务的大部分时间都在等待I/O操作完成（因为I/O的速度远远低于CPU和内存的速度）。对于I/O密集型任务，如果启动多任务，就可以减少I/O等待时间从而让CPU高效率的运转。</p>
-<h2 id="单线程-异步I-O"><a href="#单线程-异步I-O" class="headerlink" title="单线程+异步I/O"></a>单线程+异步I/O</h2><p>现代操作系统对I/O操作的改进中最为重要的就是支持异步I/O。如果充分利用操作系统提供的异步I/O支持，就可以用单进程单线程模型来执行多任务，这种全新的模型称为事件驱动模型。Nginx就是支持异步I/O的Web服务器，它在单核CPU上采用单进程模型就可以高效地支持多任务。在多核CPU上，可以运行多个进程（数量与CPU核心数相同），充分利用多核CPU。</p>
-<p>在Python语言中，单线程+异步I/O的编程模型称为协程，有了协程的支持，就可以基于事件驱动编写高效的多任务程序。协程最大的优势就是极高的执行效率，因为子程序切换不是线程切换，而是由程序自身控制，因此，没有线程切换的开销。协程的第二个优势就是不需要多线程的锁机制，因为只有一个线程，也不存在同时写变量冲突，在协程中控制共享资源不用加锁，只需要判断状态就好了，所以执行效率比多线程高很多。如果想要充分利用CPU的多核特性，最简单的方法是多进程+协程，既充分利用多核，又充分发挥协程的高效率，可获得极高的性能。</p>
-<h3 id="例1：将耗时间的任务放到线程中以获得更好的用户体验"><a href="#例1：将耗时间的任务放到线程中以获得更好的用户体验" class="headerlink" title="例1：将耗时间的任务放到线程中以获得更好的用户体验"></a>例1：将耗时间的任务放到线程中以获得更好的用户体验</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> tkinter</span><br><span class="line"><span class="keyword">import</span> tkinter.messagebox</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">DownloadTaskHandler</span><span class="params">(Thread)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">            time.sleep(<span class="number">10</span>)</span><br><span class="line">            tkinter.messagebox.showinfo(<span class="string">'提示'</span>,<span class="string">'下载完成！'</span>)</span><br><span class="line">            <span class="comment"># 启用下载按钮</span></span><br><span class="line">            button1.config(state = tkinter.NORMAL)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">download</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="comment"># 禁用下载按钮</span></span><br><span class="line">        button1.config(state = tkinter.DISABLED)</span><br><span class="line">        <span class="comment"># 通过daemon参数将参数设置为守护线程（主程序退出就不再保留执行）</span></span><br><span class="line">        <span class="comment"># 在线程中处理耗时间的下载任务</span></span><br><span class="line">        DownLoadTaskHandler(daemon=<span class="literal">True</span>.start())</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">show_about</span><span class="params">()</span>:</span></span><br><span class="line">        tkinter.messagebox.showinfo(<span class="string">'关于'</span>,<span class="string">'作者：张三'</span>)</span><br><span class="line">    top = tkinter.TK()</span><br><span class="line">    top.title(<span class="string">'单线程'</span>)</span><br><span class="line">    top.geometry(<span class="string">'200×150'</span>)</span><br><span class="line">    top.wm_attributes(<span class="string">'-topmost'</span>,<span class="literal">True</span>)</span><br><span class="line">    panel = tkinter.Frame(top)</span><br><span class="line">    button1 = tkinter.Button(panel,text=<span class="string">'下载'</span>,command=download)</span><br><span class="line">    button1.pack(side=<span class="string">'left'</span>)</span><br><span class="line">    button2 = tkinter.Button(panel,text=<span class="string">'关于'</span>,command=show_about)</span><br><span class="line">    button2.pack(side=<span class="string">'right'</span>)</span><br><span class="line">    panel.pack(side=<span class="string">'bottom'</span>)</span><br><span class="line">    tkinter.mainloop()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-<h3 id="例2：使用多进程对复杂任务进行“分而治之”"><a href="#例2：使用多进程对复杂任务进行“分而治之”" class="headerlink" title="例2：使用多进程对复杂任务进行“分而治之”"></a>例2：使用多进程对复杂任务进行“分而治之”</h3><figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">from</span> multiprocessing import Process,Queue</span><br><span class="line"><span class="meta">from</span> random import randint</span><br><span class="line"><span class="meta">from</span> time import time</span><br><span class="line"></span><br><span class="line">def task_handler(curr_list,result_queue):</span><br><span class="line">    total = 0</span><br><span class="line">    for number <span class="meta">in</span> curr_list:</span><br><span class="line">        total += number</span><br><span class="line">    result_queue<span class="meta">.put(</span>total)</span><br><span class="line">def ma<span class="meta">in(</span>):</span><br><span class="line">    processes = []</span><br><span class="line">    number_lisst = [<span class="meta">x</span> for <span class="meta">x</span> <span class="meta">in</span><span class="meta"> range(</span>1,100000001)]</span><br><span class="line">    result_queue = Queue()</span><br><span class="line">    <span class="meta">index</span> = 0</span><br><span class="line">    # 启动8个进程将数据切片后进行运算</span><br><span class="line">    for _ <span class="meta">in</span><span class="meta"> range(</span>8):</span><br><span class="line">        p = Process(target=task_handler,args=(number_lisst[<span class="meta">index</span>:<span class="meta">index</span>+122500000],result_queue))</span><br><span class="line">        <span class="meta">index</span> += 12500000</span><br><span class="line">        processes.append(p)</span><br><span class="line">        p.start()</span><br><span class="line">    # 开始记录所有进程执行完成花费的时间</span><br><span class="line">    start =<span class="meta"> time(</span>)</span><br><span class="line">    for p <span class="meta">in</span> processes:</span><br><span class="line">        p.jo<span class="meta">in(</span>)</span><br><span class="line">    # 合并执行结果</span><br><span class="line">    total = 0</span><br><span class="line">    <span class="meta">while</span> <span class="meta">not</span> result_queue.empty():</span><br><span class="line">        total += result_queue.get()</span><br><span class="line">    p<span class="meta">rint(</span>total)</span><br><span class="line">    <span class="meta">end</span> =<span class="meta"> time(</span>)</span><br><span class="line">    p<span class="meta">rint(</span><span class="string">'Execution time:'</span>,(<span class="meta">end</span>-start),<span class="string">'s'</span>,sep=<span class="string">''</span>)</span><br><span class="line"><span class="meta">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    ma<span class="meta">in(</span>)</span><br></pre></td></tr></table></figure>
-
-          
+          <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>进程就是操作系统中执行的一个程序，操作系统以进程为单位分配存储空间，每个进程都有自己的地址空间、数据栈以及其他用于跟踪进程执行的辅助数据，操作系统管理所有进程的执行，为它们合理的分配资源。进程可以通过fork或spawn的方式来创建新的进程来执行其他的任务，不过新的进程也有自己独立的内存空间，因此必须通过进程间通信机制（IPC，Inter-Process Communication）来实现数据共享，具体的方式包括管道、信号、套接字、共享内存区等。<br>一个进程还可以拥有多个并发的执行线索，简单的说就是拥有多个可以获得CPU调度的执行单元，这就是所谓的线程。由于线程在同一个进程下，它们可以共享相同的上下文，因此对于进程而言，线程间的信息共享和通信更加容易。当然在单核DDPU系统中，真正的并发是不可能的，因为<strong>在某个时刻能够获得CPU的只有唯一的一个线程，多个线程共享了CPU的执行时间</strong>。使用多线程实现并发编程为程序带来的好处是不言而喻的，最主要的体现是提升程序的性能和改善用户体验。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/02/18/13.%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
