@@ -601,4 +601,26 @@ live2d:
     opacityOnHover: 0.2 #鼠标移上透明度
 ```
 
+## hexo博客备份
+
+1. 在博客仓库创建一个分支hexo（命名随意）
+2. 设置hexo为默认分支
+3. 将此时的博客仓库clone到本地（使用github桌面版），将之前的本地博客文件夹中的_config.yml，themes/，source，scffolds/，package.json，.gitignore复制到刚刚克隆下来的仓库文件夹，即Username.github.io；（Username为自己的用户名）
+4. 将themes/next/(我用的是Next主题)中的./git删除，否则无法将主题文件夹push
+5. 在刚刚克隆的文件夹中执行npm install,npm install hexo-deployer-git（这里看看分支是不是显示hexo）
+6. 执行(git add .),git commit -m "提交文件",git push origin hexo 来提交hexo网站源文件
+7. 执行hexo g -d生成静态网页部署到github上
+
+这样，Username.github.io仓库就有master分支保存静态网页，hexo分支保存源文件。
+
+## 修改
+
+在本地对博客修改（包括修改主题样式、发布新文章等）后
+
+1. 执行git add，git commit -m “提交文件”，git push origin Hexo来提交Hexo网站源文件；
+
+2. 执行hexo g -d 生成静态网页部署到github上；
+
+（每次发布重复这两步，它们之间没有严格的顺序）
+
 参考链接：https://blog.csdn.net/weixin_41599858/java/article/details/104806723
