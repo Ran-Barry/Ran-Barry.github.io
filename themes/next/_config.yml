@@ -286,8 +286,8 @@ android_chrome_color: "#222"
 #   enabled: [true/false] - Replace with specific image
 #   image: url-of-image   - Images's url
 custom_logo:
-  enabled: false
-  image:
+  enabled: true
+  image: /images/avatar.jpg
 
 # Code Highlight theme
 # Available value:
@@ -460,11 +460,11 @@ gitment:
 #           Technorati,Posterous,Tumblr,GoogleBookmarks,Newsvine,
 #           Evernote,Friendfeed,Vkontakte,Odnoklassniki,Mailru
 needmoreshare2:
-  enable: true
+  enable: false
   postbottom:
     enable: true
     options:
-      iconStyle: box
+      iconStyle: default
       boxForm: horizontal
       #位置
       position: bottomCenter
@@ -473,8 +473,8 @@ needmoreshare2:
   float:
     enable: true
     options:
-      iconStyle: box
-      boxForm: vertical
+      iconStyle: default
+      boxForm: horizontal
       position: topRight
       networks: Weibo,Wechat,Douban,QQZone,Twitter,Facebook
 
@@ -648,12 +648,12 @@ local_search:
 codeblock:
   # 自定义边框半径，默认是1
   # 值越大弧度越大
-  border_radius: 6
+  border_radius: 8
   # Add copy button on codeblock
   copy_button:
     enable: true
     # Show text copy result
-    show_result: true
+    show_result: true #是否显示复制成功信息
 
 
 # ---------------------------------------------------------------
