@@ -14,7 +14,7 @@ timezone: Asia/Shanghai #中国的时区
 # URL 网址
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://ran-barry.github.io
-url: http://yaoguangshaonian.cn #绑定域名
+#url: http://yaoguangshaonian.cn #绑定域名
 root: / #默认根路径，指向实际的source
 permalink: :year/:month/:day/:title/
 permalink_defaults: #永久链接中各部分的默认值
