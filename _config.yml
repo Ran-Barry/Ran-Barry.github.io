@@ -141,6 +141,10 @@ symbols_count_time:
   time: true #是否统计阅读时长
   total_symbols: true #是否统计总字数
   total_time: true #是否统计总阅读时长
+  exclude_codeblock: false  #是否排除代码统计
+  awl: 4 #平均字长
+  wpm: 275  #每分钟字数
+  suffix: "mins." #统计单位，分钟
 
 search:
   path: search.xml
@@ -155,7 +159,7 @@ passage_end_tag:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: next
+theme: next7.8
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
