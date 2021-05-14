@@ -238,6 +238,26 @@
       </tags>
   </entry>
   <entry>
+    <title>13.进程和线程</title>
+    <url>/2020/02/18/13.%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/</url>
+    <content><![CDATA[<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>进程就是操作系统中执行的一个程序，操作系统以进程为单位分配存储空间，每个进程都有自己的地址空间、数据栈以及其他用于跟踪进程执行的辅助数据，操作系统管理所有进程的执行，为它们合理的分配资源。进程可以通过fork或spawn的方式来创建新的进程来执行其他的任务，不过新的进程也有自己独立的内存空间，因此必须通过进程间通信机制（IPC，Inter-Process Communication）来实现数据共享，具体的方式包括管道、信号、套接字、共享内存区等。<br>一个进程还可以拥有多个并发的执行线索，简单的说就是拥有多个可以获得CPU调度的执行单元，这就是所谓的线程。由于线程在同一个进程下，它们可以共享相同的上下文，因此对于进程而言，线程间的信息共享和通信更加容易。当然在单核DDPU系统中，真正的并发是不可能的，因为<strong>在某个时刻能够获得CPU的只有唯一的一个线程，多个线程共享了CPU的执行时间</strong>。使用多线程实现并发编程为程序带来的好处是不言而喻的，最主要的体现是提升程序的性能和改善用户体验。<br><span id="more"></span></p>
+<h2 id="Python中的多进程"><a href="#Python中的多进程" class="headerlink" title="Python中的多进程"></a>Python中的多进程</h2><p>Unix和Linux操作系统上提供了fork()系统调用来创建进程，调用fork()函数的是父进程，创建出的是子进程，子进程是父进程的一个拷贝，但是子进程拥有自己的PID。fork()函数非常特殊，它会返回两次，父进程中可以通过fork()函数的返回值得到子进程的PID，而子进程中的返回值永远都是0.Python的OS模块提供了fork()函数。由于Windows系统没有fork()调用，因此要实现跨平台的多进程编程，可以使用multiprocessing模块的Process类来创建子进程，而且该模块还提供了更高级的封装，例如批量启动进程的进程池（Pool）、用于进程间通信的队列（Queue）和管道（Pipe）等。<br><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">from</span> random import randint</span><br><span class="line"><span class="selector-tag">from</span> <span class="selector-tag">time</span> import <span class="selector-tag">time</span>,sleep</span><br><span class="line"></span><br><span class="line">def download_task(filename):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;开始下载%s...&#x27;</span> % filename)</span><br><span class="line">    time_to_download = <span class="built_in">randint</span>(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line">    <span class="built_in">sleep</span>(time_to_download)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;%s下载完成！耗费了%d秒&#x27;</span> % (filename,time_to_download))</span><br><span class="line"></span><br><span class="line">def <span class="built_in">main</span>():</span><br><span class="line">    start = <span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">download_task</span>(<span class="string">&#x27;Python从入门到住院.pdf&#x27;</span>)</span><br><span class="line">    <span class="built_in">download_task</span>(<span class="string">&#x27;Peking Hot.avi&#x27;</span>)</span><br><span class="line">    end = <span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;总共耗费了%.2f秒.&#x27;</span> % (end-start))</span><br><span class="line"></span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure><br>这个例子可以得出，如果程序中的代码只能按顺序一点点的往下执行，那么即使执行两个互不相关的下载任务，也需要先等待一个文件下载完成后才能开始下一个下载任务。<br><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">from</span> multiprocessing import Process</span><br><span class="line"><span class="selector-tag">from</span> os import getpgid</span><br><span class="line"><span class="selector-tag">from</span> random import randint</span><br><span class="line"><span class="selector-tag">from</span> <span class="selector-tag">time</span> import <span class="selector-tag">time</span>,sleep</span><br><span class="line"></span><br><span class="line">def download_task(filename):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;启动下载进程，进程号[%d].&#x27;</span> % <span class="built_in">getpid</span>())</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;开始下载%s...&#x27;</span> % filename)</span><br><span class="line">    time_to_download = <span class="built_in">randint</span>(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line">    <span class="built_in">sleep</span>(time_to_download)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;%s下载完成！耗费了%d秒&#x27;</span> % (filename,time_to_download))</span><br><span class="line"></span><br><span class="line">def <span class="built_in">main</span>():</span><br><span class="line">    start = <span class="built_in">time</span>()</span><br><span class="line">    p1 = <span class="built_in">Process</span>(target=download_task,args=(<span class="string">&#x27;Python从入门到住院.pdf&#x27;</span>))</span><br><span class="line">    p1.<span class="built_in">start</span>()</span><br><span class="line">    p2 = <span class="built_in">Process</span>(target=download_task,args=(<span class="string">&#x27;Peking Hot.avi&#x27;</span>))</span><br><span class="line">    p2.<span class="built_in">start</span>()</span><br><span class="line">    p1.<span class="built_in">join</span>()</span><br><span class="line">    p2.<span class="built_in">join</span>()</span><br><span class="line">    end = <span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;总共耗费了%.2f秒.&#x27;</span> % (end-start))</span><br><span class="line"></span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure><br>上面通过Process类创建了进程对象，通过target参数传入一个函数表示进程启动后要执行的代码，后面args是一个元祖，代表传递给函数的参数。Process和start方法用来启动进程，而join方法表示等待进程执行结束。两个任务同时启动了。</p>
+<p>也可以使用subprocess模块中的类和函数来创建和启动子进程，然后通过管道来和子进程通讯</p>
+<h2 id="Python中的多线程"><a href="#Python中的多线程" class="headerlink" title="Python中的多线程"></a>Python中的多线程</h2><p>Python通过thread模块（现在名为_thread）来实现多线程编程，该模块过于底层，而且很多功能都没有提供，推荐threading模块，该模块对多线程编程提供了更好的面对对象的封装。<br><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">from</span> random import randint</span><br><span class="line"><span class="selector-tag">from</span> threading import Thread</span><br><span class="line"><span class="selector-tag">from</span> <span class="selector-tag">time</span> import <span class="selector-tag">time</span>,sleep</span><br><span class="line"></span><br><span class="line">def download(filename):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;开始下载%s...&#x27;</span> % filename)</span><br><span class="line">    time_to_download = <span class="built_in">randint</span>(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line">    <span class="built_in">sleep</span>(time_to_download)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;%s下载完成！耗费%d秒&#x27;</span> % (filename,time_to_download))</span><br><span class="line"></span><br><span class="line">def <span class="built_in">main</span>():</span><br><span class="line">    start = <span class="built_in">time</span>()</span><br><span class="line">    t1 = <span class="built_in">Thread</span>(target=download,args=(<span class="string">&#x27;Python从入门到住院.pdf&#x27;</span>))</span><br><span class="line">    t1.<span class="built_in">start</span>()</span><br><span class="line">    t2 = <span class="built_in">Thread</span>(target=download,args=(<span class="string">&#x27;Peking Hot.avi&#x27;</span>,))</span><br><span class="line">    t2.<span class="built_in">start</span>()</span><br><span class="line">    t1.<span class="built_in">join</span>()</span><br><span class="line">    t2.<span class="built_in">join</span>()</span><br><span class="line">    end = <span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;总共耗费了%.3f秒&#x27;</span> % (end-start))</span><br><span class="line"></span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure><br>直接使用threading模块的Thread类来创建进程，但是我们之前讲过一个非常重要的概念叫“继承”，我们可以从已有的类创建类，因此可以通过继承Thread类的方式来创建自定义的线程类，然后再创建线程对象并启动线程。<br><figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="title">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="title">from</span> time <span class="keyword">import</span> time,sleep</span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="type">DownloadTask</span>(<span class="type">Thread</span>):</span></span><br><span class="line"><span class="class">    def __init__(<span class="title">self</span>, <span class="title">filename</span>):</span></span><br><span class="line"><span class="class">        super().__init__()</span></span><br><span class="line"><span class="class">        self._filename = filename</span></span><br><span class="line"><span class="class">    </span></span><br><span class="line"><span class="class">    def run(<span class="title">self</span>):</span></span><br><span class="line"><span class="class">        print(&#x27;开始下载%<span class="title">s</span>...&#x27; % <span class="title">self</span>.<span class="title">_filename</span>)</span></span><br><span class="line"><span class="class">        time_to_download = randint(5,10)</span></span><br><span class="line"><span class="class">        sleep(<span class="title">time_to_download</span>)</span></span><br><span class="line"><span class="class">        print(&#x27;%<span class="title">s</span>下载完成！耗费%<span class="title">d</span>秒&#x27; % (<span class="title">self</span>.<span class="title">_filename</span>,<span class="title">time_to_download</span>))</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">def main():</span></span><br><span class="line"><span class="class">    start = time()</span></span><br><span class="line"><span class="class">    t1 = <span class="type">DownloadTask</span>(&#x27;<span class="type">Python</span>从入门到住院.<span class="title">pdf&#x27;</span>)</span></span><br><span class="line"><span class="class">    t1.start()</span></span><br><span class="line"><span class="class">    t2 = <span class="type">DownloadTask</span>(&#x27;<span class="type">Peking</span> <span class="type">Hot</span>.<span class="title">avi&#x27;</span>)</span></span><br><span class="line"><span class="class">    t2.start()</span></span><br><span class="line"><span class="class">    t1.join()</span></span><br><span class="line"><span class="class">    t2.join()</span></span><br><span class="line"><span class="class">    end = time()</span></span><br><span class="line"><span class="class">    print(&#x27;总共耗费了%.2<span class="title">f</span>秒&#x27; % (<span class="title">end</span>-<span class="title">start</span>))</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">if __name__ == &#x27;__main__&#x27;:</span></span><br><span class="line"><span class="class">    main()</span></span><br></pre></td></tr></table></figure><br>多个线程可以共享进程的内存空间，要实现多个线程间的通信相对简单，设置一个全局变量，多个线程共享这个全局变量即可。但是当多个线程共享同一个变量（称之为资源）的时候，很有可能产生不可控的结果导致程序失效甚至崩溃。如果一个资源被多个线程竞争使用，通常称之为“临界资源”，对“临界资源”的访问需要加上保护，否则资源会处于“混乱”状态。<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread,Lock</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Account</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self._balance = <span class="number">0</span></span><br><span class="line">        self._lock = Lock() <span class="comment">#加锁保护对银行账户的操作</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deposit</span>(<span class="params">self,money</span>):</span></span><br><span class="line">        self._lock.acquire()</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 计算存款后的余额</span></span><br><span class="line">            new_balance = self._balance + money</span><br><span class="line">            <span class="comment"># 模拟受理存款业务需要0.01秒的时间</span></span><br><span class="line">            sleep(<span class="number">0.01</span>)</span><br><span class="line">            <span class="comment"># 修改账户余额</span></span><br><span class="line">            self._balance = new_balance</span><br><span class="line">        <span class="keyword">finally</span>:</span><br><span class="line">            <span class="comment"># 在finally中执行释放锁的操作保证正常异常锁都能释放</span></span><br><span class="line">            self._lock.release()</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">balance</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self._balance</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AddMoneyThread</span>(<span class="params">Thread</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,account,money</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self._account = account</span><br><span class="line">        self._money = money</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        self._account.deposit(self._money)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    account = Account()</span><br><span class="line">    threads = []</span><br><span class="line">    <span class="comment"># 创建100个存款的线程向同一个账户存钱</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">        t = AddMoneyThread(account,<span class="number">1</span>)</span><br><span class="line">        threads.append(t)</span><br><span class="line">        t.start()</span><br><span class="line">    <span class="comment"># 等所有存款的线程都执行完毕</span></span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> threads:</span><br><span class="line">        t.join()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;账户余额为：￥%d元&#x27;</span> % account.balance)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></p>
+<h2 id="多进程还是多线程"><a href="#多进程还是多线程" class="headerlink" title="多进程还是多线程"></a>多进程还是多线程</h2><p>无论是多进程还是多线程，只要数量一多，效率肯定上不去，为什么呢？我们打个比方，假设你不幸正在准备中考，每天晚上需要做语文、数学、英语、物理、化学这5科的作业，每项作业耗时1小时。如果你先花1小时做语文作业，做完了，再花1小时做数学作业，这样，依次全部做完，一共花5小时，这种方式称为单任务模型。如果你打算切换到多任务模型，可以先做1分钟语文，再切换到数学作业，做1分钟，再切换到英语，以此类推，只要切换速度足够快，这种方式就和单核CPU执行多任务是一样的了，以旁观者的角度来看，你就正在同时写5科作业。</p>
+<p>但是，切换作业是有代价的，比如从语文切到数学，要先收拾桌子上的语文书本、钢笔（这叫保存现场），然后，打开数学课本、找出圆规直尺（这叫准备新环境），才能开始做数学作业。操作系统在切换进程或者线程时也是一样的，它需要先保存当前执行的现场环境（CPU寄存器状态、内存页等），然后，把新任务的执行环境准备好（恢复上次的寄存器状态，切换内存页等），才能开始执行。这个切换过程虽然很快，但是也需要耗费时间。如果有几千个任务同时进行，操作系统可能就主要忙着切换任务，根本没有多少时间去执行任务了，这种情况最常见的就是硬盘狂响，点窗口无反应，系统处于假死状态。所以，多任务一旦多到一个限度，反而会使得系统性能急剧下降，最终导致所有任务都做不好。</p>
+<p>是否采用多任务的第二个考虑是任务的类型，可以把任务分为计算密集型和I/O密集型。计算密集型任务的特点是要进行大量的计算，消耗CPU资源，比如对视频进行编码解码或者格式转换等等，这种任务全靠CPU的运算能力，虽然也可以用多任务完成，但是任务越多，花在任务切换的时间就越多，CPU执行任务的效率就越低。计算密集型任务由于主要消耗CPU资源，这类任务用Python这样的脚本语言去执行效率通常很低，最能胜任这类任务的是C语言，我们之前提到了Python中有嵌入C/C++代码的机制。</p>
+<p>除了计算密集型任务，其他的涉及到网络、存储介质I/O的任务都可以视为I/O密集型任务，这类任务的特点是CPU消耗很少，任务的大部分时间都在等待I/O操作完成（因为I/O的速度远远低于CPU和内存的速度）。对于I/O密集型任务，如果启动多任务，就可以减少I/O等待时间从而让CPU高效率的运转。</p>
+<h2 id="单线程-异步I-O"><a href="#单线程-异步I-O" class="headerlink" title="单线程+异步I/O"></a>单线程+异步I/O</h2><p>现代操作系统对I/O操作的改进中最为重要的就是支持异步I/O。如果充分利用操作系统提供的异步I/O支持，就可以用单进程单线程模型来执行多任务，这种全新的模型称为事件驱动模型。Nginx就是支持异步I/O的Web服务器，它在单核CPU上采用单进程模型就可以高效地支持多任务。在多核CPU上，可以运行多个进程（数量与CPU核心数相同），充分利用多核CPU。</p>
+<p>在Python语言中，单线程+异步I/O的编程模型称为协程，有了协程的支持，就可以基于事件驱动编写高效的多任务程序。协程最大的优势就是极高的执行效率，因为子程序切换不是线程切换，而是由程序自身控制，因此，没有线程切换的开销。协程的第二个优势就是不需要多线程的锁机制，因为只有一个线程，也不存在同时写变量冲突，在协程中控制共享资源不用加锁，只需要判断状态就好了，所以执行效率比多线程高很多。如果想要充分利用CPU的多核特性，最简单的方法是多进程+协程，既充分利用多核，又充分发挥协程的高效率，可获得极高的性能。</p>
+<h3 id="例1：将耗时间的任务放到线程中以获得更好的用户体验"><a href="#例1：将耗时间的任务放到线程中以获得更好的用户体验" class="headerlink" title="例1：将耗时间的任务放到线程中以获得更好的用户体验"></a>例1：将耗时间的任务放到线程中以获得更好的用户体验</h3><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">import <span class="selector-tag">time</span></span><br><span class="line">import tkinter</span><br><span class="line">import tkinter<span class="selector-class">.messagebox</span></span><br><span class="line"><span class="selector-tag">from</span> threading import Thread</span><br><span class="line"></span><br><span class="line">def <span class="selector-tag">main</span>():</span><br><span class="line">    class <span class="built_in">DownloadTaskHandler</span>(Thread):</span><br><span class="line">        def <span class="built_in">run</span>(self):</span><br><span class="line">            time.<span class="built_in">sleep</span>(<span class="number">10</span>)</span><br><span class="line">            tkinter.messagebox.<span class="built_in">showinfo</span>(<span class="string">&#x27;提示&#x27;</span>,<span class="string">&#x27;下载完成！&#x27;</span>)</span><br><span class="line">            # 启用下载按钮</span><br><span class="line">            button1.<span class="built_in">config</span>(state = tkinter.NORMAL)</span><br><span class="line">    def <span class="built_in">download</span>():</span><br><span class="line">        # 禁用下载按钮</span><br><span class="line">        button1.<span class="built_in">config</span>(state = tkinter.DISABLED)</span><br><span class="line">        # 通过daemon参数将参数设置为守护线程（主程序退出就不再保留执行）</span><br><span class="line">        # 在线程中处理耗时间的下载任务</span><br><span class="line">        <span class="built_in">DownLoadTaskHandler</span>(daemon=True.<span class="built_in">start</span>())</span><br><span class="line">    def <span class="built_in">show_about</span>():</span><br><span class="line">        tkinter.messagebox.<span class="built_in">showinfo</span>(<span class="string">&#x27;关于&#x27;</span>,<span class="string">&#x27;作者：张三&#x27;</span>)</span><br><span class="line">    top = tkinter.<span class="built_in">TK</span>()</span><br><span class="line">    top.<span class="built_in">title</span>(<span class="string">&#x27;单线程&#x27;</span>)</span><br><span class="line">    top.<span class="built_in">geometry</span>(<span class="string">&#x27;200×150&#x27;</span>)</span><br><span class="line">    top.<span class="built_in">wm_attributes</span>(<span class="string">&#x27;-topmost&#x27;</span>,True)</span><br><span class="line">    panel = tkinter.<span class="built_in">Frame</span>(top)</span><br><span class="line">    button1 = tkinter.<span class="built_in">Button</span>(panel,text=<span class="string">&#x27;下载&#x27;</span>,command=download)</span><br><span class="line">    button1.<span class="built_in">pack</span>(side=<span class="string">&#x27;left&#x27;</span>)</span><br><span class="line">    button2 = tkinter.<span class="built_in">Button</span>(panel,text=<span class="string">&#x27;关于&#x27;</span>,command=show_about)</span><br><span class="line">    button2.<span class="built_in">pack</span>(side=<span class="string">&#x27;right&#x27;</span>)</span><br><span class="line">    panel.<span class="built_in">pack</span>(side=<span class="string">&#x27;bottom&#x27;</span>)</span><br><span class="line">    tkinter.<span class="built_in">mainloop</span>()</span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure>
+<h3 id="例2：使用多进程对复杂任务进行“分而治之”"><a href="#例2：使用多进程对复杂任务进行“分而治之”" class="headerlink" title="例2：使用多进程对复杂任务进行“分而治之”"></a>例2：使用多进程对复杂任务进行“分而治之”</h3><figure class="highlight sas"><table><tr><td class="code"><pre><span class="line"><span class="meta">from</span> multiprocessing import Process,Queue</span><br><span class="line"><span class="meta">from</span> random import randint</span><br><span class="line"><span class="meta">from</span> time import time</span><br><span class="line"></span><br><span class="line">def task_handler(curr_list,result_queue):</span><br><span class="line">    total = 0</span><br><span class="line">    for number <span class="meta">in</span> curr_list:</span><br><span class="line">        total += number</span><br><span class="line">    result_queue<span class="meta">.put(</span>total)</span><br><span class="line">def ma<span class="meta">in(</span>):</span><br><span class="line">    processes = []</span><br><span class="line">    number_lisst = [<span class="meta">x</span> for <span class="meta">x</span> <span class="meta">in</span><span class="meta"> range(</span>1,100000001)]</span><br><span class="line">    result_queue = Queue()</span><br><span class="line">    <span class="meta">index</span> = 0</span><br><span class="line">    # 启动8个进程将数据切片后进行运算</span><br><span class="line">    for _ <span class="meta">in</span><span class="meta"> range(</span>8):</span><br><span class="line">        p = Process(target=task_handler,args=(number_lisst[<span class="meta">index</span>:<span class="meta">index</span>+122500000],result_queue))</span><br><span class="line">        <span class="meta">index</span> += 12500000</span><br><span class="line">        processes.append(p)</span><br><span class="line">        p.start()</span><br><span class="line">    # 开始记录所有进程执行完成花费的时间</span><br><span class="line">    start =<span class="meta"> time(</span>)</span><br><span class="line">    for p <span class="meta">in</span> processes:</span><br><span class="line">        p.jo<span class="meta">in(</span>)</span><br><span class="line">    # 合并执行结果</span><br><span class="line">    total = 0</span><br><span class="line">    <span class="meta">while</span> <span class="meta">not</span> result_queue.empty():</span><br><span class="line">        total += result_queue.get()</span><br><span class="line">    p<span class="meta">rint(</span>total)</span><br><span class="line">    <span class="meta">end</span> =<span class="meta"> time(</span>)</span><br><span class="line">    p<span class="meta">rint(</span><span class="string">&#x27;Execution time:&#x27;</span>,(<span class="meta">end</span>-start),<span class="string">&#x27;s&#x27;</span>,sep=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="meta">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    ma<span class="meta">in(</span>)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Python-100days</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>AES算法</title>
     <url>/2020/03/22/AES%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h3 id="本文为AES算法的原理详解。"><a href="#本文为AES算法的原理详解。" class="headerlink" title="本文为AES算法的原理详解。"></a>本文为AES算法的原理详解。</h3><span id="more"></span>
@@ -359,26 +379,6 @@
       </categories>
       <tags>
         <tag>软件安装</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>13.进程和线程</title>
-    <url>/2020/02/18/13.%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/</url>
-    <content><![CDATA[<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>进程就是操作系统中执行的一个程序，操作系统以进程为单位分配存储空间，每个进程都有自己的地址空间、数据栈以及其他用于跟踪进程执行的辅助数据，操作系统管理所有进程的执行，为它们合理的分配资源。进程可以通过fork或spawn的方式来创建新的进程来执行其他的任务，不过新的进程也有自己独立的内存空间，因此必须通过进程间通信机制（IPC，Inter-Process Communication）来实现数据共享，具体的方式包括管道、信号、套接字、共享内存区等。<br>一个进程还可以拥有多个并发的执行线索，简单的说就是拥有多个可以获得CPU调度的执行单元，这就是所谓的线程。由于线程在同一个进程下，它们可以共享相同的上下文，因此对于进程而言，线程间的信息共享和通信更加容易。当然在单核DDPU系统中，真正的并发是不可能的，因为<strong>在某个时刻能够获得CPU的只有唯一的一个线程，多个线程共享了CPU的执行时间</strong>。使用多线程实现并发编程为程序带来的好处是不言而喻的，最主要的体现是提升程序的性能和改善用户体验。<br><span id="more"></span></p>
-<h2 id="Python中的多进程"><a href="#Python中的多进程" class="headerlink" title="Python中的多进程"></a>Python中的多进程</h2><p>Unix和Linux操作系统上提供了fork()系统调用来创建进程，调用fork()函数的是父进程，创建出的是子进程，子进程是父进程的一个拷贝，但是子进程拥有自己的PID。fork()函数非常特殊，它会返回两次，父进程中可以通过fork()函数的返回值得到子进程的PID，而子进程中的返回值永远都是0.Python的OS模块提供了fork()函数。由于Windows系统没有fork()调用，因此要实现跨平台的多进程编程，可以使用multiprocessing模块的Process类来创建子进程，而且该模块还提供了更高级的封装，例如批量启动进程的进程池（Pool）、用于进程间通信的队列（Queue）和管道（Pipe）等。<br><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">from</span> random import randint</span><br><span class="line"><span class="selector-tag">from</span> <span class="selector-tag">time</span> import <span class="selector-tag">time</span>,sleep</span><br><span class="line"></span><br><span class="line">def download_task(filename):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;开始下载%s...&#x27;</span> % filename)</span><br><span class="line">    time_to_download = <span class="built_in">randint</span>(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line">    <span class="built_in">sleep</span>(time_to_download)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;%s下载完成！耗费了%d秒&#x27;</span> % (filename,time_to_download))</span><br><span class="line"></span><br><span class="line">def <span class="built_in">main</span>():</span><br><span class="line">    start = <span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">download_task</span>(<span class="string">&#x27;Python从入门到住院.pdf&#x27;</span>)</span><br><span class="line">    <span class="built_in">download_task</span>(<span class="string">&#x27;Peking Hot.avi&#x27;</span>)</span><br><span class="line">    end = <span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;总共耗费了%.2f秒.&#x27;</span> % (end-start))</span><br><span class="line"></span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure><br>这个例子可以得出，如果程序中的代码只能按顺序一点点的往下执行，那么即使执行两个互不相关的下载任务，也需要先等待一个文件下载完成后才能开始下一个下载任务。<br><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">from</span> multiprocessing import Process</span><br><span class="line"><span class="selector-tag">from</span> os import getpgid</span><br><span class="line"><span class="selector-tag">from</span> random import randint</span><br><span class="line"><span class="selector-tag">from</span> <span class="selector-tag">time</span> import <span class="selector-tag">time</span>,sleep</span><br><span class="line"></span><br><span class="line">def download_task(filename):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;启动下载进程，进程号[%d].&#x27;</span> % <span class="built_in">getpid</span>())</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;开始下载%s...&#x27;</span> % filename)</span><br><span class="line">    time_to_download = <span class="built_in">randint</span>(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line">    <span class="built_in">sleep</span>(time_to_download)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;%s下载完成！耗费了%d秒&#x27;</span> % (filename,time_to_download))</span><br><span class="line"></span><br><span class="line">def <span class="built_in">main</span>():</span><br><span class="line">    start = <span class="built_in">time</span>()</span><br><span class="line">    p1 = <span class="built_in">Process</span>(target=download_task,args=(<span class="string">&#x27;Python从入门到住院.pdf&#x27;</span>))</span><br><span class="line">    p1.<span class="built_in">start</span>()</span><br><span class="line">    p2 = <span class="built_in">Process</span>(target=download_task,args=(<span class="string">&#x27;Peking Hot.avi&#x27;</span>))</span><br><span class="line">    p2.<span class="built_in">start</span>()</span><br><span class="line">    p1.<span class="built_in">join</span>()</span><br><span class="line">    p2.<span class="built_in">join</span>()</span><br><span class="line">    end = <span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;总共耗费了%.2f秒.&#x27;</span> % (end-start))</span><br><span class="line"></span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure><br>上面通过Process类创建了进程对象，通过target参数传入一个函数表示进程启动后要执行的代码，后面args是一个元祖，代表传递给函数的参数。Process和start方法用来启动进程，而join方法表示等待进程执行结束。两个任务同时启动了。</p>
-<p>也可以使用subprocess模块中的类和函数来创建和启动子进程，然后通过管道来和子进程通讯</p>
-<h2 id="Python中的多线程"><a href="#Python中的多线程" class="headerlink" title="Python中的多线程"></a>Python中的多线程</h2><p>Python通过thread模块（现在名为_thread）来实现多线程编程，该模块过于底层，而且很多功能都没有提供，推荐threading模块，该模块对多线程编程提供了更好的面对对象的封装。<br><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">from</span> random import randint</span><br><span class="line"><span class="selector-tag">from</span> threading import Thread</span><br><span class="line"><span class="selector-tag">from</span> <span class="selector-tag">time</span> import <span class="selector-tag">time</span>,sleep</span><br><span class="line"></span><br><span class="line">def download(filename):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;开始下载%s...&#x27;</span> % filename)</span><br><span class="line">    time_to_download = <span class="built_in">randint</span>(<span class="number">5</span>,<span class="number">10</span>)</span><br><span class="line">    <span class="built_in">sleep</span>(time_to_download)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;%s下载完成！耗费%d秒&#x27;</span> % (filename,time_to_download))</span><br><span class="line"></span><br><span class="line">def <span class="built_in">main</span>():</span><br><span class="line">    start = <span class="built_in">time</span>()</span><br><span class="line">    t1 = <span class="built_in">Thread</span>(target=download,args=(<span class="string">&#x27;Python从入门到住院.pdf&#x27;</span>))</span><br><span class="line">    t1.<span class="built_in">start</span>()</span><br><span class="line">    t2 = <span class="built_in">Thread</span>(target=download,args=(<span class="string">&#x27;Peking Hot.avi&#x27;</span>,))</span><br><span class="line">    t2.<span class="built_in">start</span>()</span><br><span class="line">    t1.<span class="built_in">join</span>()</span><br><span class="line">    t2.<span class="built_in">join</span>()</span><br><span class="line">    end = <span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;总共耗费了%.3f秒&#x27;</span> % (end-start))</span><br><span class="line"></span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure><br>直接使用threading模块的Thread类来创建进程，但是我们之前讲过一个非常重要的概念叫“继承”，我们可以从已有的类创建类，因此可以通过继承Thread类的方式来创建自定义的线程类，然后再创建线程对象并启动线程。<br><figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="title">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="title">from</span> time <span class="keyword">import</span> time,sleep</span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="type">DownloadTask</span>(<span class="type">Thread</span>):</span></span><br><span class="line"><span class="class">    def __init__(<span class="title">self</span>, <span class="title">filename</span>):</span></span><br><span class="line"><span class="class">        super().__init__()</span></span><br><span class="line"><span class="class">        self._filename = filename</span></span><br><span class="line"><span class="class">    </span></span><br><span class="line"><span class="class">    def run(<span class="title">self</span>):</span></span><br><span class="line"><span class="class">        print(&#x27;开始下载%<span class="title">s</span>...&#x27; % <span class="title">self</span>.<span class="title">_filename</span>)</span></span><br><span class="line"><span class="class">        time_to_download = randint(5,10)</span></span><br><span class="line"><span class="class">        sleep(<span class="title">time_to_download</span>)</span></span><br><span class="line"><span class="class">        print(&#x27;%<span class="title">s</span>下载完成！耗费%<span class="title">d</span>秒&#x27; % (<span class="title">self</span>.<span class="title">_filename</span>,<span class="title">time_to_download</span>))</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">def main():</span></span><br><span class="line"><span class="class">    start = time()</span></span><br><span class="line"><span class="class">    t1 = <span class="type">DownloadTask</span>(&#x27;<span class="type">Python</span>从入门到住院.<span class="title">pdf&#x27;</span>)</span></span><br><span class="line"><span class="class">    t1.start()</span></span><br><span class="line"><span class="class">    t2 = <span class="type">DownloadTask</span>(&#x27;<span class="type">Peking</span> <span class="type">Hot</span>.<span class="title">avi&#x27;</span>)</span></span><br><span class="line"><span class="class">    t2.start()</span></span><br><span class="line"><span class="class">    t1.join()</span></span><br><span class="line"><span class="class">    t2.join()</span></span><br><span class="line"><span class="class">    end = time()</span></span><br><span class="line"><span class="class">    print(&#x27;总共耗费了%.2<span class="title">f</span>秒&#x27; % (<span class="title">end</span>-<span class="title">start</span>))</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">if __name__ == &#x27;__main__&#x27;:</span></span><br><span class="line"><span class="class">    main()</span></span><br></pre></td></tr></table></figure><br>多个线程可以共享进程的内存空间，要实现多个线程间的通信相对简单，设置一个全局变量，多个线程共享这个全局变量即可。但是当多个线程共享同一个变量（称之为资源）的时候，很有可能产生不可控的结果导致程序失效甚至崩溃。如果一个资源被多个线程竞争使用，通常称之为“临界资源”，对“临界资源”的访问需要加上保护，否则资源会处于“混乱”状态。<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread,Lock</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Account</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self._balance = <span class="number">0</span></span><br><span class="line">        self._lock = Lock() <span class="comment">#加锁保护对银行账户的操作</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deposit</span>(<span class="params">self,money</span>):</span></span><br><span class="line">        self._lock.acquire()</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 计算存款后的余额</span></span><br><span class="line">            new_balance = self._balance + money</span><br><span class="line">            <span class="comment"># 模拟受理存款业务需要0.01秒的时间</span></span><br><span class="line">            sleep(<span class="number">0.01</span>)</span><br><span class="line">            <span class="comment"># 修改账户余额</span></span><br><span class="line">            self._balance = new_balance</span><br><span class="line">        <span class="keyword">finally</span>:</span><br><span class="line">            <span class="comment"># 在finally中执行释放锁的操作保证正常异常锁都能释放</span></span><br><span class="line">            self._lock.release()</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">balance</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self._balance</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AddMoneyThread</span>(<span class="params">Thread</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,account,money</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self._account = account</span><br><span class="line">        self._money = money</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        self._account.deposit(self._money)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    account = Account()</span><br><span class="line">    threads = []</span><br><span class="line">    <span class="comment"># 创建100个存款的线程向同一个账户存钱</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">        t = AddMoneyThread(account,<span class="number">1</span>)</span><br><span class="line">        threads.append(t)</span><br><span class="line">        t.start()</span><br><span class="line">    <span class="comment"># 等所有存款的线程都执行完毕</span></span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> threads:</span><br><span class="line">        t.join()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;账户余额为：￥%d元&#x27;</span> % account.balance)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></p>
-<h2 id="多进程还是多线程"><a href="#多进程还是多线程" class="headerlink" title="多进程还是多线程"></a>多进程还是多线程</h2><p>无论是多进程还是多线程，只要数量一多，效率肯定上不去，为什么呢？我们打个比方，假设你不幸正在准备中考，每天晚上需要做语文、数学、英语、物理、化学这5科的作业，每项作业耗时1小时。如果你先花1小时做语文作业，做完了，再花1小时做数学作业，这样，依次全部做完，一共花5小时，这种方式称为单任务模型。如果你打算切换到多任务模型，可以先做1分钟语文，再切换到数学作业，做1分钟，再切换到英语，以此类推，只要切换速度足够快，这种方式就和单核CPU执行多任务是一样的了，以旁观者的角度来看，你就正在同时写5科作业。</p>
-<p>但是，切换作业是有代价的，比如从语文切到数学，要先收拾桌子上的语文书本、钢笔（这叫保存现场），然后，打开数学课本、找出圆规直尺（这叫准备新环境），才能开始做数学作业。操作系统在切换进程或者线程时也是一样的，它需要先保存当前执行的现场环境（CPU寄存器状态、内存页等），然后，把新任务的执行环境准备好（恢复上次的寄存器状态，切换内存页等），才能开始执行。这个切换过程虽然很快，但是也需要耗费时间。如果有几千个任务同时进行，操作系统可能就主要忙着切换任务，根本没有多少时间去执行任务了，这种情况最常见的就是硬盘狂响，点窗口无反应，系统处于假死状态。所以，多任务一旦多到一个限度，反而会使得系统性能急剧下降，最终导致所有任务都做不好。</p>
-<p>是否采用多任务的第二个考虑是任务的类型，可以把任务分为计算密集型和I/O密集型。计算密集型任务的特点是要进行大量的计算，消耗CPU资源，比如对视频进行编码解码或者格式转换等等，这种任务全靠CPU的运算能力，虽然也可以用多任务完成，但是任务越多，花在任务切换的时间就越多，CPU执行任务的效率就越低。计算密集型任务由于主要消耗CPU资源，这类任务用Python这样的脚本语言去执行效率通常很低，最能胜任这类任务的是C语言，我们之前提到了Python中有嵌入C/C++代码的机制。</p>
-<p>除了计算密集型任务，其他的涉及到网络、存储介质I/O的任务都可以视为I/O密集型任务，这类任务的特点是CPU消耗很少，任务的大部分时间都在等待I/O操作完成（因为I/O的速度远远低于CPU和内存的速度）。对于I/O密集型任务，如果启动多任务，就可以减少I/O等待时间从而让CPU高效率的运转。</p>
-<h2 id="单线程-异步I-O"><a href="#单线程-异步I-O" class="headerlink" title="单线程+异步I/O"></a>单线程+异步I/O</h2><p>现代操作系统对I/O操作的改进中最为重要的就是支持异步I/O。如果充分利用操作系统提供的异步I/O支持，就可以用单进程单线程模型来执行多任务，这种全新的模型称为事件驱动模型。Nginx就是支持异步I/O的Web服务器，它在单核CPU上采用单进程模型就可以高效地支持多任务。在多核CPU上，可以运行多个进程（数量与CPU核心数相同），充分利用多核CPU。</p>
-<p>在Python语言中，单线程+异步I/O的编程模型称为协程，有了协程的支持，就可以基于事件驱动编写高效的多任务程序。协程最大的优势就是极高的执行效率，因为子程序切换不是线程切换，而是由程序自身控制，因此，没有线程切换的开销。协程的第二个优势就是不需要多线程的锁机制，因为只有一个线程，也不存在同时写变量冲突，在协程中控制共享资源不用加锁，只需要判断状态就好了，所以执行效率比多线程高很多。如果想要充分利用CPU的多核特性，最简单的方法是多进程+协程，既充分利用多核，又充分发挥协程的高效率，可获得极高的性能。</p>
-<h3 id="例1：将耗时间的任务放到线程中以获得更好的用户体验"><a href="#例1：将耗时间的任务放到线程中以获得更好的用户体验" class="headerlink" title="例1：将耗时间的任务放到线程中以获得更好的用户体验"></a>例1：将耗时间的任务放到线程中以获得更好的用户体验</h3><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">import <span class="selector-tag">time</span></span><br><span class="line">import tkinter</span><br><span class="line">import tkinter<span class="selector-class">.messagebox</span></span><br><span class="line"><span class="selector-tag">from</span> threading import Thread</span><br><span class="line"></span><br><span class="line">def <span class="selector-tag">main</span>():</span><br><span class="line">    class <span class="built_in">DownloadTaskHandler</span>(Thread):</span><br><span class="line">        def <span class="built_in">run</span>(self):</span><br><span class="line">            time.<span class="built_in">sleep</span>(<span class="number">10</span>)</span><br><span class="line">            tkinter.messagebox.<span class="built_in">showinfo</span>(<span class="string">&#x27;提示&#x27;</span>,<span class="string">&#x27;下载完成！&#x27;</span>)</span><br><span class="line">            # 启用下载按钮</span><br><span class="line">            button1.<span class="built_in">config</span>(state = tkinter.NORMAL)</span><br><span class="line">    def <span class="built_in">download</span>():</span><br><span class="line">        # 禁用下载按钮</span><br><span class="line">        button1.<span class="built_in">config</span>(state = tkinter.DISABLED)</span><br><span class="line">        # 通过daemon参数将参数设置为守护线程（主程序退出就不再保留执行）</span><br><span class="line">        # 在线程中处理耗时间的下载任务</span><br><span class="line">        <span class="built_in">DownLoadTaskHandler</span>(daemon=True.<span class="built_in">start</span>())</span><br><span class="line">    def <span class="built_in">show_about</span>():</span><br><span class="line">        tkinter.messagebox.<span class="built_in">showinfo</span>(<span class="string">&#x27;关于&#x27;</span>,<span class="string">&#x27;作者：张三&#x27;</span>)</span><br><span class="line">    top = tkinter.<span class="built_in">TK</span>()</span><br><span class="line">    top.<span class="built_in">title</span>(<span class="string">&#x27;单线程&#x27;</span>)</span><br><span class="line">    top.<span class="built_in">geometry</span>(<span class="string">&#x27;200×150&#x27;</span>)</span><br><span class="line">    top.<span class="built_in">wm_attributes</span>(<span class="string">&#x27;-topmost&#x27;</span>,True)</span><br><span class="line">    panel = tkinter.<span class="built_in">Frame</span>(top)</span><br><span class="line">    button1 = tkinter.<span class="built_in">Button</span>(panel,text=<span class="string">&#x27;下载&#x27;</span>,command=download)</span><br><span class="line">    button1.<span class="built_in">pack</span>(side=<span class="string">&#x27;left&#x27;</span>)</span><br><span class="line">    button2 = tkinter.<span class="built_in">Button</span>(panel,text=<span class="string">&#x27;关于&#x27;</span>,command=show_about)</span><br><span class="line">    button2.<span class="built_in">pack</span>(side=<span class="string">&#x27;right&#x27;</span>)</span><br><span class="line">    panel.<span class="built_in">pack</span>(side=<span class="string">&#x27;bottom&#x27;</span>)</span><br><span class="line">    tkinter.<span class="built_in">mainloop</span>()</span><br><span class="line">if __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">main</span>()</span><br></pre></td></tr></table></figure>
-<h3 id="例2：使用多进程对复杂任务进行“分而治之”"><a href="#例2：使用多进程对复杂任务进行“分而治之”" class="headerlink" title="例2：使用多进程对复杂任务进行“分而治之”"></a>例2：使用多进程对复杂任务进行“分而治之”</h3><figure class="highlight sas"><table><tr><td class="code"><pre><span class="line"><span class="meta">from</span> multiprocessing import Process,Queue</span><br><span class="line"><span class="meta">from</span> random import randint</span><br><span class="line"><span class="meta">from</span> time import time</span><br><span class="line"></span><br><span class="line">def task_handler(curr_list,result_queue):</span><br><span class="line">    total = 0</span><br><span class="line">    for number <span class="meta">in</span> curr_list:</span><br><span class="line">        total += number</span><br><span class="line">    result_queue<span class="meta">.put(</span>total)</span><br><span class="line">def ma<span class="meta">in(</span>):</span><br><span class="line">    processes = []</span><br><span class="line">    number_lisst = [<span class="meta">x</span> for <span class="meta">x</span> <span class="meta">in</span><span class="meta"> range(</span>1,100000001)]</span><br><span class="line">    result_queue = Queue()</span><br><span class="line">    <span class="meta">index</span> = 0</span><br><span class="line">    # 启动8个进程将数据切片后进行运算</span><br><span class="line">    for _ <span class="meta">in</span><span class="meta"> range(</span>8):</span><br><span class="line">        p = Process(target=task_handler,args=(number_lisst[<span class="meta">index</span>:<span class="meta">index</span>+122500000],result_queue))</span><br><span class="line">        <span class="meta">index</span> += 12500000</span><br><span class="line">        processes.append(p)</span><br><span class="line">        p.start()</span><br><span class="line">    # 开始记录所有进程执行完成花费的时间</span><br><span class="line">    start =<span class="meta"> time(</span>)</span><br><span class="line">    for p <span class="meta">in</span> processes:</span><br><span class="line">        p.jo<span class="meta">in(</span>)</span><br><span class="line">    # 合并执行结果</span><br><span class="line">    total = 0</span><br><span class="line">    <span class="meta">while</span> <span class="meta">not</span> result_queue.empty():</span><br><span class="line">        total += result_queue.get()</span><br><span class="line">    p<span class="meta">rint(</span>total)</span><br><span class="line">    <span class="meta">end</span> =<span class="meta"> time(</span>)</span><br><span class="line">    p<span class="meta">rint(</span><span class="string">&#x27;Execution time:&#x27;</span>,(<span class="meta">end</span>-start),<span class="string">&#x27;s&#x27;</span>,sep=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="meta">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    ma<span class="meta">in(</span>)</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>Python-100days</tag>
       </tags>
   </entry>
   <entry>
@@ -847,6 +847,41 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux基础命令</title>
+    <url>/2020/02/12/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><p>【语句格式】</p>
+<blockquote>
+<p>命令名称  [命令参数] [命令对象]</p>
+</blockquote>
+<span id="more"></span>
+<h3 id="1-获取登录信息-w-who-last-lastb"><a href="#1-获取登录信息-w-who-last-lastb" class="headerlink" title="1.获取登录信息 - w/who/last/lastb"></a>1.获取登录信息 - <strong>w/who/last/lastb</strong></h3><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">admintor</span>@admintor-PC:~/Desktop$ w</span><br><span class="line"> <span class="attribute">12</span>:<span class="number">32</span>:<span class="number">22</span> up  <span class="number">2</span>:<span class="number">57</span>,  <span class="number">1</span> user,  load average: <span class="number">0</span>.<span class="number">86</span>, <span class="number">1</span>.<span class="number">18</span>, <span class="number">1</span>.<span class="number">13</span></span><br><span class="line"><span class="attribute">USER</span>     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT</span><br><span class="line"><span class="attribute">admintor</span> tty<span class="number">1</span>     :<span class="number">0</span>               <span class="number">09</span>:<span class="number">35</span>    <span class="number">2</span>:<span class="number">57</span>m  <span class="number">4</span>:<span class="number">45</span>  <span class="number">11</span>.<span class="number">21</span>s /usr/bin/startdde</span><br><span class="line"><span class="attribute">admintor</span>@admintor-PC:~/Desktop$ clear</span><br><span class="line"></span><br><span class="line"><span class="attribute">admintor</span>@admintor-PC:~/Desktop$ w</span><br><span class="line"> <span class="attribute">12</span>:<span class="number">32</span>:<span class="number">28</span> up  <span class="number">2</span>:<span class="number">57</span>,  <span class="number">1</span> user,  load average: <span class="number">0</span>.<span class="number">79</span>, <span class="number">1</span>.<span class="number">16</span>, <span class="number">1</span>.<span class="number">13</span></span><br><span class="line"><span class="attribute">USER</span>     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT</span><br><span class="line"><span class="attribute">admintor</span> tty<span class="number">1</span>     :<span class="number">0</span>               <span class="number">09</span>:<span class="number">35</span>    <span class="number">2</span>:<span class="number">57</span>m  <span class="number">4</span>:<span class="number">45</span>  <span class="number">11</span>.<span class="number">21</span>s /usr/bin/startdde</span><br><span class="line"><span class="attribute">admintor</span>@admintor-PC:~/Desktop$ who</span><br><span class="line"><span class="attribute">admintor</span> tty<span class="number">1</span>         <span class="number">2020</span>-<span class="number">02</span>-<span class="number">08</span> <span class="number">09</span>:<span class="number">35</span> (:<span class="number">0</span>)</span><br><span class="line"><span class="attribute">admintor</span>@admintor-PC:~/Desktop$ whoami</span><br><span class="line"><span class="attribute">admintor</span></span><br><span class="line"><span class="attribute">admintor</span>@admintor-PC:~/Desktop$ last</span><br><span class="line"><span class="attribute">admintor</span> tty<span class="number">1</span>         :<span class="number">0</span>               Sat Feb  <span class="number">8</span> <span class="number">09</span>:<span class="number">35</span>   still logged in</span><br><span class="line"><span class="attribute">reboot</span>   system boot  <span class="number">4</span>.<span class="number">15</span>.<span class="number">0</span>-<span class="number">30</span>deepin- Sat Feb  <span class="number">8</span> <span class="number">17</span>:<span class="number">34</span>   still running</span><br><span class="line"><span class="attribute">admintor</span> tty<span class="number">1</span>         :<span class="number">0</span>               Fri Feb  <span class="number">7</span> <span class="number">11</span>:<span class="number">43</span> - <span class="number">18</span>:<span class="number">32</span>  (<span class="number">06</span>:<span class="number">49</span>)</span><br><span class="line"><span class="attribute">reboot</span>   system boot  <span class="number">4</span>.<span class="number">15</span>.<span class="number">0</span>-<span class="number">30</span>deepin- Fri Feb  <span class="number">7</span> <span class="number">19</span>:<span class="number">42</span> - <span class="number">18</span>:<span class="number">32</span>  (-<span class="number">1</span>:-<span class="number">9</span>)</span><br><span class="line"><span class="attribute">admintor</span> tty<span class="number">1</span>         :<span class="number">0</span>               Wed Feb  <span class="number">5</span> <span class="number">10</span>:<span class="number">21</span> - <span class="number">14</span>:<span class="number">43</span>  (<span class="number">04</span>:<span class="number">21</span>)</span><br><span class="line"><span class="attribute">reboot</span>   system boot  <span class="number">4</span>.<span class="number">15</span>.<span class="number">0</span>-<span class="number">30</span>deepin- Wed Feb  <span class="number">5</span> <span class="number">18</span>:<span class="number">19</span> - <span class="number">14</span>:<span class="number">43</span>  (-<span class="number">3</span>:-<span class="number">36</span>)</span><br><span class="line"><span class="attribute">admintor</span> tty<span class="number">1</span>         :<span class="number">0</span>               Tue Feb  <span class="number">4</span> <span class="number">09</span>:<span class="number">32</span> - <span class="number">18</span>:<span class="number">16</span>  (<span class="number">08</span>:<span class="number">44</span>)</span><br><span class="line"><span class="attribute">reboot</span>   system boot  <span class="number">4</span>.<span class="number">15</span>.<span class="number">0</span>-<span class="number">30</span>deepin- Tue Feb  <span class="number">4</span> <span class="number">17</span>:<span class="number">31</span> - <span class="number">18</span>:<span class="number">17</span>  (<span class="number">00</span>:<span class="number">45</span>)</span><br><span class="line"><span class="attribute">admintor</span> tty<span class="number">1</span>         :<span class="number">0</span>               </span><br></pre></td></tr></table></figure>
+<h3 id="2-查看自己使用的Shell-ps"><a href="#2-查看自己使用的Shell-ps" class="headerlink" title="2.查看自己使用的Shell - ps"></a>2.查看自己使用的Shell - <strong>ps</strong></h3><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">admintor</span>@admintor-PC:~/Desktop$ ps</span><br><span class="line">  <span class="attribute">PID</span> TTY          TIME CMD</span><br><span class="line"><span class="attribute">19593</span> pts/<span class="number">1</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> bash</span><br><span class="line"><span class="attribute">20057</span> pts/<span class="number">1</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> ps</span><br></pre></td></tr></table></figure>
+<h3 id="3-查看命令的说明和位置-whatis-which-whereis"><a href="#3-查看命令的说明和位置-whatis-which-whereis" class="headerlink" title="3.查看命令的说明和位置 - whatis/which/whereis"></a>3.查看命令的说明和位置 - <strong>whatis/which/whereis</strong></h3><h4 id="whatis"><a href="#whatis" class="headerlink" title="whatis"></a>whatis</h4><p>【功能】在whatis库中搜寻特定的命令 </p>
+<p>【语法】whatis COMMAND</p>
+<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">admintor@admintor-PC:~/Desktop$ whatis <span class="keyword">ps</span></span><br><span class="line"><span class="keyword">ps</span> (<span class="number">1</span>)               - report <span class="keyword">a</span> snapshot of the current processes.</span><br><span class="line">admintor@admintor-PC:~/Desktop$ whatis <span class="keyword">python</span></span><br><span class="line"><span class="keyword">python3</span>.<span class="number">7</span> (<span class="number">1</span>)        - <span class="keyword">an</span> interpreted, interactive, object-oriented programming <span class="keyword">language</span></span><br><span class="line"><span class="keyword">python</span> (<span class="number">1</span>)           - <span class="keyword">an</span> interpreted, interactive, object-oriented programming <span class="keyword">language</span></span><br></pre></td></tr></table></figure>
+<h4 id="whereis"><a href="#whereis" class="headerlink" title="whereis"></a>whereis</h4><p>【功能】 查找文件、手册页、命令等的相关位置</p>
+<p>【语法】 whereis options argument</p>
+<p>【常用选项】 </p>
+<figure class="highlight diff"><table><tr><td class="code"><pre><span class="line"><span class="deletion">-b:只查找二进制文件位置</span></span><br><span class="line"><span class="deletion">-m:只查找手册页部分</span></span><br></pre></td></tr></table></figure>
+<p>【实例】<br><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">admintor@admintor-PC:~/Desktop$ whereis ps</span><br><span class="line">ps: <span class="regexp">/usr/</span>bin<span class="regexp">/ps /u</span>sr<span class="regexp">/share/m</span>an<span class="regexp">/man1/</span>ps.<span class="number">1</span>.gz</span><br><span class="line">admintor@admintor-PC:~/Desktop$ whereis python</span><br><span class="line">python: <span class="regexp">/usr/</span>bin<span class="regexp">/python /u</span>sr<span class="regexp">/bin/</span>python2.<span class="number">7</span>-config <span class="regexp">/usr/</span>bin<span class="regexp">/python3.5-dbg /u</span>sr<span class="regexp">/bin/</span>python2.<span class="number">7</span> <span class="regexp">/usr/</span>bin<span class="regexp">/python3.5dm-config /u</span>sr<span class="regexp">/bin/</span>python3.<span class="number">5</span> <span class="regexp">/usr/</span>bin<span class="regexp">/python3.5m /u</span>sr<span class="regexp">/bin/</span>python3.<span class="number">5</span>dm <span class="regexp">/usr/</span>bin<span class="regexp">/python3.5-dbg-config /u</span>sr<span class="regexp">/lib/</span>python2.<span class="number">7</span> <span class="regexp">/usr/</span>lib<span class="regexp">/python3.5 /</span>etc<span class="regexp">/python /</span>etc<span class="regexp">/python2.7 /</span>etc<span class="regexp">/python3.5 /u</span>sr<span class="regexp">/local/</span>bin<span class="regexp">/python3.7 /u</span>sr<span class="regexp">/local/</span>bin<span class="regexp">/python3.7m /u</span>sr<span class="regexp">/local/</span>bin<span class="regexp">/python3.7m-config /u</span>sr<span class="regexp">/local/</span>lib<span class="regexp">/python3.7 /u</span>sr<span class="regexp">/local/</span>lib<span class="regexp">/python2.7 /u</span>sr<span class="regexp">/local/</span>lib<span class="regexp">/python3.5 /u</span>sr<span class="regexp">/include/</span>python2.<span class="number">7</span> <span class="regexp">/usr/i</span>nclude<span class="regexp">/python3.5m /u</span>sr<span class="regexp">/include/</span>python3.<span class="number">5</span>dm <span class="regexp">/usr/</span>share<span class="regexp">/python /u</span>sr<span class="regexp">/share/m</span>an<span class="regexp">/man1/</span>python.<span class="number">1</span>.gz</span><br></pre></td></tr></table></figure></p>
+<h4 id="which"><a href="#which" class="headerlink" title="which"></a>which</h4><p>【功能】 查看<strong>可执行命令</strong>的路径</p>
+<p>【语法】which COMMAND<br><figure class="highlight perl"><table><tr><td class="code"><pre><span class="line">admintor@admintor-PC:~<span class="regexp">/Desktop$ which ps</span></span><br><span class="line"><span class="regexp">/usr</span><span class="regexp">/bin/ps</span></span><br><span class="line">admintor@admintor-PC:~<span class="regexp">/Desktop$ which python</span></span><br><span class="line"><span class="regexp">/usr</span><span class="regexp">/bin/p</span>ython</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-清除屏幕上显示的内容-clear"><a href="#4-清除屏幕上显示的内容-clear" class="headerlink" title="4.清除屏幕上显示的内容 - clear"></a>4.清除屏幕上显示的内容 - <strong>clear</strong></h3><h3 id="5-查看帮助文档-man-info-help-apropos"><a href="#5-查看帮助文档-man-info-help-apropos" class="headerlink" title="5.查看帮助文档 - man/info/help/apropos"></a>5.查看帮助文档 - <strong>man/info/help/apropos</strong></h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">admintor@admintor<span class="literal">-PC</span>:~/Desktop<span class="variable">$</span> <span class="built_in">ps</span> -<span class="literal">-help</span></span><br><span class="line"></span><br><span class="line">Usage:</span><br><span class="line"> <span class="built_in">ps</span> [<span class="type">options</span>]</span><br><span class="line"></span><br><span class="line"> <span class="keyword">Try</span> <span class="string">&#x27;ps --help &lt;simple|list|output|threads|misc|all&gt;&#x27;</span></span><br><span class="line">  or <span class="string">&#x27;ps --help &lt;s|l|o|t|m|a&gt;&#x27;</span></span><br><span class="line"> <span class="keyword">for</span> additional help text.</span><br><span class="line"></span><br><span class="line"><span class="keyword">For</span> more details see <span class="built_in">ps</span>(<span class="number">1</span>).</span><br><span class="line">admintor@admintor<span class="literal">-PC</span>:~/Desktop<span class="variable">$</span> <span class="built_in">man</span> <span class="built_in">ps</span></span><br><span class="line"><span class="built_in">PS</span>(<span class="number">1</span>)                                                    User Commands                                                    <span class="built_in">PS</span>(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">NAME</span><br><span class="line">       <span class="built_in">ps</span> - report a snapshot of the current processes.</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">       <span class="built_in">ps</span> [<span class="type">options</span>]</span><br><span class="line"></span><br><span class="line">DESCRIPTION</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h3 id="6-查看系统和主机名-uname-hostname"><a href="#6-查看系统和主机名-uname-hostname" class="headerlink" title="6.查看系统和主机名 - uname/hostname"></a>6.查看系统和主机名 - <strong>uname/hostname</strong></h3><figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ uname</span><br><span class="line">Linux</span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ hostname</span><br><span class="line">admintor-PC</span><br></pre></td></tr></table></figure>
+<h3 id="7-时间和日期-date-cal"><a href="#7-时间和日期-date-cal" class="headerlink" title="7.时间和日期 - date/cal"></a>7.时间和日期 - <strong>date/cal</strong></h3><figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">admintor@admintor-PC:~/Desktop$ date</span><br><span class="line">2020年 02月 08日 星期六 15:56:50 CST</span><br><span class="line">admintor@admintor-PC:~/Desktop$ cal</span><br><span class="line">      二月<span class="number"> 2020 </span>        </span><br><span class="line">日 一 二 三 四 五 六  </span><br><span class="line">                  <span class="number"> 1 </span> </span><br><span class="line"><span class="number"> 2 </span><span class="number"> 3 </span><span class="number"> 4 </span><span class="number"> 5 </span><span class="number"> 6 </span><span class="number"> 7 </span><span class="number"> 8 </span> </span><br><span class="line"><span class="number"> 9 </span>10<span class="number"> 11 </span>12<span class="number"> 13 </span>14<span class="number"> 15 </span> </span><br><span class="line">16<span class="number"> 17 </span>18<span class="number"> 19 </span>20<span class="number"> 21 </span>22  </span><br><span class="line">23<span class="number"> 24 </span>25<span class="number"> 26 </span>27<span class="number"> 28 </span>29  </span><br><span class="line">                      </span><br><span class="line">admintor@admintor-PC:~/Desktop$ cal<span class="number"> 5 </span>2017</span><br><span class="line">      五月<span class="number"> 2017 </span>        </span><br><span class="line">日 一 二 三 四 五 六  </span><br><span class="line">   <span class="number"> 1 </span><span class="number"> 2 </span><span class="number"> 3 </span><span class="number"> 4 </span><span class="number"> 5 </span><span class="number"> 6 </span> </span><br><span class="line"><span class="number"> 7 </span><span class="number"> 8 </span><span class="number"> 9 </span>10<span class="number"> 11 </span>12<span class="number"> 13 </span> </span><br><span class="line">14<span class="number"> 15 </span>16<span class="number"> 17 </span>18<span class="number"> 19 </span>20  </span><br><span class="line">21<span class="number"> 22 </span>23<span class="number"> 24 </span>25<span class="number"> 26 </span>27  </span><br><span class="line">28<span class="number"> 29 </span>30<span class="number"> 31 </span>    </span><br></pre></td></tr></table></figure>
+<h3 id="8-重启和关机-reboot-shutdown"><a href="#8-重启和关机-reboot-shutdown" class="headerlink" title="8.重启和关机 - reboot/shutdown"></a>8.重启和关机 - <strong>reboot/shutdown</strong></h3><h3 id="9-退出登录-exit-logout"><a href="#9-退出登录-exit-logout" class="headerlink" title="9.退出登录 - exit/logout"></a>9.退出登录 - <strong>exit/logout</strong></h3><h3 id="10-查看历史命令-history"><a href="#10-查看历史命令-history" class="headerlink" title="10.查看历史命令 - history"></a>10.查看历史命令 - <strong>history</strong></h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">admintor@admintor-PC:~/Desktop$ <span class="keyword">history</span></span><br><span class="line">...</span><br><span class="line"><span class="number">441</span>  whatis <span class="keyword">python</span></span><br><span class="line"><span class="number">442</span>  whereis <span class="keyword">ps</span></span><br><span class="line"><span class="number">443</span>  whereis <span class="keyword">python</span></span><br><span class="line"><span class="number">444</span>  which <span class="keyword">ps</span></span><br><span class="line"><span class="number">445</span>  which <span class="keyword">python</span></span><br><span class="line"><span class="number">446</span>  <span class="keyword">ps</span> --<span class="keyword">help</span></span><br><span class="line"><span class="number">447</span>  man <span class="keyword">ps</span></span><br><span class="line"><span class="number">448</span>  uname</span><br><span class="line"><span class="number">449</span>  <span class="built_in">hostname</span></span><br><span class="line"><span class="number">450</span>  date</span><br><span class="line"><span class="number">451</span>  <span class="keyword">cal</span></span><br><span class="line"><span class="number">452</span>  <span class="keyword">cal</span> <span class="number">5</span> <span class="number">2017</span></span><br><span class="line"><span class="number">453</span>  <span class="keyword">history</span></span><br><span class="line">admintor@admintor-PC:~/Desktop$ !<span class="number">452</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看到历史命令后，可以用！历史命令编号来重新执行该命令；通过history -c 可以清除历史命令。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux学习</category>
+      </categories>
+      <tags>
+        <tag>Linux学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux使用程序</title>
     <url>/2020/02/12/Linux%E4%BD%BF%E7%94%A8%E7%A8%8B%E5%BA%8F/</url>
     <content><![CDATA[<h2 id="文件和文件夹操作"><a href="#文件和文件夹操作" class="headerlink" title="文件和文件夹操作"></a>文件和文件夹操作</h2><h3 id="1-创建-删除空目录-mkdir-rmdir"><a href="#1-创建-删除空目录-mkdir-rmdir" class="headerlink" title="1.创建/删除空目录 - mkdir/rmdir"></a>1.创建/删除空目录 - <strong>mkdir/rmdir</strong></h3><span id="more"></span>
@@ -980,41 +1015,6 @@
 <li>iconv - 编码转换</li>
 </ul>
 <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">root ~</span>]<span class="meta"># cat foo.txt</span></span><br><span class="line">grape</span><br><span class="line">apple</span><br><span class="line">pitaya</span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># cat bar.txt</span></span><br><span class="line"><span class="number">100</span></span><br><span class="line"><span class="number">200</span></span><br><span class="line"><span class="number">300</span></span><br><span class="line"><span class="number">400</span></span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># paste foo.txt bar.txt</span></span><br><span class="line">grape   <span class="number">100</span></span><br><span class="line">apple   <span class="number">200</span></span><br><span class="line">pitaya  <span class="number">300</span></span><br><span class="line">        <span class="number">400</span></span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># paste foo.txt bar.txt &gt; hello.txt</span></span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># cut -b 4-8 hello.txt</span></span><br><span class="line">pe      <span class="number">10</span></span><br><span class="line">le      <span class="number">20</span></span><br><span class="line">aya     <span class="number">3</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># cat hello.txt | tr &#x27;\t&#x27; &#x27;,&#x27;</span></span><br><span class="line">grape,<span class="number">100</span></span><br><span class="line">apple,<span class="number">200</span></span><br><span class="line">pitaya,<span class="number">300</span></span><br><span class="line">,<span class="number">400</span></span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># split -l 100 sohu.html hello</span></span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># wget https://www.baidu.com/img/bd_logo1.png</span></span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># file bd_logo1.png</span></span><br><span class="line">bd_logo1.png: PNG image data, <span class="number">540</span> x <span class="number">258</span>, <span class="number">8</span>-bit colormap, non-interlaced</span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># wc sohu.html</span></span><br><span class="line">  <span class="number">2979</span>   <span class="number">6355</span> <span class="number">212527</span> sohu.html</span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># wc -l sohu.html</span></span><br><span class="line"><span class="number">2979</span> sohu.html</span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># wget http://www.qq.com -O qq.html</span></span><br><span class="line">[<span class="meta">root ~</span>]<span class="meta"># iconv -f gb2312 -t utf-8 qq.html</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Linux学习</category>
-      </categories>
-      <tags>
-        <tag>Linux学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux基础命令</title>
-    <url>/2020/02/12/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><p>【语句格式】</p>
-<blockquote>
-<p>命令名称  [命令参数] [命令对象]</p>
-</blockquote>
-<span id="more"></span>
-<h3 id="1-获取登录信息-w-who-last-lastb"><a href="#1-获取登录信息-w-who-last-lastb" class="headerlink" title="1.获取登录信息 - w/who/last/lastb"></a>1.获取登录信息 - <strong>w/who/last/lastb</strong></h3><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">admintor</span>@admintor-PC:~/Desktop$ w</span><br><span class="line"> <span class="attribute">12</span>:<span class="number">32</span>:<span class="number">22</span> up  <span class="number">2</span>:<span class="number">57</span>,  <span class="number">1</span> user,  load average: <span class="number">0</span>.<span class="number">86</span>, <span class="number">1</span>.<span class="number">18</span>, <span class="number">1</span>.<span class="number">13</span></span><br><span class="line"><span class="attribute">USER</span>     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT</span><br><span class="line"><span class="attribute">admintor</span> tty<span class="number">1</span>     :<span class="number">0</span>               <span class="number">09</span>:<span class="number">35</span>    <span class="number">2</span>:<span class="number">57</span>m  <span class="number">4</span>:<span class="number">45</span>  <span class="number">11</span>.<span class="number">21</span>s /usr/bin/startdde</span><br><span class="line"><span class="attribute">admintor</span>@admintor-PC:~/Desktop$ clear</span><br><span class="line"></span><br><span class="line"><span class="attribute">admintor</span>@admintor-PC:~/Desktop$ w</span><br><span class="line"> <span class="attribute">12</span>:<span class="number">32</span>:<span class="number">28</span> up  <span class="number">2</span>:<span class="number">57</span>,  <span class="number">1</span> user,  load average: <span class="number">0</span>.<span class="number">79</span>, <span class="number">1</span>.<span class="number">16</span>, <span class="number">1</span>.<span class="number">13</span></span><br><span class="line"><span class="attribute">USER</span>     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT</span><br><span class="line"><span class="attribute">admintor</span> tty<span class="number">1</span>     :<span class="number">0</span>               <span class="number">09</span>:<span class="number">35</span>    <span class="number">2</span>:<span class="number">57</span>m  <span class="number">4</span>:<span class="number">45</span>  <span class="number">11</span>.<span class="number">21</span>s /usr/bin/startdde</span><br><span class="line"><span class="attribute">admintor</span>@admintor-PC:~/Desktop$ who</span><br><span class="line"><span class="attribute">admintor</span> tty<span class="number">1</span>         <span class="number">2020</span>-<span class="number">02</span>-<span class="number">08</span> <span class="number">09</span>:<span class="number">35</span> (:<span class="number">0</span>)</span><br><span class="line"><span class="attribute">admintor</span>@admintor-PC:~/Desktop$ whoami</span><br><span class="line"><span class="attribute">admintor</span></span><br><span class="line"><span class="attribute">admintor</span>@admintor-PC:~/Desktop$ last</span><br><span class="line"><span class="attribute">admintor</span> tty<span class="number">1</span>         :<span class="number">0</span>               Sat Feb  <span class="number">8</span> <span class="number">09</span>:<span class="number">35</span>   still logged in</span><br><span class="line"><span class="attribute">reboot</span>   system boot  <span class="number">4</span>.<span class="number">15</span>.<span class="number">0</span>-<span class="number">30</span>deepin- Sat Feb  <span class="number">8</span> <span class="number">17</span>:<span class="number">34</span>   still running</span><br><span class="line"><span class="attribute">admintor</span> tty<span class="number">1</span>         :<span class="number">0</span>               Fri Feb  <span class="number">7</span> <span class="number">11</span>:<span class="number">43</span> - <span class="number">18</span>:<span class="number">32</span>  (<span class="number">06</span>:<span class="number">49</span>)</span><br><span class="line"><span class="attribute">reboot</span>   system boot  <span class="number">4</span>.<span class="number">15</span>.<span class="number">0</span>-<span class="number">30</span>deepin- Fri Feb  <span class="number">7</span> <span class="number">19</span>:<span class="number">42</span> - <span class="number">18</span>:<span class="number">32</span>  (-<span class="number">1</span>:-<span class="number">9</span>)</span><br><span class="line"><span class="attribute">admintor</span> tty<span class="number">1</span>         :<span class="number">0</span>               Wed Feb  <span class="number">5</span> <span class="number">10</span>:<span class="number">21</span> - <span class="number">14</span>:<span class="number">43</span>  (<span class="number">04</span>:<span class="number">21</span>)</span><br><span class="line"><span class="attribute">reboot</span>   system boot  <span class="number">4</span>.<span class="number">15</span>.<span class="number">0</span>-<span class="number">30</span>deepin- Wed Feb  <span class="number">5</span> <span class="number">18</span>:<span class="number">19</span> - <span class="number">14</span>:<span class="number">43</span>  (-<span class="number">3</span>:-<span class="number">36</span>)</span><br><span class="line"><span class="attribute">admintor</span> tty<span class="number">1</span>         :<span class="number">0</span>               Tue Feb  <span class="number">4</span> <span class="number">09</span>:<span class="number">32</span> - <span class="number">18</span>:<span class="number">16</span>  (<span class="number">08</span>:<span class="number">44</span>)</span><br><span class="line"><span class="attribute">reboot</span>   system boot  <span class="number">4</span>.<span class="number">15</span>.<span class="number">0</span>-<span class="number">30</span>deepin- Tue Feb  <span class="number">4</span> <span class="number">17</span>:<span class="number">31</span> - <span class="number">18</span>:<span class="number">17</span>  (<span class="number">00</span>:<span class="number">45</span>)</span><br><span class="line"><span class="attribute">admintor</span> tty<span class="number">1</span>         :<span class="number">0</span>               </span><br></pre></td></tr></table></figure>
-<h3 id="2-查看自己使用的Shell-ps"><a href="#2-查看自己使用的Shell-ps" class="headerlink" title="2.查看自己使用的Shell - ps"></a>2.查看自己使用的Shell - <strong>ps</strong></h3><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">admintor</span>@admintor-PC:~/Desktop$ ps</span><br><span class="line">  <span class="attribute">PID</span> TTY          TIME CMD</span><br><span class="line"><span class="attribute">19593</span> pts/<span class="number">1</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> bash</span><br><span class="line"><span class="attribute">20057</span> pts/<span class="number">1</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> ps</span><br></pre></td></tr></table></figure>
-<h3 id="3-查看命令的说明和位置-whatis-which-whereis"><a href="#3-查看命令的说明和位置-whatis-which-whereis" class="headerlink" title="3.查看命令的说明和位置 - whatis/which/whereis"></a>3.查看命令的说明和位置 - <strong>whatis/which/whereis</strong></h3><h4 id="whatis"><a href="#whatis" class="headerlink" title="whatis"></a>whatis</h4><p>【功能】在whatis库中搜寻特定的命令 </p>
-<p>【语法】whatis COMMAND</p>
-<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">admintor@admintor-PC:~/Desktop$ whatis <span class="keyword">ps</span></span><br><span class="line"><span class="keyword">ps</span> (<span class="number">1</span>)               - report <span class="keyword">a</span> snapshot of the current processes.</span><br><span class="line">admintor@admintor-PC:~/Desktop$ whatis <span class="keyword">python</span></span><br><span class="line"><span class="keyword">python3</span>.<span class="number">7</span> (<span class="number">1</span>)        - <span class="keyword">an</span> interpreted, interactive, object-oriented programming <span class="keyword">language</span></span><br><span class="line"><span class="keyword">python</span> (<span class="number">1</span>)           - <span class="keyword">an</span> interpreted, interactive, object-oriented programming <span class="keyword">language</span></span><br></pre></td></tr></table></figure>
-<h4 id="whereis"><a href="#whereis" class="headerlink" title="whereis"></a>whereis</h4><p>【功能】 查找文件、手册页、命令等的相关位置</p>
-<p>【语法】 whereis options argument</p>
-<p>【常用选项】 </p>
-<figure class="highlight diff"><table><tr><td class="code"><pre><span class="line"><span class="deletion">-b:只查找二进制文件位置</span></span><br><span class="line"><span class="deletion">-m:只查找手册页部分</span></span><br></pre></td></tr></table></figure>
-<p>【实例】<br><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">admintor@admintor-PC:~/Desktop$ whereis ps</span><br><span class="line">ps: <span class="regexp">/usr/</span>bin<span class="regexp">/ps /u</span>sr<span class="regexp">/share/m</span>an<span class="regexp">/man1/</span>ps.<span class="number">1</span>.gz</span><br><span class="line">admintor@admintor-PC:~/Desktop$ whereis python</span><br><span class="line">python: <span class="regexp">/usr/</span>bin<span class="regexp">/python /u</span>sr<span class="regexp">/bin/</span>python2.<span class="number">7</span>-config <span class="regexp">/usr/</span>bin<span class="regexp">/python3.5-dbg /u</span>sr<span class="regexp">/bin/</span>python2.<span class="number">7</span> <span class="regexp">/usr/</span>bin<span class="regexp">/python3.5dm-config /u</span>sr<span class="regexp">/bin/</span>python3.<span class="number">5</span> <span class="regexp">/usr/</span>bin<span class="regexp">/python3.5m /u</span>sr<span class="regexp">/bin/</span>python3.<span class="number">5</span>dm <span class="regexp">/usr/</span>bin<span class="regexp">/python3.5-dbg-config /u</span>sr<span class="regexp">/lib/</span>python2.<span class="number">7</span> <span class="regexp">/usr/</span>lib<span class="regexp">/python3.5 /</span>etc<span class="regexp">/python /</span>etc<span class="regexp">/python2.7 /</span>etc<span class="regexp">/python3.5 /u</span>sr<span class="regexp">/local/</span>bin<span class="regexp">/python3.7 /u</span>sr<span class="regexp">/local/</span>bin<span class="regexp">/python3.7m /u</span>sr<span class="regexp">/local/</span>bin<span class="regexp">/python3.7m-config /u</span>sr<span class="regexp">/local/</span>lib<span class="regexp">/python3.7 /u</span>sr<span class="regexp">/local/</span>lib<span class="regexp">/python2.7 /u</span>sr<span class="regexp">/local/</span>lib<span class="regexp">/python3.5 /u</span>sr<span class="regexp">/include/</span>python2.<span class="number">7</span> <span class="regexp">/usr/i</span>nclude<span class="regexp">/python3.5m /u</span>sr<span class="regexp">/include/</span>python3.<span class="number">5</span>dm <span class="regexp">/usr/</span>share<span class="regexp">/python /u</span>sr<span class="regexp">/share/m</span>an<span class="regexp">/man1/</span>python.<span class="number">1</span>.gz</span><br></pre></td></tr></table></figure></p>
-<h4 id="which"><a href="#which" class="headerlink" title="which"></a>which</h4><p>【功能】 查看<strong>可执行命令</strong>的路径</p>
-<p>【语法】which COMMAND<br><figure class="highlight perl"><table><tr><td class="code"><pre><span class="line">admintor@admintor-PC:~<span class="regexp">/Desktop$ which ps</span></span><br><span class="line"><span class="regexp">/usr</span><span class="regexp">/bin/ps</span></span><br><span class="line">admintor@admintor-PC:~<span class="regexp">/Desktop$ which python</span></span><br><span class="line"><span class="regexp">/usr</span><span class="regexp">/bin/p</span>ython</span><br></pre></td></tr></table></figure></p>
-<h3 id="4-清除屏幕上显示的内容-clear"><a href="#4-清除屏幕上显示的内容-clear" class="headerlink" title="4.清除屏幕上显示的内容 - clear"></a>4.清除屏幕上显示的内容 - <strong>clear</strong></h3><h3 id="5-查看帮助文档-man-info-help-apropos"><a href="#5-查看帮助文档-man-info-help-apropos" class="headerlink" title="5.查看帮助文档 - man/info/help/apropos"></a>5.查看帮助文档 - <strong>man/info/help/apropos</strong></h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">admintor@admintor<span class="literal">-PC</span>:~/Desktop<span class="variable">$</span> <span class="built_in">ps</span> -<span class="literal">-help</span></span><br><span class="line"></span><br><span class="line">Usage:</span><br><span class="line"> <span class="built_in">ps</span> [<span class="type">options</span>]</span><br><span class="line"></span><br><span class="line"> <span class="keyword">Try</span> <span class="string">&#x27;ps --help &lt;simple|list|output|threads|misc|all&gt;&#x27;</span></span><br><span class="line">  or <span class="string">&#x27;ps --help &lt;s|l|o|t|m|a&gt;&#x27;</span></span><br><span class="line"> <span class="keyword">for</span> additional help text.</span><br><span class="line"></span><br><span class="line"><span class="keyword">For</span> more details see <span class="built_in">ps</span>(<span class="number">1</span>).</span><br><span class="line">admintor@admintor<span class="literal">-PC</span>:~/Desktop<span class="variable">$</span> <span class="built_in">man</span> <span class="built_in">ps</span></span><br><span class="line"><span class="built_in">PS</span>(<span class="number">1</span>)                                                    User Commands                                                    <span class="built_in">PS</span>(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">NAME</span><br><span class="line">       <span class="built_in">ps</span> - report a snapshot of the current processes.</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">       <span class="built_in">ps</span> [<span class="type">options</span>]</span><br><span class="line"></span><br><span class="line">DESCRIPTION</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<h3 id="6-查看系统和主机名-uname-hostname"><a href="#6-查看系统和主机名-uname-hostname" class="headerlink" title="6.查看系统和主机名 - uname/hostname"></a>6.查看系统和主机名 - <strong>uname/hostname</strong></h3><figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ uname</span><br><span class="line">Linux</span><br><span class="line"><span class="symbol">admintor@</span>admintor-PC:~/Desktop$ hostname</span><br><span class="line">admintor-PC</span><br></pre></td></tr></table></figure>
-<h3 id="7-时间和日期-date-cal"><a href="#7-时间和日期-date-cal" class="headerlink" title="7.时间和日期 - date/cal"></a>7.时间和日期 - <strong>date/cal</strong></h3><figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">admintor@admintor-PC:~/Desktop$ date</span><br><span class="line">2020年 02月 08日 星期六 15:56:50 CST</span><br><span class="line">admintor@admintor-PC:~/Desktop$ cal</span><br><span class="line">      二月<span class="number"> 2020 </span>        </span><br><span class="line">日 一 二 三 四 五 六  </span><br><span class="line">                  <span class="number"> 1 </span> </span><br><span class="line"><span class="number"> 2 </span><span class="number"> 3 </span><span class="number"> 4 </span><span class="number"> 5 </span><span class="number"> 6 </span><span class="number"> 7 </span><span class="number"> 8 </span> </span><br><span class="line"><span class="number"> 9 </span>10<span class="number"> 11 </span>12<span class="number"> 13 </span>14<span class="number"> 15 </span> </span><br><span class="line">16<span class="number"> 17 </span>18<span class="number"> 19 </span>20<span class="number"> 21 </span>22  </span><br><span class="line">23<span class="number"> 24 </span>25<span class="number"> 26 </span>27<span class="number"> 28 </span>29  </span><br><span class="line">                      </span><br><span class="line">admintor@admintor-PC:~/Desktop$ cal<span class="number"> 5 </span>2017</span><br><span class="line">      五月<span class="number"> 2017 </span>        </span><br><span class="line">日 一 二 三 四 五 六  </span><br><span class="line">   <span class="number"> 1 </span><span class="number"> 2 </span><span class="number"> 3 </span><span class="number"> 4 </span><span class="number"> 5 </span><span class="number"> 6 </span> </span><br><span class="line"><span class="number"> 7 </span><span class="number"> 8 </span><span class="number"> 9 </span>10<span class="number"> 11 </span>12<span class="number"> 13 </span> </span><br><span class="line">14<span class="number"> 15 </span>16<span class="number"> 17 </span>18<span class="number"> 19 </span>20  </span><br><span class="line">21<span class="number"> 22 </span>23<span class="number"> 24 </span>25<span class="number"> 26 </span>27  </span><br><span class="line">28<span class="number"> 29 </span>30<span class="number"> 31 </span>    </span><br></pre></td></tr></table></figure>
-<h3 id="8-重启和关机-reboot-shutdown"><a href="#8-重启和关机-reboot-shutdown" class="headerlink" title="8.重启和关机 - reboot/shutdown"></a>8.重启和关机 - <strong>reboot/shutdown</strong></h3><h3 id="9-退出登录-exit-logout"><a href="#9-退出登录-exit-logout" class="headerlink" title="9.退出登录 - exit/logout"></a>9.退出登录 - <strong>exit/logout</strong></h3><h3 id="10-查看历史命令-history"><a href="#10-查看历史命令-history" class="headerlink" title="10.查看历史命令 - history"></a>10.查看历史命令 - <strong>history</strong></h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">admintor@admintor-PC:~/Desktop$ <span class="keyword">history</span></span><br><span class="line">...</span><br><span class="line"><span class="number">441</span>  whatis <span class="keyword">python</span></span><br><span class="line"><span class="number">442</span>  whereis <span class="keyword">ps</span></span><br><span class="line"><span class="number">443</span>  whereis <span class="keyword">python</span></span><br><span class="line"><span class="number">444</span>  which <span class="keyword">ps</span></span><br><span class="line"><span class="number">445</span>  which <span class="keyword">python</span></span><br><span class="line"><span class="number">446</span>  <span class="keyword">ps</span> --<span class="keyword">help</span></span><br><span class="line"><span class="number">447</span>  man <span class="keyword">ps</span></span><br><span class="line"><span class="number">448</span>  uname</span><br><span class="line"><span class="number">449</span>  <span class="built_in">hostname</span></span><br><span class="line"><span class="number">450</span>  date</span><br><span class="line"><span class="number">451</span>  <span class="keyword">cal</span></span><br><span class="line"><span class="number">452</span>  <span class="keyword">cal</span> <span class="number">5</span> <span class="number">2017</span></span><br><span class="line"><span class="number">453</span>  <span class="keyword">history</span></span><br><span class="line">admintor@admintor-PC:~/Desktop$ !<span class="number">452</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看到历史命令后，可以用！历史命令编号来重新执行该命令；通过history -c 可以清除历史命令。</p>
-</blockquote>
-]]></content>
       <categories>
         <category>Linux学习</category>
       </categories>
@@ -1976,44 +1976,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Sublime Text3 配置pyhon环境</title>
-    <url>/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<h3 id="Sublime-Text3-配置python环境详解。"><a href="#Sublime-Text3-配置python环境详解。" class="headerlink" title="Sublime Text3 配置python环境详解。"></a>Sublime Text3 配置python环境详解。</h3><span id="more"></span>
-<h4 id="Sublime-Text3配置python环境"><a href="#Sublime-Text3配置python环境" class="headerlink" title="Sublime Text3配置python环境"></a>Sublime Text3配置python环境</h4><p>安装参考以前文章，下面说配置</p>
-<p>打开安装好的 sublime text 3，选择编译环境<br><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython01.png" alt="0e3b5e9cfb36e436416f187edb061fd0.png"></p>
-<p>然后输入</p>
-<blockquote>
-<p>print(“你好”)</p>
-</blockquote>
-<p>然后保存为.py后缀文件</p>
-<p>回到主界面，Ctrl+B运行</p>
-<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython02.png" alt="89d3fe035435cc1dc56fff80ffd225fc.png"></p>
-<p>中文成功输出，证明配置好了，但还需要按一个插件来支持 input</p>
-<p>安装SublimeREPL插件，使Sublime支持input</p>
-<p>安装好，试着调用。</p>
-<figure class="highlight isbl"><table><tr><td class="code"><pre><span class="line"><span class="variable">num</span> = <span class="function"><span class="title">input</span>(<span class="string">&quot;今天几月几日:&quot;</span>)</span></span><br><span class="line"><span class="function"><span class="title">print</span>(<span class="variable">num</span>)</span></span><br></pre></td></tr></table></figure>
-<p>跟 Ctrl+B 直接编译不同，利用插件来编译需要先手动 Ctrl+S 保存</p>
-<p><strong>常规调用：</strong></p>
-<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython03.png" alt="69d5a1b9e9dfe5c1aff1d2e1e1775f36.png"></p>
-<p>然后弹出一个新的框，进行输入输出。</p>
-<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython04.png" alt="fbe8fc6a38764b3605c069357dafdf37.png"></p>
-<p><strong>设置快捷键调用：</strong></p>
-<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython05.png" alt="ded30527af9e541ca4cf0e79bf907cf2.png"></p>
-<p>左边是系统默认设置，我们在右边窗口输入以下设置（另一个 Alt + End 是终止编译的快捷键），Ctrl+S 保存</p>
-<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython06.png" alt="bc715187792b855d583c10db6cc44403.png"></p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">[ </span><br><span class="line"><span class="code">    &#123; </span></span><br><span class="line"><span class="code">        &quot;keys&quot;: [&quot;f4&quot;], </span></span><br><span class="line"><span class="code">        &quot;caption&quot;: &quot;SublimeREPL: Python - RUN current file&quot;, </span></span><br><span class="line"><span class="code">        &quot;command&quot;: &quot;run_existing_windoww_command&quot;, </span></span><br><span class="line"><span class="code">        &quot;args&quot;: &#123; </span></span><br><span class="line"><span class="code">            &quot;id&quot;: &quot;repl_python_run&quot;, </span></span><br><span class="line"><span class="code">            &quot;file&quot;: &quot;config/Python/Main.sublime-menu&quot;</span></span><br><span class="line"><span class="code">        &#125; </span></span><br><span class="line"><span class="code">    &#125;,</span></span><br><span class="line"><span class="code">        &#123; </span></span><br><span class="line"><span class="code">            &quot;keys&quot;: [&quot;alt+end&quot;], </span></span><br><span class="line"><span class="code">            &quot;command&quot;: &quot;exec&quot;, </span></span><br><span class="line"><span class="code">            &quot;args&quot;: &#123;&quot;kill&quot;: true&#125; </span></span><br><span class="line"><span class="code">        &#125; </span></span><br><span class="line"><span class="code">]</span></span><br></pre></td></tr></table></figure>
-<p>切换不方便，可以打开两个视图：</p>
-<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython07.png" alt="c33682bb046be44ffbe99139d83ea249.png"></p>
-<p>本文参考：<br>链接：<a href="https://www.zhihu.com/question/22904994/answer/800236870">https://www.zhihu.com/question/22904994/answer/800236870</a></p>
-]]></content>
-      <categories>
-        <category>软件安装</category>
-      </categories>
-      <tags>
-        <tag>软件安装</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Sublime Text3 Markdown插件</title>
     <url>/2020/03/13/Sublime-Text3-Markdown%E6%8F%92%E4%BB%B6/</url>
     <content><![CDATA[<h3 id="Sublime-Text3-Markdown插件推荐"><a href="#Sublime-Text3-Markdown插件推荐" class="headerlink" title="Sublime Text3 Markdown插件推荐"></a>Sublime Text3 Markdown插件推荐</h3><span id="more"></span>
@@ -2085,6 +2047,78 @@
       </tags>
   </entry>
   <entry>
+    <title>binwalk安装使用</title>
+    <url>/2020/01/18/binwalk%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>网上也有这个安装教程，我是看完之后根据自己的安装总结一下。以备以后使用。<br>这个软件就是对图片进行分析，看是否包含有文件压缩包。<br><span id="more"></span></p>
+<h4 id="1-下载"><a href="#1-下载" class="headerlink" title="1.下载"></a><strong>1.下载</strong></h4><p>github项目：<a href="https://github.com/devttys0/binwalk">安装链接</a><br>需要已经下载python，python2或python3都行。<br>下载完zip文件，下载完解压。</p>
+<h4 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a><strong>2.安装</strong></h4><p>打开文件夹，在目录里按<strong>Shift+右键</strong>，打开命令窗口。输入<br><strong>python setup.py install</strong><br>安装完成</p>
+<h4 id="3-配置"><a href="#3-配置" class="headerlink" title="3.配置"></a><strong>3.配置</strong></h4><p>到自己到python安装目录找到Script目录，打开，因为刚刚已经安装完成，所以里面应该有叫binwalk的没有后缀的文件。根据我的经验，可以不用理他。因为按照正常方式，要是需要用binwalk，需要输入命令比较多一点，想简单一点，可以按照下面的方法。（也是根据网上的一些教程来的，感觉这个挺方便的）。</p>
+<p> 新建一个文件夹（可以在python那个安装目录），并把文件夹的路径加入到系统变量path里（这样在cmd里就可以直接运行了。）<br> 在文件夹里新建一个binwalk.bat文件，内容为以下代码。（代码来自网上教程，自己操作过，莫得问题）</p>
+<figure class="highlight llvm"><table><tr><td class="code"><pre><span class="line"><span class="title">@echo</span> off</span><br><span class="line">echo * suggest: you&#x27;d better <span class="keyword">to</span> input the parameters enclosed in <span class="keyword">double</span> quotes.echo * made by pcat</span><br><span class="line">python <span class="string">&quot;%~dp0\p_binwalk.py&quot;</span> <span class="variable">%1</span> <span class="variable">%2</span> <span class="variable">%3</span> <span class="variable">%4</span> <span class="variable">%5</span> <span class="variable">%6</span> <span class="variable">%7</span> <span class="variable">%8</span> <span class="variable">%9</span></span><br></pre></td></tr></table></figure>
+<p>再新建一个p_binwalk.py文件<br><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">import sys</span><br><span class="line">import binwalk</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    lst=sys.argv</span><br><span class="line">    <span class="keyword">if</span> len(lst)&lt;<span class="number">2</span>:</span><br><span class="line">        print(<span class="string">&quot;No files.&quot;</span>)</span><br><span class="line">        <span class="keyword">exit</span>()</span><br><span class="line">    try:</span><br><span class="line">        <span class="keyword">if</span> lst[<span class="number">1</span>][<span class="number">0</span>]==<span class="string">&#x27;-&#x27;</span>:</span><br><span class="line">            binwalk.scan(*lst[<span class="number">2</span>:],signature=lst[<span class="number">1</span>])</span><br><span class="line">        elif lst[<span class="number">1</span>][<span class="number">0</span>]!=<span class="string">&#x27;-&#x27;</span>:</span><br><span class="line">            binwalk.scan(*lst[<span class="number">1</span>:],signature=True)</span><br><span class="line">    except:</span><br><span class="line">        pass</span><br></pre></td></tr></table></figure><br> 只要这个文件夹的路径在系统变量path里和这2个文件存在着，那么你就可以在cmd里像linux那样使用binwalk了。</p>
+<h4 id="4-常用命令"><a href="#4-常用命令" class="headerlink" title="4.常用命令"></a><strong>4.常用命令</strong></h4><p> -e 分解出压缩包<br><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">binwalk</span> -e <span class="number">555</span>.gif</span><br></pre></td></tr></table></figure><br>-D或者—dd分解某种类型的文件（在windows里要用双括号括起来）<br><figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">binwalk </span>-D=<span class="keyword">jpeg </span><span class="number">555</span>.gif</span><br></pre></td></tr></table></figure><br>-M 递归分解扫描出来的文件（得跟-e或者-D配合使用）</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">binwalk</span> -eM <span class="number">555</span>.gif</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>软件安装</category>
+      </categories>
+      <tags>
+        <tag>软件安装</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Sublime Text3 配置pyhon环境</title>
+    <url>/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<h3 id="Sublime-Text3-配置python环境详解。"><a href="#Sublime-Text3-配置python环境详解。" class="headerlink" title="Sublime Text3 配置python环境详解。"></a>Sublime Text3 配置python环境详解。</h3><span id="more"></span>
+<h4 id="Sublime-Text3配置python环境"><a href="#Sublime-Text3配置python环境" class="headerlink" title="Sublime Text3配置python环境"></a>Sublime Text3配置python环境</h4><p>安装参考以前文章，下面说配置</p>
+<p>打开安装好的 sublime text 3，选择编译环境<br><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython01.png" alt="0e3b5e9cfb36e436416f187edb061fd0.png"></p>
+<p>然后输入</p>
+<blockquote>
+<p>print(“你好”)</p>
+</blockquote>
+<p>然后保存为.py后缀文件</p>
+<p>回到主界面，Ctrl+B运行</p>
+<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython02.png" alt="89d3fe035435cc1dc56fff80ffd225fc.png"></p>
+<p>中文成功输出，证明配置好了，但还需要按一个插件来支持 input</p>
+<p>安装SublimeREPL插件，使Sublime支持input</p>
+<p>安装好，试着调用。</p>
+<figure class="highlight isbl"><table><tr><td class="code"><pre><span class="line"><span class="variable">num</span> = <span class="function"><span class="title">input</span>(<span class="string">&quot;今天几月几日:&quot;</span>)</span></span><br><span class="line"><span class="function"><span class="title">print</span>(<span class="variable">num</span>)</span></span><br></pre></td></tr></table></figure>
+<p>跟 Ctrl+B 直接编译不同，利用插件来编译需要先手动 Ctrl+S 保存</p>
+<p><strong>常规调用：</strong></p>
+<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython03.png" alt="69d5a1b9e9dfe5c1aff1d2e1e1775f36.png"></p>
+<p>然后弹出一个新的框，进行输入输出。</p>
+<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython04.png" alt="fbe8fc6a38764b3605c069357dafdf37.png"></p>
+<p><strong>设置快捷键调用：</strong></p>
+<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython05.png" alt="ded30527af9e541ca4cf0e79bf907cf2.png"></p>
+<p>左边是系统默认设置，我们在右边窗口输入以下设置（另一个 Alt + End 是终止编译的快捷键），Ctrl+S 保存</p>
+<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython06.png" alt="bc715187792b855d583c10db6cc44403.png"></p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">[ </span><br><span class="line"><span class="code">    &#123; </span></span><br><span class="line"><span class="code">        &quot;keys&quot;: [&quot;f4&quot;], </span></span><br><span class="line"><span class="code">        &quot;caption&quot;: &quot;SublimeREPL: Python - RUN current file&quot;, </span></span><br><span class="line"><span class="code">        &quot;command&quot;: &quot;run_existing_windoww_command&quot;, </span></span><br><span class="line"><span class="code">        &quot;args&quot;: &#123; </span></span><br><span class="line"><span class="code">            &quot;id&quot;: &quot;repl_python_run&quot;, </span></span><br><span class="line"><span class="code">            &quot;file&quot;: &quot;config/Python/Main.sublime-menu&quot;</span></span><br><span class="line"><span class="code">        &#125; </span></span><br><span class="line"><span class="code">    &#125;,</span></span><br><span class="line"><span class="code">        &#123; </span></span><br><span class="line"><span class="code">            &quot;keys&quot;: [&quot;alt+end&quot;], </span></span><br><span class="line"><span class="code">            &quot;command&quot;: &quot;exec&quot;, </span></span><br><span class="line"><span class="code">            &quot;args&quot;: &#123;&quot;kill&quot;: true&#125; </span></span><br><span class="line"><span class="code">        &#125; </span></span><br><span class="line"><span class="code">]</span></span><br></pre></td></tr></table></figure>
+<p>切换不方便，可以打开两个视图：</p>
+<p><img src="/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/SublimePython07.png" alt="c33682bb046be44ffbe99139d83ea249.png"></p>
+<p>本文参考：<br>链接：<a href="https://www.zhihu.com/question/22904994/answer/800236870">https://www.zhihu.com/question/22904994/answer/800236870</a></p>
+]]></content>
+      <categories>
+        <category>软件安装</category>
+      </categories>
+      <tags>
+        <tag>软件安装</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/10/18/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>Xshell和Xftp与虚拟机的连接</title>
     <url>/2020/09/28/Xshell%E5%92%8CXftp%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E8%BF%9E%E6%8E%A5/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><h2 id="Xshell"><a href="#Xshell" class="headerlink" title="Xshell"></a>Xshell</h2><p>Xshell 是一个强大的安全终端模拟软件，它支持SSH1, SSH2, 以及Microsoft Windows 平台的TELNET 协议。Xshell 通过互联网到远程主机的安全连接以及它创新性的设计和特色帮助用户在复杂的网络环境中享受他们的工作。<br>Xshell可以在Windows界面下用来访问远端不同系统下的服务器，从而比较好的达到远程控制终端的目的。</p>
@@ -2112,40 +2146,6 @@
       </categories>
       <tags>
         <tag>Linux学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/10/18/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>binwalk安装使用</title>
-    <url>/2020/01/18/binwalk%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>网上也有这个安装教程，我是看完之后根据自己的安装总结一下。以备以后使用。<br>这个软件就是对图片进行分析，看是否包含有文件压缩包。<br><span id="more"></span></p>
-<h4 id="1-下载"><a href="#1-下载" class="headerlink" title="1.下载"></a><strong>1.下载</strong></h4><p>github项目：<a href="https://github.com/devttys0/binwalk">安装链接</a><br>需要已经下载python，python2或python3都行。<br>下载完zip文件，下载完解压。</p>
-<h4 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a><strong>2.安装</strong></h4><p>打开文件夹，在目录里按<strong>Shift+右键</strong>，打开命令窗口。输入<br><strong>python setup.py install</strong><br>安装完成</p>
-<h4 id="3-配置"><a href="#3-配置" class="headerlink" title="3.配置"></a><strong>3.配置</strong></h4><p>到自己到python安装目录找到Script目录，打开，因为刚刚已经安装完成，所以里面应该有叫binwalk的没有后缀的文件。根据我的经验，可以不用理他。因为按照正常方式，要是需要用binwalk，需要输入命令比较多一点，想简单一点，可以按照下面的方法。（也是根据网上的一些教程来的，感觉这个挺方便的）。</p>
-<p> 新建一个文件夹（可以在python那个安装目录），并把文件夹的路径加入到系统变量path里（这样在cmd里就可以直接运行了。）<br> 在文件夹里新建一个binwalk.bat文件，内容为以下代码。（代码来自网上教程，自己操作过，莫得问题）</p>
-<figure class="highlight llvm"><table><tr><td class="code"><pre><span class="line"><span class="title">@echo</span> off</span><br><span class="line">echo * suggest: you&#x27;d better <span class="keyword">to</span> input the parameters enclosed in <span class="keyword">double</span> quotes.echo * made by pcat</span><br><span class="line">python <span class="string">&quot;%~dp0\p_binwalk.py&quot;</span> <span class="variable">%1</span> <span class="variable">%2</span> <span class="variable">%3</span> <span class="variable">%4</span> <span class="variable">%5</span> <span class="variable">%6</span> <span class="variable">%7</span> <span class="variable">%8</span> <span class="variable">%9</span></span><br></pre></td></tr></table></figure>
-<p>再新建一个p_binwalk.py文件<br><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">import sys</span><br><span class="line">import binwalk</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    lst=sys.argv</span><br><span class="line">    <span class="keyword">if</span> len(lst)&lt;<span class="number">2</span>:</span><br><span class="line">        print(<span class="string">&quot;No files.&quot;</span>)</span><br><span class="line">        <span class="keyword">exit</span>()</span><br><span class="line">    try:</span><br><span class="line">        <span class="keyword">if</span> lst[<span class="number">1</span>][<span class="number">0</span>]==<span class="string">&#x27;-&#x27;</span>:</span><br><span class="line">            binwalk.scan(*lst[<span class="number">2</span>:],signature=lst[<span class="number">1</span>])</span><br><span class="line">        elif lst[<span class="number">1</span>][<span class="number">0</span>]!=<span class="string">&#x27;-&#x27;</span>:</span><br><span class="line">            binwalk.scan(*lst[<span class="number">1</span>:],signature=True)</span><br><span class="line">    except:</span><br><span class="line">        pass</span><br></pre></td></tr></table></figure><br> 只要这个文件夹的路径在系统变量path里和这2个文件存在着，那么你就可以在cmd里像linux那样使用binwalk了。</p>
-<h4 id="4-常用命令"><a href="#4-常用命令" class="headerlink" title="4.常用命令"></a><strong>4.常用命令</strong></h4><p> -e 分解出压缩包<br><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">binwalk</span> -e <span class="number">555</span>.gif</span><br></pre></td></tr></table></figure><br>-D或者—dd分解某种类型的文件（在windows里要用双括号括起来）<br><figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">binwalk </span>-D=<span class="keyword">jpeg </span><span class="number">555</span>.gif</span><br></pre></td></tr></table></figure><br>-M 递归分解扫描出来的文件（得跟-e或者-D配合使用）</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">binwalk</span> -eM <span class="number">555</span>.gif</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>软件安装</category>
-      </categories>
-      <tags>
-        <tag>软件安装</tag>
       </tags>
   </entry>
   <entry>
@@ -2327,177 +2327,6 @@
       </tags>
   </entry>
   <entry>
-    <title>回形取数</title>
-    <url>/2020/02/02/%E5%9B%9E%E5%BD%A2%E5%8F%96%E6%95%B0/</url>
-    <content><![CDATA[<h3 id="本题为蓝桥杯回形取数的python题解。"><a href="#本题为蓝桥杯回形取数的python题解。" class="headerlink" title="本题为蓝桥杯回形取数的python题解。"></a>本题为蓝桥杯回形取数的python题解。</h3><span id="more"></span>
-<p><img src="/2020/02/02/%E5%9B%9E%E5%BD%A2%E5%8F%96%E6%95%B0/回形取数.png" alt="题目描述"><br>这个题目按照下右上左的顺序取数，并对每个取过的数进行标记。<br>一下代码提交后为runtime error，不太清楚为啥。之后再继续找找原因<br><figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line"># str1 = input()</span><br><span class="line"># arr1 = str1.split(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line"># m = int(arr1[<span class="number">0</span>])</span><br><span class="line"># n = int(arr1[<span class="number">1</span>])</span><br><span class="line">m,n = map(int,input().split()) #简单写法</span><br><span class="line"><span class="symbol">Arr</span> = [[] for i in range(m)]</span><br><span class="line"><span class="symbol">Arr</span> = [[] * n] * m</span><br><span class="line">for i in range(m):</span><br><span class="line">    <span class="symbol">Arr</span>[i] = [int(j) for j in input().split()]</span><br><span class="line">#for i in range(m):</span><br><span class="line">#    str2 = input()</span><br><span class="line">#    <span class="symbol">Arr</span>[i] = str2.split(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">sum = m * n</span><br><span class="line">i = <span class="number">0</span></span><br><span class="line">j = <span class="number">0</span></span><br><span class="line">while sum &gt; <span class="number">0</span>: #取过的数赋值为<span class="number">-1</span></span><br><span class="line">    while i &lt; m and <span class="symbol">Arr</span>[i][j] != <span class="number">-1</span>: #向下取数</span><br><span class="line">        print(<span class="symbol">Arr</span>[i][j],end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">        <span class="symbol">Arr</span>[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">    i -= <span class="number">1</span></span><br><span class="line">    j += <span class="number">1</span></span><br><span class="line">    while j &lt; n and <span class="symbol">Arr</span>[i][j] != <span class="number">-1</span>: #向右取数</span><br><span class="line">        print(<span class="symbol">Arr</span>[i][j],end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">        <span class="symbol">Arr</span>[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">    j -= <span class="number">1</span></span><br><span class="line">    i -= <span class="number">1</span></span><br><span class="line">    while i &gt;= <span class="number">0</span> and <span class="symbol">Arr</span>[i][j] != <span class="number">-1</span>: #向上取数</span><br><span class="line">        print(<span class="symbol">Arr</span>[i][j],end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">        <span class="symbol">Arr</span>[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        i -= <span class="number">1</span></span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line">    j -= <span class="number">1</span></span><br><span class="line">    while j &gt;= <span class="number">0</span> and <span class="symbol">Arr</span>[i][j] != <span class="number">-1</span>: #向左取数</span><br><span class="line">        print(<span class="symbol">Arr</span>[i][j],end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">        <span class="symbol">Arr</span>[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        j -= <span class="number">1</span></span><br><span class="line">    j += <span class="number">1</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
-]]></content>
-      <categories>
-        <category>programming</category>
-      </categories>
-      <tags>
-        <tag>programming</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在Hexo中渲染MathJax数学公式</title>
-    <url>/2020/04/17/%E5%9C%A8Hexo%E4%B8%AD%E6%B8%B2%E6%9F%93MathJax%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
-    <content><![CDATA[<p>在用markdown写技术文档时，免不了会碰到数学公式。常用的Markdown编辑器都会集成Mathjax，用来渲染文档中的类Latex格式书写的数学公式。基于Hexo搭建的个人博客，默认情况下渲染数学公式却会出现各种各样的问题。<br><span id="more"></span></p>
-<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>Hexo 默认使用 hexo-renderer-marked 引擎渲染网页，该引擎会把一些特殊的 markdown 符号转换为相应的 html 标签，比如在 markdown 语法中，下划线_代表斜体，会被渲染引擎处理为<em>标签。</em></p>
-<p>因为类 Latex 格式书写的数学公式下划线_表示下标，有特殊的含义，如果被强制转换为<em>标签，那么 MathJax 引擎在渲染数学公式的时候就会出错。</em></p>
-<p>类似的语义冲突的符号还包括*, {, }, \\等。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>更换 Hexo 的 markdown 渲染引擎，hexo-renderer-kramed 引擎是在默认的渲染引擎 hexo-renderer-marked 的基础上修改了一些 bug ，两者比较接近，也比较轻量级。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
-<p>执行上面的命令即可，先卸载原来的渲染引擎，再安装新的。<br>然后，跟换引擎后行间公式可以正确渲染了，但是这样还没有完全解决问题，行内公式的渲染还是有问题，因为 hexo-renderer-kramed 引擎也有语义冲突的问题。接下来到博客根目录下，找到node_modules\kramed\lib\rules\inline.js，把第11行的 escape 变量的值做相应的修改:</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span></span><br><span class="line"><span class="attr">escape</span>: <span class="regexp">/^\\([`*\[\]()#$+\-.!_&gt;])/</span>,</span><br></pre></td></tr></table></figure>
-<p>这一步是在原基础上取消了对\,{,}的转义(escape)。<br>同时把第20行的em变量也要做相应的修改。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span></span><br><span class="line"> <span class="attr">em</span>: <span class="regexp">/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/</span>,</span><br></pre></td></tr></table></figure>
-<p>重新启动hexo（先clean再generate）,问题完美解决。哦，如果不幸还没解决的话，看看是不是还需要在使用的主题中配置mathjax开关。</p>
-<h2 id="在Next主题中开启MathJax开关"><a href="#在Next主题中开启MathJax开关" class="headerlink" title="在Next主题中开启MathJax开关"></a>在Next主题中开启MathJax开关</h2><p>进入到主题目录，找到 _config.yml 配置问题，把 mathjax 默认的 false 修改为true，具体如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># MathJax Support</span><br><span class="line">mathjax:</span><br><span class="line">  enable: true</span><br><span class="line">  per_page: true</span><br></pre></td></tr></table></figure>
-<p>别着急，这样还不够，还需要在文章的Front-matter里打开mathjax开关，如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: index.html</span><br><span class="line">date: 2020-04-17 16:16:32</span><br><span class="line">tags:</span><br><span class="line">mathjax: true</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-<p>—</p>
-<p>不要嫌麻烦，之所以要在文章头里设置开关，是因为考虑只有在用到公式的页面才加载 Mathjax，这样不需要渲染数学公式的页面的访问速度就不会受到影响了。</p>
-<p>本文参考链接：<a href="http://xudongyang.coding.me/math-in-hexo/">http://xudongyang.coding.me/math-in-hexo/</a></p>
-]]></content>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>数二公式</title>
-    <url>/2021/04/28/%E6%95%B0%E4%BA%8C%E5%85%AC%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="常微分方程"><a href="#常微分方程" class="headerlink" title="常微分方程"></a>常微分方程</h2><h3 id="一阶微分方程的种类与解法"><a href="#一阶微分方程的种类与解法" class="headerlink" title="一阶微分方程的种类与解法"></a>一阶微分方程的种类与解法</h3><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>种类</th>
-<th>通解公式或解法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>可分离变量的微分方程<br>$\frac{dy}{dx}=f(x,y)$,其中$f(x,y)=\varPhi_1(x)\varPhi_2(y)$</td>
-<td>解法：<br> $\frac{dy}{dx}=f(x,y)\implies\frac{dy}{dx}=\varPhi_1(x)\varPhi_2(y)$ <br> $\implies\frac{dy}{\varPhi_2(y)}=\varPhi_1(x)dx$ <br> $\implies\int\frac{dy}{\varPhi_2(y)}=\int\varPhi_1(x)dx+C$</td>
-</tr>
-<tr>
-<td>齐次微分方程<br>$\frac{dy}{dx}=f(x,y)$，其中$f(x,y)=\varPhi(\frac{y}{x})$</td>
-<td>解法：<br> $\frac{dy}{dx}=f(x,y)\implies\frac{dy}{dx}=\varPhi(\frac{y}{x})$<br>$\xRightarrow{\frac{y}{x}=u} u+x\frac{du}{dx}=\varPhi(u)$<br>$\implies \int \frac{du}{\varPhi(u)-u}=\int \frac{dx}{x}+C$</td>
-</tr>
-<tr>
-<td>一阶齐次线性微分方程<br>$\frac{dy}{dx}+P(x)y=0$</td>
-<td>通解公式：<br> $y = Ce^{-\int P(x)dx}$(其中C为任意常数)</td>
-</tr>
-<tr>
-<td>一阶非齐次线性微分方程 <br> $\frac{dy}{dx}+P(x)y=Q(x)$</td>
-<td>通解公式：<br> $y=[\int Q(x)e^{\int P(x)dx}dx+C]e^{-\int P(x)dx}$(其中C为任意常数)</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="可降阶的高阶微分方程及解法"><a href="#可降阶的高阶微分方程及解法" class="headerlink" title="可降阶的高阶微分方程及解法"></a>可降阶的高阶微分方程及解法</h3><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>种类</th>
-<th>解法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>$y^{(n)}=f(x)$</td>
-<td>$y^{(n)}=f(x)$进行n次不定积分</td>
-</tr>
-<tr>
-<td>$f(x,y’,y’’)=0$</td>
-<td>令$y’=p,y’’=\frac{dp}{dx},f(x,y’,y’’)=0$化为$f(x,p,\frac{dp}{dx})=0$</td>
-</tr>
-<tr>
-<td>$f(y,y’,y’’)=0$</td>
-<td>$y’=p,y’’=\frac{dp}{dx}\cdot\frac{dp}{dy}=p\frac{dp}{dy},f(y,y’,y’’)=0$化为$f(y,p,p\frac{dp}{dy})=0$</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="高阶线性微分方程理论"><a href="#高阶线性微分方程理论" class="headerlink" title="高阶线性微分方程理论"></a>高阶线性微分方程理论</h3><p><strong>n阶齐次线性微分方程</strong><br>形如</p>
-<script type="math/tex; mode=display">y^{n}+a_1y^{n-1}+...+a_{n-1}y'+a_n(x)y=0 \tag{1}</script><p><strong>n阶非齐次线性微分方程</strong><br>形如</p>
-<script type="math/tex; mode=display">y^{n}+a_1y^{n-1}+...+a_{n-1}y'+a_n(x)y=f(x) \tag{2}</script><p>若$f(x)=f_1(x)+f_2(x)$,则(2)可分解为如下两个方程：</p>
-<script type="math/tex; mode=display">y^{n}+a_1y^{n-1}+...+a_{n-1}y'+a_n(x)y=f_1(x) \tag{2.1}</script><script type="math/tex; mode=display">y^{n}+a_1y^{n-1}+...+a_{n-1}y'+a_n(x)y=f_2(x) \tag{2.2}</script><h4 id="高阶线性微分方程解的结构"><a href="#高阶线性微分方程解的结构" class="headerlink" title="高阶线性微分方程解的结构"></a>高阶线性微分方程解的结构</h4><ol>
-<li>设$\varPhi_1(x),\varPhi_2(x),…,\varPhi_s(x)$为(1)的一组解，则$k_1\varPhi_1(x)+k_2\varPhi_2(x)+…+k_s\varPhi_s(x)$也为方程(1)的解</li>
-<li>若$\varPhi_1(x),\varPhi_2(x)$分别为(1)、(2)的两个解，则$\varPhi_1(x)+\varPhi_2(x)$为(2)的一个解</li>
-<li>若$\varPhi_1(x),\varPhi_2(x)$为(2)的两个解，则$\varPhi_1(x)-\varPhi_2(x)$为(1)的解</li>
-<li>若$\varPhi_1(x),\varPhi_2(x)$分别为(2.1)及(2.2)的两个解，则$\varPhi_1(x)+\varPhi_2(x)$为(2)的解</li>
-<li>若$\varPhi_1(x),\varPhi_2(x),…,\varPhi_s(x)$为(2)的一组解，则$k_1\varPhi_1(x)+k_2\varPhi_2(x)+…+k_s\varPhi_s(x)$为(2)的解的充分必要条件是$k_1+k_2+…+k_s=1$</li>
-<li>若$\varPhi_1(x),\varPhi_2(x),…,\varPhi_s(x)$为(2)的一组解，则$k_1\varPhi_1(x)+k_2\varPhi_2(x)+…+k_s\varPhi_s(x)$为(1)的解的充分必要条件是$k_1+k_2+…+k_s=0$</li>
-<li>设$\varPhi_1(x),\varPhi_2(x),…,\varPhi_n(x)$为(1)的n个线性无关解，则$k_1\varPhi_1(x)+k_2\varPhi_2(x)+…+k_n\varPhi_n(x)$为(1)的通解</li>
-<li>若$\varPhi_1(x),\varPhi_2(x),…,\varPhi_n(x)$为(1)的n个线性无关解，$\varPhi_0(x)$为(2)的一个特解，则$k_1\varPhi_1(x)+k_2\varPhi_2(x)+…+k_n\varPhi_n(x)+\varPhi_0(x)$为(2)的通解</li>
-</ol>
-<h4 id="二阶常系数齐次线性微分方程及解法"><a href="#二阶常系数齐次线性微分方程及解法" class="headerlink" title="二阶常系数齐次线性微分方程及解法"></a>二阶常系数齐次线性微分方程及解法</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>方程形式</th>
-<th>$y’’+py’+qy=0$(其中p，q为常数)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>特征方程</td>
-<td>$\lambda^2+p\lambda+q=0$</td>
-</tr>
-<tr>
-<td>$\Delta=p^2-4q$的情况</td>
-<td>$y’’+py’+qy=0$的通解</td>
-</tr>
-<tr>
-<td>$\Delta&gt;0$</td>
-<td>$y=C_1e^{\lambda_1x}+C_2^{\lambda_2x}$($C_1,C_2$为任意常数)</td>
-</tr>
-<tr>
-<td>$\Delta=0$</td>
-<td>$y=(C_1+C_2x)e^{\lambda_1x}$($C_1,C_2$为任意常数)</td>
-</tr>
-<tr>
-<td>$\Delta&lt;0$</td>
-<td>$\lambda_1=\alpha+i\beta,\lambda_2=\alpha-i\beta$ <br> $y=e^{\alpha x}(C_1\cos\beta x+C_2\sin\beta x)$</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="三阶常系数齐次线性微分方程及解法"><a href="#三阶常系数齐次线性微分方程及解法" class="headerlink" title="三阶常系数齐次线性微分方程及解法"></a>三阶常系数齐次线性微分方程及解法</h4><p>对$y’’’+py’’+qy’+ry=0$(其中p，q，r为常数)，特征方程为</p>
-<script type="math/tex; mode=display">\lambda^3+p\lambda^2+q\lambda+r=0</script><p>(1) 若特征值$\lambda_1,\lambda_2,\lambda_3$为实单根，则通解为$y=C_1e^{\lambda_1x}+C_2^{\lambda_2x}+C_3e^{\lambda_3x}$<br>(2) 若特征值$\lambda_1=\lambda_2\not=\lambda_3$为实根，则通解为$y=(C_1+C_2x)e^{\lambda_1x}+C_3e^{\lambda_3x}$<br>(3) 若特征值$\lambda_1=\lambda_2=\lambda_3$为实根，则通解为$y=(C_1+C_2x+C_3x^2)e^{\lambda_1x}$<br>(4) 若$\lambda_{1,2}=\alpha\pm i\beta,\lambda_3\in R$，则通解为$y=e^{\alpha x}(C_1\cos\beta x+C_2\sin\beta x))+C_3e^{\lambda_3x}$</p>
-<h4 id="二阶常系数非齐次线性微分方程的特解求法"><a href="#二阶常系数非齐次线性微分方程的特解求法" class="headerlink" title="二阶常系数非齐次线性微分方程的特解求法"></a>二阶常系数非齐次线性微分方程的特解求法</h4><p>类型一：$f(x)=e^{kx}P_n(x)$，其中$P_n(x)$为n次多项式</p>
-<p>(1) 当$k\not ={\lambda_1}$且$k\not ={\lambda_2}$时，令特解$y_0(x)=(a_0+a_1x+…+a_nx^n)e^{kx}=Q(x)e^{kx}$<br>(2) 当$k={\lambda_1}$且$k\not ={\lambda_2}$时，令特解$y_0(x)=x(a_0+a_1x+…+a_nx^n)e^{kx}=xQ(x)e^{kx}$<br>(3) 当$k={\lambda_1}={\lambda_2}$时，令特解$y_0(x)=x^2(a_0+a_1x+…+a_nx^n)e^{kx}=x^2Q(x)e^{kx}$</p>
-<p>类型二：$f(x)=e^{kx}[P_m(x)cos\beta x+P_s(x)sin\beta x]$，其中$P_m,P_s(x)$分别为m及s次多项式</p>
-<p>(1) 当$\alpha+i\beta$不是特征值时，令$y_0=e^{ax}[Q_n^{(1)}(x)cos\beta x+Q_n^{2}(x)sin\beta x$，其中n=max{m,s}，且$Q_n^{1}(x),Q_n^{2}(x)$为两个n次多项式<br>(2) 当$\alpha+i\beta$是特征值时，令$y_0=xe^{ax}[Q_n^{(1)}(x)cos\beta x+Q_n^{2}(x)sin\beta x$，其中n=max{m,s}，且$Q_n^{1}(x),Q_n^{2}(x)$为两个n次多项式</p>
-]]></content>
-      <categories>
-        <category>数学</category>
-      </categories>
-      <tags>
-        <tag>数学</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>求最大公约数</title>
-    <url>/2020/10/01/%E6%B1%82%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/</url>
-    <content><![CDATA[<h2 id="编程时经常需要求两个数的最大公约数，本文进行一个简单的整理"><a href="#编程时经常需要求两个数的最大公约数，本文进行一个简单的整理" class="headerlink" title="编程时经常需要求两个数的最大公约数，本文进行一个简单的整理"></a>编程时经常需要求两个数的最大公约数，本文进行一个简单的整理</h2><span id="more"></span>
-<h2 id="辗转相除法（欧几里得算法）"><a href="#辗转相除法（欧几里得算法）" class="headerlink" title="辗转相除法（欧几里得算法）"></a>辗转相除法（欧几里得算法）</h2><p><img src="/2020/10/01/%E6%B1%82%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/辗转相除法.png" alt="32b8277a43ceb666963c2d5a00ea53b7.png"></p>
-<p>代码块</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">measure</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> z = y;</span><br><span class="line">    <span class="keyword">while</span>(x%y!=<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">    z = x%y;</span><br><span class="line">    x = y;</span><br><span class="line">    y = z;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> z;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="辗转相减法"><a href="#辗转相减法" class="headerlink" title="辗转相减法"></a>辗转相减法</h2><p><img src="/2020/10/01/%E6%B1%82%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/辗转相减.png" alt="909aa5d53458b0031cc5835a9c307568.png"></p>
-<p>代码块</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">measure</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(a != b)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(a&gt;b)</span><br><span class="line">        &#123;</span><br><span class="line">            a = a - b;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            b = b - a;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> a;</span><br></pre></td></tr></table></figure>
-<h2 id="穷举法"><a href="#穷举法" class="headerlink" title="穷举法"></a>穷举法</h2><p><img src="/2020/10/01/%E6%B1%82%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/穷举.png" alt="385883d20f237cdeae38792bc1de2cb7.png"></p>
-<p>代码</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">measure</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> temp = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(temp = x ; ; temp-- )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(x%temp == <span class="number">0</span> &amp;&amp; y%temp==<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>programming</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>攻防世界Web WP</title>
     <url>/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/</url>
     <content><![CDATA[<h2 id="攻防世界WebWp"><a href="#攻防世界WebWp" class="headerlink" title="攻防世界WebWp"></a>攻防世界WebWp</h2><p>本文为攻防世界web区的writeup。<br><span id="more"></span></p>
@@ -2608,6 +2437,45 @@
       </tags>
   </entry>
   <entry>
+    <title>回形取数</title>
+    <url>/2020/02/02/%E5%9B%9E%E5%BD%A2%E5%8F%96%E6%95%B0/</url>
+    <content><![CDATA[<h3 id="本题为蓝桥杯回形取数的python题解。"><a href="#本题为蓝桥杯回形取数的python题解。" class="headerlink" title="本题为蓝桥杯回形取数的python题解。"></a>本题为蓝桥杯回形取数的python题解。</h3><span id="more"></span>
+<p><img src="/2020/02/02/%E5%9B%9E%E5%BD%A2%E5%8F%96%E6%95%B0/回形取数.png" alt="题目描述"><br>这个题目按照下右上左的顺序取数，并对每个取过的数进行标记。<br>一下代码提交后为runtime error，不太清楚为啥。之后再继续找找原因<br><figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line"># str1 = input()</span><br><span class="line"># arr1 = str1.split(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line"># m = int(arr1[<span class="number">0</span>])</span><br><span class="line"># n = int(arr1[<span class="number">1</span>])</span><br><span class="line">m,n = map(int,input().split()) #简单写法</span><br><span class="line"><span class="symbol">Arr</span> = [[] for i in range(m)]</span><br><span class="line"><span class="symbol">Arr</span> = [[] * n] * m</span><br><span class="line">for i in range(m):</span><br><span class="line">    <span class="symbol">Arr</span>[i] = [int(j) for j in input().split()]</span><br><span class="line">#for i in range(m):</span><br><span class="line">#    str2 = input()</span><br><span class="line">#    <span class="symbol">Arr</span>[i] = str2.split(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">sum = m * n</span><br><span class="line">i = <span class="number">0</span></span><br><span class="line">j = <span class="number">0</span></span><br><span class="line">while sum &gt; <span class="number">0</span>: #取过的数赋值为<span class="number">-1</span></span><br><span class="line">    while i &lt; m and <span class="symbol">Arr</span>[i][j] != <span class="number">-1</span>: #向下取数</span><br><span class="line">        print(<span class="symbol">Arr</span>[i][j],end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">        <span class="symbol">Arr</span>[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">    i -= <span class="number">1</span></span><br><span class="line">    j += <span class="number">1</span></span><br><span class="line">    while j &lt; n and <span class="symbol">Arr</span>[i][j] != <span class="number">-1</span>: #向右取数</span><br><span class="line">        print(<span class="symbol">Arr</span>[i][j],end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">        <span class="symbol">Arr</span>[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">    j -= <span class="number">1</span></span><br><span class="line">    i -= <span class="number">1</span></span><br><span class="line">    while i &gt;= <span class="number">0</span> and <span class="symbol">Arr</span>[i][j] != <span class="number">-1</span>: #向上取数</span><br><span class="line">        print(<span class="symbol">Arr</span>[i][j],end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">        <span class="symbol">Arr</span>[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        i -= <span class="number">1</span></span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line">    j -= <span class="number">1</span></span><br><span class="line">    while j &gt;= <span class="number">0</span> and <span class="symbol">Arr</span>[i][j] != <span class="number">-1</span>: #向左取数</span><br><span class="line">        print(<span class="symbol">Arr</span>[i][j],end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">        <span class="symbol">Arr</span>[i][j] = <span class="number">-1</span></span><br><span class="line">        sum -= <span class="number">1</span></span><br><span class="line">        j -= <span class="number">1</span></span><br><span class="line">    j += <span class="number">1</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>programming</category>
+      </categories>
+      <tags>
+        <tag>programming</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在Hexo中渲染MathJax数学公式</title>
+    <url>/2020/04/17/%E5%9C%A8Hexo%E4%B8%AD%E6%B8%B2%E6%9F%93MathJax%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
+    <content><![CDATA[<p>在用markdown写技术文档时，免不了会碰到数学公式。常用的Markdown编辑器都会集成Mathjax，用来渲染文档中的类Latex格式书写的数学公式。基于Hexo搭建的个人博客，默认情况下渲染数学公式却会出现各种各样的问题。<br><span id="more"></span></p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>Hexo 默认使用 hexo-renderer-marked 引擎渲染网页，该引擎会把一些特殊的 markdown 符号转换为相应的 html 标签，比如在 markdown 语法中，下划线_代表斜体，会被渲染引擎处理为<em>标签。</em></p>
+<p>因为类 Latex 格式书写的数学公式下划线_表示下标，有特殊的含义，如果被强制转换为<em>标签，那么 MathJax 引擎在渲染数学公式的时候就会出错。</em></p>
+<p>类似的语义冲突的符号还包括*, {, }, \\等。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>更换 Hexo 的 markdown 渲染引擎，hexo-renderer-kramed 引擎是在默认的渲染引擎 hexo-renderer-marked 的基础上修改了一些 bug ，两者比较接近，也比较轻量级。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
+<p>执行上面的命令即可，先卸载原来的渲染引擎，再安装新的。<br>然后，跟换引擎后行间公式可以正确渲染了，但是这样还没有完全解决问题，行内公式的渲染还是有问题，因为 hexo-renderer-kramed 引擎也有语义冲突的问题。接下来到博客根目录下，找到node_modules\kramed\lib\rules\inline.js，把第11行的 escape 变量的值做相应的修改:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span></span><br><span class="line"><span class="attr">escape</span>: <span class="regexp">/^\\([`*\[\]()#$+\-.!_&gt;])/</span>,</span><br></pre></td></tr></table></figure>
+<p>这一步是在原基础上取消了对\,{,}的转义(escape)。<br>同时把第20行的em变量也要做相应的修改。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span></span><br><span class="line"> <span class="attr">em</span>: <span class="regexp">/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/</span>,</span><br></pre></td></tr></table></figure>
+<p>重新启动hexo（先clean再generate）,问题完美解决。哦，如果不幸还没解决的话，看看是不是还需要在使用的主题中配置mathjax开关。</p>
+<h2 id="在Next主题中开启MathJax开关"><a href="#在Next主题中开启MathJax开关" class="headerlink" title="在Next主题中开启MathJax开关"></a>在Next主题中开启MathJax开关</h2><p>进入到主题目录，找到 _config.yml 配置问题，把 mathjax 默认的 false 修改为true，具体如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># MathJax Support</span><br><span class="line">mathjax:</span><br><span class="line">  enable: true</span><br><span class="line">  per_page: true</span><br></pre></td></tr></table></figure>
+<p>别着急，这样还不够，还需要在文章的Front-matter里打开mathjax开关，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: index.html</span><br><span class="line">date: 2020-04-17 16:16:32</span><br><span class="line">tags:</span><br><span class="line">mathjax: true</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<p>—</p>
+<p>不要嫌麻烦，之所以要在文章头里设置开关，是因为考虑只有在用到公式的页面才加载 Mathjax，这样不需要渲染数学公式的页面的访问速度就不会受到影响了。</p>
+<p>本文参考链接：<a href="http://xudongyang.coding.me/math-in-hexo/">http://xudongyang.coding.me/math-in-hexo/</a></p>
+]]></content>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>矩阵乘法</title>
     <url>/2020/02/02/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95/</url>
     <content><![CDATA[<h3 id="本文为蓝桥杯矩阵乘法的题解。"><a href="#本文为蓝桥杯矩阵乘法的题解。" class="headerlink" title="本文为蓝桥杯矩阵乘法的题解。"></a>本文为蓝桥杯矩阵乘法的题解。</h3><span id="more"></span>
@@ -2621,6 +2489,24 @@
       </tags>
   </entry>
   <entry>
+    <title>求最大公约数</title>
+    <url>/2020/10/01/%E6%B1%82%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/</url>
+    <content><![CDATA[<h2 id="编程时经常需要求两个数的最大公约数，本文进行一个简单的整理"><a href="#编程时经常需要求两个数的最大公约数，本文进行一个简单的整理" class="headerlink" title="编程时经常需要求两个数的最大公约数，本文进行一个简单的整理"></a>编程时经常需要求两个数的最大公约数，本文进行一个简单的整理</h2><span id="more"></span>
+<h2 id="辗转相除法（欧几里得算法）"><a href="#辗转相除法（欧几里得算法）" class="headerlink" title="辗转相除法（欧几里得算法）"></a>辗转相除法（欧几里得算法）</h2><p><img src="/2020/10/01/%E6%B1%82%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/辗转相除法.png" alt="32b8277a43ceb666963c2d5a00ea53b7.png"></p>
+<p>代码块</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">measure</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> z = y;</span><br><span class="line">    <span class="keyword">while</span>(x%y!=<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">    z = x%y;</span><br><span class="line">    x = y;</span><br><span class="line">    y = z;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> z;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="辗转相减法"><a href="#辗转相减法" class="headerlink" title="辗转相减法"></a>辗转相减法</h2><p><img src="/2020/10/01/%E6%B1%82%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/辗转相减.png" alt="909aa5d53458b0031cc5835a9c307568.png"></p>
+<p>代码块</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">measure</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(a != b)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(a&gt;b)</span><br><span class="line">        &#123;</span><br><span class="line">            a = a - b;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            b = b - a;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> a;</span><br></pre></td></tr></table></figure>
+<h2 id="穷举法"><a href="#穷举法" class="headerlink" title="穷举法"></a>穷举法</h2><p><img src="/2020/10/01/%E6%B1%82%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/穷举.png" alt="385883d20f237cdeae38792bc1de2cb7.png"></p>
+<p>代码</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">measure</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> temp = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(temp = x ; ; temp-- )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(x%temp == <span class="number">0</span> &amp;&amp; y%temp==<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>programming</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>算法提高 分苹果</title>
     <url>/2020/02/03/%E7%AE%97%E6%B3%95%E6%8F%90%E9%AB%98-%E5%88%86%E8%8B%B9%E6%9E%9C/</url>
     <content><![CDATA[<h3 id="本文为蓝桥杯分苹果的python题解"><a href="#本文为蓝桥杯分苹果的python题解" class="headerlink" title="本文为蓝桥杯分苹果的python题解"></a>本文为蓝桥杯分苹果的python题解</h3><span id="more"></span>
@@ -2628,28 +2514,6 @@
 <h2 id="我的方法和代码如下"><a href="#我的方法和代码如下" class="headerlink" title="我的方法和代码如下"></a>我的方法和代码如下</h2><p>也可解出答案，但是会超时<br>Time Limit Exceeded</p>
 <figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">N</span>,M = <span class="keyword">map</span>(<span class="keyword">int</span>,<span class="built_in">input</span>().<span class="keyword">split</span>(<span class="string">&#x27; &#x27;</span>))</span><br><span class="line">Arr = [<span class="number">0</span>] * <span class="keyword">N</span></span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(M):</span><br><span class="line">    <span class="keyword">a</span>,<span class="keyword">b</span>,<span class="keyword">c</span> = <span class="keyword">map</span>(<span class="keyword">int</span>,<span class="built_in">input</span>().<span class="keyword">split</span>())</span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">j</span> in <span class="built_in">range</span>(<span class="keyword">a</span>,<span class="keyword">b</span>+<span class="number">1</span>):</span><br><span class="line">        Arr[<span class="keyword">j</span>-<span class="number">1</span>] += <span class="keyword">c</span></span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(<span class="keyword">N</span>):</span><br><span class="line">    <span class="keyword">print</span>(Arr[i],end=<span class="string">&#x27; &#x27;</span>)</span><br></pre></td></tr></table></figure>
 <h2 id="运用差分数组"><a href="#运用差分数组" class="headerlink" title="运用差分数组"></a>运用差分数组</h2><p>代码很简洁，只计算一次就行<br>f[i] = d[i] - d[i-1]<br>d[2] = f[1]+d[0]+f[2] = d[1] + d[2] -d[1] = d[2]<br>数列第i项的值是可以用差分数组的前i项的和计算的，即d[i] = f[i]的前缀和<br>差分数组其实就相当于通过改变区间前段和末端与其他部分的差值，在最后进行累加的时候实行对整个区间的值的改变<br><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">N</span>,M = <span class="keyword">map</span>(<span class="keyword">int</span>,<span class="built_in">input</span>().<span class="keyword">split</span>(<span class="string">&#x27; &#x27;</span>))</span><br><span class="line">Arr = [<span class="number">0</span>] * (<span class="keyword">N</span> + <span class="number">2</span>)</span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(M):</span><br><span class="line">    <span class="keyword">a</span>,<span class="keyword">b</span>,<span class="keyword">c</span> = <span class="keyword">map</span>(<span class="keyword">int</span>,<span class="built_in">input</span>().<span class="keyword">split</span>())</span><br><span class="line">    Arr[<span class="keyword">a</span>] += <span class="keyword">c</span></span><br><span class="line">    Arr[<span class="keyword">b</span>+<span class="number">1</span>] -= <span class="keyword">c</span></span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(<span class="number">1</span>,<span class="keyword">N</span>+<span class="number">1</span>):</span><br><span class="line">    Arr[i] += Arr[i-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">print</span>(Arr[i],end=<span class="string">&#x27; &#x27;</span>)</span><br></pre></td></tr></table></figure></p>
-]]></content>
-      <categories>
-        <category>programming</category>
-      </categories>
-      <tags>
-        <tag>programming</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>算法训练 s01串</title>
-    <url>/2020/02/04/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0-s01%E4%B8%B2/</url>
-    <content><![CDATA[<h3 id="本文为蓝桥杯s01串的题解。"><a href="#本文为蓝桥杯s01串的题解。" class="headerlink" title="本文为蓝桥杯s01串的题解。"></a>本文为蓝桥杯s01串的题解。</h3><span id="more"></span>
-<p><img src="/2020/02/04/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0-s01%E4%B8%B2/s01串.png" alt="图片"></p>
-<h1 id="直接计算-暴力求解"><a href="#直接计算-暴力求解" class="headerlink" title="直接计算 暴力求解"></a>直接计算 暴力求解</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n = <span class="built_in">eval</span>(<span class="built_in">input</span>())</span><br><span class="line">str1 = <span class="string">&#x27;0&#x27;</span></span><br><span class="line"><span class="keyword">if</span> n == <span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(str1)</span><br><span class="line">    <span class="keyword">else</span>:     <span class="comment">#通过两个字符串，一个作为对照一个进行运算，一轮结束后重新赋值后再运算</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):          </span><br><span class="line">        str2 = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(str1)):</span><br><span class="line">            <span class="keyword">if</span> str1[i] == <span class="string">&#x27;0&#x27;</span>:</span><br><span class="line">                str2 += <span class="string">&#x27;1&#x27;</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                str2 += <span class="string">&#x27;01&#x27;</span></span><br><span class="line">        str1 = str2</span><br><span class="line">    <span class="built_in">print</span>(str1)</span><br></pre></td></tr></table></figure>
-<h1 id="递归运算"><a href="#递归运算" class="headerlink" title="递归运算"></a>递归运算</h1><h2 id="规律："><a href="#规律：" class="headerlink" title="规律："></a>规律：</h2><p>起始  0</p>
-<p>n=1:   1</p>
-<p>n=2:   01</p>
-<p>n=3:   101</p>
-<p>n=4:   01101</p>
-<p>n=5:   10101101</p>
-<p>发现一个串是由前两个串拼接起来<br><figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">def ans(n):</span><br><span class="line">    <span class="keyword">if</span> n == 0:</span><br><span class="line">        <span class="builtin-name">print</span>(<span class="string">&#x27;0&#x27;</span>,<span class="attribute">end</span>=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    elif n == 1:</span><br><span class="line">        <span class="builtin-name">print</span>(<span class="string">&#x27;1&#x27;</span>,<span class="attribute">end</span>=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        ans(n-2)</span><br><span class="line">        ans(n-1)</span><br><span class="line">n = eval(input())</span><br><span class="line">ans(n)</span><br></pre></td></tr></table></figure></p>
-<h1 id="来个错误的事例"><a href="#来个错误的事例" class="headerlink" title="来个错误的事例"></a>来个错误的事例</h1><p>python字符串一旦创建，里边的元素不可以更改，可以重新赋值，或者变换为列表进行替换<br><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">n = eval(<span class="selector-tag">input</span>())</span><br><span class="line">str1 = <span class="string">&#x27;0&#x27;</span></span><br><span class="line"><span class="keyword">for</span> <span class="selector-tag">i</span> <span class="keyword">in</span> range(n):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(len(str1)):</span><br><span class="line">        <span class="keyword">if</span> str1<span class="selector-attr">[j]</span> == <span class="string">&#x27;0&#x27;</span>:</span><br><span class="line">            str1<span class="selector-attr">[j]</span> = <span class="string">&quot;1&quot;</span> #这里语法错误,元素无法更改</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            str1<span class="selector-class">.insert</span>(j,<span class="string">&quot;0&quot;</span>)</span><br><span class="line">            j += <span class="number">1</span></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(str1)</span></span></span><br></pre></td></tr></table></figure></p>
 ]]></content>
       <categories>
         <category>programming</category>
@@ -2741,6 +2605,28 @@ c_{31} &c_{32} &c_{33}
       </categories>
       <tags>
         <tag>线性代数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>算法训练 s01串</title>
+    <url>/2020/02/04/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0-s01%E4%B8%B2/</url>
+    <content><![CDATA[<h3 id="本文为蓝桥杯s01串的题解。"><a href="#本文为蓝桥杯s01串的题解。" class="headerlink" title="本文为蓝桥杯s01串的题解。"></a>本文为蓝桥杯s01串的题解。</h3><span id="more"></span>
+<p><img src="/2020/02/04/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0-s01%E4%B8%B2/s01串.png" alt="图片"></p>
+<h1 id="直接计算-暴力求解"><a href="#直接计算-暴力求解" class="headerlink" title="直接计算 暴力求解"></a>直接计算 暴力求解</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n = <span class="built_in">eval</span>(<span class="built_in">input</span>())</span><br><span class="line">str1 = <span class="string">&#x27;0&#x27;</span></span><br><span class="line"><span class="keyword">if</span> n == <span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(str1)</span><br><span class="line">    <span class="keyword">else</span>:     <span class="comment">#通过两个字符串，一个作为对照一个进行运算，一轮结束后重新赋值后再运算</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):          </span><br><span class="line">        str2 = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(str1)):</span><br><span class="line">            <span class="keyword">if</span> str1[i] == <span class="string">&#x27;0&#x27;</span>:</span><br><span class="line">                str2 += <span class="string">&#x27;1&#x27;</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                str2 += <span class="string">&#x27;01&#x27;</span></span><br><span class="line">        str1 = str2</span><br><span class="line">    <span class="built_in">print</span>(str1)</span><br></pre></td></tr></table></figure>
+<h1 id="递归运算"><a href="#递归运算" class="headerlink" title="递归运算"></a>递归运算</h1><h2 id="规律："><a href="#规律：" class="headerlink" title="规律："></a>规律：</h2><p>起始  0</p>
+<p>n=1:   1</p>
+<p>n=2:   01</p>
+<p>n=3:   101</p>
+<p>n=4:   01101</p>
+<p>n=5:   10101101</p>
+<p>发现一个串是由前两个串拼接起来<br><figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">def ans(n):</span><br><span class="line">    <span class="keyword">if</span> n == 0:</span><br><span class="line">        <span class="builtin-name">print</span>(<span class="string">&#x27;0&#x27;</span>,<span class="attribute">end</span>=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    elif n == 1:</span><br><span class="line">        <span class="builtin-name">print</span>(<span class="string">&#x27;1&#x27;</span>,<span class="attribute">end</span>=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        ans(n-2)</span><br><span class="line">        ans(n-1)</span><br><span class="line">n = eval(input())</span><br><span class="line">ans(n)</span><br></pre></td></tr></table></figure></p>
+<h1 id="来个错误的事例"><a href="#来个错误的事例" class="headerlink" title="来个错误的事例"></a>来个错误的事例</h1><p>python字符串一旦创建，里边的元素不可以更改，可以重新赋值，或者变换为列表进行替换<br><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">n = eval(<span class="selector-tag">input</span>())</span><br><span class="line">str1 = <span class="string">&#x27;0&#x27;</span></span><br><span class="line"><span class="keyword">for</span> <span class="selector-tag">i</span> <span class="keyword">in</span> range(n):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(len(str1)):</span><br><span class="line">        <span class="keyword">if</span> str1<span class="selector-attr">[j]</span> == <span class="string">&#x27;0&#x27;</span>:</span><br><span class="line">            str1<span class="selector-attr">[j]</span> = <span class="string">&quot;1&quot;</span> #这里语法错误,元素无法更改</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            str1<span class="selector-class">.insert</span>(j,<span class="string">&quot;0&quot;</span>)</span><br><span class="line">            j += <span class="number">1</span></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(str1)</span></span></span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>programming</category>
+      </categories>
+      <tags>
+        <tag>programming</tag>
       </tags>
   </entry>
   <entry>
@@ -2932,83 +2818,6 @@ A+(-A)=O</script></li>
       </tags>
   </entry>
   <entry>
-    <title>线性代数-线性方程组</title>
-    <url>/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/</url>
-    <content><![CDATA[<h2 id="线性方程组"><a href="#线性方程组" class="headerlink" title="线性方程组"></a>线性方程组</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>我们称</p>
-<script type="math/tex; mode=display">\begin{cases}
-    a_{11}x_1+a_{12}x_2+\dotsb+a_{1n}x_n=b_1\\
-    a_{21}x_1+a_{22}x_2+\dotsb+a_{2n}x_n=b_2\\
-    \dotsb \\
-    a_{m1}x_1+a_{m2}x_2+\dotsb+a_{mn}x_n=b_m
-\end{cases}\tag{I}</script><p>是 n 个未知数 m 个方程的<em>非齐次线性方程组</em>，其中$x_1,x_2,\dotsb,x_n$代表 n 个未知数，而$b_1,b_2,\dotsb,b_m$是不全为0的常数</p>
-<span id="more"></span>
-<p>利用矩阵乘法，方程组(I)可表示法：</p>
-<script type="math/tex; mode=display">\begin{bmatrix}
-    a_{11} &a_{12} &\dotsb &a_{1n} \\
-    a_{21} &a_{22} &\dotsb &a_{2n} \\
-    \vdots &\vdots &\vdots & \\
-    a_{m1} &a_{m2} &\dotsb &a_{mn}
-\end{bmatrix}\begin{bmatrix}
-    x_1 \\
-    x_2 \\
-    \vdots \\
-    x_n
-\end{bmatrix}=\begin{bmatrix}
-    b_1 \\
-    b_2 \\
-    \vdots \\
-    b_m
-\end{bmatrix}</script><p>于是方程组(I)的矩阵形式：$Ax=b$称 A 为方程组(I)的系数矩阵</p>
-<p>对矩阵 A 按列分块，记 $A=(\alpha_1,\alpha_2,\dotsb,\alpha_n)$ 则方程组(I)有向量形式 $x_1\alpha_1+x_2\alpha_2+\dotsb+x_n\alpha_n=\beta$ 其中$a_j=(a_{1j},a_{2j},\dotsb,a_{nj})^T,j=1,2,\dotsb,n,\beta=(b_1,b_2,\dotsb,b_m)^T$<br>如果$\forall j=1,2,\dotsb,m$ 恒有 $b_j=0$ ，则称</p>
-<script type="math/tex; mode=display">\begin{cases}
-    a_{11}x_1+a_{12}x_2+\dotsb+a_{1n}x_n=0\\
-    a_{21}x_1+a_{22}x_2+\dotsb+a_{2n}x_n=0\\
-    \dotsb \\
-    a_{m1}x_1+a_{m2}x_2+\dotsb+a_{mn}x_n=0
-\end{cases}\tag{II}</script><p>为<em>齐次线性方程组</em>。其矩阵形式为 $Ax=0$<br>齐次方程组(II)的向量形式为$x_1\alpha_1+x_2\alpha_2+\dotsb+x_n\alpha_n=0$<br>若将一组数 $c_1,c_2,\dotsb,c_n$ 分别代替方程组(I)（或(II)中的$x_1,x_2,\dotsb,x_n$）使(I)（或(II)）中 m 个等式都成立，则称$c_1,c_2,\dotsb,c_n)^T$是方程组(I)（或(II)）的一个解</p>
-<p>求方程组的解就是要对所给方程组作同解变形，而同解变形的方法：</p>
-<ol>
-<li>两个方程互换位置</li>
-<li>用非零常数乘方程的两端</li>
-<li>把某个方程的 k 倍加到另一个方程上</li>
-</ol>
-<h3 id="线性方程组解的基本定理"><a href="#线性方程组解的基本定理" class="headerlink" title="线性方程组解的基本定理"></a>线性方程组解的基本定理</h3><p><strong>定理1</strong> 设 A 为 $m\times n$矩阵，则<br>(1)齐次线性方程组 $AX=0$ 只有零解的充分必要条件是 $r(A)=n$<br>(2)齐次线性方程组 $AX=0$ 有非零解（或有无数个解）的充分必要条件是 $r(A)&lt;n$</p>
-<p><strong>推论1</strong> 设 A 为 n 阶，则<br>(1)齐次线性方程组 $AX=0$ 只有零解的充分必要条件是 $|A|\ne0$<br>(2)齐次线性方程组 $AX=0$ 有非零解（或无数个解）的充分必要条件是 $|A|=0$<br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/线性方程定理1.1.png" alt="图片"><br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/线性方程定理1.2.png" alt="图片"><br><strong>定理2</strong> 设 A 是 $m\times n$，增广矩阵 $\overline{A}=(A\vdots b)$，则<br>(1)非齐次线性方程组 $AX=b$ 有解的充分必要条件是 $r(A)=r(\overline{A})$，其中当 $r(A)=r(\overline{A})=n$ 时，非齐次线性方程组 $AX=b$ 有唯一解；当 $r(A)=r(\overline{A})&lt;n$ 时，非齐次线性方程组$AX=b$有无数个解<br>(2)非齐次线性方程组 $AX=0$ 无解的充分必要条件是 $r(A)\ne r(\overline{A})$</p>
-<p><strong>推论2</strong> 设 A 是 n 阶矩阵，则<br>(1) 非齐次线性方程组 $AX=b$ 有解的充分必要条件是 $r(A)=r(\overline{A})$，其中当$|A|\ne0$时，方程组有唯一解；当$|A|=0$时，方程组有无数个解<br>(2)非齐次线性方程组 $AX=b$ 无解的充分必要条件是 $r(A)\ne r(\overline{A})$<br>(3 设$A_{m\times n}$，若$r(A)=m$(即行满秩)，则非齐次线性方程组$Ax=b$有解。事实上，此时$r(A)=r(A,b)=m$，所以$Ax=b$有解<br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/线性方程定理2.1.png" alt="图片"><br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/线性方程定理22.png" alt="图片"></p>
-<h3 id="线性方程组解的结构"><a href="#线性方程组解的结构" class="headerlink" title="线性方程组解的结构"></a>线性方程组解的结构</h3><ol>
-<li>设 $X_1,X_2,\dotsb,X_s$ 为齐次线性方程组 $AX=0$ 的一组解，则 $k_1X_1+k_2X_2+\dotsb+k_sX_s$ 也为齐次线性方程组 $AX=0$ 的解，其中 $k_1,k_2,\dotsb,k_s$ 为任意常数</li>
-<li>设 $\eta_0$ 为非齐次线性方程组 $AX=b$ 的一个解，$X_1,X_2,\dotsb,X_s$ 为齐次线性方程组 $AX=0$ 的一组解，则 $k_1X_1+k_2X_2+\dotsb+k_sX_s+\eta_0$ 为非齐次线性方程组 $AX=b$ 的解</li>
-<li>设 $\eta_1,\eta_2$ 为非齐次线性方程组 $AX=b$ 的两个解，则 $\eta_2-\eta_1$ 为齐次线性方程组 $AX=0$ 的一个解</li>
-<li>设 $\xi$ 是方程组 $Ax=b$ 的解，$\eta$ 是导出组 $Ax=0$ 的解，k 是任意常数，则 $\xi+k\eta$ 是方程组 $Ax=b$ 的解</li>
-<li>设 $X_1,X_2,\dotsb,X_s$ 为非齐次线性方程组 $AX=b$ 的一组解，则 $k_1X_1+k_2X_2+\dotsb+k_sX_s$ 为 $AX=b$ 的解的充分必要条件是 $k_1+k_2+\dotsb+k_s=1$</li>
-<li>设 $\eta_1,\eta_2,\dotsb,\eta_s$ 为非齐次线性方程组 $AX=b$ 的一组解，则 $k_1\eta_1+k_2\eta_2+\dotsb+k_s\eta_s$ 为齐次线性方程组 $AX=0$ 的解的充分必要条件是 $k_1+k_2+\dotsb+k_s=0$</li>
-</ol>
-<h3 id="线性方程组的通解"><a href="#线性方程组的通解" class="headerlink" title="线性方程组的通解"></a>线性方程组的通解</h3><h4 id="齐次线性方程组-AX-0-的基础解系与通解"><a href="#齐次线性方程组-AX-0-的基础解系与通解" class="headerlink" title="齐次线性方程组 $AX=0$ 的基础解系与通解"></a>齐次线性方程组 $AX=0$ 的基础解系与通解</h4><ol>
-<li><p>基础解系——设$r(A)=r&lt;n$，则$AX=0$所有解构成的解向量组的极大线性无关组成为方程组$AX=0$的一个基础解系。当$r(A)=r$时，$AX=0$的基础解系所含的线性无关的解向量的个数为$n-r$个</p>
-<pre><code> 设A为$m\times n$矩阵，且$r(A)=r&lt;n$,所谓$AX=0$的基础解系，即满足如下三个条件的向量组
- (1)该向量组中每个向量都是$AX=0$的解；
- (2)该向量组线性无关；
- (3)该向量组所含解向量的个数等于$nーr$
-</code></pre></li>
-<li><p>通解——设$\xi_1,\xi_2,\dotsb,\xi_{n-r}$为齐次线性方程组$AX=0$的一个基础解系，则称$k\xi_1+k_2\xi_2+\dotsb+k_{n-r}\xi_{n-r}$为齐次线性方程组$AX=0$的通解，其中$k_1,k_2,\dotsb,k_{n-r}$为任意常数</p>
-</li>
-</ol>
-<h4 id="非齐次线性方程组-AX-b-的通解"><a href="#非齐次线性方程组-AX-b-的通解" class="headerlink" title="非齐次线性方程组 $AX=b$的通解"></a>非齐次线性方程组 $AX=b$的通解</h4><p>设$r(A)=r(\overline{A})=r&lt;n$且$\xi_1,\xi_2,\dotsb,\xi_{n-r}$为$AX=b$的导出方程组$AX=0$的一个基础解系，$\eta_0$为$AX=b$的一个解，则$AX=b$的通解为$k\xi_1+k_2\xi_2+\dotsb+k_{n-r}\xi_{n-r}+\eta_0$，其中$k_1,k_2,\dotsb,k_{n-r}$为任意常数<br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/非线性方程组通解注解.png" alt="图片"></p>
-<h3 id="方程组解的理论延伸"><a href="#方程组解的理论延伸" class="headerlink" title="方程组解的理论延伸"></a>方程组解的理论延伸</h3><ol>
-<li>设 $A$ 是 $m\times n$矩阵，B是$n\times s$矩阵，若$AB=0$，则B的列向量组为方程组$AX=0$的解</li>
-<li>设方程组$AX=0$与$BX=0$为同解方程组，则$r(A)=r(B)$,反之不对</li>
-<li>设方程组$AX=0$的解为$BX=0$的解，则$r(A)\ge r(B)$<br> 1.若方程组$AX=0$的解为方程组$BX=0$的解，但方程组$BX=0$的解不全是方程组$AX=0$的解，则$r(A)&gt;r(B)$<br> 2.若方程纽$AX=0$的解为方程组$BX=0$的解，且$r(A)=r(B)$,则方程组$AX=0$与方程组$BX=0$同解</li>
-<li>设<script type="math/tex">AX=b\tag{I}$$$$BX=c\tag{II}</script>则线性方程组$(\overset{A}{B})X=(\overset{b}{c})$的解即为线性方程组(I)和(II)的解</li>
-</ol>
-]]></content>
-      <categories>
-        <category>数学</category>
-      </categories>
-      <tags>
-        <tag>线性代数</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>线性代数-矩阵的特征值和特征向量</title>
     <url>/2021/05/06/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%9F%A9%E9%98%B5%E7%9A%84%E7%89%B9%E5%BE%81%E5%80%BC%E5%92%8C%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F/</url>
     <content><![CDATA[<h2 id="特征值与特征向量"><a href="#特征值与特征向量" class="headerlink" title="特征值与特征向量"></a>特征值与特征向量</h2><h3 id="特征值与特征向量的理论背景"><a href="#特征值与特征向量的理论背景" class="headerlink" title="特征值与特征向量的理论背景"></a>特征值与特征向量的理论背景</h3><p>在一个多项式中，未知数的个数为任意多个，且每一项次数都是2的多项式称为二次型，二次型分为两种类型：即非标准二次型及标准二次型。<br><img src="/2021/05/06/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%9F%A9%E9%98%B5%E7%9A%84%E7%89%B9%E5%BE%81%E5%80%BC%E5%92%8C%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F/背景.png" alt="图片"></p>
@@ -3111,6 +2920,120 @@ A+(-A)=O</script></li>
       </categories>
       <tags>
         <tag>线性代数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数二公式</title>
+    <url>/2021/04/28/%E6%95%B0%E4%BA%8C%E5%85%AC%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="常微分方程"><a href="#常微分方程" class="headerlink" title="常微分方程"></a>常微分方程</h2><h3 id="一阶微分方程的种类与解法"><a href="#一阶微分方程的种类与解法" class="headerlink" title="一阶微分方程的种类与解法"></a>一阶微分方程的种类与解法</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>种类</th>
+<th>通解公式或解法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>可分离变量的微分方程<br>$\frac{dy}{dx}=f(x,y)$,其中$f(x,y)=\varPhi_1(x)\varPhi_2(y)$</td>
+<td>解法：<br> $\frac{dy}{dx}=f(x,y)\implies\frac{dy}{dx}=\varPhi_1(x)\varPhi_2(y)$ <br> $\implies\frac{dy}{\varPhi_2(y)}=\varPhi_1(x)dx$ <br> $\implies\int\frac{dy}{\varPhi_2(y)}=\int\varPhi_1(x)dx+C$</td>
+</tr>
+<tr>
+<td>齐次微分方程<br>$\frac{dy}{dx}=f(x,y)$，其中$f(x,y)=\varPhi(\frac{y}{x})$</td>
+<td>解法：<br> $\frac{dy}{dx}=f(x,y)\implies\frac{dy}{dx}=\varPhi(\frac{y}{x})$<br>$\xRightarrow{\frac{y}{x}=u} u+x\frac{du}{dx}=\varPhi(u)$<br>$\implies \int \frac{du}{\varPhi(u)-u}=\int \frac{dx}{x}+C$</td>
+</tr>
+<tr>
+<td>一阶齐次线性微分方程<br>$\frac{dy}{dx}+P(x)y=0$</td>
+<td>通解公式：<br> $y = Ce^{-\int P(x)dx}$(其中C为任意常数)</td>
+</tr>
+<tr>
+<td>一阶非齐次线性微分方程 <br> $\frac{dy}{dx}+P(x)y=Q(x)$</td>
+<td>通解公式：<br> $y=[\int Q(x)e^{\int P(x)dx}dx+C]e^{-\int P(x)dx}$(其中C为任意常数)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="可降阶的高阶微分方程及解法"><a href="#可降阶的高阶微分方程及解法" class="headerlink" title="可降阶的高阶微分方程及解法"></a>可降阶的高阶微分方程及解法</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>种类</th>
+<th>解法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$y^{(n)}=f(x)$</td>
+<td>$y^{(n)}=f(x)$进行n次不定积分</td>
+</tr>
+<tr>
+<td>$f(x,y’,y’’)=0$</td>
+<td>令$y’=p,y’’=\frac{dp}{dx},f(x,y’,y’’)=0$化为$f(x,p,\frac{dp}{dx})=0$</td>
+</tr>
+<tr>
+<td>$f(y,y’,y’’)=0$</td>
+<td>$y’=p,y’’=\frac{dp}{dx}\cdot\frac{dp}{dy}=p\frac{dp}{dy},f(y,y’,y’’)=0$化为$f(y,p,p\frac{dp}{dy})=0$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="高阶线性微分方程理论"><a href="#高阶线性微分方程理论" class="headerlink" title="高阶线性微分方程理论"></a>高阶线性微分方程理论</h3><p><strong>n阶齐次线性微分方程</strong><br>形如</p>
+<script type="math/tex; mode=display">y^{n}+a_1y^{n-1}+...+a_{n-1}y'+a_n(x)y=0 \tag{1}</script><p><strong>n阶非齐次线性微分方程</strong><br>形如</p>
+<script type="math/tex; mode=display">y^{n}+a_1y^{n-1}+...+a_{n-1}y'+a_n(x)y=f(x) \tag{2}</script><p>若$f(x)=f_1(x)+f_2(x)$,则(2)可分解为如下两个方程：</p>
+<script type="math/tex; mode=display">y^{n}+a_1y^{n-1}+...+a_{n-1}y'+a_n(x)y=f_1(x) \tag{2.1}</script><script type="math/tex; mode=display">y^{n}+a_1y^{n-1}+...+a_{n-1}y'+a_n(x)y=f_2(x) \tag{2.2}</script><h4 id="高阶线性微分方程解的结构"><a href="#高阶线性微分方程解的结构" class="headerlink" title="高阶线性微分方程解的结构"></a>高阶线性微分方程解的结构</h4><ol>
+<li>设$\varPhi_1(x),\varPhi_2(x),…,\varPhi_s(x)$为(1)的一组解，则$k_1\varPhi_1(x)+k_2\varPhi_2(x)+…+k_s\varPhi_s(x)$也为方程(1)的解</li>
+<li>若$\varPhi_1(x),\varPhi_2(x)$分别为(1)、(2)的两个解，则$\varPhi_1(x)+\varPhi_2(x)$为(2)的一个解</li>
+<li>若$\varPhi_1(x),\varPhi_2(x)$为(2)的两个解，则$\varPhi_1(x)-\varPhi_2(x)$为(1)的解</li>
+<li>若$\varPhi_1(x),\varPhi_2(x)$分别为(2.1)及(2.2)的两个解，则$\varPhi_1(x)+\varPhi_2(x)$为(2)的解</li>
+<li>若$\varPhi_1(x),\varPhi_2(x),…,\varPhi_s(x)$为(2)的一组解，则$k_1\varPhi_1(x)+k_2\varPhi_2(x)+…+k_s\varPhi_s(x)$为(2)的解的充分必要条件是$k_1+k_2+…+k_s=1$</li>
+<li>若$\varPhi_1(x),\varPhi_2(x),…,\varPhi_s(x)$为(2)的一组解，则$k_1\varPhi_1(x)+k_2\varPhi_2(x)+…+k_s\varPhi_s(x)$为(1)的解的充分必要条件是$k_1+k_2+…+k_s=0$</li>
+<li>设$\varPhi_1(x),\varPhi_2(x),…,\varPhi_n(x)$为(1)的n个线性无关解，则$k_1\varPhi_1(x)+k_2\varPhi_2(x)+…+k_n\varPhi_n(x)$为(1)的通解</li>
+<li>若$\varPhi_1(x),\varPhi_2(x),…,\varPhi_n(x)$为(1)的n个线性无关解，$\varPhi_0(x)$为(2)的一个特解，则$k_1\varPhi_1(x)+k_2\varPhi_2(x)+…+k_n\varPhi_n(x)+\varPhi_0(x)$为(2)的通解</li>
+</ol>
+<h4 id="二阶常系数齐次线性微分方程及解法"><a href="#二阶常系数齐次线性微分方程及解法" class="headerlink" title="二阶常系数齐次线性微分方程及解法"></a>二阶常系数齐次线性微分方程及解法</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方程形式</th>
+<th>$y’’+py’+qy=0$(其中p，q为常数)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>特征方程</td>
+<td>$\lambda^2+p\lambda+q=0$</td>
+</tr>
+<tr>
+<td>$\Delta=p^2-4q$的情况</td>
+<td>$y’’+py’+qy=0$的通解</td>
+</tr>
+<tr>
+<td>$\Delta&gt;0$</td>
+<td>$y=C_1e^{\lambda_1x}+C_2^{\lambda_2x}$($C_1,C_2$为任意常数)</td>
+</tr>
+<tr>
+<td>$\Delta=0$</td>
+<td>$y=(C_1+C_2x)e^{\lambda_1x}$($C_1,C_2$为任意常数)</td>
+</tr>
+<tr>
+<td>$\Delta&lt;0$</td>
+<td>$\lambda_1=\alpha+i\beta,\lambda_2=\alpha-i\beta$ <br> $y=e^{\alpha x}(C_1\cos\beta x+C_2\sin\beta x)$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="三阶常系数齐次线性微分方程及解法"><a href="#三阶常系数齐次线性微分方程及解法" class="headerlink" title="三阶常系数齐次线性微分方程及解法"></a>三阶常系数齐次线性微分方程及解法</h4><p>对$y’’’+py’’+qy’+ry=0$(其中p，q，r为常数)，特征方程为</p>
+<script type="math/tex; mode=display">\lambda^3+p\lambda^2+q\lambda+r=0</script><p>(1) 若特征值$\lambda_1,\lambda_2,\lambda_3$为实单根，则通解为$y=C_1e^{\lambda_1x}+C_2^{\lambda_2x}+C_3e^{\lambda_3x}$<br>(2) 若特征值$\lambda_1=\lambda_2\not=\lambda_3$为实根，则通解为$y=(C_1+C_2x)e^{\lambda_1x}+C_3e^{\lambda_3x}$<br>(3) 若特征值$\lambda_1=\lambda_2=\lambda_3$为实根，则通解为$y=(C_1+C_2x+C_3x^2)e^{\lambda_1x}$<br>(4) 若$\lambda_{1,2}=\alpha\pm i\beta,\lambda_3\in R$，则通解为$y=e^{\alpha x}(C_1\cos\beta x+C_2\sin\beta x))+C_3e^{\lambda_3x}$</p>
+<h4 id="二阶常系数非齐次线性微分方程的特解求法"><a href="#二阶常系数非齐次线性微分方程的特解求法" class="headerlink" title="二阶常系数非齐次线性微分方程的特解求法"></a>二阶常系数非齐次线性微分方程的特解求法</h4><p>类型一：$f(x)=e^{kx}P_n(x)$，其中$P_n(x)$为n次多项式</p>
+<p>(1) 当$k\not ={\lambda_1}$且$k\not ={\lambda_2}$时，令特解$y_0(x)=(a_0+a_1x+…+a_nx^n)e^{kx}=Q(x)e^{kx}$<br>(2) 当$k={\lambda_1}$且$k\not ={\lambda_2}$时，令特解$y_0(x)=x(a_0+a_1x+…+a_nx^n)e^{kx}=xQ(x)e^{kx}$<br>(3) 当$k={\lambda_1}={\lambda_2}$时，令特解$y_0(x)=x^2(a_0+a_1x+…+a_nx^n)e^{kx}=x^2Q(x)e^{kx}$</p>
+<p>类型二：$f(x)=e^{kx}[P_m(x)cos\beta x+P_s(x)sin\beta x]$，其中$P_m,P_s(x)$分别为m及s次多项式</p>
+<p>(1) 当$\alpha+i\beta$不是特征值时，令$y_0=e^{ax}[Q_n^{(1)}(x)cos\beta x+Q_n^{2}(x)sin\beta x$，其中n=max{m,s}，且$Q_n^{1}(x),Q_n^{2}(x)$为两个n次多项式<br>(2) 当$\alpha+i\beta$是特征值时，令$y_0=xe^{ax}[Q_n^{(1)}(x)cos\beta x+Q_n^{2}(x)sin\beta x$，其中n=max{m,s}，且$Q_n^{1}(x),Q_n^{2}(x)$为两个n次多项式</p>
+]]></content>
+      <categories>
+        <category>数学</category>
+      </categories>
+      <tags>
+        <tag>数学</tag>
       </tags>
   </entry>
   <entry>
@@ -3272,9 +3195,86 @@ A+(-A)=O</script></li>
       </tags>
   </entry>
   <entry>
+    <title>线性代数-线性方程组</title>
+    <url>/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/</url>
+    <content><![CDATA[<h2 id="线性方程组"><a href="#线性方程组" class="headerlink" title="线性方程组"></a>线性方程组</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>我们称</p>
+<script type="math/tex; mode=display">\begin{cases}
+    a_{11}x_1+a_{12}x_2+\dotsb+a_{1n}x_n=b_1\\
+    a_{21}x_1+a_{22}x_2+\dotsb+a_{2n}x_n=b_2\\
+    \dotsb \\
+    a_{m1}x_1+a_{m2}x_2+\dotsb+a_{mn}x_n=b_m
+\end{cases}\tag{I}</script><p>是 n 个未知数 m 个方程的<em>非齐次线性方程组</em>，其中$x_1,x_2,\dotsb,x_n$代表 n 个未知数，而$b_1,b_2,\dotsb,b_m$是不全为0的常数</p>
+<span id="more"></span>
+<p>利用矩阵乘法，方程组(I)可表示法：</p>
+<script type="math/tex; mode=display">\begin{bmatrix}
+    a_{11} &a_{12} &\dotsb &a_{1n} \\
+    a_{21} &a_{22} &\dotsb &a_{2n} \\
+    \vdots &\vdots &\vdots & \\
+    a_{m1} &a_{m2} &\dotsb &a_{mn}
+\end{bmatrix}\begin{bmatrix}
+    x_1 \\
+    x_2 \\
+    \vdots \\
+    x_n
+\end{bmatrix}=\begin{bmatrix}
+    b_1 \\
+    b_2 \\
+    \vdots \\
+    b_m
+\end{bmatrix}</script><p>于是方程组(I)的矩阵形式：$Ax=b$称 A 为方程组(I)的系数矩阵</p>
+<p>对矩阵 A 按列分块，记 $A=(\alpha_1,\alpha_2,\dotsb,\alpha_n)$ 则方程组(I)有向量形式 $x_1\alpha_1+x_2\alpha_2+\dotsb+x_n\alpha_n=\beta$ 其中$a_j=(a_{1j},a_{2j},\dotsb,a_{nj})^T,j=1,2,\dotsb,n,\beta=(b_1,b_2,\dotsb,b_m)^T$<br>如果$\forall j=1,2,\dotsb,m$ 恒有 $b_j=0$ ，则称</p>
+<script type="math/tex; mode=display">\begin{cases}
+    a_{11}x_1+a_{12}x_2+\dotsb+a_{1n}x_n=0\\
+    a_{21}x_1+a_{22}x_2+\dotsb+a_{2n}x_n=0\\
+    \dotsb \\
+    a_{m1}x_1+a_{m2}x_2+\dotsb+a_{mn}x_n=0
+\end{cases}\tag{II}</script><p>为<em>齐次线性方程组</em>。其矩阵形式为 $Ax=0$<br>齐次方程组(II)的向量形式为$x_1\alpha_1+x_2\alpha_2+\dotsb+x_n\alpha_n=0$<br>若将一组数 $c_1,c_2,\dotsb,c_n$ 分别代替方程组(I)（或(II)中的$x_1,x_2,\dotsb,x_n$）使(I)（或(II)）中 m 个等式都成立，则称$c_1,c_2,\dotsb,c_n)^T$是方程组(I)（或(II)）的一个解</p>
+<p>求方程组的解就是要对所给方程组作同解变形，而同解变形的方法：</p>
+<ol>
+<li>两个方程互换位置</li>
+<li>用非零常数乘方程的两端</li>
+<li>把某个方程的 k 倍加到另一个方程上</li>
+</ol>
+<h3 id="线性方程组解的基本定理"><a href="#线性方程组解的基本定理" class="headerlink" title="线性方程组解的基本定理"></a>线性方程组解的基本定理</h3><p><strong>定理1</strong> 设 A 为 $m\times n$矩阵，则<br>(1)齐次线性方程组 $AX=0$ 只有零解的充分必要条件是 $r(A)=n$<br>(2)齐次线性方程组 $AX=0$ 有非零解（或有无数个解）的充分必要条件是 $r(A)&lt;n$</p>
+<p><strong>推论1</strong> 设 A 为 n 阶，则<br>(1)齐次线性方程组 $AX=0$ 只有零解的充分必要条件是 $|A|\ne0$<br>(2)齐次线性方程组 $AX=0$ 有非零解（或无数个解）的充分必要条件是 $|A|=0$<br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/线性方程定理1.1.png" alt="图片"><br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/线性方程定理1.2.png" alt="图片"><br><strong>定理2</strong> 设 A 是 $m\times n$，增广矩阵 $\overline{A}=(A\vdots b)$，则<br>(1)非齐次线性方程组 $AX=b$ 有解的充分必要条件是 $r(A)=r(\overline{A})$，其中当 $r(A)=r(\overline{A})=n$ 时，非齐次线性方程组 $AX=b$ 有唯一解；当 $r(A)=r(\overline{A})&lt;n$ 时，非齐次线性方程组$AX=b$有无数个解<br>(2)非齐次线性方程组 $AX=0$ 无解的充分必要条件是 $r(A)\ne r(\overline{A})$</p>
+<p><strong>推论2</strong> 设 A 是 n 阶矩阵，则<br>(1) 非齐次线性方程组 $AX=b$ 有解的充分必要条件是 $r(A)=r(\overline{A})$，其中当$|A|\ne0$时，方程组有唯一解；当$|A|=0$时，方程组有无数个解<br>(2)非齐次线性方程组 $AX=b$ 无解的充分必要条件是 $r(A)\ne r(\overline{A})$<br>(3 设$A_{m\times n}$，若$r(A)=m$(即行满秩)，则非齐次线性方程组$Ax=b$有解。事实上，此时$r(A)=r(A,b)=m$，所以$Ax=b$有解<br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/线性方程定理2.1.png" alt="图片"><br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/线性方程定理22.png" alt="图片"></p>
+<h3 id="线性方程组解的结构"><a href="#线性方程组解的结构" class="headerlink" title="线性方程组解的结构"></a>线性方程组解的结构</h3><ol>
+<li>设 $X_1,X_2,\dotsb,X_s$ 为齐次线性方程组 $AX=0$ 的一组解，则 $k_1X_1+k_2X_2+\dotsb+k_sX_s$ 也为齐次线性方程组 $AX=0$ 的解，其中 $k_1,k_2,\dotsb,k_s$ 为任意常数</li>
+<li>设 $\eta_0$ 为非齐次线性方程组 $AX=b$ 的一个解，$X_1,X_2,\dotsb,X_s$ 为齐次线性方程组 $AX=0$ 的一组解，则 $k_1X_1+k_2X_2+\dotsb+k_sX_s+\eta_0$ 为非齐次线性方程组 $AX=b$ 的解</li>
+<li>设 $\eta_1,\eta_2$ 为非齐次线性方程组 $AX=b$ 的两个解，则 $\eta_2-\eta_1$ 为齐次线性方程组 $AX=0$ 的一个解</li>
+<li>设 $\xi$ 是方程组 $Ax=b$ 的解，$\eta$ 是导出组 $Ax=0$ 的解，k 是任意常数，则 $\xi+k\eta$ 是方程组 $Ax=b$ 的解</li>
+<li>设 $X_1,X_2,\dotsb,X_s$ 为非齐次线性方程组 $AX=b$ 的一组解，则 $k_1X_1+k_2X_2+\dotsb+k_sX_s$ 为 $AX=b$ 的解的充分必要条件是 $k_1+k_2+\dotsb+k_s=1$</li>
+<li>设 $\eta_1,\eta_2,\dotsb,\eta_s$ 为非齐次线性方程组 $AX=b$ 的一组解，则 $k_1\eta_1+k_2\eta_2+\dotsb+k_s\eta_s$ 为齐次线性方程组 $AX=0$ 的解的充分必要条件是 $k_1+k_2+\dotsb+k_s=0$</li>
+</ol>
+<h3 id="线性方程组的通解"><a href="#线性方程组的通解" class="headerlink" title="线性方程组的通解"></a>线性方程组的通解</h3><h4 id="齐次线性方程组-AX-0-的基础解系与通解"><a href="#齐次线性方程组-AX-0-的基础解系与通解" class="headerlink" title="齐次线性方程组 $AX=0$ 的基础解系与通解"></a>齐次线性方程组 $AX=0$ 的基础解系与通解</h4><ol>
+<li><p>基础解系——设$r(A)=r&lt;n$，则$AX=0$所有解构成的解向量组的极大线性无关组成为方程组$AX=0$的一个基础解系。当$r(A)=r$时，$AX=0$的基础解系所含的线性无关的解向量的个数为$n-r$个</p>
+<pre><code> 设A为$m\times n$矩阵，且$r(A)=r&lt;n$,所谓$AX=0$的基础解系，即满足如下三个条件的向量组
+ (1)该向量组中每个向量都是$AX=0$的解；
+ (2)该向量组线性无关；
+ (3)该向量组所含解向量的个数等于$nーr$
+</code></pre></li>
+<li><p>通解——设$\xi_1,\xi_2,\dotsb,\xi_{n-r}$为齐次线性方程组$AX=0$的一个基础解系，则称$k\xi_1+k_2\xi_2+\dotsb+k_{n-r}\xi_{n-r}$为齐次线性方程组$AX=0$的通解，其中$k_1,k_2,\dotsb,k_{n-r}$为任意常数</p>
+</li>
+</ol>
+<h4 id="非齐次线性方程组-AX-b-的通解"><a href="#非齐次线性方程组-AX-b-的通解" class="headerlink" title="非齐次线性方程组 $AX=b$的通解"></a>非齐次线性方程组 $AX=b$的通解</h4><p>设$r(A)=r(\overline{A})=r&lt;n$且$\xi_1,\xi_2,\dotsb,\xi_{n-r}$为$AX=b$的导出方程组$AX=0$的一个基础解系，$\eta_0$为$AX=b$的一个解，则$AX=b$的通解为$k\xi_1+k_2\xi_2+\dotsb+k_{n-r}\xi_{n-r}+\eta_0$，其中$k_1,k_2,\dotsb,k_{n-r}$为任意常数<br><img src="/2021/05/02/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84/非线性方程组通解注解.png" alt="图片"></p>
+<h3 id="方程组解的理论延伸"><a href="#方程组解的理论延伸" class="headerlink" title="方程组解的理论延伸"></a>方程组解的理论延伸</h3><ol>
+<li>设 $A$ 是 $m\times n$矩阵，B是$n\times s$矩阵，若$AB=0$，则B的列向量组为方程组$AX=0$的解</li>
+<li>设方程组$AX=0$与$BX=0$为同解方程组，则$r(A)=r(B)$,反之不对</li>
+<li>设方程组$AX=0$的解为$BX=0$的解，则$r(A)\ge r(B)$<br> 1.若方程组$AX=0$的解为方程组$BX=0$的解，但方程组$BX=0$的解不全是方程组$AX=0$的解，则$r(A)&gt;r(B)$<br> 2.若方程纽$AX=0$的解为方程组$BX=0$的解，且$r(A)=r(B)$,则方程组$AX=0$与方程组$BX=0$同解</li>
+<li>设<script type="math/tex">AX=b\tag{I}$$$$BX=c\tag{II}</script>则线性方程组$(\overset{A}{B})X=(\overset{b}{c})$的解即为线性方程组(I)和(II)的解</li>
+</ol>
+]]></content>
+      <categories>
+        <category>数学</category>
+      </categories>
+      <tags>
+        <tag>线性代数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>高等数学-函数、连续、极限</title>
     <url>/2021/05/07/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E5%87%BD%E6%95%B0%E3%80%81%E8%BF%9E%E7%BB%AD%E3%80%81%E6%9E%81%E9%99%90/</url>
-    <content><![CDATA[<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="函数的性态"><a href="#函数的性态" class="headerlink" title="函数的性态"></a>函数的性态</h3><h4 id="单调性"><a href="#单调性" class="headerlink" title="单调性"></a>单调性</h4><p><strong>定义</strong> 设函数 $y=f(x)$ 在某区间I上有定义，如果对于区间I上的任意两点 $x_1,x_2$ ，当 $x_1<x_2$ 时，恒有 $f(x_1)<f(x_2)$ (或 $f(x_1)>f(x_2)$ )，则称函数 $y=f(x)$ 在区间I上单调增加(或单调减少)<br>如果对于区间I上的任意两点 $x_1,x_2$ ，当 $x_1&lt;x_2$ 时，恒有 $f(x_1)\le f(x_2)$ (或 $f(x_1)\ge f(x_2)$ )，则称函数$y=f(x)$在区间I上单调不减(或单调不增)</x_2$></p>
+    <content><![CDATA[<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="函数的性态"><a href="#函数的性态" class="headerlink" title="函数的性态"></a>函数的性态</h3><h4 id="单调性"><a href="#单调性" class="headerlink" title="单调性"></a>单调性</h4><p><strong>定义</strong> 设函数 $y=f(x)$ 在某区间I上有定义，如果对于区间I上的任意两点 $x_1,x_2<script type="math/tex">，当</script>x_1<x_2$ 时，恒有 $f(x_1)<f(x_2)$ (或 $f(x_1)>f(x_2)$ )，则称函数 $y=f(x)$ 在区间I上单调增加(或单调减少)<br>如果对于区间I上的任意两点 $x_1,x_2$ ，当 $x_1&lt;x_2$ 时，恒有 $f(x_1)\le f(x_2)$ (或 $f(x_1)\ge f(x_2)$ )，则称函数$y=f(x)$在区间I上单调不减(或单调不增)</x_2$></p>
 <p><strong>判定</strong></p>
 <ol>
 <li>利用定义</li>
@@ -3323,7 +3323,9 @@ A+(-A)=O</script></li>
 </ol>
 <h4 id="无穷大与无界变量的关系-无穷大-Rightarrow-无界变量"><a href="#无穷大与无界变量的关系-无穷大-Rightarrow-无界变量" class="headerlink" title="无穷大与无界变量的关系 无穷大$\Rightarrow$ 无界变量"></a>无穷大与无界变量的关系 无穷大$\Rightarrow$ 无界变量</h4><p>数列${x_n}$是无穷大量：$\forall M&gt;0,\exists N$，当$n&gt;N$时，恒有$|x_n|&gt;M$<br>数列${x_n}$是无界变量：$\forall M&gt;0,\exists N$,使$|x_N|&gt;M$<br>无穷大量一定是无界变量，但无界变量不一定是无穷大量(例：$f(x)=\begin{cases}<br>   n ,n为奇数 \\<br>   0 ,n为偶数 \\<br>\end{cases}$)</p>
 <h4 id="无穷大量与无穷小量的关系"><a href="#无穷大量与无穷小量的关系" class="headerlink" title="无穷大量与无穷小量的关系"></a>无穷大量与无穷小量的关系</h4><p>在自变量的同一变化过程中，若$f(x)$是无穷大，则$\frac{1}{f(x)}$是无穷小；若$f(x)$是无穷小，且$f(x)\ne0$，则$\frac{1}{f(x)}$是无穷大</p>
-<h3 id="求极限的方法"><a href="#求极限的方法" class="headerlink" title="求极限的方法"></a>求极限的方法</h3><h4 id="利用有理运算法则求极限"><a href="#利用有理运算法则求极限" class="headerlink" title="利用有理运算法则求极限"></a>利用有理运算法则求极限</h4><p>若$\lim f(x)=A,\lim g(x)=B$，则<br>$\lim[f(x)\pm g(x)]=\lim f(x)\pm\lim g(x)=A\pm B;\lim[f(x)\cdot g(x)]=\lim f(x)\cdot\lim g(x)=A\cdot B;\lim\frac{f(x)}{g(x)}=\frac{\lim f(x)}{\lim g(x)}=\frac{A}{B}(B\ne0)$</p>
+<h3 id="求极限的方法"><a href="#求极限的方法" class="headerlink" title="求极限的方法"></a>求极限的方法</h3><h4 id="利用有理运算法则求极限"><a href="#利用有理运算法则求极限" class="headerlink" title="利用有理运算法则求极限"></a>利用有理运算法则求极限</h4><p>若$\lim f(x)=A,\lim g(x)=B$，则</p>
+<p>$\lim[f(x)\pm g(x)]=\lim f(x)\pm\lim g(x)=A\pm B$;</p>
+<p>$\lim[f(x)\cdot g(x)]=\lim f(x)\cdot\lim g(x)=A\cdot B;\lim\frac{f(x)}{g(x)}=\frac{\lim f(x)}{\lim g(x)}=\frac{A}{B}(B\ne0)$</p>
 <p>推论：</p>
 <ol>
 <li>若$\lim f(x)=A\ne0$，则$\lim f(x)g(x)=A\lim g(x);\lim\frac{g(x)}{f(x)}=\frac{1}{A}\lim g(x)$</li>
@@ -3360,7 +3362,8 @@ A+(-A)=O</script></li>
 <h5 id="利用洛必达法则求极限"><a href="#利用洛必达法则求极限" class="headerlink" title="利用洛必达法则求极限"></a>利用洛必达法则求极限</h5><p>若<br>(1) $\lim\limits_{x\rightarrow x_0}f(x)=\lim\limits_{x\rightarrow x_0}g(x)=0(\infty)$;</p>
 <p>(2) f(x)和g(x)在$x_0$的某去心邻域内可导，且$g’(x)\ne0$</p>
 <p>(3) $\lim\limits_{x\rightarrow x_0}\frac{f’(x)}{g’(x)}$存在(或$\infty$)<br>则$\lim\limits_{x\rightarrow x_0}\frac{f(x)}{g(x)}=\lim\limits_{x\rightarrow x_0}\frac{f’(x)}{g’(x)}$</p>
-<h5 id="利用泰勒公式求极限"><a href="#利用泰勒公式求极限" class="headerlink" title="利用泰勒公式求极限"></a>利用泰勒公式求极限</h5><p>设$f(x)$在$x=x_0$处n阶可导，则<script type="math/tex">f(x)=f(x_0)+f'(x_0)(x-x_0)+\frac{f''(x_0)}{2!}(x-x_0)^2+\dotsb+\frac{f^{(n)}(x_0)}{n!}(x-x_0)^n+o((x-x_0)^n)</script><br>当$x_0=0$时</p>
+<h5 id="利用泰勒公式求极限"><a href="#利用泰勒公式求极限" class="headerlink" title="利用泰勒公式求极限"></a>利用泰勒公式求极限</h5><p>设$f(x)$在$x=x_0$处n阶可导，则</p>
+<script type="math/tex; mode=display">f(x)=f(x_0)+f'(x_0)(x-x_0)+\frac{f''(x_0)}{2!}(x-x_0)^2+\dotsb+\frac{f^{(n)}(x_0)}{n!}(x-x_0)^n+o((x-x_0)^n)</script><p>当$x_0=0$时</p>
 <script type="math/tex; mode=display">f(x)=f(0)+f'(0)x+\frac{f''(0)}{2!}x^2+\dotsb+\frac{f^{n}(0)}{n!}x^n+o(x^n)</script><p>常用的泰勒公式</p>
 <p>(1) $e^x=1+x+\frac{x^2}{2!}+\dotsb+\frac{x^n}{n!}+o(x^n)$</p>
 <p>(2) $\sin x=x-\frac{x^3}{3!}+\dotsb+(-1)^{n-1}\frac{x^{2n-1}}{(2n-1)!}+o(x^{2n-1})$</p>
