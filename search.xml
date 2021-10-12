@@ -227,54 +227,6 @@
       </tags>
   </entry>
   <entry>
-    <title>AES算法</title>
-    <url>/2020/03/22/AES%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<h3 id="本文为AES算法的原理详解。"><a href="#本文为AES算法的原理详解。" class="headerlink" title="本文为AES算法的原理详解。"></a>本文为AES算法的原理详解。</h3><span id="more"></span>
-<h2 id="AES算法"><a href="#AES算法" class="headerlink" title="AES算法"></a>AES算法</h2><p>AES算法是迭代型分组密码算法</p>
-<h4 id="基本参数："><a href="#基本参数：" class="headerlink" title="基本参数："></a>基本参数：</h4><ul>
-<li>分组长度：128比特</li>
-<li>密钥长度：128、192或256比特</li>
-<li>圈数：10、12或14圈，与密钥长度相对应。<br><img src="/2020/03/22/AES%E7%AE%97%E6%B3%95/01.png" alt="0e3a70192e194b783ac4ce688cae36bb.png"></li>
-</ul>
-<p>前9次加密过程除了密钥都一样，最后一次加密过程没有列混淆。</p>
-<h3 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h3><h4 id="字节代替变换-S盒"><a href="#字节代替变换-S盒" class="headerlink" title="字节代替变换(S盒)"></a>字节代替变换(S盒)</h4><p>字节代替变换时关于字节的非线性变换，它将字节矩阵中每一个字节利用同一个S盒变换为另一个字节。变换后位置不变。</p>
-<p>由两个可逆变换复合而成。</p>
-<ul>
-<li>将每一个字节变换为它在有限域GF(2^8)中的乘法逆。并规定0变换到其自身。</li>
-<li>对上一步骤的变换结果用二元域上的一个仿射变换作用。<br>S盒</li>
-</ul>
-<p>也可以直接按照s盒的表进行替换<br><img src="/2020/03/22/AES%E7%AE%97%E6%B3%95/02.png" alt="daedb9641b23bd557f9c88801265bba9.png"><br><img src="/2020/03/22/AES%E7%AE%97%E6%B3%95/03.png" alt="86fe95a3443cf677cd411272a670467b.png"></p>
-<p>S和S-1分别为16x16的矩阵，完成一个8比特输入到8比特输出的映射，输入的高4-bit对应的值作为行标，低4-bit对应的值作为列标。假设输入字节的值为a=a7a6a5a4a3a2a1a0，则输出值为S[a7a6a5a4][a3a2a1a0]，S-1的变换也同理。</p>
-<h4 id="行移位变换"><a href="#行移位变换" class="headerlink" title="行移位变换"></a>行移位变换</h4><p>如果将一个字节矩阵的行从上到下分别称为第0，1，2，3行，则行移位变换的作用就是将这个字节矩阵的第i行循环移位左移i个字节。<br><img src="/2020/03/22/AES%E7%AE%97%E6%B3%95/04.png" alt="cd416635aa2f10677a8033eea21cb1a9.png"></p>
-<h4 id="列混合变换"><a href="#列混合变换" class="headerlink" title="列混合变换"></a>列混合变换</h4><p>列混合变换对一个字节矩阵逐列进行变换<img src="/2020/03/22/AES%E7%AE%97%E6%B3%95/05.png" alt="affc4a23e5dc09d1200a8036cc65c23e.png"></p>
-<p><img src="/2020/03/22/AES%E7%AE%97%E6%B3%95/06.png" alt="303b72e95c24fbe9dfaa32d71bb6f51f.png"></p>
-<h4 id="圈密钥加"><a href="#圈密钥加" class="headerlink" title="圈密钥加"></a>圈密钥加</h4><p>圈密钥是通过密钥生成算法从初始密钥中产生，其长度等于分组长度。</p>
-<p><img src="/2020/03/22/AES%E7%AE%97%E6%B3%95/07.png" alt="b2ed713bb65a9a284d605200ae187a11.png"></p>
-<h4 id="密钥扩展算法"><a href="#密钥扩展算法" class="headerlink" title="密钥扩展算法"></a>密钥扩展算法</h4><p>AES算法的圈密钥长度等于分组长度128比特，即4个32位字，若迭代圈数为Nr，则连同入口密钥，共需4(Nr+1)个32位字的密钥。</p>
-<p><img src="/2020/03/22/AES%E7%AE%97%E6%B3%95/08.png" alt="a7275851176f61b27426a798a083a0ed.png"><br>密钥扩展说明：</p>
-<ul>
-<li><p>将种子密钥按图(a)的格式排列，其中k0、k1、……、k15依次表示种子密钥的一个字<br>节；排列后用4个32比特的字表示，分别记为w[0]、w[1]、w[2]、w[3]；　　　　</p>
-</li>
-<li><p>按照如下方式，依次求解w[j]，其中j是整数并且属于[4,43]；　　　　</p>
-</li>
-<li>若j%4=0,则w[j]=w[j-4]⊕g(w[j-1]),否则w[j]=w[j-4]⊕w[j-1]；　　函数g的流程说明：　　　　<ul>
-<li>将w循环左移8比特；　　　　</li>
-<li>分别对每个字节做S盒置换；　　　　</li>
-<li>32比特的常量（RC[j/4],0,0,0）进行异或，RC是一个一维数组，其值如下。（RC的值只需要有10个，而此处用了11个，实际上RC[0]在运算中没有用到，增加RC[0]是为了便于程序中用数组表示。由于j的最小取值是4，j/4的最小取值则是1，因此不会产生错误。）</li>
-</ul>
-</li>
-</ul>
-<p>RC = {0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36}</p>
-<p>参考：<br><a href="https://www.cnblogs.com/luop/p/4334160.html">https://www.cnblogs.com/luop/p/4334160.html</a></p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>14.网络编程入门</title>
     <url>/2020/02/18/14-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[<h2 id="计算机网络基础"><a href="#计算机网络基础" class="headerlink" title="计算机网络基础"></a>计算机网络基础</h2><h3 id="TCP-IP模型"><a href="#TCP-IP模型" class="headerlink" title="TCP/IP模型"></a>TCP/IP模型</h3><p>实现网络通信的基础是网络通信协议，这些协议通常是由互联网工程任务组（IETF）制定的。所谓“协议”就是通信计算机双方必须共同遵从的一组约定，例如怎样建立连接，怎样相互识别等，网络协议的三要素是：语法、语义和时序。构成我们今天使用的Inter的基础的是TCP/IP协议族，协议族就是一系列的协议及其构成的通信模型，也把这套东西称为TCP/IP模型。与国际标准化组织发布的OSI/RM这个七层模型不同，TCP/IP是一个四层模型，自顶向上依次是：网络接口层、网络层、传输层和应用层。如下图所示。<br><span id="more"></span></p>
@@ -382,6 +334,54 @@
       </tags>
   </entry>
   <entry>
+    <title>AES算法</title>
+    <url>/2020/03/22/AES%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h3 id="本文为AES算法的原理详解。"><a href="#本文为AES算法的原理详解。" class="headerlink" title="本文为AES算法的原理详解。"></a>本文为AES算法的原理详解。</h3><span id="more"></span>
+<h2 id="AES算法"><a href="#AES算法" class="headerlink" title="AES算法"></a>AES算法</h2><p>AES算法是迭代型分组密码算法</p>
+<h4 id="基本参数："><a href="#基本参数：" class="headerlink" title="基本参数："></a>基本参数：</h4><ul>
+<li>分组长度：128比特</li>
+<li>密钥长度：128、192或256比特</li>
+<li>圈数：10、12或14圈，与密钥长度相对应。<br><img src="/2020/03/22/AES%E7%AE%97%E6%B3%95/01.png" alt="0e3a70192e194b783ac4ce688cae36bb.png"></li>
+</ul>
+<p>前9次加密过程除了密钥都一样，最后一次加密过程没有列混淆。</p>
+<h3 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h3><h4 id="字节代替变换-S盒"><a href="#字节代替变换-S盒" class="headerlink" title="字节代替变换(S盒)"></a>字节代替变换(S盒)</h4><p>字节代替变换时关于字节的非线性变换，它将字节矩阵中每一个字节利用同一个S盒变换为另一个字节。变换后位置不变。</p>
+<p>由两个可逆变换复合而成。</p>
+<ul>
+<li>将每一个字节变换为它在有限域GF(2^8)中的乘法逆。并规定0变换到其自身。</li>
+<li>对上一步骤的变换结果用二元域上的一个仿射变换作用。<br>S盒</li>
+</ul>
+<p>也可以直接按照s盒的表进行替换<br><img src="/2020/03/22/AES%E7%AE%97%E6%B3%95/02.png" alt="daedb9641b23bd557f9c88801265bba9.png"><br><img src="/2020/03/22/AES%E7%AE%97%E6%B3%95/03.png" alt="86fe95a3443cf677cd411272a670467b.png"></p>
+<p>S和S-1分别为16x16的矩阵，完成一个8比特输入到8比特输出的映射，输入的高4-bit对应的值作为行标，低4-bit对应的值作为列标。假设输入字节的值为a=a7a6a5a4a3a2a1a0，则输出值为S[a7a6a5a4][a3a2a1a0]，S-1的变换也同理。</p>
+<h4 id="行移位变换"><a href="#行移位变换" class="headerlink" title="行移位变换"></a>行移位变换</h4><p>如果将一个字节矩阵的行从上到下分别称为第0，1，2，3行，则行移位变换的作用就是将这个字节矩阵的第i行循环移位左移i个字节。<br><img src="/2020/03/22/AES%E7%AE%97%E6%B3%95/04.png" alt="cd416635aa2f10677a8033eea21cb1a9.png"></p>
+<h4 id="列混合变换"><a href="#列混合变换" class="headerlink" title="列混合变换"></a>列混合变换</h4><p>列混合变换对一个字节矩阵逐列进行变换<img src="/2020/03/22/AES%E7%AE%97%E6%B3%95/05.png" alt="affc4a23e5dc09d1200a8036cc65c23e.png"></p>
+<p><img src="/2020/03/22/AES%E7%AE%97%E6%B3%95/06.png" alt="303b72e95c24fbe9dfaa32d71bb6f51f.png"></p>
+<h4 id="圈密钥加"><a href="#圈密钥加" class="headerlink" title="圈密钥加"></a>圈密钥加</h4><p>圈密钥是通过密钥生成算法从初始密钥中产生，其长度等于分组长度。</p>
+<p><img src="/2020/03/22/AES%E7%AE%97%E6%B3%95/07.png" alt="b2ed713bb65a9a284d605200ae187a11.png"></p>
+<h4 id="密钥扩展算法"><a href="#密钥扩展算法" class="headerlink" title="密钥扩展算法"></a>密钥扩展算法</h4><p>AES算法的圈密钥长度等于分组长度128比特，即4个32位字，若迭代圈数为Nr，则连同入口密钥，共需4(Nr+1)个32位字的密钥。</p>
+<p><img src="/2020/03/22/AES%E7%AE%97%E6%B3%95/08.png" alt="a7275851176f61b27426a798a083a0ed.png"><br>密钥扩展说明：</p>
+<ul>
+<li><p>将种子密钥按图(a)的格式排列，其中k0、k1、……、k15依次表示种子密钥的一个字<br>节；排列后用4个32比特的字表示，分别记为w[0]、w[1]、w[2]、w[3]；　　　　</p>
+</li>
+<li><p>按照如下方式，依次求解w[j]，其中j是整数并且属于[4,43]；　　　　</p>
+</li>
+<li>若j%4=0,则w[j]=w[j-4]⊕g(w[j-1]),否则w[j]=w[j-4]⊕w[j-1]；　　函数g的流程说明：　　　　<ul>
+<li>将w循环左移8比特；　　　　</li>
+<li>分别对每个字节做S盒置换；　　　　</li>
+<li>32比特的常量（RC[j/4],0,0,0）进行异或，RC是一个一维数组，其值如下。（RC的值只需要有10个，而此处用了11个，实际上RC[0]在运算中没有用到，增加RC[0]是为了便于程序中用数组表示。由于j的最小取值是4，j/4的最小取值则是1，因此不会产生错误。）</li>
+</ul>
+</li>
+</ul>
+<p>RC = {0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36}</p>
+<p>参考：<br><a href="https://www.cnblogs.com/luop/p/4334160.html">https://www.cnblogs.com/luop/p/4334160.html</a></p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>BJDCTF 2nd</title>
     <url>/2020/03/25/BJDCTF-2nd/</url>
     <content><![CDATA[<p>这次跟着去水了一把。平常也练了一些，但见到这些题，也只能说是见识面太窄，还是慢慢积累吧。以下是部分wp，慢慢学慢慢更。</p>
@@ -412,6 +412,257 @@
       </categories>
       <tags>
         <tag>ctf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java学习</title>
+    <url>/2021/10/02/Java%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h2 id="Java常见基础知识"><a href="#Java常见基础知识" class="headerlink" title="Java常见基础知识"></a>Java常见基础知识</h2><h3 id="Java概述"><a href="#Java概述" class="headerlink" title="Java概述"></a>Java概述</h3><h4 id="JDK-JRE-JVM的关系"><a href="#JDK-JRE-JVM的关系" class="headerlink" title="JDK,JRE,JVM的关系"></a>JDK,JRE,JVM的关系</h4><p>JDK(Java Development Kits Java开发工具包) = JRE(Java Runtime Environment Java运行环境)+ java开发工具<br>JRE = JVM(Java Virtual Machine Java虚拟机) + 核心类库</p>
+<h4 id="Java编写步骤"><a href="#Java编写步骤" class="headerlink" title="Java编写步骤"></a>Java编写步骤</h4><ol>
+<li>编写java的源代码</li>
+<li>javac 编译，得到对应的 .class 字节码文件</li>
+<li>java 运行，本质就是把 .class 加载到jvm 运行</li>
+</ol>
+<h4 id="Java编写7个规范"><a href="#Java编写7个规范" class="headerlink" title="Java编写7个规范"></a>Java编写7个规范</h4><ol>
+<li>类，方法的注释，使用javadoc的方式，即文档注释</li>
+<li>非javadoc注释，往往是对代码的说明（给程序的维护者），说明如何修改，注意事项</li>
+<li>使用tab，整体将代码右移，使用shift+tab整体左移</li>
+<li>运算符和 = 的两边，给空格，代码看上去清楚</li>
+<li>源码文件使用 utf-8编码</li>
+<li>行宽字符不要超过 80</li>
+<li>代码编程风格有两种风格</li>
+</ol>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><h4 id="变量使用注意"><a href="#变量使用注意" class="headerlink" title="变量使用注意"></a>变量使用注意</h4><ol>
+<li>变量表示内存中的一个存储区域</li>
+<li>该区域有自己的名称和类型</li>
+<li>变量必须先声明，后使用，即有顺序</li>
+<li>该区域的数据/值可以在同一类型范围内不断变化</li>
+<li>变量在同一个作用域内不能重名</li>
+<li>变量=变量名+值+数据类型</li>
+</ol>
+<h4 id="程序中-号使用"><a href="#程序中-号使用" class="headerlink" title="程序中 +号使用"></a>程序中 +号使用</h4><p>当左右两边都是数值型时，则做加法运算<br>当左右两边有一方为字符串，则做拼接运算<br>System.out.println(“100”+98);//10098<br>System.out.println(100+”98”);/10098</p>
+<h4 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h4><ul>
+<li>基本数据类型<ul>
+<li>数值型<ul>
+<li><a href="#Integer">整数类型(byte[1],short[2],int[4],long[8])</a></li>
+<li><a href="#Float">浮点类型(float[4],double[8])</a></li>
+</ul>
+</li>
+<li><a href="#Char">字符型</a><pre><code>char[2]
+</code></pre></li>
+<li><a href="#boolean">布尔型</a> <pre><code>boolean[1]
+</code></pre></li>
+</ul>
+</li>
+<li>引用数据类型<ul>
+<li>类(class)</li>
+<li>接口(interface)</li>
+<li>数组([])</li>
+</ul>
+</li>
+</ul>
+<h5 id="整数类型"><a href="#整数类型" class="headerlink" title="整数类型"></a><span id="Integer">整数类型</span></h5><ol>
+<li>Java各整数类型有固定的范围和字段长度，不受具体OS的影响，以保证java程序的可移植性</li>
+<li>Java的整型常量默认为int型，声明long型变量须后加“l”或“L”</li>
+<li>java程序中变量声明为int型，除非不足以表示大数，才使用long</li>
+<li>bit：计算机中的最小存储单位。byte：计算机中基本存储单元</li>
+</ol>
+<h5 id="浮点类型"><a href="#浮点类型" class="headerlink" title="浮点类型"></a><span id="Float">浮点类型</span></h5><ol>
+<li>与整数类型类似，Java浮点类型也有固定的范围和字段长度，不受具体OS的影响</li>
+<li>Java的浮点型常量默认为double型，声明float型常量，须后加“f”或“F”</li>
+<li>浮点型常量两种表示形式<ol>
+<li>十进制数形式：如5.12  512.0f .512</li>
+<li>科学计数法形式：5.12e2</li>
+</ol>
+</li>
+<li>通常情况下，应该使用double型，因为它比float型更精确</li>
+<li>浮点数使用陷阱：2.7 和 8.1/3 比较</li>
+</ol>
+<h5 id="字符类型"><a href="#字符类型" class="headerlink" title="字符类型"></a><span id="Char">字符类型</span></h5><ol>
+<li>字符常量是用单引号(‘’)括起来的单个字符</li>
+<li>Java中还允许使用转义字符’\’来将其后的字符转变为特殊字符型常量</li>
+<li>在java中，char的本质是一个整数，在输出时，是unicode码对应的字符</li>
+<li>可以直接给char赋一个整数，然后输出时，会按照对应的unicode字符输出</li>
+<li>char类型是可以进行运算的，相当于一个整数，因为它都对应有Unicode码</li>
+</ol>
+<h5 id="布尔类型"><a href="#布尔类型" class="headerlink" title="布尔类型"></a><span id="boolean">布尔类型</span></h5><ol>
+<li>布尔类型也叫boolean类型，boolean类型数据只允许取值true和false，无null</li>
+<li>boolean类型占1个字节</li>
+<li>boolean类型适用于逻辑运算，一般用于程序流程控制</li>
+</ol>
+<h4 id="自动类型转换"><a href="#自动类型转换" class="headerlink" title="自动类型转换"></a>自动类型转换</h4><p>当java程序在进行赋值或运算时，精度小的类型自动转换为精度大的数据类型，为自动类型转换</p>
+<h5 id="基本数据类型转换"><a href="#基本数据类型转换" class="headerlink" title="基本数据类型转换"></a>基本数据类型转换</h5><ol>
+<li>有多种类型的数据混合运算时，系统首先自动将所有数据转换成容量最大的那种数据类型，然后再进行计算</li>
+<li>当我们把精度大的数据类型赋值给精度小的数据类型时，就会报错，反之就会进行自动类型转换</li>
+<li>(byte,short)和char之间不会相互自动转换</li>
+<li>byte,short,char 他们三者可以计算，在计算时首先转换为int类型</li>
+<li>boolean不参与转换</li>
+<li>自动提示原则：表达式结果的类型自动提升为 操作数中最大的类型</li>
+</ol>
+<h5 id="强制类型转换"><a href="#强制类型转换" class="headerlink" title="强制类型转换"></a>强制类型转换</h5><ol>
+<li>当进行数据的大小从大—&gt;小，就需要使用强制转换</li>
+<li>强转符号只针对最近的操作数有效，往往会使用小括号提升优先级</li>
+<li>char类型可以保存int的常量值，但不能保存int的变量值，需要强转</li>
+<li>byte和short类型在进行运算时，当做int类型处理</li>
+</ol>
+<h3 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h3><h4 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h4><p>取模%的本质 a%b = a - a / b * b</p>
+<h4 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h4><h4 id="关系运算符"><a href="#关系运算符" class="headerlink" title="关系运算符"></a>关系运算符</h4><h4 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h4><p>&amp;&amp;与&amp;的区别(||与|类似)</p>
+<ol>
+<li>&amp;&amp;短路与：如果第一个条件为false，则第二个条件不会判断，最终结果为false</li>
+<li>&amp;逻辑与：不管第一个条是否为false，第二个条件都要判断</li>
+<li>开发中，基本使用&amp;&amp;</li>
+</ol>
+<h4 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h4><blockquote>
+<blockquote>
+<blockquote>
+<p>无符号右移  &gt;&gt; 算术右移 &lt;&lt; 算术左移</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<h4 id="三元运算符"><a href="#三元运算符" class="headerlink" title="三元运算符"></a>三元运算符</h4><p>基本语法：条件表达式?表达式1：表达式2</p>
+<p>表达式1和表达式2要为可以赋给接收变量的类型（或可以自动转换）</p>
+<h4 id="进制"><a href="#进制" class="headerlink" title="进制"></a>进制</h4><h5 id="n进制转10进制"><a href="#n进制转10进制" class="headerlink" title="n进制转10进制"></a>n进制转10进制</h5><p>规则：从最低位开始，将每个位上的数据提取出来，乘以n的(位数-1)次方，然后求和</p>
+<h5 id="10进制转n进制"><a href="#10进制转n进制" class="headerlink" title="10进制转n进制"></a>10进制转n进制</h5><p>规则：将该数不断除以n，直到商为0为止，然后将每步得到的余数倒过来，就是对应的n进制</p>
+<h5 id="2进制转n进制"><a href="#2进制转n进制" class="headerlink" title="2进制转n进制"></a>2进制转n进制</h5><p>规则：从低位开始，将二进制数$sqrt(n)$位一组，转成对应的n进制数即可</p>
+<h5 id="n进制转2进制"><a href="#n进制转2进制" class="headerlink" title="n进制转2进制"></a>n进制转2进制</h5><p>规则：将n进制数每一位，转成对应点一个$sqrt(n)$位二进制数即可</p>
+<h4 id="原码反码补码"><a href="#原码反码补码" class="headerlink" title="原码反码补码"></a>原码反码补码</h4><ol>
+<li>二进制的最高位是符号位：0表示正数，1表示负数</li>
+<li>正数的原码，反码，补码都一样</li>
+<li>负数的反码=它的原码符号位不变，其他位取反</li>
+<li>负数的补码=它的反码+1，负数的反码=负数的补码-1</li>
+<li>0的反码，补码都是0</li>
+<li>java没有无符号数，换言之，java中的数都是有符号的</li>
+<li>在计算机运算的时候，都是以补码的方式来运算的</li>
+<li>但我们看运算结果的时候，要看它的原码</li>
+</ol>
+<h3 id="控制结构"><a href="#控制结构" class="headerlink" title="控制结构"></a>控制结构</h3><h4 id="顺序结构"><a href="#顺序结构" class="headerlink" title="顺序结构"></a>顺序结构</h4><p>程序从上到下逐行地执行，中间没有任何判断和跳转</p>
+<h4 id="分支控制"><a href="#分支控制" class="headerlink" title="分支控制"></a>分支控制</h4><h5 id="if-else-分支结构"><a href="#if-else-分支结构" class="headerlink" title="if else 分支结构"></a>if else 分支结构</h5><h5 id="switch-分支结构"><a href="#switch-分支结构" class="headerlink" title="switch 分支结构"></a>switch 分支结构</h5><p>注意case穿透，当没有break时，会跳到下一个执行语句，一直下去</p>
+<ol>
+<li>表达式数据类型，应和case后的常量类型一致，或者是可以自动转成可以互相比较的类型，比如输入的是字符，而常量是int</li>
+<li>switch中表达式的返回值必须是：(byte,short,int,char,enum,String)</li>
+<li>case子句中的值必须是常量，而不能是变量</li>
+<li>default子句是可选的，当没有匹配的case时，执行default</li>
+<li>break语句用来在执行完一个case分支后使程序跳出switch语句块；如果没有写break，程序会顺序执行到switch结尾</li>
+</ol>
+<h4 id="循环控制"><a href="#循环控制" class="headerlink" title="循环控制"></a>循环控制</h4><h5 id="for循环控制"><a href="#for循环控制" class="headerlink" title="for循环控制"></a>for循环控制</h5><p>基本语法<br>for(循环变量初始化;循环条件;循环变量迭代){<br>  循环操作(可以多条语句);<br>}</p>
+<ol>
+<li>循环条件是返回一个布尔值的表达式</li>
+<li>for(;循环判断条件;)中的初始化和变量迭代可以写到其它地方，但是两边的分号不能省略</li>
+<li>循环初始值可以有多条初始化语句，但要求类型一样，并且中间用逗号隔开，循环变量迭代也可以由多条变量迭代语句，中间用逗号隔开</li>
+</ol>
+<h5 id="while循环控制"><a href="#while循环控制" class="headerlink" title="while循环控制"></a>while循环控制</h5><p>基本语法<br>while(循环条件){<br>  循环体(语句);<br>  循环变量迭代;<br>}</p>
+<h5 id="do-while循环控制"><a href="#do-while循环控制" class="headerlink" title="do-while循环控制"></a>do-while循环控制</h5><p>do{<br>  循环体(语句);<br>  循环变量迭代;<br>}while(循环条件)</p>
+<h5 id="break"><a href="#break" class="headerlink" title="break"></a>break</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">lable1:</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>;j &lt; <span class="number">4</span>;j++)&#123;</span><br><span class="line">  lable2:</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">10</span>;i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(i == <span class="number">2</span>)&#123;</span><br><span class="line">      <span class="keyword">break</span> lable1;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(<span class="string">&quot;i=&quot;</span>+i);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>break 语句可以指定退出哪层</li>
+<li>lable1是标签，由程序员指定</li>
+<li>break后指定到哪个lable就退出到哪里</li>
+<li>在实际的开发中，尽量不要使用标签</li>
+<li>如果没有指定break，默认退出最近的循环体</li>
+</ol>
+<h3 id="数组、排序和查找"><a href="#数组、排序和查找" class="headerlink" title="数组、排序和查找"></a>数组、排序和查找</h3><h4 id="动态初始化"><a href="#动态初始化" class="headerlink" title="动态初始化"></a>动态初始化</h4><h4 id="静态初始化"><a href="#静态初始化" class="headerlink" title="静态初始化"></a>静态初始化</h4><p>语法：数据类型 数组名[] = {元素值，元素值，，，}</p>
+<h4 id="数组使用注意事项和细节"><a href="#数组使用注意事项和细节" class="headerlink" title="数组使用注意事项和细节"></a>数组使用注意事项和细节</h4><ol>
+<li>数组是多个相同类型数据的组合，实现对这些数据的统一管理</li>
+<li>数组中的元素可以是任何数据类型，包括基本类型和引用类型，但是不能混用</li>
+<li>数组创建后，如果没有赋值，有默认值int 0,short 0,byte 0,long 0,float 0.0,double 0.0,char \u0000,boolean false,String null</li>
+<li>使用数组的步骤1.声明数组并开辟空间 2 给数组各个元素负债 3 使用数组</li>
+<li>数组的下标是从0开始</li>
+<li>数组下标必须是在指定范围内使用，否则报：下标越界异常</li>
+<li>数组属引用类型，数组型数据是对象</li>
+</ol>
+<h4 id="数组赋值机制"><a href="#数组赋值机制" class="headerlink" title="数组赋值机制"></a>数组赋值机制</h4><ol>
+<li>基本数据类型赋值，这个值就是具体的数据，而且相互不影响</li>
+<li>数组在默认情况下是引用传递，赋的值是地址</li>
+</ol>
+<h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><h5 id="内部排序"><a href="#内部排序" class="headerlink" title="内部排序"></a>内部排序</h5><p>指将需要处理的所有数据都加载到内部存储器中进行排序</p>
+<h5 id="外部排序"><a href="#外部排序" class="headerlink" title="外部排序"></a>外部排序</h5><p>数据量过大，无法全部加载到内存中，需要借助外部存储进行排序</p>
+<h4 id="二维数组"><a href="#二维数组" class="headerlink" title="二维数组"></a>二维数组</h4><h5 id="动态初始化-1"><a href="#动态初始化-1" class="headerlink" title="动态初始化"></a>动态初始化</h5><p>方式1 语法：类型[][] 数组名 = new 类型[大小][大小]</p>
+<p>方式2<br>先声明：类型 数组名[][]<br>再定义数组名 = new 类型 [大小][大小]<br>赋值</p>
+<h3 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h3><h4 id="类与对象"><a href="#类与对象" class="headerlink" title="类与对象"></a>类与对象</h4><p>Java内存的结构分析</p>
+<ol>
+<li>栈：一般存放基本数据类型（局部变量）</li>
+<li>堆：存放对象</li>
+<li>方法区：常量池，类加载信息</li>
+</ol>
+<p>形参列表</p>
+<ol>
+<li>一个方法可以有0个参数，也可以有多个参数，中间用逗号隔开</li>
+<li>参数类型可以为任意类型，包含基本类型或引用类型</li>
+<li>调用带参数的方法时，一定对应着参数列表传入相同类型或兼容类型的参数</li>
+<li>方法定义时的参数统称为形式参数，简称形参；方法调用时的传入参数称为实际参数，简称实参，实参和形参的类型要一致或兼容、个数、顺序必须一致</li>
+</ol>
+<p>方法调用细节</p>
+<ol>
+<li>同一个类中的方法调用：直接调用即可</li>
+<li>跨类中的方法A类调用B类方法：需要通过对象名调用</li>
+<li>跨类的方法调用和方法的访问修饰符相关</li>
+</ol>
+<h4 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h4><h5 id="递归重要规则"><a href="#递归重要规则" class="headerlink" title="递归重要规则"></a>递归重要规则</h5><ol>
+<li>执行一个方法时，就创建一个新的受保护的独立空间（栈空间）</li>
+<li>方法的局部变量是独立的，不会相互影响，比如n变量</li>
+<li>如果方法中使用的是引用类型变量，就会共享该引用类型的数据</li>
+<li>递归必须向退出递归的条件逼近，否则就是无限递归</li>
+<li>当一个方法执行完毕，或者遇到return，就会返回，遵守谁调用，就将结果返回给谁，同时当方法执行完毕或者返回时，该方法也就执行完毕</li>
+</ol>
+<h4 id="方法重载"><a href="#方法重载" class="headerlink" title="方法重载"></a>方法重载</h4><p>同一个类中，多个同名方法的存在，但要求形参列表不一致</p>
+<p>重载的好处</p>
+<ol>
+<li>减轻了起名的麻烦</li>
+<li>减轻了记名的麻烦</li>
+</ol>
+<p>注意事项</p>
+<ol>
+<li>方法名必须相同</li>
+<li>参数列表必须不同</li>
+<li>返回类型无要求</li>
+</ol>
+<h4 id="可变参数"><a href="#可变参数" class="headerlink" title="可变参数"></a>可变参数</h4><ol>
+<li>可变参数的实参可以为0个或任意多个</li>
+<li>可变参数的实参可以为数组</li>
+<li>可变参数的本质就是数组</li>
+<li>可变参数可以和普通类型的参数一起放在形参列表，但必须保证可变参数在最后</li>
+<li>一个形参列表中只能出现一个可变参数</li>
+</ol>
+<h4 id="构造器"><a href="#构造器" class="headerlink" title="构造器"></a>构造器</h4><p>构造方法又叫构造器，是类的一种特殊的方法，它的主要作用是完成对新对象的初始化</p>
+<h5 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h5><ol>
+<li>方法名和类名相同</li>
+<li>没有返回值</li>
+<li>在创建对象时，系统会自动的调用该类的构造器完成对对象的初始化</li>
+</ol>
+<h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><ol>
+<li>一个类可以定义多个不同的构造器，即构造器重载</li>
+<li>构造器名和类名要相同</li>
+<li>构造器没有返回值</li>
+<li>构造器是完成对象的初始化，并不是创建对象</li>
+<li>在创建对象时，系统自动的调用该类的构造方法</li>
+<li>如果程序员没有定义构造器，系统会自动给类生成一个默认无参构造方法</li>
+<li>一旦定义了自己的构造器，默认的构造器就覆盖了，就不能再使用默认的无参构造器，除非显式的定义一下</li>
+</ol>
+<h4 id="对象创建流程"><a href="#对象创建流程" class="headerlink" title="对象创建流程"></a>对象创建流程</h4><ol>
+<li>加载类信息，只会加载一次</li>
+<li>在堆中分配空间(地址)</li>
+<li>完成对象初始化（默认初始化，显式初始化，构造器初始化）</li>
+<li>对象在堆中的地址，返回给p(p是对象名,也可理解为对象的引用)</li>
+</ol>
+<h4 id="this关键字"><a href="#this关键字" class="headerlink" title="this关键字"></a>this关键字</h4><ol>
+<li>this关键字可以用来访问本类的属性、方法、构造器</li>
+<li>this用于区分当前类的属性和局部布局</li>
+<li>访问成员方法的语法：this.方法名</li>
+<li>访问构造器语法：this(参数列表)；只能在构造器中使用(即只能在构造器中访问另外一个构造器，必须放在第一条语句)</li>
+<li>this不能在类定义的外部使用，只能在类定义的方法中使用</li>
+</ol>
+<h4 id="包"><a href="#包" class="headerlink" title="包"></a>包</h4><p>三大作用</p>
+<ol>
+<li>区分相同名字的类</li>
+<li>当类很多时，可以很好的管理类</li>
+<li>控制访问范围</li>
+</ol>
+<p>命名规则：只能包含数字、字母、下划线、小圆点，不能用数字开头，不能是关键字或保留字</p>
+<p>命名规范：com.公司名.项目名.业务模块名</p>
+<h4 id="访问修饰符"><a href="#访问修饰符" class="headerlink" title="访问修饰符"></a>访问修饰符</h4><p>公开级别：用public修饰<br>受保护级别：用protected修饰，对子类和同一个包中的类公开<br>默认级别：没有修饰符号，向同一个包的类公开<br>私有级别：用private修饰，只有类本身可以访问，不对外公开<br><img src="/2021/10/02/Java%E5%AD%A6%E4%B9%A0/访问修饰符.png" alt="photo"></p>
+]]></content>
+      <tags>
+        <tag>编程</tag>
       </tags>
   </entry>
   <entry>
@@ -1053,6 +1304,44 @@
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">union</span> <span class="title">semun</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">semid_ds</span> *<span class="title">buf</span>;</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">short</span> *arry;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>一般用到的是val,表示要传给信号量的初始值。</p>
 <p>semct函数成功返回大于或等于0，失败返回-1</p>
+]]></content>
+      <tags>
+        <tag>Linux进程间通信</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux进程间通信——共享内存</title>
+    <url>/2020/10/29/Linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E2%80%94%E2%80%94%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/</url>
+    <content><![CDATA[<h2 id="Linux进程间通信——共享内存"><a href="#Linux进程间通信——共享内存" class="headerlink" title="Linux进程间通信——共享内存"></a>Linux进程间通信——共享内存</h2><h3 id="共享内存简介"><a href="#共享内存简介" class="headerlink" title="共享内存简介"></a>共享内存简介</h3><h4 id="什么是共享内存"><a href="#什么是共享内存" class="headerlink" title="什么是共享内存"></a>什么是共享内存</h4><p>共享内存就是允许两个不相关的进程访问同一个逻辑内存。共享内存是在两个正在运行的进程之间共享和传递数据的一种非常有效的方式。不同进程之间共享的内存通常安排为同一段物理内存。进程可以将同一段共享内存连接到它们自己的地址空间中，所有进程都可以访问共享内存中的地址，就好像它们是由用C语言函数malloc()分配的内存一样。而如果某个进程向共享内存写入数据，所做的改动将立即影响到可以访问同一段共享内存的任何其他进程。<br><span id="more"></span><br>特别提醒：共享内存并未提供同步机制，也就是说，在第一个进程结束对共享内存的写操作之前，并无自动机制可以阻止第二个进程开始对它进行读取。所以我们通常需要用其他的机制来同步对共享内存的访问，例如信号量。</p>
+<h3 id="共享内存使用"><a href="#共享内存使用" class="headerlink" title="共享内存使用"></a>共享内存使用</h3><p>使用共享内存进行进程通信时需要用到四个函数：shmget(),shmat(),shmdt(),shmctl()。这四个函数的使用需要声明sys/shm.h头文件</p>
+<h4 id="shmget函数"><a href="#shmget函数" class="headerlink" title="shmget函数"></a>shmget函数</h4><p>该函数用来创建共享内存，函数原型：</p>
+<blockquote>
+<p>int shmget(key_t key,size_t size,int shmflg);</p>
+</blockquote>
+<p>shmget()用来获得共享内存区域的ID（如果不存在该共享内存区域则创建一个新的共享内存区域）</p>
+<p>参数解释：<br><strong>key_t key：</strong> 共享内存标识符，两个不相关的进程之间我们可以自定义一个key来使用，若为父子进程的话，该标识符可为IPC_PRIVATE（需要在父子进程都可见的地方调用（即在创建子进程之前），否则不能实现内存的共享）。<br><strong>size：</strong> 以字节为单位指定需要共享的内存容量<br><strong>shmflg:</strong> 权限标志，它的作用与open函数的mode参数一样，如果要想在key标识的共享内存不存在时创建它的话，可以与IPC_CREAT做或操作。共享内存的权限标志与文件的读写权限一样，举例来说，0644,它表示允许一个进程创建的共享内存被内存创建者所拥有的进程向共享内存读取和写入数据，同时其他用户创建的进程只能读取共享内存。</p>
+<p>IPC_CREAT   如果共享内存不存在，则创建一个共享内存，否则打开操作。<br>IPC_EXCL    只有在共享内存不存在的时候，新的共享内存才建立，否则就产生错误。</p>
+<p>调用成功返回共享内存的标识符，失败返回-1</p>
+<h4 id="shmat函数"><a href="#shmat函数" class="headerlink" title="shmat函数"></a>shmat函数</h4><p>第一次创建完共享内存时，它还不能被任何进程访问，shmat函数的作用就是用来启动对该共享内存的访问，并把共享内存连接到当前进程的地址空间。它的原型如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">shmat</span><span class="params">(<span class="keyword">int</span> shm_id,<span class="keyword">const</span> <span class="keyword">void</span> *shm_addr,<span class="keyword">int</span> shmflg)</span></span>;</span><br></pre></td></tr></table></figure>
+<p><strong>shm_id:</strong> 共享内存标识。<br><strong>shm_addr:</strong> 指定共享内存连接到当前进程中的地址位置，通常为空，表示让系统来选择共享内存的地址。<br><strong>shm_flg:</strong> 一组标志位，通常为0。</p>
+<p>调用成功时返回一个指向共享内存第一个字节的指针，如果调用失败返回-1.</p>
+<h4 id="shmdt函数"><a href="#shmdt函数" class="headerlink" title="shmdt函数"></a>shmdt函数</h4><p>该函数用于将共享内存从当前进程中分离。注意，将共享内存分离并不是删除它，只是使该共享内存对当前进程不再可用。它的原型如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">shmctl</span><span class="params">(<span class="keyword">int</span> shm_id, <span class="keyword">int</span> command, struct shmid_ds *buf)</span></span>;</span><br></pre></td></tr></table></figure>
+<p><strong>shmaddr</strong> shmatt函数返回的地址指针</p>
+<p>调用成功时返回0，失败时返回-1.</p>
+<h4 id="shmctl函数"><a href="#shmctl函数" class="headerlink" title="shmctl函数"></a>shmctl函数</h4><p>与信号量的semctl函数一样，用来控制共享内存，它的原型如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">shmctl</span><span class="params">(<span class="keyword">int</span> shm_id, <span class="keyword">int</span> command, struct shmid_ds *buf)</span></span>;</span><br></pre></td></tr></table></figure>
+<p><strong>shm_id:</strong> shmget返回共享内存标识符<br><strong>command：</strong> 要采取的操作，可以取下面三个值：</p>
+<ul>
+<li>IPC_STAT：把shmid_ds结构中的数据设置为共享内存的当前关联值，即用共享内存的当前关联值覆盖shmid_ds的值。</li>
+<li>IPC_SET：如果进程有足够的权限，就把共享内存的当前关联值设置为shmid_ds结构中给出的值</li>
+<li>IPC_RMID：删除共享内存段</li>
+</ul>
+<p><strong>buf：</strong> 一个结构指针，指向共享内存模式和访问权限的结构<br>shmid_ds结构至少包括以下成员：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">shmid_ds</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">uid_t</span> shm_perm.uid;</span><br><span class="line">    <span class="keyword">uid_t</span> shm_perm.git;</span><br><span class="line">    <span class="keyword">mode_t</span> shm_perm.mode;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="使用共享内存的优缺点"><a href="#使用共享内存的优缺点" class="headerlink" title="使用共享内存的优缺点"></a>使用共享内存的优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><p>使用共享内存进行进程间的通信非常方便，而且函数的接口也简单，数据的共享还使进程间的数据不用传送，而是直接访问内存，也加快了程序的效率。同时，它也不像匿名管道那样要求通信的进程有一定的父子关系。</p>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><p>共享内存没有提供同步的机制，这使得我们在使用共享内存进行进程间通信时，往往要借助其他的手段来进行进程间的同步工作。</p>
 ]]></content>
       <tags>
         <tag>Linux进程间通信</tag>
@@ -1836,44 +2125,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>Linux进程间通信——共享内存</title>
-    <url>/2020/10/29/Linux%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E2%80%94%E2%80%94%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/</url>
-    <content><![CDATA[<h2 id="Linux进程间通信——共享内存"><a href="#Linux进程间通信——共享内存" class="headerlink" title="Linux进程间通信——共享内存"></a>Linux进程间通信——共享内存</h2><h3 id="共享内存简介"><a href="#共享内存简介" class="headerlink" title="共享内存简介"></a>共享内存简介</h3><h4 id="什么是共享内存"><a href="#什么是共享内存" class="headerlink" title="什么是共享内存"></a>什么是共享内存</h4><p>共享内存就是允许两个不相关的进程访问同一个逻辑内存。共享内存是在两个正在运行的进程之间共享和传递数据的一种非常有效的方式。不同进程之间共享的内存通常安排为同一段物理内存。进程可以将同一段共享内存连接到它们自己的地址空间中，所有进程都可以访问共享内存中的地址，就好像它们是由用C语言函数malloc()分配的内存一样。而如果某个进程向共享内存写入数据，所做的改动将立即影响到可以访问同一段共享内存的任何其他进程。<br><span id="more"></span><br>特别提醒：共享内存并未提供同步机制，也就是说，在第一个进程结束对共享内存的写操作之前，并无自动机制可以阻止第二个进程开始对它进行读取。所以我们通常需要用其他的机制来同步对共享内存的访问，例如信号量。</p>
-<h3 id="共享内存使用"><a href="#共享内存使用" class="headerlink" title="共享内存使用"></a>共享内存使用</h3><p>使用共享内存进行进程通信时需要用到四个函数：shmget(),shmat(),shmdt(),shmctl()。这四个函数的使用需要声明sys/shm.h头文件</p>
-<h4 id="shmget函数"><a href="#shmget函数" class="headerlink" title="shmget函数"></a>shmget函数</h4><p>该函数用来创建共享内存，函数原型：</p>
-<blockquote>
-<p>int shmget(key_t key,size_t size,int shmflg);</p>
-</blockquote>
-<p>shmget()用来获得共享内存区域的ID（如果不存在该共享内存区域则创建一个新的共享内存区域）</p>
-<p>参数解释：<br><strong>key_t key：</strong> 共享内存标识符，两个不相关的进程之间我们可以自定义一个key来使用，若为父子进程的话，该标识符可为IPC_PRIVATE（需要在父子进程都可见的地方调用（即在创建子进程之前），否则不能实现内存的共享）。<br><strong>size：</strong> 以字节为单位指定需要共享的内存容量<br><strong>shmflg:</strong> 权限标志，它的作用与open函数的mode参数一样，如果要想在key标识的共享内存不存在时创建它的话，可以与IPC_CREAT做或操作。共享内存的权限标志与文件的读写权限一样，举例来说，0644,它表示允许一个进程创建的共享内存被内存创建者所拥有的进程向共享内存读取和写入数据，同时其他用户创建的进程只能读取共享内存。</p>
-<p>IPC_CREAT   如果共享内存不存在，则创建一个共享内存，否则打开操作。<br>IPC_EXCL    只有在共享内存不存在的时候，新的共享内存才建立，否则就产生错误。</p>
-<p>调用成功返回共享内存的标识符，失败返回-1</p>
-<h4 id="shmat函数"><a href="#shmat函数" class="headerlink" title="shmat函数"></a>shmat函数</h4><p>第一次创建完共享内存时，它还不能被任何进程访问，shmat函数的作用就是用来启动对该共享内存的访问，并把共享内存连接到当前进程的地址空间。它的原型如下：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">shmat</span><span class="params">(<span class="keyword">int</span> shm_id,<span class="keyword">const</span> <span class="keyword">void</span> *shm_addr,<span class="keyword">int</span> shmflg)</span></span>;</span><br></pre></td></tr></table></figure>
-<p><strong>shm_id:</strong> 共享内存标识。<br><strong>shm_addr:</strong> 指定共享内存连接到当前进程中的地址位置，通常为空，表示让系统来选择共享内存的地址。<br><strong>shm_flg:</strong> 一组标志位，通常为0。</p>
-<p>调用成功时返回一个指向共享内存第一个字节的指针，如果调用失败返回-1.</p>
-<h4 id="shmdt函数"><a href="#shmdt函数" class="headerlink" title="shmdt函数"></a>shmdt函数</h4><p>该函数用于将共享内存从当前进程中分离。注意，将共享内存分离并不是删除它，只是使该共享内存对当前进程不再可用。它的原型如下：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">shmctl</span><span class="params">(<span class="keyword">int</span> shm_id, <span class="keyword">int</span> command, struct shmid_ds *buf)</span></span>;</span><br></pre></td></tr></table></figure>
-<p><strong>shmaddr</strong> shmatt函数返回的地址指针</p>
-<p>调用成功时返回0，失败时返回-1.</p>
-<h4 id="shmctl函数"><a href="#shmctl函数" class="headerlink" title="shmctl函数"></a>shmctl函数</h4><p>与信号量的semctl函数一样，用来控制共享内存，它的原型如下：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">shmctl</span><span class="params">(<span class="keyword">int</span> shm_id, <span class="keyword">int</span> command, struct shmid_ds *buf)</span></span>;</span><br></pre></td></tr></table></figure>
-<p><strong>shm_id:</strong> shmget返回共享内存标识符<br><strong>command：</strong> 要采取的操作，可以取下面三个值：</p>
-<ul>
-<li>IPC_STAT：把shmid_ds结构中的数据设置为共享内存的当前关联值，即用共享内存的当前关联值覆盖shmid_ds的值。</li>
-<li>IPC_SET：如果进程有足够的权限，就把共享内存的当前关联值设置为shmid_ds结构中给出的值</li>
-<li>IPC_RMID：删除共享内存段</li>
-</ul>
-<p><strong>buf：</strong> 一个结构指针，指向共享内存模式和访问权限的结构<br>shmid_ds结构至少包括以下成员：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">shmid_ds</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">uid_t</span> shm_perm.uid;</span><br><span class="line">    <span class="keyword">uid_t</span> shm_perm.git;</span><br><span class="line">    <span class="keyword">mode_t</span> shm_perm.mode;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="使用共享内存的优缺点"><a href="#使用共享内存的优缺点" class="headerlink" title="使用共享内存的优缺点"></a>使用共享内存的优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><p>使用共享内存进行进程间的通信非常方便，而且函数的接口也简单，数据的共享还使进程间的数据不用传送，而是直接访问内存，也加快了程序的效率。同时，它也不像匿名管道那样要求通信的进程有一定的父子关系。</p>
-<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><p>共享内存没有提供同步的机制，这使得我们在使用共享内存进行进程间通信时，往往要借助其他的手段来进行进程间的同步工作。</p>
-]]></content>
-      <tags>
-        <tag>Linux进程间通信</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>RSA算法</title>
     <url>/2020/04/17/RSA%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h2 id="算法简介"><a href="#算法简介" class="headerlink" title="算法简介"></a>算法简介</h2><p>1976年以前，所有的加密方法都是对称加密算法。这种算法加密和解密使用的是同一个密钥。这种模式密钥的传递很不安全。</p>
@@ -2047,6 +2298,36 @@
       </tags>
   </entry>
   <entry>
+    <title>Xshell和Xftp与虚拟机的连接</title>
+    <url>/2020/09/28/Xshell%E5%92%8CXftp%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E8%BF%9E%E6%8E%A5/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><h2 id="Xshell"><a href="#Xshell" class="headerlink" title="Xshell"></a>Xshell</h2><p>Xshell 是一个强大的安全终端模拟软件，它支持SSH1, SSH2, 以及Microsoft Windows 平台的TELNET 协议。Xshell 通过互联网到远程主机的安全连接以及它创新性的设计和特色帮助用户在复杂的网络环境中享受他们的工作。<br>Xshell可以在Windows界面下用来访问远端不同系统下的服务器，从而比较好的达到远程控制终端的目的。</p>
+<h2 id="xftp"><a href="#xftp" class="headerlink" title="xftp"></a>xftp</h2><p>Xftp是一个软件应用程序,可以帮助您通过网络传输文件。 尽管它是为工作在Windows系统上而设计的，用户还可以安全地传输文件到使用Unix /Linux系统的主机。 它还支持SFTP协议，因此所有通过该软件的网络流量都是加密的。</p>
+<span id="more"></span>
+<h1 id="安装和连接"><a href="#安装和连接" class="headerlink" title="安装和连接"></a>安装和连接</h1><p>Xshell和Xftp可以通过教育邮箱申请免费使用。</p>
+<h2 id="虚拟机安装ssh"><a href="#虚拟机安装ssh" class="headerlink" title="虚拟机安装ssh"></a>虚拟机安装ssh</h2><p>由于xshell远程连接ubuntu是通过ssh协议的，所以，需要给虚拟机安装ssh服务器</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ubuntu安装ssh</span><br><span class="line">sudo apt-get openssh-server （若没有ssh，首先要执行sudo apt-get install ssh）</span><br></pre></td></tr></table></figure>
+<p>Centos安装ssh</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install openssh-server -y(Centos 系统默认安装Openssh）</span><br></pre></td></tr></table></figure>
+<p>window安装ssh</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">打开设置-应用-应用和功能-管理可选功能-添加功能</span><br><span class="line">安装OpenSSH服务器和客户端</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/09/28/Xshell%E5%92%8CXftp%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E8%BF%9E%E6%8E%A5/Image.png" alt="图片"></p>
+<h2 id="启动SSH"><a href="#启动SSH" class="headerlink" title="启动SSH"></a>启动SSH</h2><h3 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h3><p>需要管理员模式进cmd</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">net start sshd</span><br><span class="line">OpenSSH SSH Server 服务正在启动 . OpenSSH SSH Server 服务已经启动成功。</span><br><span class="line"></span><br><span class="line">net stop sshd </span><br><span class="line">OpenSSH SSH Server 服务已成功停止。</span><br></pre></td></tr></table></figure>
+<h3 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">查看是否启动</span><br><span class="line">ps -e | grep ssh</span><br><span class="line">启动</span><br><span class="line">sudo systemctl start ssh</span><br><span class="line">关闭</span><br><span class="line">sudo systemctl stop ssh</span><br><span class="line">开机启动</span><br><span class="line">sudo systemctl enable/disable ssh</span><br></pre></td></tr></table></figure>
+<h3 id="Centos"><a href="#Centos" class="headerlink" title="Centos"></a>Centos</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ps -e | grep ssh</span><br><span class="line">启动</span><br><span class="line">sudo systemctl start ssh</span><br><span class="line">关闭</span><br><span class="line">sudo systemctl stop ssh</span><br><span class="line">开机启动</span><br><span class="line">sudo systemctl enable/disable ssh</span><br></pre></td></tr></table></figure>
+<h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><p><strong>虚拟机网络需要是nat模式</strong></p>
+<p><strong>需要主机和虚拟机可以相互ping通</strong>,可以的话继续。</p>
+<p>打开xshell或xftp，点击新建。<br>名称可以自己随意填，主机填上虚拟机ip地址。<br>然后确定。<br>连接，输入用户名和密码即可。</p>
+<h2 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h2><h3 id="Centos-1"><a href="#Centos-1" class="headerlink" title="Centos"></a>Centos</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">临时关闭</span><br><span class="line">systemctl stop firewalld.service</span><br><span class="line">永久关闭</span><br><span class="line">systemctl disable direwalld.service</span><br></pre></td></tr></table></figure>
+<h3 id="Ubuntu-1"><a href="#Ubuntu-1" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">查看状态</span><br><span class="line">sudo ufw status</span><br><span class="line">禁用</span><br><span class="line">sudo ufw disable</span><br><span class="line">启用</span><br><span class="line">sudo ufw enable</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Linux学习</category>
+      </categories>
+      <tags>
+        <tag>Linux学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Sublime Text3 配置pyhon环境</title>
     <url>/2020/03/13/Sublime-Text3-%E9%85%8D%E7%BD%AEpyhon%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<h3 id="Sublime-Text3-配置python环境详解。"><a href="#Sublime-Text3-配置python环境详解。" class="headerlink" title="Sublime Text3 配置python环境详解。"></a>Sublime Text3 配置python环境详解。</h3><span id="more"></span>
@@ -2082,36 +2363,6 @@
       </categories>
       <tags>
         <tag>软件安装</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Xshell和Xftp与虚拟机的连接</title>
-    <url>/2020/09/28/Xshell%E5%92%8CXftp%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E8%BF%9E%E6%8E%A5/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><h2 id="Xshell"><a href="#Xshell" class="headerlink" title="Xshell"></a>Xshell</h2><p>Xshell 是一个强大的安全终端模拟软件，它支持SSH1, SSH2, 以及Microsoft Windows 平台的TELNET 协议。Xshell 通过互联网到远程主机的安全连接以及它创新性的设计和特色帮助用户在复杂的网络环境中享受他们的工作。<br>Xshell可以在Windows界面下用来访问远端不同系统下的服务器，从而比较好的达到远程控制终端的目的。</p>
-<h2 id="xftp"><a href="#xftp" class="headerlink" title="xftp"></a>xftp</h2><p>Xftp是一个软件应用程序,可以帮助您通过网络传输文件。 尽管它是为工作在Windows系统上而设计的，用户还可以安全地传输文件到使用Unix /Linux系统的主机。 它还支持SFTP协议，因此所有通过该软件的网络流量都是加密的。</p>
-<span id="more"></span>
-<h1 id="安装和连接"><a href="#安装和连接" class="headerlink" title="安装和连接"></a>安装和连接</h1><p>Xshell和Xftp可以通过教育邮箱申请免费使用。</p>
-<h2 id="虚拟机安装ssh"><a href="#虚拟机安装ssh" class="headerlink" title="虚拟机安装ssh"></a>虚拟机安装ssh</h2><p>由于xshell远程连接ubuntu是通过ssh协议的，所以，需要给虚拟机安装ssh服务器</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ubuntu安装ssh</span><br><span class="line">sudo apt-get openssh-server （若没有ssh，首先要执行sudo apt-get install ssh）</span><br></pre></td></tr></table></figure>
-<p>Centos安装ssh</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install openssh-server -y(Centos 系统默认安装Openssh）</span><br></pre></td></tr></table></figure>
-<p>window安装ssh</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">打开设置-应用-应用和功能-管理可选功能-添加功能</span><br><span class="line">安装OpenSSH服务器和客户端</span><br></pre></td></tr></table></figure>
-<p><img src="/2020/09/28/Xshell%E5%92%8CXftp%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E8%BF%9E%E6%8E%A5/Image.png" alt="图片"></p>
-<h2 id="启动SSH"><a href="#启动SSH" class="headerlink" title="启动SSH"></a>启动SSH</h2><h3 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h3><p>需要管理员模式进cmd</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">net start sshd</span><br><span class="line">OpenSSH SSH Server 服务正在启动 . OpenSSH SSH Server 服务已经启动成功。</span><br><span class="line"></span><br><span class="line">net stop sshd </span><br><span class="line">OpenSSH SSH Server 服务已成功停止。</span><br></pre></td></tr></table></figure>
-<h3 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">查看是否启动</span><br><span class="line">ps -e | grep ssh</span><br><span class="line">启动</span><br><span class="line">sudo systemctl start ssh</span><br><span class="line">关闭</span><br><span class="line">sudo systemctl stop ssh</span><br><span class="line">开机启动</span><br><span class="line">sudo systemctl enable/disable ssh</span><br></pre></td></tr></table></figure>
-<h3 id="Centos"><a href="#Centos" class="headerlink" title="Centos"></a>Centos</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ps -e | grep ssh</span><br><span class="line">启动</span><br><span class="line">sudo systemctl start ssh</span><br><span class="line">关闭</span><br><span class="line">sudo systemctl stop ssh</span><br><span class="line">开机启动</span><br><span class="line">sudo systemctl enable/disable ssh</span><br></pre></td></tr></table></figure>
-<h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><p><strong>虚拟机网络需要是nat模式</strong></p>
-<p><strong>需要主机和虚拟机可以相互ping通</strong>,可以的话继续。</p>
-<p>打开xshell或xftp，点击新建。<br>名称可以自己随意填，主机填上虚拟机ip地址。<br>然后确定。<br>连接，输入用户名和密码即可。</p>
-<h2 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h2><h3 id="Centos-1"><a href="#Centos-1" class="headerlink" title="Centos"></a>Centos</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">临时关闭</span><br><span class="line">systemctl stop firewalld.service</span><br><span class="line">永久关闭</span><br><span class="line">systemctl disable direwalld.service</span><br></pre></td></tr></table></figure>
-<h3 id="Ubuntu-1"><a href="#Ubuntu-1" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">查看状态</span><br><span class="line">sudo ufw status</span><br><span class="line">禁用</span><br><span class="line">sudo ufw disable</span><br><span class="line">启用</span><br><span class="line">sudo ufw enable</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Linux学习</category>
-      </categories>
-      <tags>
-        <tag>Linux学习</tag>
       </tags>
   </entry>
   <entry>
@@ -2210,21 +2461,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>分解质因数</title>
-    <url>/2020/02/01/%E5%88%86%E8%A7%A3%E8%B4%A8%E5%9B%A0%E6%95%B0/</url>
-    <content><![CDATA[<h1 id="基础练习-分解质因数"><a href="#基础练习-分解质因数" class="headerlink" title="基础练习 分解质因数"></a>基础练习 分解质因数</h1><p><img src="/2020/02/01/%E5%88%86%E8%A7%A3%E8%B4%A8%E5%9B%A0%E6%95%B0/分解质因数图片.png" alt="图片"><br>这里用了两种方法，第一种是暴力解法，超时了，第二种递归，成功AC<br><span id="more"></span></p>
-<h2 id="第一种解法-暴力解法："><a href="#第一种解法-暴力解法：" class="headerlink" title="第一种解法 暴力解法："></a>第一种解法 暴力解法：</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#第一种 暴力解法 超时</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isPrime</span>(<span class="params">x</span>):</span> <span class="comment">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="built_in">int</span>(x ** (<span class="number">1</span>/<span class="number">2</span>))+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> x % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">str1 = <span class="built_in">input</span>() <span class="comment">#接收输入</span></span><br><span class="line">arr = str1.split(<span class="string">&#x27; &#x27;</span>) <span class="comment">#分割成数组</span></span><br><span class="line">a = <span class="built_in">int</span>(arr[<span class="number">0</span>]) <span class="comment">#取出开始值</span></span><br><span class="line">b = <span class="built_in">int</span>(arr[<span class="number">1</span>]) <span class="comment">#取出结束值</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(a,b+<span class="number">1</span>): <span class="comment">#循环输出每一次的结果</span></span><br><span class="line">    str1 = <span class="string">&#x27;&#x27;</span>.join([<span class="built_in">str</span>(i),<span class="string">&#x27;=&#x27;</span>]) <span class="comment">#先得出前面的</span></span><br><span class="line">    <span class="keyword">if</span> isPrime(i): <span class="comment">#是质数的话就是本身</span></span><br><span class="line">        str1 = <span class="string">&#x27;&#x27;</span>.join([str1,<span class="built_in">str</span>(i)])</span><br><span class="line">        <span class="built_in">print</span>(str1)</span><br><span class="line">    <span class="keyword">else</span>: <span class="comment">#不是质数</span></span><br><span class="line">        tmp = [] <span class="comment">#一个空列表</span></span><br><span class="line">        t = i</span><br><span class="line">        <span class="keyword">while</span> t != <span class="number">1</span>: <span class="comment">#经过一次一次除，最后除到1结束</span></span><br><span class="line">            j = <span class="number">2</span> <span class="comment">#最小的质数为2，从2开始</span></span><br><span class="line">            <span class="keyword">while</span> j &lt;= t: <span class="comment">#从2开始找最小能整除t的值</span></span><br><span class="line">                <span class="keyword">if</span> isPrime(j) <span class="keyword">and</span> t % j == <span class="number">0</span>:</span><br><span class="line">                    tmp.append(j)</span><br><span class="line">                    t /= j</span><br><span class="line">                    <span class="keyword">break</span> <span class="comment">#找到一个就结束，重新开始找</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    j += <span class="number">1</span> <span class="comment">#不符合要求加1</span></span><br><span class="line">            <span class="keyword">if</span> t == <span class="number">1</span>: <span class="comment">#当等于1时跳出循环</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="comment">#tmp = sorted(tmp) #因为是从小到大找的，不用排序也行</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(tmp)): <span class="comment">#然后按照列表开始输出</span></span><br><span class="line">            <span class="keyword">if</span> j == <span class="number">0</span>:</span><br><span class="line">                str1 = str1 + <span class="built_in">str</span>(tmp[j])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                str1 = str1 + <span class="string">&#x27;*&#x27;</span> + <span class="built_in">str</span>(tmp[j])</span><br><span class="line">        <span class="built_in">print</span>(str1)</span><br></pre></td></tr></table></figure>
-<h2 id="第二种解法-递归"><a href="#第二种解法-递归" class="headerlink" title="第二种解法 递归"></a>第二种解法 递归</h2><p>用乘积的方式进行计算，等于值时得到对应的质因数分解<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#第二种方法 递归</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isPrime</span>(<span class="params">num</span>):</span> <span class="comment">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,num):</span><br><span class="line">        <span class="keyword">if</span> num % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calcuate</span>(<span class="params">num,tmp</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="built_in">int</span>(num ** (<span class="number">1</span>/<span class="number">2</span>)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> num % i == <span class="number">0</span> <span class="keyword">and</span> isPrime(i):</span><br><span class="line">            tmp.append(i)</span><br><span class="line">            num = num // i</span><br><span class="line">            <span class="keyword">return</span> calcuate(num,tmp)</span><br><span class="line">    tmp.append(num)</span><br><span class="line">    str1 = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(tmp)): <span class="comment">#循环列表返回值</span></span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            str1 += <span class="built_in">str</span>(tmp[i])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            str1 += <span class="string">&#x27;*&#x27;</span> + <span class="built_in">str</span>(tmp[i])</span><br><span class="line">    <span class="keyword">return</span> str1    </span><br><span class="line">str1 = <span class="built_in">input</span>()</span><br><span class="line">arr = str1.split(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">a = <span class="built_in">int</span>(arr[<span class="number">0</span>])</span><br><span class="line">b = <span class="built_in">int</span>(arr[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(a,b+<span class="number">1</span>):</span><br><span class="line">    tmp = []</span><br><span class="line">    str1 = <span class="string">&#x27;&#x27;</span>.join([<span class="built_in">str</span>(i),<span class="string">&#x27;=&#x27;</span>])</span><br><span class="line">    str1 += calcuate(i,tmp)</span><br><span class="line">    <span class="built_in">print</span>(str1)</span><br></pre></td></tr></table></figure></p>
-<h1 id="算法提高-质因数"><a href="#算法提高-质因数" class="headerlink" title="算法提高 质因数"></a>算法提高 质因数</h1><p><img src="/2020/02/01/%E5%88%86%E8%A7%A3%E8%B4%A8%E5%9B%A0%E6%95%B0/质因数.png" alt="图片"><br>这个就是上个题的简写版，按照同样的递归方法即可<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isPrime</span>(<span class="params">num</span>):</span> <span class="comment">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="built_in">int</span>(num ** (<span class="number">1</span>/<span class="number">2</span>))+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> num % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calcuate</span>(<span class="params">num,tmp</span>):</span> <span class="comment">#进行递归求解</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="built_in">int</span>(num ** (<span class="number">1</span>/<span class="number">2</span>))+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> isPrime(i) <span class="keyword">and</span> num % i == <span class="number">0</span>:</span><br><span class="line">            tmp.append(i)</span><br><span class="line">            <span class="comment">#num = num // i</span></span><br><span class="line">            <span class="keyword">return</span> calcuate(num//i,tmp)</span><br><span class="line">    tmp.append(num)</span><br><span class="line">    str1 = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(tmp)):</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            str1 += <span class="built_in">str</span>(tmp[i])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            str1 += <span class="string">&#x27;*&#x27;</span> + <span class="built_in">str</span>(tmp[i])</span><br><span class="line">    <span class="keyword">return</span> str1</span><br><span class="line">a = <span class="built_in">eval</span>(<span class="built_in">input</span>())</span><br><span class="line">tmp = []</span><br><span class="line">str1 = <span class="built_in">str</span>(a) + <span class="string">&#x27;=&#x27;</span> + calcuate(a,tmp)</span><br><span class="line"><span class="built_in">print</span>(str1) <span class="comment">#打印值</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
-]]></content>
-      <categories>
-        <category>programming</category>
-      </categories>
-      <tags>
-        <tag>programming</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>主存与Cache间地址映射</title>
     <url>/2020/04/29/%E4%B8%BB%E5%AD%98%E4%B8%8ECache%E9%97%B4%E5%9C%B0%E5%9D%80%E6%98%A0%E5%B0%84/</url>
     <content><![CDATA[<p><strong>概念：</strong></p>
@@ -2312,6 +2548,21 @@
       </tags>
   </entry>
   <entry>
+    <title>分解质因数</title>
+    <url>/2020/02/01/%E5%88%86%E8%A7%A3%E8%B4%A8%E5%9B%A0%E6%95%B0/</url>
+    <content><![CDATA[<h1 id="基础练习-分解质因数"><a href="#基础练习-分解质因数" class="headerlink" title="基础练习 分解质因数"></a>基础练习 分解质因数</h1><p><img src="/2020/02/01/%E5%88%86%E8%A7%A3%E8%B4%A8%E5%9B%A0%E6%95%B0/分解质因数图片.png" alt="图片"><br>这里用了两种方法，第一种是暴力解法，超时了，第二种递归，成功AC<br><span id="more"></span></p>
+<h2 id="第一种解法-暴力解法："><a href="#第一种解法-暴力解法：" class="headerlink" title="第一种解法 暴力解法："></a>第一种解法 暴力解法：</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#第一种 暴力解法 超时</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isPrime</span>(<span class="params">x</span>):</span> <span class="comment">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="built_in">int</span>(x ** (<span class="number">1</span>/<span class="number">2</span>))+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> x % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">str1 = <span class="built_in">input</span>() <span class="comment">#接收输入</span></span><br><span class="line">arr = str1.split(<span class="string">&#x27; &#x27;</span>) <span class="comment">#分割成数组</span></span><br><span class="line">a = <span class="built_in">int</span>(arr[<span class="number">0</span>]) <span class="comment">#取出开始值</span></span><br><span class="line">b = <span class="built_in">int</span>(arr[<span class="number">1</span>]) <span class="comment">#取出结束值</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(a,b+<span class="number">1</span>): <span class="comment">#循环输出每一次的结果</span></span><br><span class="line">    str1 = <span class="string">&#x27;&#x27;</span>.join([<span class="built_in">str</span>(i),<span class="string">&#x27;=&#x27;</span>]) <span class="comment">#先得出前面的</span></span><br><span class="line">    <span class="keyword">if</span> isPrime(i): <span class="comment">#是质数的话就是本身</span></span><br><span class="line">        str1 = <span class="string">&#x27;&#x27;</span>.join([str1,<span class="built_in">str</span>(i)])</span><br><span class="line">        <span class="built_in">print</span>(str1)</span><br><span class="line">    <span class="keyword">else</span>: <span class="comment">#不是质数</span></span><br><span class="line">        tmp = [] <span class="comment">#一个空列表</span></span><br><span class="line">        t = i</span><br><span class="line">        <span class="keyword">while</span> t != <span class="number">1</span>: <span class="comment">#经过一次一次除，最后除到1结束</span></span><br><span class="line">            j = <span class="number">2</span> <span class="comment">#最小的质数为2，从2开始</span></span><br><span class="line">            <span class="keyword">while</span> j &lt;= t: <span class="comment">#从2开始找最小能整除t的值</span></span><br><span class="line">                <span class="keyword">if</span> isPrime(j) <span class="keyword">and</span> t % j == <span class="number">0</span>:</span><br><span class="line">                    tmp.append(j)</span><br><span class="line">                    t /= j</span><br><span class="line">                    <span class="keyword">break</span> <span class="comment">#找到一个就结束，重新开始找</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    j += <span class="number">1</span> <span class="comment">#不符合要求加1</span></span><br><span class="line">            <span class="keyword">if</span> t == <span class="number">1</span>: <span class="comment">#当等于1时跳出循环</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="comment">#tmp = sorted(tmp) #因为是从小到大找的，不用排序也行</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(tmp)): <span class="comment">#然后按照列表开始输出</span></span><br><span class="line">            <span class="keyword">if</span> j == <span class="number">0</span>:</span><br><span class="line">                str1 = str1 + <span class="built_in">str</span>(tmp[j])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                str1 = str1 + <span class="string">&#x27;*&#x27;</span> + <span class="built_in">str</span>(tmp[j])</span><br><span class="line">        <span class="built_in">print</span>(str1)</span><br></pre></td></tr></table></figure>
+<h2 id="第二种解法-递归"><a href="#第二种解法-递归" class="headerlink" title="第二种解法 递归"></a>第二种解法 递归</h2><p>用乘积的方式进行计算，等于值时得到对应的质因数分解<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#第二种方法 递归</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isPrime</span>(<span class="params">num</span>):</span> <span class="comment">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,num):</span><br><span class="line">        <span class="keyword">if</span> num % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calcuate</span>(<span class="params">num,tmp</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="built_in">int</span>(num ** (<span class="number">1</span>/<span class="number">2</span>)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> num % i == <span class="number">0</span> <span class="keyword">and</span> isPrime(i):</span><br><span class="line">            tmp.append(i)</span><br><span class="line">            num = num // i</span><br><span class="line">            <span class="keyword">return</span> calcuate(num,tmp)</span><br><span class="line">    tmp.append(num)</span><br><span class="line">    str1 = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(tmp)): <span class="comment">#循环列表返回值</span></span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            str1 += <span class="built_in">str</span>(tmp[i])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            str1 += <span class="string">&#x27;*&#x27;</span> + <span class="built_in">str</span>(tmp[i])</span><br><span class="line">    <span class="keyword">return</span> str1    </span><br><span class="line">str1 = <span class="built_in">input</span>()</span><br><span class="line">arr = str1.split(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">a = <span class="built_in">int</span>(arr[<span class="number">0</span>])</span><br><span class="line">b = <span class="built_in">int</span>(arr[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(a,b+<span class="number">1</span>):</span><br><span class="line">    tmp = []</span><br><span class="line">    str1 = <span class="string">&#x27;&#x27;</span>.join([<span class="built_in">str</span>(i),<span class="string">&#x27;=&#x27;</span>])</span><br><span class="line">    str1 += calcuate(i,tmp)</span><br><span class="line">    <span class="built_in">print</span>(str1)</span><br></pre></td></tr></table></figure></p>
+<h1 id="算法提高-质因数"><a href="#算法提高-质因数" class="headerlink" title="算法提高 质因数"></a>算法提高 质因数</h1><p><img src="/2020/02/01/%E5%88%86%E8%A7%A3%E8%B4%A8%E5%9B%A0%E6%95%B0/质因数.png" alt="图片"><br>这个就是上个题的简写版，按照同样的递归方法即可<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isPrime</span>(<span class="params">num</span>):</span> <span class="comment">#判断是否为质数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="built_in">int</span>(num ** (<span class="number">1</span>/<span class="number">2</span>))+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> num % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calcuate</span>(<span class="params">num,tmp</span>):</span> <span class="comment">#进行递归求解</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="built_in">int</span>(num ** (<span class="number">1</span>/<span class="number">2</span>))+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> isPrime(i) <span class="keyword">and</span> num % i == <span class="number">0</span>:</span><br><span class="line">            tmp.append(i)</span><br><span class="line">            <span class="comment">#num = num // i</span></span><br><span class="line">            <span class="keyword">return</span> calcuate(num//i,tmp)</span><br><span class="line">    tmp.append(num)</span><br><span class="line">    str1 = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(tmp)):</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            str1 += <span class="built_in">str</span>(tmp[i])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            str1 += <span class="string">&#x27;*&#x27;</span> + <span class="built_in">str</span>(tmp[i])</span><br><span class="line">    <span class="keyword">return</span> str1</span><br><span class="line">a = <span class="built_in">eval</span>(<span class="built_in">input</span>())</span><br><span class="line">tmp = []</span><br><span class="line">str1 = <span class="built_in">str</span>(a) + <span class="string">&#x27;=&#x27;</span> + calcuate(a,tmp)</span><br><span class="line"><span class="built_in">print</span>(str1) <span class="comment">#打印值</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>programming</category>
+      </categories>
+      <tags>
+        <tag>programming</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>博客域名解析使用</title>
     <url>/2020/04/21/%E5%8D%9A%E5%AE%A2%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p>通过Hexo搭建博客有一段时间了，在家闲着没啥事，想着先弄个域名玩一玩，也为以后搭建动态网站先奠定一个基础。<br><span id="more"></span></p>
@@ -2363,116 +2614,6 @@
 ]]></content>
       <tags>
         <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>攻防世界Web WP</title>
-    <url>/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/</url>
-    <content><![CDATA[<h2 id="攻防世界WebWp"><a href="#攻防世界WebWp" class="headerlink" title="攻防世界WebWp"></a>攻防世界WebWp</h2><p>本文为攻防世界web区的writeup。<br><span id="more"></span></p>
-<p><a href="https://adworld.xctf.org.cn/">题目地址</a></p>
-<h3 id="view-source"><a href="#view-source" class="headerlink" title="view-source"></a>view-source</h3><p>打开直接右键得到flag。</p>
-<h3 id="robots"><a href="#robots" class="headerlink" title="robots"></a>robots</h3><p>robots是一个爬虫协议，规定了访客可以访问哪些文件，以.txt文本显示。在地址栏后添加robots.txt进入robots页面。<br>显示flag_ls_h3re.php，然后访问，得到flag。</p>
-<h3 id="backup"><a href="#backup" class="headerlink" title="backup"></a>backup</h3><p>.bak为电脑自动设置的备份文件。<br>直接地址添加/index.php.bak可得备份文件，打开可得flag。</p>
-<h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3><p>这道题两种做法<br>第一种：<br>直接f12，打开network，<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/01.png" alt="f3738a25ab605fb8b8784491c5d5d040.png"><br>然后在地址栏加入cookie.php<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/02.png" alt="06588c1507fd173426276b57b1bc78c6.png"><br>得到flag<br>第二种：bp<br>抓包<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/03.png" alt="47324d9ace2eb7d38401ec00e3d4712b.png"><br>然后在地址栏加入cookie.php，再次抓包<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/04.png" alt="58b7bd929b82db184ea5de4a06f57aa2.png"><br>也可得到flag。</p>
-<h3 id="disabled-button"><a href="#disabled-button" class="headerlink" title="disabled_button"></a>disabled_button</h3><p>打开后有个不能按的按钮，f12，发现属性为disabled<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/05.png" alt="fe780a899cc3c93e902cd2152b5affcc.png"><br>把这个删掉，刷新，得到flag。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/06.png" alt="a6f9938bcbbeea57a26079e2c846572f.png"></p>
-<h3 id="weak-auth"><a href="#weak-auth" class="headerlink" title="weak_auth"></a>weak_auth</h3><p>进去是这个页面，是爆破没错了。<br>先随便输入一下，弹窗提示为admin登录，那么用户名应该为admin了。接着就是弱口令，直接bp。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/07.png" alt="fc49e7907a0c4e73ea41c09d35a41fb0.png"><br>抓包，送到Intruder，payload选择passwords<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/08.png" alt="7747c15f7d116759e4663af4910c97f4.png"><br>开始爆破。<br>然后找到长度不一样的即为密码。<br>然后登录即可找到flag。</p>
-<h3 id="simple-php"><a href="#simple-php" class="headerlink" title="simple_php"></a>simple_php</h3><p>构造地址如下：<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/09.png" alt="ef06b27efbeaeceb70a6d0a74f699a78.png"><br>php是弱类型，所以’0’==0成立，b能是数字，可以构造b为数组b[]=5678，或者在b后加字母，比较时默认只比较数字部分。</p>
-<h3 id="get-post"><a href="#get-post" class="headerlink" title="get_post"></a>get_post</h3><p>这个就是简单的get，post了。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/10.png" alt="1186692dbbbcd5c3bb80c810b428c343.png"></p>
-<h3 id="xff-referer"><a href="#xff-referer" class="headerlink" title="xff_referer"></a>xff_referer</h3><p>提示ip地址为123.123.123.123<br>该题掌握X-Forwarded-For和Referer的知识：<br>简称XFF，代表客户端，是HTTP的请求端真实的IP。<br>Referer是header的一部分，当浏览器向web服务器发送请求的时候，一般会带上Referer，告诉服务器我是从哪个页面链接过来的，服务器基此可以获得一些信息用于处理。referer 是http的拓展头部，作用是记录当前请求页面的来源页面的地址。服务器使用referer确认访问来源，如果referer内容不符合要求，服务器可以拦截或者重定向请求。<br>用bp抓包修改<br>右键送到Repeater，添加X-Forwarded-For:123.123.123.123，go，显示如下页面<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/11.png" alt="d0eab203ed63605eade4469542c943dc.png"><br>还要构造referer。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/12.png" alt="5a7243e1dbb8e1ec66250fa2b5be76c3.png"><br>得出flag。</p>
-<h3 id="webshell"><a href="#webshell" class="headerlink" title="webshell"></a>webshell</h3><p>这道题就是菜刀的基本使用。<br>打开菜刀输入url，<img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/13.png" alt="f9713fc76cf46bad206a7058fe79d3e5.png"><br>打开flag.txt得到flag。</p>
-<h3 id="command-execution"><a href="#command-execution" class="headerlink" title="command_execution"></a>command_execution</h3><p>这是命令执行漏洞，也就是用户通过浏览器在远程服务器上执行任意系统命令，这是第一次接触。参考了网上的wp。<br>先试一下本机127.0.0.1，有回显。<img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/14.png" alt="5552db0ea1c328d3cd82b16311af227b.png"><br>这个是可以添加连接符的，比如&amp;&amp;||等，这里试一下输入127.0.0.1&amp;&amp;dir<br>dir就是显示目录内容。<img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/15.png" alt="25da5b930a0600f6a16b047bd5ae061a.png"><br>回显有index.php<br>然后试试输入flag关键词</p>
-<blockquote>
-<p>127.0.0.1 &amp;&amp; find / -name “flag.*”</p>
-</blockquote>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/16.png" alt="26fb9ef994a699ca100e4f2ba704627d.png"></p>
-<p>找到位置，然后开始输入</p>
-<blockquote>
-<p>127.0.0.1 &amp;&amp; cat /home/flag.txt</p>
-</blockquote>
-<p>得到flag。</p>
-<h3 id="simple-js"><a href="#simple-js" class="headerlink" title="simple_js"></a>simple_js</h3><p>查看源代码，是js代码。整理一下。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/17.png" alt="4be7a3fec6b950d9c10e7bb8c5ad816d.png"><br>代码功能是把一串用逗号分隔的数字按ascii转成字符串，然后输出。</p>
-<p>代码有很多没有用的变量，需要进行修改。<br>代码中有这样的ascii串，</p>
-<blockquote>
-<p>\x35\x35\x2c\x35\x36\x2c\x35\x34\x2c\x37\x39\x2c\x31\x31\x35\x2c\x36\x39\x2c\x31\x31\x34\x2c\x31\x31\x36\x2c\x31\x30\x37\x2c\x34\x39\x2c\x35\x30</p>
-</blockquote>
-<p>转码后为55,56,54,79,115,69,114,116,107,49,50<br>再通过ascii转换<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/18.png" alt="281beda85aabf6c406af0984f3958bfb.png"><br>连起来就是flag。</p>
-<h3 id="baby-web"><a href="#baby-web" class="headerlink" title="baby_web"></a>baby_web</h3><p>提示说初始页面，想到index.html,不行又试了试index.php，到network里边响应头找到flag。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/19.png" alt="bf357a9dcbe4bc5f3b6c6ce1ebe5889f.png"></p>
-<h3 id="Training-WWW-Robots"><a href="#Training-WWW-Robots" class="headerlink" title="Training-WWW-Robots"></a>Training-WWW-Robots</h3><p>提示robots，先看看robots文件，<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/20.png" alt="4a00ff9dcd6407567359d55d029b173a.png"><br>有个fl0g.php，打开看看。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/21.png" alt="dafa7304aed10e61657aba39dc534c5a.png"><br>得到flag。</p>
-<h3 id="php-rce"><a href="#php-rce" class="headerlink" title="php_rce"></a>php_rce</h3><p>打开试了半天，不知道是干哈的，没办法，搜一下吧。是thinkphp5 rce漏洞，这个以前没有见过。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/22.png" alt="6c7f65ceff78de22ac1b3536a1421eec.png"><br><a href="https://blog.csdn.net/qq_40884727/article/details/101452478">ThinkPHP5.x rec漏洞分析与复现</a><br>先看一下thinkphp的版本号，然后对症下药。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/23.png" alt="71744c42f55e1c06d4fc2725917d0ca7.png"><br>然后去百度查找该版本poc。<br>查找flag，构造payload</p>
-<blockquote>
-<p><a href="http://111.198.29.45:53630/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=find%20/%20-name%20%22flag%22">http://111.198.29.45:53630/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=find%20/%20-name%20%22flag%22</a></p>
-</blockquote>
-<p>然后查看flag</p>
-<blockquote>
-<p><a href="http://111.198.29.45:53630/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=find%20/%20-name%20%22flag%22">http://111.198.29.45:53630/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=find%20/%20-name%20%22flag%22</a></p>
-</blockquote>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/24.png" alt="0bd59f138ff2510526a68df393e9c74d.png"></p>
-<h3 id="Web-php-include"><a href="#Web-php-include" class="headerlink" title="Web_php_include"></a>Web_php_include</h3><p>php函数</p>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/25.png" alt="623abf7bde3354bcbec59c622035b03a.png"></p>
-<p>可知程序过滤掉了page=参数传入php://</p>
-<p><strong>第一种方法（大小写绕过）：</strong></p>
-<blockquote>
-<p>strstr() 搜索字符串在另一字符串的第一次出现（区分大小写）。</p>
-<p>str_replace() 以其他字符替换字符串中的一些字符（区分大小写）。</p>
-</blockquote>
-<p>根据strstr的区分大小写，构造</p>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/26.png" alt="5c39025de563306dd04b59f4b2590ed7.png"><br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/27.png" alt="85848961451ec6ac1dfb4bc5b0d32246.png"></p>
-<p>然后查看flag</p>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/28.png" alt="8f1f7571cd26368cbe3ef524ac709ce7.png"></p>
-<p><strong>第二种（data://伪协议执行命令利用）</strong></p>
-<p>该题过滤了php://伪协议，可以使用其他协议，使用data://伪协议<br><em>data://伪协议</em><br>php5.2.0起，数据流封装器开始有效，主要用于数据流的读取。如果传入的数据是php代码，就会执行代码。<br>使用方法：</p>
-<blockquote>
-<p>data://text/plain;base64,xxxx(base64编码后的数据)</p>
-</blockquote>
-<p>&lt;?php system(“dir”)?&gt; base64编码后使用</p>
-<blockquote>
-<p><a href="http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgc3lzdGVtKCJkaXIiKT8%2b">http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgc3lzdGVtKCJkaXIiKT8%2b</a></p>
-</blockquote>
-<p>注意编码后+号要用url编码<br>&lt;?php system(“cat fl4gisisish3r3.php”)?&gt; base64编码后使用</p>
-<blockquote>
-<p><a href="http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgc3lzdGVtKCJjYXQgZmw0Z2lzaXNpc2gzcjMucGhwIik/Pg==">http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgc3lzdGVtKCJjYXQgZmw0Z2lzaXNpc2gzcjMucGhwIik/Pg==</a></p>
-</blockquote>
-<p>查看源代码可得到flag。</p>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/29.png" alt="bf9fad42f730d52e509a19a34852fd96.png"></p>
-<p><strong>第三种方法(data://伪协议传木马）</strong></p>
-<p>&lt;?php eval($_POST[xiaohua]); ?&gt; base64加密后拼接</p>
-<blockquote>
-<p><a href="http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgZXZhbCgkX1BPU1RbeGlhb2h1YV0pOyA/Pg==">http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgZXZhbCgkX1BPU1RbeGlhb2h1YV0pOyA/Pg==</a></p>
-</blockquote>
-<p>菜刀连接（这个我连接时没有出现flag，可能不可行）</p>
-<h3 id="ics-06"><a href="#ics-06" class="headerlink" title="ics-06"></a>ics-06</h3><p>打开是一个网址，点一遍后，发现只有报表中心跳转，进入了一个新页面。</p>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/30.png" alt="e67caa63d8e5e1491213a85b291cafd8.png"></p>
-<p>注意那个id，这个是爆破，打开bp，然后选择数字，先从1到10000跑跑试试。</p>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/31.png" alt="4c130f95e90194ed830347cc9c0a8559.png"></p>
-<p>然后得出2333。将id改为2333，得出flag。</p>
-<h3 id="warmup"><a href="#warmup" class="headerlink" title="warmup"></a>warmup</h3><p>f12提示source.php,打开<img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/32.png" alt="ee16fb77a84e65023ab55faa42f75dda.png"><br>还有个hint.php</p>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/33.png" alt="97468ca3d7f89f97cf74091854e0aba3.png"></p>
-<p>知道应该在这个ffffllllaaaagggg<br>接下来就是找这个文件了<br><strong>代码审计</strong><br>checkfile()函数</p>
-<ol>
-<li>定义了一个白名单：source.php和hint.php，判断$page是否为空、是否为字符串。</li>
-<li>判断$page是否在白名单里，若存在返回true；</li>
-<li>考虑到page有参数的情况，$_page是取出$page问号前的东西，然后再判断$_page是否在白名单里，若存在则返回true；</li>
-<li>如果上一步判断失败，则又考虑了url编码的问题，因为url在传入以后服务器会自动进行一次解码。因此传入二次编码后的内容，就可以使checkfile返回true。</li>
-</ol>
-<p>接下来就是一个一个试了</p>
-<blockquote>
-<p>mb_substr ( string $str , int $start [, int $length = NULL [, string $encoding = mb_internal_encoding() ]] ) : string</p>
-</blockquote>
-<p>根据字符数执行一个多字节安全的 substr() 操作。 位置是从 str 的开始位置进行计数。 第一个字符的位置是 0。第二个字符的位置是 1，以此类推。</p>
-<blockquote>
-<p>mb_strpos ( string $haystack , string $needle [, int $offset = 0 [, string $encoding = mb_internal_encoding() ]] ) : int</p>
-</blockquote>
-<p>查找 string 在一个 string 中首次出现的位置。<br>第三个if语句中，先进行url解码再截取，因此我们可以将?经过两次url编码，在服务器端提取参数时解码一次，checkFile函数中解码一次，仍会解码为’?’，仍可通过第四个if语句校验。（’?’两次编码值为’%253f’）,构造url：<br>最终在这样构造url得到：</p>
-<blockquote>
-<p><a href="http://111.198.29.45:34231/source.php?file=source.php%253f../../../../../ffffllllaaaagggg">http://111.198.29.45:34231/source.php?file=source.php%253f../../../../../ffffllllaaaagggg</a></p>
-</blockquote>
-<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/34.png" alt="8e9e5cfa2a8b6ed1f577273f92ae4eda.png"></p>
-]]></content>
-      <categories>
-        <category>ctf</category>
-      </categories>
-      <tags>
-        <tag>ctf</tag>
       </tags>
   </entry>
   <entry>
@@ -2590,6 +2731,116 @@
       </tags>
   </entry>
   <entry>
+    <title>攻防世界Web WP</title>
+    <url>/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/</url>
+    <content><![CDATA[<h2 id="攻防世界WebWp"><a href="#攻防世界WebWp" class="headerlink" title="攻防世界WebWp"></a>攻防世界WebWp</h2><p>本文为攻防世界web区的writeup。<br><span id="more"></span></p>
+<p><a href="https://adworld.xctf.org.cn/">题目地址</a></p>
+<h3 id="view-source"><a href="#view-source" class="headerlink" title="view-source"></a>view-source</h3><p>打开直接右键得到flag。</p>
+<h3 id="robots"><a href="#robots" class="headerlink" title="robots"></a>robots</h3><p>robots是一个爬虫协议，规定了访客可以访问哪些文件，以.txt文本显示。在地址栏后添加robots.txt进入robots页面。<br>显示flag_ls_h3re.php，然后访问，得到flag。</p>
+<h3 id="backup"><a href="#backup" class="headerlink" title="backup"></a>backup</h3><p>.bak为电脑自动设置的备份文件。<br>直接地址添加/index.php.bak可得备份文件，打开可得flag。</p>
+<h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3><p>这道题两种做法<br>第一种：<br>直接f12，打开network，<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/01.png" alt="f3738a25ab605fb8b8784491c5d5d040.png"><br>然后在地址栏加入cookie.php<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/02.png" alt="06588c1507fd173426276b57b1bc78c6.png"><br>得到flag<br>第二种：bp<br>抓包<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/03.png" alt="47324d9ace2eb7d38401ec00e3d4712b.png"><br>然后在地址栏加入cookie.php，再次抓包<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/04.png" alt="58b7bd929b82db184ea5de4a06f57aa2.png"><br>也可得到flag。</p>
+<h3 id="disabled-button"><a href="#disabled-button" class="headerlink" title="disabled_button"></a>disabled_button</h3><p>打开后有个不能按的按钮，f12，发现属性为disabled<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/05.png" alt="fe780a899cc3c93e902cd2152b5affcc.png"><br>把这个删掉，刷新，得到flag。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/06.png" alt="a6f9938bcbbeea57a26079e2c846572f.png"></p>
+<h3 id="weak-auth"><a href="#weak-auth" class="headerlink" title="weak_auth"></a>weak_auth</h3><p>进去是这个页面，是爆破没错了。<br>先随便输入一下，弹窗提示为admin登录，那么用户名应该为admin了。接着就是弱口令，直接bp。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/07.png" alt="fc49e7907a0c4e73ea41c09d35a41fb0.png"><br>抓包，送到Intruder，payload选择passwords<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/08.png" alt="7747c15f7d116759e4663af4910c97f4.png"><br>开始爆破。<br>然后找到长度不一样的即为密码。<br>然后登录即可找到flag。</p>
+<h3 id="simple-php"><a href="#simple-php" class="headerlink" title="simple_php"></a>simple_php</h3><p>构造地址如下：<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/09.png" alt="ef06b27efbeaeceb70a6d0a74f699a78.png"><br>php是弱类型，所以’0’==0成立，b能是数字，可以构造b为数组b[]=5678，或者在b后加字母，比较时默认只比较数字部分。</p>
+<h3 id="get-post"><a href="#get-post" class="headerlink" title="get_post"></a>get_post</h3><p>这个就是简单的get，post了。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/10.png" alt="1186692dbbbcd5c3bb80c810b428c343.png"></p>
+<h3 id="xff-referer"><a href="#xff-referer" class="headerlink" title="xff_referer"></a>xff_referer</h3><p>提示ip地址为123.123.123.123<br>该题掌握X-Forwarded-For和Referer的知识：<br>简称XFF，代表客户端，是HTTP的请求端真实的IP。<br>Referer是header的一部分，当浏览器向web服务器发送请求的时候，一般会带上Referer，告诉服务器我是从哪个页面链接过来的，服务器基此可以获得一些信息用于处理。referer 是http的拓展头部，作用是记录当前请求页面的来源页面的地址。服务器使用referer确认访问来源，如果referer内容不符合要求，服务器可以拦截或者重定向请求。<br>用bp抓包修改<br>右键送到Repeater，添加X-Forwarded-For:123.123.123.123，go，显示如下页面<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/11.png" alt="d0eab203ed63605eade4469542c943dc.png"><br>还要构造referer。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/12.png" alt="5a7243e1dbb8e1ec66250fa2b5be76c3.png"><br>得出flag。</p>
+<h3 id="webshell"><a href="#webshell" class="headerlink" title="webshell"></a>webshell</h3><p>这道题就是菜刀的基本使用。<br>打开菜刀输入url，<img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/13.png" alt="f9713fc76cf46bad206a7058fe79d3e5.png"><br>打开flag.txt得到flag。</p>
+<h3 id="command-execution"><a href="#command-execution" class="headerlink" title="command_execution"></a>command_execution</h3><p>这是命令执行漏洞，也就是用户通过浏览器在远程服务器上执行任意系统命令，这是第一次接触。参考了网上的wp。<br>先试一下本机127.0.0.1，有回显。<img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/14.png" alt="5552db0ea1c328d3cd82b16311af227b.png"><br>这个是可以添加连接符的，比如&amp;&amp;||等，这里试一下输入127.0.0.1&amp;&amp;dir<br>dir就是显示目录内容。<img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/15.png" alt="25da5b930a0600f6a16b047bd5ae061a.png"><br>回显有index.php<br>然后试试输入flag关键词</p>
+<blockquote>
+<p>127.0.0.1 &amp;&amp; find / -name “flag.*”</p>
+</blockquote>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/16.png" alt="26fb9ef994a699ca100e4f2ba704627d.png"></p>
+<p>找到位置，然后开始输入</p>
+<blockquote>
+<p>127.0.0.1 &amp;&amp; cat /home/flag.txt</p>
+</blockquote>
+<p>得到flag。</p>
+<h3 id="simple-js"><a href="#simple-js" class="headerlink" title="simple_js"></a>simple_js</h3><p>查看源代码，是js代码。整理一下。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/17.png" alt="4be7a3fec6b950d9c10e7bb8c5ad816d.png"><br>代码功能是把一串用逗号分隔的数字按ascii转成字符串，然后输出。</p>
+<p>代码有很多没有用的变量，需要进行修改。<br>代码中有这样的ascii串，</p>
+<blockquote>
+<p>\x35\x35\x2c\x35\x36\x2c\x35\x34\x2c\x37\x39\x2c\x31\x31\x35\x2c\x36\x39\x2c\x31\x31\x34\x2c\x31\x31\x36\x2c\x31\x30\x37\x2c\x34\x39\x2c\x35\x30</p>
+</blockquote>
+<p>转码后为55,56,54,79,115,69,114,116,107,49,50<br>再通过ascii转换<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/18.png" alt="281beda85aabf6c406af0984f3958bfb.png"><br>连起来就是flag。</p>
+<h3 id="baby-web"><a href="#baby-web" class="headerlink" title="baby_web"></a>baby_web</h3><p>提示说初始页面，想到index.html,不行又试了试index.php，到network里边响应头找到flag。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/19.png" alt="bf357a9dcbe4bc5f3b6c6ce1ebe5889f.png"></p>
+<h3 id="Training-WWW-Robots"><a href="#Training-WWW-Robots" class="headerlink" title="Training-WWW-Robots"></a>Training-WWW-Robots</h3><p>提示robots，先看看robots文件，<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/20.png" alt="4a00ff9dcd6407567359d55d029b173a.png"><br>有个fl0g.php，打开看看。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/21.png" alt="dafa7304aed10e61657aba39dc534c5a.png"><br>得到flag。</p>
+<h3 id="php-rce"><a href="#php-rce" class="headerlink" title="php_rce"></a>php_rce</h3><p>打开试了半天，不知道是干哈的，没办法，搜一下吧。是thinkphp5 rce漏洞，这个以前没有见过。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/22.png" alt="6c7f65ceff78de22ac1b3536a1421eec.png"><br><a href="https://blog.csdn.net/qq_40884727/article/details/101452478">ThinkPHP5.x rec漏洞分析与复现</a><br>先看一下thinkphp的版本号，然后对症下药。<br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/23.png" alt="71744c42f55e1c06d4fc2725917d0ca7.png"><br>然后去百度查找该版本poc。<br>查找flag，构造payload</p>
+<blockquote>
+<p><a href="http://111.198.29.45:53630/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=find%20/%20-name%20%22flag%22">http://111.198.29.45:53630/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=find%20/%20-name%20%22flag%22</a></p>
+</blockquote>
+<p>然后查看flag</p>
+<blockquote>
+<p><a href="http://111.198.29.45:53630/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=find%20/%20-name%20%22flag%22">http://111.198.29.45:53630/index.php?s=index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=find%20/%20-name%20%22flag%22</a></p>
+</blockquote>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/24.png" alt="0bd59f138ff2510526a68df393e9c74d.png"></p>
+<h3 id="Web-php-include"><a href="#Web-php-include" class="headerlink" title="Web_php_include"></a>Web_php_include</h3><p>php函数</p>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/25.png" alt="623abf7bde3354bcbec59c622035b03a.png"></p>
+<p>可知程序过滤掉了page=参数传入php://</p>
+<p><strong>第一种方法（大小写绕过）：</strong></p>
+<blockquote>
+<p>strstr() 搜索字符串在另一字符串的第一次出现（区分大小写）。</p>
+<p>str_replace() 以其他字符替换字符串中的一些字符（区分大小写）。</p>
+</blockquote>
+<p>根据strstr的区分大小写，构造</p>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/26.png" alt="5c39025de563306dd04b59f4b2590ed7.png"><br><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/27.png" alt="85848961451ec6ac1dfb4bc5b0d32246.png"></p>
+<p>然后查看flag</p>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/28.png" alt="8f1f7571cd26368cbe3ef524ac709ce7.png"></p>
+<p><strong>第二种（data://伪协议执行命令利用）</strong></p>
+<p>该题过滤了php://伪协议，可以使用其他协议，使用data://伪协议<br><em>data://伪协议</em><br>php5.2.0起，数据流封装器开始有效，主要用于数据流的读取。如果传入的数据是php代码，就会执行代码。<br>使用方法：</p>
+<blockquote>
+<p>data://text/plain;base64,xxxx(base64编码后的数据)</p>
+</blockquote>
+<p>&lt;?php system(“dir”)?&gt; base64编码后使用</p>
+<blockquote>
+<p><a href="http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgc3lzdGVtKCJkaXIiKT8%2b">http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgc3lzdGVtKCJkaXIiKT8%2b</a></p>
+</blockquote>
+<p>注意编码后+号要用url编码<br>&lt;?php system(“cat fl4gisisish3r3.php”)?&gt; base64编码后使用</p>
+<blockquote>
+<p><a href="http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgc3lzdGVtKCJjYXQgZmw0Z2lzaXNpc2gzcjMucGhwIik/Pg==">http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgc3lzdGVtKCJjYXQgZmw0Z2lzaXNpc2gzcjMucGhwIik/Pg==</a></p>
+</blockquote>
+<p>查看源代码可得到flag。</p>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/29.png" alt="bf9fad42f730d52e509a19a34852fd96.png"></p>
+<p><strong>第三种方法(data://伪协议传木马）</strong></p>
+<p>&lt;?php eval($_POST[xiaohua]); ?&gt; base64加密后拼接</p>
+<blockquote>
+<p><a href="http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgZXZhbCgkX1BPU1RbeGlhb2h1YV0pOyA/Pg==">http://111.198.29.45:32386/?page=data://text/plain/;base64,PD9waHAgZXZhbCgkX1BPU1RbeGlhb2h1YV0pOyA/Pg==</a></p>
+</blockquote>
+<p>菜刀连接（这个我连接时没有出现flag，可能不可行）</p>
+<h3 id="ics-06"><a href="#ics-06" class="headerlink" title="ics-06"></a>ics-06</h3><p>打开是一个网址，点一遍后，发现只有报表中心跳转，进入了一个新页面。</p>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/30.png" alt="e67caa63d8e5e1491213a85b291cafd8.png"></p>
+<p>注意那个id，这个是爆破，打开bp，然后选择数字，先从1到10000跑跑试试。</p>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/31.png" alt="4c130f95e90194ed830347cc9c0a8559.png"></p>
+<p>然后得出2333。将id改为2333，得出flag。</p>
+<h3 id="warmup"><a href="#warmup" class="headerlink" title="warmup"></a>warmup</h3><p>f12提示source.php,打开<img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/32.png" alt="ee16fb77a84e65023ab55faa42f75dda.png"><br>还有个hint.php</p>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/33.png" alt="97468ca3d7f89f97cf74091854e0aba3.png"></p>
+<p>知道应该在这个ffffllllaaaagggg<br>接下来就是找这个文件了<br><strong>代码审计</strong><br>checkfile()函数</p>
+<ol>
+<li>定义了一个白名单：source.php和hint.php，判断$page是否为空、是否为字符串。</li>
+<li>判断$page是否在白名单里，若存在返回true；</li>
+<li>考虑到page有参数的情况，$_page是取出$page问号前的东西，然后再判断$_page是否在白名单里，若存在则返回true；</li>
+<li>如果上一步判断失败，则又考虑了url编码的问题，因为url在传入以后服务器会自动进行一次解码。因此传入二次编码后的内容，就可以使checkfile返回true。</li>
+</ol>
+<p>接下来就是一个一个试了</p>
+<blockquote>
+<p>mb_substr ( string $str , int $start [, int $length = NULL [, string $encoding = mb_internal_encoding() ]] ) : string</p>
+</blockquote>
+<p>根据字符数执行一个多字节安全的 substr() 操作。 位置是从 str 的开始位置进行计数。 第一个字符的位置是 0。第二个字符的位置是 1，以此类推。</p>
+<blockquote>
+<p>mb_strpos ( string $haystack , string $needle [, int $offset = 0 [, string $encoding = mb_internal_encoding() ]] ) : int</p>
+</blockquote>
+<p>查找 string 在一个 string 中首次出现的位置。<br>第三个if语句中，先进行url解码再截取，因此我们可以将?经过两次url编码，在服务器端提取参数时解码一次，checkFile函数中解码一次，仍会解码为’?’，仍可通过第四个if语句校验。（’?’两次编码值为’%253f’）,构造url：<br>最终在这样构造url得到：</p>
+<blockquote>
+<p><a href="http://111.198.29.45:34231/source.php?file=source.php%253f../../../../../ffffllllaaaagggg">http://111.198.29.45:34231/source.php?file=source.php%253f../../../../../ffffllllaaaagggg</a></p>
+</blockquote>
+<p><img src="/2020/03/27/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8CWeb-WP/34.png" alt="8e9e5cfa2a8b6ed1f577273f92ae4eda.png"></p>
+]]></content>
+      <categories>
+        <category>ctf</category>
+      </categories>
+      <tags>
+        <tag>ctf</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>求最大公约数</title>
     <url>/2020/10/01/%E6%B1%82%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/</url>
     <content><![CDATA[<h2 id="编程时经常需要求两个数的最大公约数，本文进行一个简单的整理"><a href="#编程时经常需要求两个数的最大公约数，本文进行一个简单的整理" class="headerlink" title="编程时经常需要求两个数的最大公约数，本文进行一个简单的整理"></a>编程时经常需要求两个数的最大公约数，本文进行一个简单的整理</h2><span id="more"></span>
@@ -2656,52 +2907,6 @@
       </categories>
       <tags>
         <tag>programming</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>线性代数-二次型</title>
-    <url>/2021/05/20/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E4%BA%8C%E6%AC%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h2 id="二次型的概念及其标准形"><a href="#二次型的概念及其标准形" class="headerlink" title="二次型的概念及其标准形"></a>二次型的概念及其标准形</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="二次型的标准形"><a href="#二次型的标准形" class="headerlink" title="二次型的标准形"></a>二次型的标准形</h4><p>二次型只含平方项，即$f(x_1,x_2,\dotsb,x_n)=d_1x_1^2+d_2x_2^2+\dotsb+d_nx_n^2$，称为二次型的标准形</p>
-<h4 id="二次型的标准化"><a href="#二次型的标准化" class="headerlink" title="二次型的标准化"></a>二次型的标准化</h4><p>二次型可通过坐标变换$x=Cy$(C可逆)化为标准型<br>$x^TAx\xlongequal{x=Cy}(Cy)^T(Cy)=y^TC^TACy=y^T\Lambda y=d_1y_1^2+d_2y_2^2+\dotsb+d_ny_n^2$，其中$\Lambda=C^TAC$<br>由于A是实对称矩阵，故存在正交变换$x=Qy$(Q为正交矩阵)将$x^TAx$标准化，即$x^TAx\xlongequal{x=Qy}y^TQ^TAQy=y^TQ^{-1}AQy=y^T\Lambda y=\lambda_1y_1^2+\lambda_2y_2^2+\dotsb+\lambda_ny_n^2$，其中$\Lambda=Q^TAQ=Q^{-1}AQ,\lambda_1,\lambda_2,\dotsb,\lambda_n$为A的特征值</p>
-<p>(1) 由于二次型的矩阵是实对称矩阵，且唯一，故二次型与实对称矩阵A一一对应<br>(2) 标准型的矩阵是对角矩阵<br>(3) 二次型化为标准形实质上就是将矩阵A化为对角矩阵，由于A是实对称矩阵，故一定可以用正交矩阵将其化为对角矩阵，即二次型总可以利用正交变换化为标准形</p>
-<h4 id="惯性指数"><a href="#惯性指数" class="headerlink" title="惯性指数"></a>惯性指数</h4><p>在标准形中，正平方项的个数称为正惯性指数，记为p；负平方项的个数称为负惯性指数，记为q。</p>
-<h4 id="惯性定理"><a href="#惯性定理" class="headerlink" title="惯性定理"></a>惯性定理</h4><p>二次型经过可逆坐标变换后，正、负惯性指数保持不变，且$p+q=r(f)=r(A)$</p>
-<h4 id="二次型的规范形"><a href="#二次型的规范形" class="headerlink" title="二次型的规范形"></a>二次型的规范形</h4><p>若n元二次型$x^TAx$经过坐标交换$x=Cy$化为标准形<br>$x^TAx\xlongequal{Cy}d_1y_1^2+\dotsb+d_py_p^2-d_{p+1}y_{p+1}^2-\dotsb-d_{p+q}y_{p+q}^2$，其中$d_i&gt;0(i=1,2,\dotsb,p+q)$。再用坐标变换</p>
-<script type="math/tex; mode=display">\begin{cases}
-    y_1=\frac{1}{\sqrt{d_1}}z_1,\\
-    y_2=\frac{1}{\sqrt{d_2}}z_2,\\
-    \dotsb\dotsb \\
-    y_{p+q}=\frac{1}{\sqrt{d_{p+q}}}z_{p+q},\\
-    y_{p+q+1}=z_{p+q+1},\\
-    \dotsb\dotsb\\
-    y_n=z_n
-\end{cases}</script><p>则二次型化为$z_1^2+\dotsb+z_p^2-z_{p+1}^2-\dotsb-z_{p+q}^2$，称为规范形，二次型的规范形是唯一的，但标准形不唯一（与坐标变换有关）</p>
-<h4 id="矩阵合同"><a href="#矩阵合同" class="headerlink" title="矩阵合同"></a>矩阵合同</h4><p>若A,B为n阶实对称矩阵，存在可逆矩阵C，使得$C^TAC=B$，则称A与B合同。<br>若A,B为n阶实对称矩阵，则A与B合同$\Leftrightarrow p_A=p_n,q_A=q_n$<br><img src="/2021/05/20/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E4%BA%8C%E6%AC%A1%E5%9E%8B/矩阵合同.png" alt="photo"></p>
-<h4 id="坐标变换"><a href="#坐标变换" class="headerlink" title="坐标变换"></a>坐标变换</h4><p>形如$\begin{cases}<br>    x_1=c_{11}y_1+c_{12}y_2+c_{13}y_3,\\<br>    x_2=c_{21}y_1+c_{22}y_2+c_{23}y_3,\\<br>    x_3=c_{31}y_1+c_{32}y_2+c_{33}y_3<br>\end{cases}$，称为坐标变换，记作x=Cy，其中$C=(c_{ij})_{3\times3}$，且C可逆，$x=(x_1,x_2,x_3)^T,y=(y_1,y_2,y_3)^T$</p>
-<h3 id="二次型化为标准形的方法"><a href="#二次型化为标准形的方法" class="headerlink" title="二次型化为标准形的方法"></a>二次型化为标准形的方法</h3><h4 id="正交变换"><a href="#正交变换" class="headerlink" title="正交变换"></a>正交变换</h4><ol>
-<li>求A的特征值，即由$|\lambda E-A|=0$，得$\lambda_1,\lambda_2,\dotsb,\lambda_n$</li>
-<li>求A的特征向量，即由$(\lambda_iE-A)x=0(i=1,2,\dotsb,n)$，得$\alpha_1,\alpha_2,\dotsb,\alpha_n$</li>
-<li>对$\alpha_1,\alpha_2,\dotsb,\alpha_n$进行施密特正交化、单位化，的$\eta_1,\eta_2,\dotsb,\eta_n$(正交化只针对重特征值对应的特征向量)</li>
-<li>令$Q=(\eta_1,\eta_2,\dotsb,\eta_n)$，则x=Qy为正交变换</li>
-<li>写出标准形$\lambda_1y_1^2+\lambda_2y_2^2+\dotsb+\lambda_ny_n^2$</li>
-</ol>
-<h4 id="配方法"><a href="#配方法" class="headerlink" title="配方法"></a>配方法</h4><p><img src="/2021/05/20/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E4%BA%8C%E6%AC%A1%E5%9E%8B/配方法.png" alt="photo"></p>
-<h2 id="正定二次型与正定矩阵"><a href="#正定二次型与正定矩阵" class="headerlink" title="正定二次型与正定矩阵"></a>正定二次型与正定矩阵</h2><h3 id="正定二次型的概念"><a href="#正定二次型的概念" class="headerlink" title="正定二次型的概念"></a>正定二次型的概念</h3><p>设二次型$f(x_1,x_2,\dotsb,x_n)=x^TAx$(A为对称矩阵)，若对任意$x\ne0$，都有$x^TAx&gt;0$，则称二次型正定，称A为正定矩阵</p>
-<h3 id="正定二次型的判别"><a href="#正定二次型的判别" class="headerlink" title="正定二次型的判别"></a>正定二次型的判别</h3><ol>
-<li>二次型$x^TAx$正定$\Leftrightarrow$A的特征值全大于0</li>
-<li>二次型$x^TAx$正定$\Leftrightarrow$A的顺序主子式全大于0</li>
-<li>设A为实对称矩阵，则A正定$\Leftrightarrow$A合同与单位矩阵E</li>
-<li>设A为实对称矩阵，则A正定$\Leftrightarrow$正惯性指数$p=n=r(A)$</li>
-<li>设A为实对称矩阵，则A正定$\Leftrightarrow$存在可逆矩阵P，使得$A=P^TP$</li>
-<li>二次型$x^TAx$正定的必要条件是$a_{ii}&gt;0(i=1,2,\dotsb,n)$</li>
-</ol>
-<p><img src="/2021/05/20/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E4%BA%8C%E6%AC%A1%E5%9E%8B/正定判别.png" alt="photo"></p>
-]]></content>
-      <categories>
-        <category>数学</category>
-      </categories>
-      <tags>
-        <tag>线性代数</tag>
       </tags>
   </entry>
   <entry>
@@ -2781,6 +2986,315 @@ c_{31} &c_{32} &c_{33}
 <h4 id="施密特正交化"><a href="#施密特正交化" class="headerlink" title="施密特正交化"></a>施密特正交化</h4><p><strong>施密特正交化方法</strong><br>设向量组$\alpha_1,\alpha_2,\alpha_3$线性无关，其标准正交化的方法如下<br>先正交化，取</p>
 <script type="math/tex; mode=display">\beta_1=\alpha_1\\\beta_2=\alpha_2-\frac{(\alpha_2,\beta_1)}{(\beta_1,\beta_1)}\beta_1\\\beta_3=\alpha_3-\frac{(\alpha_3,\beta_1)}{(\beta_1,\beta_1)}\beta_1-\frac{(\alpha_3,\beta_2)}{(\beta_2,\beta_2)}\beta_2</script><p>则$\beta_1,\beta_2,\beta_3$是正交向量组。<br>再将$\beta_1,\beta_2,\beta_3$单位化，取</p>
 <script type="math/tex; mode=display">\eta_1=\frac{\beta_1}{\lvert\beta_1\rvert},\eta_2=\frac{\beta_2}{\lvert\beta_2\rvert},\eta_3=\frac{\beta_3}{\lvert\beta_3\rvert}</script><p>则$\eta_1,\eta_2,\eta_3$是标准正交向量组，即有$(\eta_i,\eta_j)=\begin{cases}<br>    0,i\ne j\\<br>    1,,i=j<br>\end{cases}$</p>
+]]></content>
+      <categories>
+        <category>数学</category>
+      </categories>
+      <tags>
+        <tag>线性代数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>线性代数-二次型</title>
+    <url>/2021/05/20/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E4%BA%8C%E6%AC%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h2 id="二次型的概念及其标准形"><a href="#二次型的概念及其标准形" class="headerlink" title="二次型的概念及其标准形"></a>二次型的概念及其标准形</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="二次型的标准形"><a href="#二次型的标准形" class="headerlink" title="二次型的标准形"></a>二次型的标准形</h4><p>二次型只含平方项，即$f(x_1,x_2,\dotsb,x_n)=d_1x_1^2+d_2x_2^2+\dotsb+d_nx_n^2$，称为二次型的标准形</p>
+<h4 id="二次型的标准化"><a href="#二次型的标准化" class="headerlink" title="二次型的标准化"></a>二次型的标准化</h4><p>二次型可通过坐标变换$x=Cy$(C可逆)化为标准型<br>$x^TAx\xlongequal{x=Cy}(Cy)^T(Cy)=y^TC^TACy=y^T\Lambda y=d_1y_1^2+d_2y_2^2+\dotsb+d_ny_n^2$，其中$\Lambda=C^TAC$<br>由于A是实对称矩阵，故存在正交变换$x=Qy$(Q为正交矩阵)将$x^TAx$标准化，即$x^TAx\xlongequal{x=Qy}y^TQ^TAQy=y^TQ^{-1}AQy=y^T\Lambda y=\lambda_1y_1^2+\lambda_2y_2^2+\dotsb+\lambda_ny_n^2$，其中$\Lambda=Q^TAQ=Q^{-1}AQ,\lambda_1,\lambda_2,\dotsb,\lambda_n$为A的特征值</p>
+<p>(1) 由于二次型的矩阵是实对称矩阵，且唯一，故二次型与实对称矩阵A一一对应<br>(2) 标准型的矩阵是对角矩阵<br>(3) 二次型化为标准形实质上就是将矩阵A化为对角矩阵，由于A是实对称矩阵，故一定可以用正交矩阵将其化为对角矩阵，即二次型总可以利用正交变换化为标准形</p>
+<h4 id="惯性指数"><a href="#惯性指数" class="headerlink" title="惯性指数"></a>惯性指数</h4><p>在标准形中，正平方项的个数称为正惯性指数，记为p；负平方项的个数称为负惯性指数，记为q。</p>
+<h4 id="惯性定理"><a href="#惯性定理" class="headerlink" title="惯性定理"></a>惯性定理</h4><p>二次型经过可逆坐标变换后，正、负惯性指数保持不变，且$p+q=r(f)=r(A)$</p>
+<h4 id="二次型的规范形"><a href="#二次型的规范形" class="headerlink" title="二次型的规范形"></a>二次型的规范形</h4><p>若n元二次型$x^TAx$经过坐标交换$x=Cy$化为标准形<br>$x^TAx\xlongequal{Cy}d_1y_1^2+\dotsb+d_py_p^2-d_{p+1}y_{p+1}^2-\dotsb-d_{p+q}y_{p+q}^2$，其中$d_i&gt;0(i=1,2,\dotsb,p+q)$。再用坐标变换</p>
+<script type="math/tex; mode=display">\begin{cases}
+    y_1=\frac{1}{\sqrt{d_1}}z_1,\\
+    y_2=\frac{1}{\sqrt{d_2}}z_2,\\
+    \dotsb\dotsb \\
+    y_{p+q}=\frac{1}{\sqrt{d_{p+q}}}z_{p+q},\\
+    y_{p+q+1}=z_{p+q+1},\\
+    \dotsb\dotsb\\
+    y_n=z_n
+\end{cases}</script><p>则二次型化为$z_1^2+\dotsb+z_p^2-z_{p+1}^2-\dotsb-z_{p+q}^2$，称为规范形，二次型的规范形是唯一的，但标准形不唯一（与坐标变换有关）</p>
+<h4 id="矩阵合同"><a href="#矩阵合同" class="headerlink" title="矩阵合同"></a>矩阵合同</h4><p>若A,B为n阶实对称矩阵，存在可逆矩阵C，使得$C^TAC=B$，则称A与B合同。<br>若A,B为n阶实对称矩阵，则A与B合同$\Leftrightarrow p_A=p_n,q_A=q_n$<br><img src="/2021/05/20/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E4%BA%8C%E6%AC%A1%E5%9E%8B/矩阵合同.png" alt="photo"></p>
+<h4 id="坐标变换"><a href="#坐标变换" class="headerlink" title="坐标变换"></a>坐标变换</h4><p>形如$\begin{cases}<br>    x_1=c_{11}y_1+c_{12}y_2+c_{13}y_3,\\<br>    x_2=c_{21}y_1+c_{22}y_2+c_{23}y_3,\\<br>    x_3=c_{31}y_1+c_{32}y_2+c_{33}y_3<br>\end{cases}$，称为坐标变换，记作x=Cy，其中$C=(c_{ij})_{3\times3}$，且C可逆，$x=(x_1,x_2,x_3)^T,y=(y_1,y_2,y_3)^T$</p>
+<h3 id="二次型化为标准形的方法"><a href="#二次型化为标准形的方法" class="headerlink" title="二次型化为标准形的方法"></a>二次型化为标准形的方法</h3><h4 id="正交变换"><a href="#正交变换" class="headerlink" title="正交变换"></a>正交变换</h4><ol>
+<li>求A的特征值，即由$|\lambda E-A|=0$，得$\lambda_1,\lambda_2,\dotsb,\lambda_n$</li>
+<li>求A的特征向量，即由$(\lambda_iE-A)x=0(i=1,2,\dotsb,n)$，得$\alpha_1,\alpha_2,\dotsb,\alpha_n$</li>
+<li>对$\alpha_1,\alpha_2,\dotsb,\alpha_n$进行施密特正交化、单位化，的$\eta_1,\eta_2,\dotsb,\eta_n$(正交化只针对重特征值对应的特征向量)</li>
+<li>令$Q=(\eta_1,\eta_2,\dotsb,\eta_n)$，则x=Qy为正交变换</li>
+<li>写出标准形$\lambda_1y_1^2+\lambda_2y_2^2+\dotsb+\lambda_ny_n^2$</li>
+</ol>
+<h4 id="配方法"><a href="#配方法" class="headerlink" title="配方法"></a>配方法</h4><p><img src="/2021/05/20/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E4%BA%8C%E6%AC%A1%E5%9E%8B/配方法.png" alt="photo"></p>
+<h2 id="正定二次型与正定矩阵"><a href="#正定二次型与正定矩阵" class="headerlink" title="正定二次型与正定矩阵"></a>正定二次型与正定矩阵</h2><h3 id="正定二次型的概念"><a href="#正定二次型的概念" class="headerlink" title="正定二次型的概念"></a>正定二次型的概念</h3><p>设二次型$f(x_1,x_2,\dotsb,x_n)=x^TAx$(A为对称矩阵)，若对任意$x\ne0$，都有$x^TAx&gt;0$，则称二次型正定，称A为正定矩阵</p>
+<h3 id="正定二次型的判别"><a href="#正定二次型的判别" class="headerlink" title="正定二次型的判别"></a>正定二次型的判别</h3><ol>
+<li>二次型$x^TAx$正定$\Leftrightarrow$A的特征值全大于0</li>
+<li>二次型$x^TAx$正定$\Leftrightarrow$A的顺序主子式全大于0</li>
+<li>设A为实对称矩阵，则A正定$\Leftrightarrow$A合同与单位矩阵E</li>
+<li>设A为实对称矩阵，则A正定$\Leftrightarrow$正惯性指数$p=n=r(A)$</li>
+<li>设A为实对称矩阵，则A正定$\Leftrightarrow$存在可逆矩阵P，使得$A=P^TP$</li>
+<li>二次型$x^TAx$正定的必要条件是$a_{ii}&gt;0(i=1,2,\dotsb,n)$</li>
+</ol>
+<p><img src="/2021/05/20/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E4%BA%8C%E6%AC%A1%E5%9E%8B/正定判别.png" alt="photo"></p>
+]]></content>
+      <categories>
+        <category>数学</category>
+      </categories>
+      <tags>
+        <tag>线性代数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>线性代数-矩阵的特征值和特征向量</title>
+    <url>/2021/05/06/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%9F%A9%E9%98%B5%E7%9A%84%E7%89%B9%E5%BE%81%E5%80%BC%E5%92%8C%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F/</url>
+    <content><![CDATA[<h2 id="特征值与特征向量"><a href="#特征值与特征向量" class="headerlink" title="特征值与特征向量"></a>特征值与特征向量</h2><h3 id="特征值与特征向量的理论背景"><a href="#特征值与特征向量的理论背景" class="headerlink" title="特征值与特征向量的理论背景"></a>特征值与特征向量的理论背景</h3><p>在一个多项式中，未知数的个数为任意多个，且每一项次数都是2的多项式称为二次型，二次型分为两种类型：即非标准二次型及标准二次型。<br><img src="/2021/05/06/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%9F%A9%E9%98%B5%E7%9A%84%E7%89%B9%E5%BE%81%E5%80%BC%E5%92%8C%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F/背景.png" alt="图片"></p>
+<h3 id="特征值与特征向量的概念与性质"><a href="#特征值与特征向量的概念与性质" class="headerlink" title="特征值与特征向量的概念与性质"></a>特征值与特征向量的概念与性质</h3><p>设 A 为 n 阶矩阵，若存在常数$\lambda$及 n 为非零列向量$\alpha$，使得$A\alpha=\lambda\alpha$称$\lambda$为矩阵 A 的特征值，$\alpha$为矩阵 A 的属性特征值$\lambda$的特征向量<br><img src="/2021/05/06/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%9F%A9%E9%98%B5%E7%9A%84%E7%89%B9%E5%BE%81%E5%80%BC%E5%92%8C%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F/特征值.png" alt="图片"></p>
+<h3 id="特征方程"><a href="#特征方程" class="headerlink" title="特征方程"></a>特征方程</h3><p>设$A=\begin{bmatrix}<br>    a_{11} &amp;a_{12} &amp;\dotsb &amp;a_{1n} \\<br>    a_{21} &amp;a_{22} &amp;\dotsb &amp;a_{2n} \\<br>    \vdots &amp;\vdots &amp; &amp;\vdots \\<br>    a_{n1} &amp;a_{n2} &amp;\dotsb &amp;a_{nn}<br>\end{bmatrix}$称$|\lambda E-A|=0$为矩阵 A 的特征方程<br><img src="/2021/05/06/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%9F%A9%E9%98%B5%E7%9A%84%E7%89%B9%E5%BE%81%E5%80%BC%E5%92%8C%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F/特征方程.png" alt="图片"></p>
+<h3 id="求特征值与特征向量"><a href="#求特征值与特征向量" class="headerlink" title="求特征值与特征向量"></a>求特征值与特征向量</h3><p>方法一：$\begin{cases}<br>    解方程 |\lambda E-A|=0，的特征值\lambda \\<br>    解方程组 (\lambda E-A)\alpha=0，的特征向量\alpha<br>\end{cases}$<br>方法二：利用定义$A\alpha=\lambda\alpha(a\ne0)$</p>
+<h3 id="特征值的性质"><a href="#特征值的性质" class="headerlink" title="特征值的性质"></a>特征值的性质</h3><p>设 A 为 n 阶矩阵，$\lambda_1,\lambda_2,\dotsb,\lambda_n$ 为 A 的特征值，则有<br>(1) $\lambda_1+\lambda_2+\dotsb+\lambda_n=\sum_{i=1}^na_{ii}=tr(A)$，称$tr(A)=\sum_{i=1}^na_{ii}$为A的迹<br>(2) $\lambda_1\lambda_2\dotsb\lambda_n=|A|$</p>
+<p>A 可逆$\Leftrightarrow|A|\ne0\Leftrightarrow\lambda_i\ne0(i\le i\le n)$</p>
+<h3 id="特征向量的性质"><a href="#特征向量的性质" class="headerlink" title="特征向量的性质"></a>特征向量的性质</h3><ol>
+<li>A的不同特征值对应的特征向量时线性无关的</li>
+<li>设A的n阶矩阵，$\lambda_k$为A的k重特征值$k\ge1$，则属于$\lambda_k$的线性无关的特征向量个数不超过k个</li>
+<li>设A为n阶矩阵，$A\alpha_1=\lambda_1\alpha_1,A\alpha_2=\lambda_2\alpha_2,\lambda_1\ne\lambda_2$，其中，$\alpha_1\ne0,\alpha_2\ne0$，则$\alpha_1+\alpha_2$不是A的特征向量</li>
+</ol>
+<p>特征向量不能是零向量</p>
+<h2 id="矩阵相似"><a href="#矩阵相似" class="headerlink" title="矩阵相似"></a>矩阵相似</h2><h3 id="矩阵A相似于对角形"><a href="#矩阵A相似于对角形" class="headerlink" title="矩阵A相似于对角形"></a>矩阵A相似于对角形</h3><h4 id="A相似于对角矩阵的条件"><a href="#A相似于对角矩阵的条件" class="headerlink" title="A相似于对角矩阵的条件"></a>A相似于对角矩阵的条件</h4><p>设A为n阶矩阵：<br>(1) 充分条件：A有n个不同的特征值$\Rightarrow A\sim\Lambda$<br>(2) 充要条件：$A\sim\Lambda\Leftrightarrow A$有n个线性无关的特征向量<br>(3) 充要条件：$A\sim\Lambda\Leftrightarrow A$的k重特征值对应k个线性无关的特征向量</p>
+<h4 id="相似的定义"><a href="#相似的定义" class="headerlink" title="相似的定义"></a>相似的定义</h4><p>设A,B为n阶矩阵，若存在可逆矩阵P,使得$P^{-1}AP=B$,称矩阵A与矩阵B相似，记为A~B.若存在可逆矩阵P,使得$P^{-1}AP=A$,其中$\Lambda$为对角矩阵，则称A可以相似对角化</p>
+<h4 id="相似对角化的步骤"><a href="#相似对角化的步骤" class="headerlink" title="相似对角化的步骤"></a>相似对角化的步骤</h4><p>对于$A_{n\times n}$，求可逆矩阵P，使得$P^{-1}AP=A$的步骤：<br>(1) 由$|\lambda E-A|=0$，求A的特征值$\lambda_1,\lambda_2,\dotsb,\lambda_n$<br>(2) 对每个$\lambda$，由$(\lambda E-A)x=0$，求基础解系，这些基础解系构成了A的一组特征向量<br>(3) 令$P=(\alpha_1,\alpha_2,\dotsb,\alpha_n)$，当p可逆时，有</p>
+<script type="math/tex; mode=display">P^{-1}AP=\Lambda=\begin{bmatrix}
+    \lambda_1 \\
+    &\lambda_2 \\
+    & &\ddots \\
+    & & &\lambda_n
+\end{bmatrix}</script><p>称矩阵A可相似对角化，或A可以对角化，或A与对角矩阵相似</p>
+<h3 id="特征值与特征向量的常用结论"><a href="#特征值与特征向量的常用结论" class="headerlink" title="特征值与特征向量的常用结论"></a>特征值与特征向量的常用结论</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>矩阵</th>
+<th>$A$</th>
+<th>$A^n$</th>
+<th>$A+KE$</th>
+<th>$f(A)$</th>
+<th>$A^{-1}$</th>
+<th>$A^*$</th>
+<th>$P^{-1}AP$</th>
+<th>$A^T$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>特征值</td>
+<td>$\lambda$</td>
+<td>$\lambda^n$</td>
+<td>$\lambda+k$</td>
+<td>$f(\lambda)$</td>
+<td>$\frac{1}{\lambda}$</td>
+<td>$\frac{\lvert A\rvert}{\lambda}$</td>
+<td>$\lambda$</td>
+<td>$\lambda$</td>
+</tr>
+<tr>
+<td>特征向量</td>
+<td>$\alpha$</td>
+<td>$\alpha$</td>
+<td>$\alpha$</td>
+<td>$\alpha$</td>
+<td>$\alpha$</td>
+<td>$\alpha$</td>
+<td>$P^{-1}\alpha$</td>
+<td>/</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="相似矩阵的性质"><a href="#相似矩阵的性质" class="headerlink" title="相似矩阵的性质"></a>相似矩阵的性质</h3><ol>
+<li>设A、B均为n阶矩阵，若$A\sim B$，则：<ol>
+<li>$A^T\sim B^T$</li>
+<li>$A^n\sim B^n$</li>
+<li>$f(A)\sim f(B)$，其中f为多项式</li>
+<li>当A、B可逆时，$A^{-1}\sim B^{-1},A^<em>\sim B^</em>$</li>
+<li>$r(A)=r(B)$</li>
+</ol>
+</li>
+<li>$A\sim B\overset{\Rightarrow}{\nLeftarrow}|\lambda E-A|=|\lambda E-B|$</li>
+</ol>
+<h2 id="实对称矩阵"><a href="#实对称矩阵" class="headerlink" title="实对称矩阵"></a>实对称矩阵</h2><h3 id="实对称定义"><a href="#实对称定义" class="headerlink" title="实对称定义"></a>实对称定义</h3><p>设A是n阶矩阵，若$A^T=A$，则称A为实对称矩阵</p>
+<h3 id="实对称矩阵的对角化"><a href="#实对称矩阵的对角化" class="headerlink" title="实对称矩阵的对角化"></a>实对称矩阵的对角化</h3><ol>
+<li>实对称矩阵必相似于对角矩阵</li>
+<li>实对称矩阵可用正交矩阵对角化</li>
+<li>实对称矩阵不同特征值的特征向量相互正交</li>
+<li>实对称矩阵的特征值必为实数</li>
+</ol>
+<h3 id="实对称矩阵用正交矩阵对角化的步骤"><a href="#实对称矩阵用正交矩阵对角化的步骤" class="headerlink" title="实对称矩阵用正交矩阵对角化的步骤"></a>实对称矩阵用正交矩阵对角化的步骤</h3><ol>
+<li>设A为n阶实对称矩阵，求A的特征值</li>
+<li>求A的特征向量</li>
+<li>若A的特征值都是单重特征值，则只需单位化。若A的特征值中存在多重特征值，则先对重特征值对应的特征向量进行施密特正交化，再单位化</li>
+<li>由正交单位化后的向量构成正交矩阵Q，则$Q^{-1}AQ=A$</li>
+</ol>
+<h4 id="施密特正交化"><a href="#施密特正交化" class="headerlink" title="施密特正交化"></a>施密特正交化</h4><p>把一组线性无关的向量组转化为一组两两正交且规范的向量组的过程称为施密特正交化<br>设$a_1,a_2,\dotsb,a_s$线性相关，施密特正交互过程分为两个步骤：<br>(1)正交化<br>令$\beta_1=\alpha_1,\beta_2=\alpha_2-\frac{(\alpha_2,\beta_1)}{(\beta_1,\beta_1)}\beta_1,\dotsb,\\\beta_n=\alpha_n-\frac{(\alpha_n\beta_1)}{(\beta_1,\beta_1)}\beta_1-\frac{(\alpha_n\beta_2)}{(\beta_2,\beta_2)}\beta_2-\dotsb-\frac{(\alpha_n\beta_{n-1})}{(\beta_{n-1},\beta_{n-1})}\beta_{n-1}$,<br>则$\beta_1,\beta_2,\dotsb,\beta_n$两两正交<br>(2)规范化<br>令$\gamma_1=\frac{1}{|\beta_1|}\beta_1,\gamma_2=\frac{1}{|\beta_2|}\beta_2,\dotsb,\gamma_b=\frac{1}{|\beta_b|}\beta_b$，则$\gamma_1,\gamma_2,\dotsb,\gamma_n$为两两正交且规范的向量组</p>
+<h2 id="确定参数"><a href="#确定参数" class="headerlink" title="确定参数"></a>确定参数</h2><h3 id="确定参数的常见情形"><a href="#确定参数的常见情形" class="headerlink" title="确定参数的常见情形"></a>确定参数的常见情形</h3><p>确定参数有以下常见情形：<br>(1) 设$A=(a_{ij})_{m\times n},B=(b_{ij})_{m\times n},A\sim B\Rightarrow\begin{cases}<br>    |A|=|B| \\<br>    \sum_{i=1}^na_{ii}=\sum_{i=1}^nb_{ii}<br>\end{cases}$<br>(2) 已知$\lambda_0$是A的一个特征值$\Rightarrow|\lambda_0 -A|=0$<br>(3) 已知$\alpha_0$是A的一个特征向量$\Rightarrow A\alpha_0=\lambda\alpha_0$（解方程组）<br>(4) 对n阶矩阵A,$r(A)&lt;n\Rightarrow|A|=0$(常用方法)<br>(5) $\lambda E-A|=|\lambda E-B|$，且A,B均为实对称矩阵，则$A\sim B$</p>
+<h3 id="矩阵相似的必要条件"><a href="#矩阵相似的必要条件" class="headerlink" title="矩阵相似的必要条件"></a>矩阵相似的必要条件</h3><script type="math/tex; mode=display">A\sim B\begin{cases}
+    |A|=|B| \\
+    \sum_{i=1}^na_{ii}=\sum_{i=1}^nb_{ii}(即tr(A)=tr(B)) \\
+    r(A) = r(B) \\
+    |\lambda E-A|=|\lambda E-B| \\
+    A与B有相同的特征值
+\end{cases}</script>]]></content>
+      <categories>
+        <category>数学</category>
+      </categories>
+      <tags>
+        <tag>线性代数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>线性代数-行列式</title>
+    <url>/2021/04/30/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E8%A1%8C%E5%88%97%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="行列式的基本概念与性质"><a href="#行列式的基本概念与性质" class="headerlink" title="行列式的基本概念与性质"></a>行列式的基本概念与性质</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><h4 id="行列式的定义"><a href="#行列式的定义" class="headerlink" title="行列式的定义"></a>行列式的定义</h4><script type="math/tex; mode=display">D=\begin{bmatrix}
+    a_{11} &a_{12} &\dots &a_{1n} \\
+    a_{21} &a_{22} &\dots &a_{2n} \\
+    \vdots &\vdots & &\vdots \\
+    a_{n1}& a_{n2} &\dots &a_{nn}
+\end{bmatrix}=\sum_{j_1,j_2,\dotsb,j_n}(-1)^{\tau(j_1,j_2,\dotsb,j_n)}a_{1j_1}a_{2j_2}\dotsb,a_{2j_n}</script><p>其中$\tau(j_1j_2..j_n)$表示排列$j_1j_2…j_n$的<em>逆序数</em>，即|A|是所有在不同行、不同列的n个元素乘积的代数和</p>
+<p>偶排列：一个排列的逆序数是偶数<br>奇排列：一个排列的逆序数是奇数</p>
+<h4 id="行列式按行（列）展开公式"><a href="#行列式按行（列）展开公式" class="headerlink" title="行列式按行（列）展开公式"></a>行列式按行（列）展开公式</h4><script type="math/tex; mode=display">|A|=a_{i1}A_{i1}+a_{i2}A_{i2}+...+a_{in}A_{in} = \sum_{k=1}^{n}a_{ik}A_{ik},i=1,2,..,n \\
+    |A|=a_{1j}A_{1j}+a_{2j}A_{2j}+...+a_{nj}A_{nj} = \sum_{k=1}^{n}a_{kj}A_{kj},j=1,2,..,n</script><p>其中$A_{ij}$为$a_{ij}$的代数余子式，即$A_{ij}=(-1)^{i+j}M_{ij}$，$M_{ij}$为|A|中去掉第 i 行及 第 j 列元素后的 n - 1 阶行列式<br>说明：<br>行列式的任一行（列）元素与另一行（列）元素的代数余子式乘积之和为0，即</p>
+<script type="math/tex; mode=display">\sum_{k=1}^na_{ik}A_{jk}=a_{i1}A_{j1}+a_{i2}A_{j2}+...+a_{in}A_{jn} = 0,i\not ={j} \\
+\sum_{k=1}^na_{ki}A_{kj}=a_{1i}A_{1j}+a_{2i}A_{2j}+...+a_{ni}A_{nj} = 0,i\not ={j}</script><span id="more"></span>
+<h4 id="行列式的性质"><a href="#行列式的性质" class="headerlink" title="行列式的性质"></a>行列式的性质</h4><p>记$|A|=\left |\begin{array}{cccc}<br>    a_{11} &amp;a_{12} &amp;\dots &amp;a_{1n} \\<br>    a_{21} &amp;a_{22} &amp;\dots &amp;a_{2n} \\<br>    \vdots &amp;\vdots &amp; &amp;\vdots \\<br>    a_{n1}&amp; a_{n2} &amp;\dots &amp;a_{nn}\\<br>\end{array}\right|<br>,\lvert A^T\rvert=\left |\begin{array}{cccc}<br>    a_{11} &amp;a_{21} &amp;\dots &amp;a_{n1} \\<br>    a_{12} &amp;a_{22} &amp;\dots &amp;a_{n2} \\<br>    \vdots &amp;\vdots &amp; &amp;\vdots \\<br>    a_{1n}&amp; a_{2n} &amp;\dots &amp;a_{nn}\\<br>\end{array}\right|$，<br>行列式 $\lvert A^T\rvert$ 称为|A|的转置行列式</p>
+<ol>
+<li>经过转置行列式的值不变，即 $|A^T|=|A|$</li>
+<li>两行（或列）互换位置，行列式的值变号，特别地，两行（或列）相同，行列式的值为0</li>
+<li>某行（或列）如有公因子k，则可把k提出行列式记号外。<br> (1)某行（或列）的元素全为0，行列式的值为0<br> (2)若两行（或列）的元素对应成比例，行列式的值为0</li>
+<li>如果行列式某行（或列）是两个元素之和，则可把行列式拆成两个行列式之和<script type="math/tex; mode=display">\left | \begin{array}{cccc}
+     a_1+b_1 &a_2+b_2 &a_3+b_3 \\
+     c_1 &c_2 &c_3 \\
+     d_1 &d_2 &d_3 \\
+ \end{array} \right | = \left | \begin{array}{cccc}
+     a_1 &a_2 &a_3 \\
+     c_1 &c_2 &c_3 \\
+     d_1 &d_2 &d_3 \\
+ \end{array} \right | + \left | \begin{array}{cccc}
+     b_1 &b_2 &b_3 \\
+     c_1 &c_2 &c_3 \\
+     d_1 &d_2 &d_3 \\
+ \end{array} \right |</script></li>
+<li>把某行（或列）的k倍加到另一行（或列），行列式的值不变<script type="math/tex; mode=display">\left | \begin{array}{cccc}
+     a_1 &a_2 &a_3 \\
+     b_1 &b_2 &b_3 \\
+     c_1 &c_2 &c_3 \\
+ \end{array} \right | = \left | \begin{array}{cccc}
+     a_1 &a_2 &a_3 \\
+     b_1+ka_1 &b_2+ka_2 &b_3+ka_3 \\
+     c_1 &c_2 &c_3 \\
+ \end{array} \right |</script></li>
+</ol>
+<h4 id="有关行列式的重要公式"><a href="#有关行列式的重要公式" class="headerlink" title="有关行列式的重要公式"></a>有关行列式的重要公式</h4><p>(1) $\lvert A^T\rvert=\lvert A\rvert$;<br>(2) 若A是n阶矩阵，则$\lvert kA\rvert=k^n\lvert A\rvert$;<br>(3) 若A、B是同型矩阵，$\lvert AB\rvert=\lvert A\rvert\cdot\lvert B\rvert$;<br>(4) 若A是n阶可逆矩阵，$\lvert A^{-1}\rvert=\frac{1}{\lvert A\rvert}$;<br>(5) 若A是n阶矩阵，$\lvert A^<em>\rvert=\lvert A\rvert^{n-1}$<br>(7) $AA^</em>=A^*A=|A|E$<br>(6) 若A是n阶矩阵，且A的特征值为$\lambda_1,\lambda_2,\dotsb,\lambda_n$，则$|A|=\lambda_1\lambda_2\dotsb\lambda_n$<br>(8) 若A与B矩阵相似，则$|A|=|B|$</p>
+<h3 id="重要的行列式及定理"><a href="#重要的行列式及定理" class="headerlink" title="重要的行列式及定理"></a>重要的行列式及定理</h3><ol>
+<li>对角形行列式<script type="math/tex; mode=display">\begin{bmatrix}
+ a_{11} &0 &\dotsb & 0 \\
+ 0 &a_{22} &\dotsb &0 \\
+ \vdots &\vdots & &\vdots \\
+ 0 &0 &\dotsb &a_{nn}
+\end{bmatrix}=a_{11}a_{22}\dotsb a_{nn}</script></li>
+<li>上（下）三角形行列式的值等于主对角线元素的乘积<script type="math/tex; mode=display">\left | \begin{array}{cccc}
+ a_{11} &a_{12} &\cdots &a_{1n} \\
+ 0 &a_{22} &\cdots &a_{2n} \\
+ 0 &0 &\ddots &\vdots \\
+ 0 &0 &0 &a_{nn} \\
+\end{array} \right | ==\left | \begin{array}{cccc}
+ a_{11} &0 &0 &0 \\
+ a_{21} &a_{22} &0 &0 \\
+ \vdots &\vdots &\ddots &0 \\
+ a_{n1} &a_{n2} &\cdots &a_{nn} \\
+\end{array} \right | = a_{11}a_{22}\cdots a_{nn}</script></li>
+<li>关于副对角线的行列式<script type="math/tex; mode=display">\left | \begin{array}{cccc}
+ a_{11} &a_{12} &\dots &a_{1,n-1} &a_{1n} \\
+ a_{21} &a_{22} &\dots &a_{2,n-1} &0 \\
+ \vdots &\vdots & &\vdots &\vdots \\
+ a_{n1} &0 &\dots &0 &0 \\
+\end{array} \right | = \left | \begin{array}{cccc}
+ 0 &\dots &0 &a_{1n} \\
+ 0 &\dots &a_{2,n-1} &a_{2n} \\
+ \vdots & &\vdots &\vdots \\
+ a_{n1} &\dots &a_{n,n-1} &a_{nn} \\
+\end{array} \right | = (-1)^{\frac{n(n-1)}{2}}a_{1n}a_{2,n-1}\dots a_{n1}</script></li>
+<li>两个特殊的拉普拉斯展开式<script type="math/tex; mode=display">\left | \begin{array}{cccc}
+ A &\ast \\
+ O &B \\
+\end{array} \right | = \left | \begin{array}{cccc}
+ A &O \\
+ \ast &B \\
+\end{array} \right | = |A| \cdot|B|,\left | \begin{array}{cccc}
+ O &A \\
+ B &\ast \\
+\end{array} \right | = \left | \begin{array}{cccc}
+ \ast &A \\
+ B &O \\
+\end{array} \right | = (-1)^{mn}|A|\cdot|B|</script></li>
+<li>范德蒙行列式<script type="math/tex; mode=display">\left | \begin{array}{cccc}
+ 1 &1 &\cdots &1 \\
+ x_1 &x_2 &\cdots &x_n \\
+ x_1^2 &x_2^2 &\cdots &a_n^2 \\
+ \vdots &\vdots & &\vdots \\
+ x_1^{n-1} &x_2^{n-1} &\cdots &x_n^{n-1} \\
+\end{array} \right |=\prod_{1\le j<i\le n}(x_i-x_j)</script></li>
+<li>箭形行列式<ol>
+<li>一般地，箭形行列式<script type="math/tex; mode=display">D_{n+1}=\left |\begin{array}{cccc}
+ \lambda_0 &a_1 &a_2 &\dotsb &a_n \\
+ b_1 &\lambda_1 &0 &\dotsb &0 \\
+ b_2 &0 &\lambda_2 &\dotsb &0 \\
+ \vdots &\vdots &\vdots &\ddots &\vdots \\
+  b_n &0 &0 &\dotsb &\lambda_n
+\end{array}\right |=\left |\begin{array}{cccc}
+ \lambda_0-\sum_{i=1}^n\frac{b_ia_i}{\lambda_i} &a_1 & a_2 &\dotsb &a_n \\
+ 0 &\lambda_1 &0 &\dotsb &0 \\
+ 0 &0 &\lambda_2 &\dotsb &0 \\
+ \vdots &\vdots &\vdots &\ddots &\vdots \\
+ 0 &0 &0 &\dotsb &\lambda_n
+\end{array} \right |\\=(\lambda_0-\sum_{i=1}^n\frac{b_ia_i}{\lambda_i})\cdot \lambda_1\lambda_2\dotsb\lambda_n(\lambda_i\ne0,i=1,2,\dotsb,n)</script>若$\lambda_i=0(i=1,2,\dotsb,n)$，则$D_{n+1}=0$</li>
+<li>其他箭形行列式也可类似的计算</li>
+</ol>
+</li>
+</ol>
+<h2 id="克拉默法则"><a href="#克拉默法则" class="headerlink" title="克拉默法则"></a>克拉默法则</h2><p>对线性方程组</p>
+<script type="math/tex; mode=display">\begin{cases}
+    a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n = 0 \\
+    a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n = 0 \\
+    \cdots\cdots \\
+    a_{n1}x_1+a_{n2}x_2+\cdots+a_{nn}x_n=0 \\
+\end{cases}\tag{I}</script><p>及</p>
+<script type="math/tex; mode=display">\begin{cases}
+    a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n = b_1 \\
+    a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n = b_2 \\
+    \cdots\cdots \\
+    a_{n1}x_1+a_{n2}x_2+\cdots+a_{nn}x_n=b_n
+\end{cases}\tag{II}</script><p>其中(II)称为非齐次线性方程组,(I)称为(II)对应的齐次线性方程组或(II)的导出方程组<br>令$D=\left | \begin{array}{cccc}<br>        a_{11} &amp;a_{12} &amp;\dotsb &amp;a_{1n} \\<br>        a_{21} &amp;a_{22} &amp;\dotsb &amp;a_{2n} \\<br>        \vdots &amp;\vdots &amp; &amp;\vdots \\<br>        a_{n1} &amp;a_{n2} &amp;\dotsb &amp;a_{nn} \\<br>    \end{array} \right |,D_1=\left | \begin{array}{cccc}<br>        b_{1} &amp;a_{12} &amp;\dotsb &amp;a_{1n} \\<br>        b_{2} &amp;a_{22} &amp;\dotsb &amp;a_{2n} \\<br>        \vdots &amp;\vdots &amp; &amp;\vdots \\<br>        b_{n} &amp;a_{n2} &amp;\dotsb &amp;a_{nn} \\<br>    \end{array} \right |,\dotsb,D_n=\left | \begin{array}{cccc}<br>        a_{11} &amp;a_{12} &amp;\dotsb &amp;b_{1} \\<br>        a_{21} &amp;a_{22} &amp;\dotsb &amp;b_{2} \\<br>        \vdots &amp;\vdots &amp; &amp;\vdots \\<br>        a_{n1} &amp;a_{n2} &amp;\dotsb &amp;b_{n} \\<br>    \end{array} \right |$<br>其中D称为系数行列式，我们有<br><strong>定理1</strong> 方程组(I)只有零解的充分必要条件是$D\ne0$<br>方程组(I)有非零解(或者(I)有无穷多个解)的充分必要条件是$D=0$<br><strong>定理2</strong> 方程组(II)有唯一解的充分必要条件是$D\ne0$,此时$x=\frac{D_i}{D}(i=1,2,\dotsb,n)$,当$D=0$时，方程组(II)要么无解，要么有无穷多个解<br><img src="/2021/04/30/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E8%A1%8C%E5%88%97%E5%BC%8F/克拉默法则.png" alt="图片"></p>
+<h2 id="讨论-A-0的问题"><a href="#讨论-A-0的问题" class="headerlink" title="讨论|A|=0的问题"></a>讨论|A|=0的问题</h2><ol>
+<li>矩阵的秩：A中非零子式的最高阶数称为A的秩，记作$r(A)$</li>
+<li>有关矩阵A的秩的常用表达<ol>
+<li>$r(A)=r\Leftrightarrow A$中至少有r阶子式不为0，且A中任意的r阶以上子式全为0（如果有）</li>
+<li>$r(A)&lt;r\Leftrightarrow A$中任意的r阶及r阶以上子式全为0</li>
+<li>$r(A)\le r\Leftrightarrow A$中任意r阶以上子式全为0</li>
+<li>$r(A)&gt;r\Leftrightarrow A$中至少有r+1阶子式不为0</li>
+<li>$r(A)\ge r\Leftrightarrow A$中至少有r阶子式不为0</li>
+</ol>
+</li>
+<li>设$A_{m\times n}$，则$\begin{cases}<br> r(A)&lt;n\Leftrightarrow |A| = 0\\r(A)=n\Leftrightarrow |A|\ne0<br>\end{cases}$</li>
+<li>$A\ne0\Leftrightarrow r(A)\ge1$</li>
+<li>讨论矩阵秩的常用方法，设A,B均为n阶方阵，则：<ol>
+<li>利用矩阵秩的定义，即讨论矩阵的子式</li>
+<li>利用方程组$Ax=0$有$n-r(A)$个基础解</li>
+<li>$AB=O\Rightarrow\begin{cases}<br> B的列向量都是方程组Ax=0的解\\<br> r(A)+r(B)\le n<br>\end{cases}$</li>
+<li>$r(AB)\le min(r(A),r(B)),r(A+B)\le r(A)+r(B)$<br><img src="/2021/04/30/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E8%A1%8C%E5%88%97%E5%BC%8F/秩的使用.png" alt="图片"></li>
+</ol>
+</li>
+<li>证明|A|=0常用方法<ol>
+<li>利用秩$r(A)&lt;n\Leftrightarrow|A|=0$</li>
+<li>利用齐次线性方程组$Ax=0$有非零解$\Leftrightarrow|A|=0$</li>
+<li>反证法</li>
+<li>利用$|A|=\lambda_1\lambda_2\dotsb\lambda_n$，其中$\lambda_1,\lambda_2,\dotsb,\lambda_n$为A的特征值</li>
+</ol>
+</li>
+</ol>
 ]]></content>
       <categories>
         <category>数学</category>
@@ -2978,108 +3492,217 @@ A+(-A)=O</script></li>
       </tags>
   </entry>
   <entry>
-    <title>线性代数-矩阵的特征值和特征向量</title>
-    <url>/2021/05/06/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%9F%A9%E9%98%B5%E7%9A%84%E7%89%B9%E5%BE%81%E5%80%BC%E5%92%8C%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F/</url>
-    <content><![CDATA[<h2 id="特征值与特征向量"><a href="#特征值与特征向量" class="headerlink" title="特征值与特征向量"></a>特征值与特征向量</h2><h3 id="特征值与特征向量的理论背景"><a href="#特征值与特征向量的理论背景" class="headerlink" title="特征值与特征向量的理论背景"></a>特征值与特征向量的理论背景</h3><p>在一个多项式中，未知数的个数为任意多个，且每一项次数都是2的多项式称为二次型，二次型分为两种类型：即非标准二次型及标准二次型。<br><img src="/2021/05/06/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%9F%A9%E9%98%B5%E7%9A%84%E7%89%B9%E5%BE%81%E5%80%BC%E5%92%8C%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F/背景.png" alt="图片"></p>
-<h3 id="特征值与特征向量的概念与性质"><a href="#特征值与特征向量的概念与性质" class="headerlink" title="特征值与特征向量的概念与性质"></a>特征值与特征向量的概念与性质</h3><p>设 A 为 n 阶矩阵，若存在常数$\lambda$及 n 为非零列向量$\alpha$，使得$A\alpha=\lambda\alpha$称$\lambda$为矩阵 A 的特征值，$\alpha$为矩阵 A 的属性特征值$\lambda$的特征向量<br><img src="/2021/05/06/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%9F%A9%E9%98%B5%E7%9A%84%E7%89%B9%E5%BE%81%E5%80%BC%E5%92%8C%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F/特征值.png" alt="图片"></p>
-<h3 id="特征方程"><a href="#特征方程" class="headerlink" title="特征方程"></a>特征方程</h3><p>设$A=\begin{bmatrix}<br>    a_{11} &amp;a_{12} &amp;\dotsb &amp;a_{1n} \\<br>    a_{21} &amp;a_{22} &amp;\dotsb &amp;a_{2n} \\<br>    \vdots &amp;\vdots &amp; &amp;\vdots \\<br>    a_{n1} &amp;a_{n2} &amp;\dotsb &amp;a_{nn}<br>\end{bmatrix}$称$|\lambda E-A|=0$为矩阵 A 的特征方程<br><img src="/2021/05/06/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E7%9F%A9%E9%98%B5%E7%9A%84%E7%89%B9%E5%BE%81%E5%80%BC%E5%92%8C%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F/特征方程.png" alt="图片"></p>
-<h3 id="求特征值与特征向量"><a href="#求特征值与特征向量" class="headerlink" title="求特征值与特征向量"></a>求特征值与特征向量</h3><p>方法一：$\begin{cases}<br>    解方程 |\lambda E-A|=0，的特征值\lambda \\<br>    解方程组 (\lambda E-A)\alpha=0，的特征向量\alpha<br>\end{cases}$<br>方法二：利用定义$A\alpha=\lambda\alpha(a\ne0)$</p>
-<h3 id="特征值的性质"><a href="#特征值的性质" class="headerlink" title="特征值的性质"></a>特征值的性质</h3><p>设 A 为 n 阶矩阵，$\lambda_1,\lambda_2,\dotsb,\lambda_n$ 为 A 的特征值，则有<br>(1) $\lambda_1+\lambda_2+\dotsb+\lambda_n=\sum_{i=1}^na_{ii}=tr(A)$，称$tr(A)=\sum_{i=1}^na_{ii}$为A的迹<br>(2) $\lambda_1\lambda_2\dotsb\lambda_n=|A|$</p>
-<p>A 可逆$\Leftrightarrow|A|\ne0\Leftrightarrow\lambda_i\ne0(i\le i\le n)$</p>
-<h3 id="特征向量的性质"><a href="#特征向量的性质" class="headerlink" title="特征向量的性质"></a>特征向量的性质</h3><ol>
-<li>A的不同特征值对应的特征向量时线性无关的</li>
-<li>设A的n阶矩阵，$\lambda_k$为A的k重特征值$k\ge1$，则属于$\lambda_k$的线性无关的特征向量个数不超过k个</li>
-<li>设A为n阶矩阵，$A\alpha_1=\lambda_1\alpha_1,A\alpha_2=\lambda_2\alpha_2,\lambda_1\ne\lambda_2$，其中，$\alpha_1\ne0,\alpha_2\ne0$，则$\alpha_1+\alpha_2$不是A的特征向量</li>
+    <title>高等数学-一元函数积分学</title>
+    <url>/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/</url>
+    <content><![CDATA[<h2 id="不定积分"><a href="#不定积分" class="headerlink" title="不定积分"></a>不定积分</h2><h3 id="两个基本概念"><a href="#两个基本概念" class="headerlink" title="两个基本概念"></a>两个基本概念</h3><p><em>原函数</em><br>$F’(x)=f(x)$<br><em>不定积分</em><br>$\int f(x)dx=F(x)+C$</p>
+<h3 id="原函数的存在性"><a href="#原函数的存在性" class="headerlink" title="原函数的存在性"></a>原函数的存在性</h3><p>(1) 若$f(x)$在区间$I$上连续，则$f(x)$在区间$I$上必有原函数<br>(2) 若$f(x)$在区间$I$上有第一类间断点，则$f(x)$在区间$I$上没有原函数<br>(3) 若$f(x)$在区间$I$上只有震荡间断点，则$f(x)$在区间$I$上可能存在原函数（专指不定积分）</p>
+<h3 id="不定积分的性质"><a href="#不定积分的性质" class="headerlink" title="不定积分的性质"></a>不定积分的性质</h3><p><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/不定积分的性质.png" alt="photo"></p>
+<h3 id="基本积分公式"><a href="#基本积分公式" class="headerlink" title="基本积分公式"></a>基本积分公式</h3><p><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/不定积分公式-1.png" alt="积分公式-1"><br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/不定积分公式-2.png" alt="积分公式-2"></p>
+<p>(23) $\int\tan^2xdx=\sec^2x-1+C$</p>
+<p>(24) $\int\arcsin xdx=x\arcsin x+\sqrt{1-x^2}$</p>
+<p>(25) $\int_{-\infty}^{+\infty}e^{-x^2}dx=\sqrt{\pi}$</p>
+<p>(26) $\int_{-\infty}^{+\infty}e^{-\frac{x^2}{a}}dx=\sqrt{a}\int_{-\infty}^{+\infty}e^{-(\frac{x}{\sqrt{a}})^2}d\frac{x}{\sqrt{a}}=\sqrt{a\pi}$</p>
+<h3 id="三种主要积分法"><a href="#三种主要积分法" class="headerlink" title="三种主要积分法"></a>三种主要积分法</h3><h4 id="第一类换元法-凑微分"><a href="#第一类换元法-凑微分" class="headerlink" title="第一类换元法(凑微分)"></a>第一类换元法(凑微分)</h4><p>若$\int f(u)du=F(u)+C, and\varphi(x)$可导，则</p>
+<script type="math/tex; mode=display">\int f(\varphi(x))\varphi'(x)dx=\int f(\varphi(x))d\varphi(x)=F(\varphi(x))+C</script><h4 id="第二类换元法"><a href="#第二类换元法" class="headerlink" title="第二类换元法"></a>第二类换元法</h4><p>设函数$x=\varphi(t)$可导，且$\varphi’(t)\ne0$,又设$\int f(\varphi(t))\varphi’(t)dt=F(t)+C$，则$\int f(x)dx=\int f(\varphi(t))\varphi’(t)dt=F(\varphi^{-1}(x))+C$</p>
+<p>三种常用的变量代换<br>(1) 被积函数中含有$\sqrt{a^2-x^2}$时，令$x=a\sin t,or x = a\cos t$<br>(2) 被积函数中含有$\sqrt{a^2-x^2}$时，令$x=a\tan t$<br>(3) 被积函数中含有$\sqrt{a^2-x^2}$时，令$x=a\sec t$</p>
+<h4 id="分部积分法"><a href="#分部积分法" class="headerlink" title="分部积分法"></a>分部积分法</h4><p>设$u(x),v(x)$有连续一阶导数，则$\int udv=uv-\int vdu$</p>
+<h3 id="三类常见可积函数积分"><a href="#三类常见可积函数积分" class="headerlink" title="三类常见可积函数积分"></a>三类常见可积函数积分</h3><h4 id="有理函数积分"><a href="#有理函数积分" class="headerlink" title="有理函数积分"></a>有理函数积分</h4><h4 id="三角有理式积分"><a href="#三角有理式积分" class="headerlink" title="三角有理式积分"></a>三角有理式积分</h4><script type="math/tex; mode=display">\int R(\sin x,\cos x)dx</script><p>(1) 一般方法（万能代换）<br>令$\tan\frac{x}{2}=t$<br>$\sin\alpha=\frac{2\tan\frac{\alpha}{2}}{1+\tan^2\frac{\alpha}{2}}、\cos\alpha=\frac{1-\tan^2\frac{\alpha}{2}}{1+\tan^2\frac{\alpha}{2}}、dx=\frac{2dt}{1+t^2}$</p>
+<script type="math/tex; mode=display">\int R(\sin x,\cos x)dx=\int R(\frac{2t}{1+t^2},\frac{1-t^2}{1+t^2})\frac{2}{1+t^2}du</script><p>(2) 特殊方法（三角变形，换元，分部）</p>
+<ol>
+<li>若$R(-\sin x,\cos x)=-R(\sin x,\cos x)$，则令$u=\cos x$，即凑$d\cos x$</li>
+<li>若$R(\sin x,-\cos x)=-R(\sin x,\cos x)$，则令$u=\sin x$，即凑$d\sin x$</li>
+<li>若$R(-\sin x,-\cos x)=R(\sin x,\cos x)$，则令$u=\tan x$，即凑$d\tan x$</li>
 </ol>
-<p>特征向量不能是零向量</p>
-<h2 id="矩阵相似"><a href="#矩阵相似" class="headerlink" title="矩阵相似"></a>矩阵相似</h2><h3 id="矩阵A相似于对角形"><a href="#矩阵A相似于对角形" class="headerlink" title="矩阵A相似于对角形"></a>矩阵A相似于对角形</h3><h4 id="A相似于对角矩阵的条件"><a href="#A相似于对角矩阵的条件" class="headerlink" title="A相似于对角矩阵的条件"></a>A相似于对角矩阵的条件</h4><p>设A为n阶矩阵：<br>(1) 充分条件：A有n个不同的特征值$\Rightarrow A\sim\Lambda$<br>(2) 充要条件：$A\sim\Lambda\Leftrightarrow A$有n个线性无关的特征向量<br>(3) 充要条件：$A\sim\Lambda\Leftrightarrow A$的k重特征值对应k个线性无关的特征向量</p>
-<h4 id="相似的定义"><a href="#相似的定义" class="headerlink" title="相似的定义"></a>相似的定义</h4><p>设A,B为n阶矩阵，若存在可逆矩阵P,使得$P^{-1}AP=B$,称矩阵A与矩阵B相似，记为A~B.若存在可逆矩阵P,使得$P^{-1}AP=A$,其中$\Lambda$为对角矩阵，则称A可以相似对角化</p>
-<h4 id="相似对角化的步骤"><a href="#相似对角化的步骤" class="headerlink" title="相似对角化的步骤"></a>相似对角化的步骤</h4><p>对于$A_{n\times n}$，求可逆矩阵P，使得$P^{-1}AP=A$的步骤：<br>(1) 由$|\lambda E-A|=0$，求A的特征值$\lambda_1,\lambda_2,\dotsb,\lambda_n$<br>(2) 对每个$\lambda$，由$(\lambda E-A)x=0$，求基础解系，这些基础解系构成了A的一组特征向量<br>(3) 令$P=(\alpha_1,\alpha_2,\dotsb,\alpha_n)$，当p可逆时，有</p>
-<script type="math/tex; mode=display">P^{-1}AP=\Lambda=\begin{bmatrix}
-    \lambda_1 \\
-    &\lambda_2 \\
-    & &\ddots \\
-    & & &\lambda_n
-\end{bmatrix}</script><p>称矩阵A可相似对角化，或A可以对角化，或A与对角矩阵相似</p>
-<h3 id="特征值与特征向量的常用结论"><a href="#特征值与特征向量的常用结论" class="headerlink" title="特征值与特征向量的常用结论"></a>特征值与特征向量的常用结论</h3><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>矩阵</th>
-<th>$A$</th>
-<th>$A^n$</th>
-<th>$A+KE$</th>
-<th>$f(A)$</th>
-<th>$A^{-1}$</th>
-<th>$A^*$</th>
-<th>$P^{-1}AP$</th>
-<th>$A^T$</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>特征值</td>
-<td>$\lambda$</td>
-<td>$\lambda^n$</td>
-<td>$\lambda+k$</td>
-<td>$f(\lambda)$</td>
-<td>$\frac{1}{\lambda}$</td>
-<td>$\frac{\lvert A\rvert}{\lambda}$</td>
-<td>$\lambda$</td>
-<td>$\lambda$</td>
-</tr>
-<tr>
-<td>特征向量</td>
-<td>$\alpha$</td>
-<td>$\alpha$</td>
-<td>$\alpha$</td>
-<td>$\alpha$</td>
-<td>$\alpha$</td>
-<td>$\alpha$</td>
-<td>$P^{-1}\alpha$</td>
-<td>/</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="相似矩阵的性质"><a href="#相似矩阵的性质" class="headerlink" title="相似矩阵的性质"></a>相似矩阵的性质</h3><ol>
-<li>设A、B均为n阶矩阵，若$A\sim B$，则：<ol>
-<li>$A^T\sim B^T$</li>
-<li>$A^n\sim B^n$</li>
-<li>$f(A)\sim f(B)$，其中f为多项式</li>
-<li>当A、B可逆时，$A^{-1}\sim B^{-1},A^<em>\sim B^</em>$</li>
-<li>$r(A)=r(B)$</li>
+<h4 id="简单无理函数积分"><a href="#简单无理函数积分" class="headerlink" title="简单无理函数积分"></a>简单无理函数积分</h4><script type="math/tex; mode=display">\int R(x,\sqrt[n]{\frac{ax+b}{cx+d}})dx</script><p>令$\sqrt[n]{\frac{ax+b}{cx+d}}=t$，将其化为有理函数积分进行计算</p>
+<h2 id="定积分"><a href="#定积分" class="headerlink" title="定积分"></a>定积分</h2><h3 id="定积分的概念"><a href="#定积分的概念" class="headerlink" title="定积分的概念"></a>定积分的概念</h3><h3 id="定积分的几何意义"><a href="#定积分的几何意义" class="headerlink" title="定积分的几何意义"></a>定积分的几何意义</h3><ol>
+<li>设$\int_a^bf(x)dx$存在，若在[a,b]上$f(x)\ge0$，则$\int_a^bf(x)dx$的值等于以曲线$y=f(x)$，$y=a,x=b$及x轴所围成的曲边梯形的面积</li>
+<li>若在[a,b]上$f(x)\le0$，则$\int_a^bf(x)dx$的值等于以曲线$y=f(x),x=a,x=b$及x轴所围成的曲边梯形面积的负值</li>
+<li>若在[a,b]上$f(x)$的值有正也有负，则$\int_a^bf(x)dx$在几何上表示$y=f(x),x=a,x=b$及x轴所围成的x轴上方图形的面积减去下方图形的面积所得之差</li>
+</ol>
+<h3 id="可积性"><a href="#可积性" class="headerlink" title="可积性"></a>可积性</h3><p><strong>必要条件</strong><br>若$\int_a^bf(x)dx$存在，则$f(x)$在[a,b]上有界</p>
+<p><strong>充分条件</strong><br>(1) 若$f(x)$在[a,b]上连续，则$\int_a^bf(x)dx$必定存在<br>(2) 若$f(x)$在[a,b]上有界，且只有有限个间断点，则$\int_a^bf(x)dx$必定存在<br>(3) 若$f(x)$在[a,b]上只有有限个第一类间断点，则$\int_a^bf(x)dx$必定存在</p>
+<p>f(x)在[a,b]上可积，则$\int_a^xf(t)dt$连续</p>
+<h3 id="定积分的计算"><a href="#定积分的计算" class="headerlink" title="定积分的计算"></a>定积分的计算</h3><p><strong>牛顿莱布尼茨公式</strong><br>如果函数$F(x)$是连续函数$f(x)$在区间[a,b]上的一个原函数，则$\int_a^bf(x)dx=F(b)-F(a)$</p>
+<p><strong>换元积分法</strong><br>设f(x)在区间[a,b]上连续，函数$x=\varphi(t)满足以下条件$：<br>(1) $\varphi(\alpha)=a,\varphi(\beta)=b$</p>
+<p>(2) $\varphi(t)$在$<a href="or[\beta,\alpha]">\alpha,\beta</a>$上具有连续导数，且其值域$R_\varphi=[a,b]$，则</p>
+<script type="math/tex; mode=display">\int_a^bf(x)dx=\int_\alpha^\beta f(\varphi(t))\varphi'(t)dt</script><p><strong>分部积分法</strong><br>设函数$u(x)、v(x)$在[a,b]上有连续一阶导数，则$\int_a^budv=uv|\overset{b}{a}-\int_a^bvdu$</p>
+<p><strong>利用奇偶性和周期性</strong><br>(1) 设$f(x)$为[-a,a]上的连续函数(a&gt;0)，则</p>
+<script type="math/tex; mode=display">\int_{-a}^a=\begin{cases}
+    0,&f(x)为奇函数\\
+    2\int_a^bf(x)dx,&f(x)为偶函数
+\end{cases}</script><p>(2) 设$f(x)$是以T为周期的连续函数，则对任给数a，总有$\int_a^{a+T}f(x)dx=\int_0^Tf(x)dx$</p>
+<p><strong>利用公式</strong><br>(1) <script type="math/tex">\int_0^{\frac{\pi}{2}}\sin^nxdx=\int_0^\frac{\pi}{2}\cos^nxdx=\begin{cases}
+    \frac{n-1}{n}\cdot\frac{n-3}{n-2}\cdot\dotsb\cdot\frac{1}{2}\cdot\frac{\pi}{2},&n为偶数\\
+    \frac{n-1}{n}\cdot\frac{n-3}{n-2}\cdot\dotsb\cdot\frac{2}{3},&n为大于1的奇数
+\end{cases}</script><br>(2) $\int_0^\pi xf(\sin x)dx=\frac{\pi}{2}\int_0^\pi f(\sin x)dx$(其中$f(x)$连续)</p>
+<h3 id="变上限积分：-int-a-xf-t-dt"><a href="#变上限积分：-int-a-xf-t-dt" class="headerlink" title="变上限积分：$\int_a^xf(t)dt$"></a>变上限积分：$\int_a^xf(t)dt$</h3><p><strong>定理</strong><br>若$f(x)$在[a,b]上连续，则$\int_a^xf(t)dt$在[a,b]上可导且$(\int_a^xf(t)dt)’=f(x)$</p>
+<p><em>有关$F(x)=\int_a^xf(t)dt$在一点处的可导性的结论</em><br>| $f(x)$ | $F(x)=\int_a^xf(t)dt$ |<br>| —- | —- |<br>|连续|可导，且$F’(x_0)=f(x_0)$|<br>|可去间断|可导，且$F’(x_0)=\lim\limits_{x\rightarrow x_0}f(x)$|<br>|跳跃间断|连续但不可导，且$F_+’(x_0)=f(x_0^+),F_-‘(x_0)=f(x_0^-)$|</p>
+<p><strong>变上限求导的三个类型</strong><br>(1) $(\int_{\varphi(x)}^{\psi(x)}f(t)dt)’= f(\psi(x))\psi’(x)-f(\varphi(x))\varphi’(x)$</p>
+<p>(2) $(\int_a^bf(x,t)dt)’=\int_a^b\frac{\vartheta f(x,t)}{\vartheta x}dt$</p>
+<p><strong>连续性</strong><br>设$f(x)$在[a,b]上可积，则$\int_a^xf(x)dt$在[a,b]上连续</p>
+<p><strong>奇偶性</strong><br>(1) 若$f(x)$为奇函数，则$\int_a^xf(t)dt$为偶函数</p>
+<p>(2) 若$f(x)$为偶函数，则$\int_0^xf(t)dt$为奇函数</p>
+<h3 id="定积分的性质"><a href="#定积分的性质" class="headerlink" title="定积分的性质"></a>定积分的性质</h3><p><strong>不等式</strong><br>(1) 若$f(x)\le g(x),x\in[a,b]$，则$\int_a^bf(x)dx\le\int_a^bg(x)dx$</p>
+<p>(2) 若$f(x)$在[a,b]上连续，则$m(b-a)\le\int_a^bf(x)dx\le M(b-a)$，其中m,M分别为$f(x)$在[a,b]上的最小值与最大值</p>
+<p>(3) $|\int_a^bf(x)dx|\le\int_a^b|f(x)|dx$</p>
+<p><strong>积分中值定理</strong><br>(1) 若$f(x)$在[a,b]上连续，则$\int_a^bf(x)dx=f(\xi)(b-a),a&lt;\xi&lt;b$</p>
+<p>(2) 若$f(x),g(x)$在[a,b]上连续，且$g(x)$不变号，则$\int_a^bf(x)g(x)dx=f(\xi)\int_a^bg(x)dx,a\le\xi\le b$</p>
+<h3 id="积分不等式"><a href="#积分不等式" class="headerlink" title="积分不等式"></a>积分不等式</h3><p>柯西积分不等式：$(\int_a^bf(x)g(x)dx)^2\le\int_a^bf^2(x)dx\int_a^bg^2(x)dx$</p>
+<h2 id="反常积分"><a href="#反常积分" class="headerlink" title="反常积分"></a>反常积分</h2><h3 id="无穷区间上的反常积分"><a href="#无穷区间上的反常积分" class="headerlink" title="无穷区间上的反常积分"></a>无穷区间上的反常积分</h3><p><strong>定义</strong> 设$f(x)$为$(-\infty,+\infty)$上的连续函数，如果反常积分$\int_{-\infty}^0f(x)dx$和$\int_0^{+\infty}f(x)dx$都收敛，则称反常积分$\int_{-\infty}^{+\infty}f(x)dx$收敛，且$\int_{-\infty}^{+\infty}f(x)dx=\int_{-\infty}^0f(x)dx+\int_0^{+\infty}f(x)dx$<br>如果$\int_{-\infty}^0f(x)dx$与$\int_0^{+\infty}f(x)dx$之一发散，则称$\int_{-\infty}^{+\infty}f(x)dx$发散</p>
+<p><strong>定理1（比较判别法）</strong> 设$f(x),g(x)$在$[a,+\infty)$上连续，且$0\le f(x)\le g(x)$，且</p>
+<p>(1) 当$\int_a^{+\infty}g(x)dx$收敛时，$\int_a^{+\infty}f(x)dx$收敛</p>
+<p>(2) 当$\int_a^{+\infty}f(x)dx$发散时，$\int_a^{+\infty}g(x)dx$发散</p>
+<p><strong>定理2（比较法的极限形式）</strong> 设$f(x),g(x)$在$[a,+\infty)$上非负连续，且$\lim\limits_{x\rightarrow+\infty}\frac{f(x)}{g(x)}=\lambda$(有限或无穷)，则</p>
+<p>(1) 当$\lambda\ne0$时，$\int_a^{+\infty}f(x)dx$与$\int_a^{+\infty}g(x)dx$同敛散</p>
+<p>(2) 当$\lambda=0$时，若$\int_a^{+\infty}g(x)dx$收敛，则$\int_a^{+\infty}f(x)dx$也收敛</p>
+<p>(3) 当$\lambda=+\infty$时，若$\int_a^{+\infty}g(x)dx$发散，则$\int_a^{+\infty}f(x)dx$也发散</p>
+<p>常用结论：<script type="math/tex">\int_a^{+\infty}\frac{1}{x^p}dx\begin{cases}
+    p>1,&收敛 \\
+    p\le1,&发散
+\end{cases}\tag{a>0}</script></p>
+<h3 id="无界函数的反常积分"><a href="#无界函数的反常积分" class="headerlink" title="无界函数的反常积分"></a>无界函数的反常积分</h3><p><strong>定理1（比较判别法</strong> 设$f(x),g(x)$在$(a,b]$上连续，且$0\le f(x)\le g(x),x=a$为$f(x)$和$g(x)$的瑕点，则<br>(1) 当$\int_a^bg(x)dx$收敛时，$\int_a^bf(x)dx$收敛<br>(2) 当$\int_a^bf(x)dx$发散时，$\int_a^bg(x)dx$发散</p>
+<p><strong>定理2（比较法的极限形式</strong> 设$f(x),g(x)$在$(a,b]$上非负连续，且$\lim\limits_{x\rightarrow a^+}\frac{f(x)}{g(x)}=\lambda$(有限或无穷)，则<br>(1) 当$\lambda\ne0$时，$\int_a^{b}f(x)dx$与$\int_a^{b}g(x)dx$同敛散<br>(2) 当$\lambda=0$时，若$\int_a^bg(x)dx$收敛，则$\int_a^bf(x)dx$也收敛<br>(3) 当$\lambda=+\infty$时，若$\int_a^bg(x)dx$发散，则$\int_a^bf(x)dx$也发散</p>
+<p>常用结论：</p>
+<script type="math/tex; mode=display">\int_a^b\frac{1}{(x-a)^p}dx\begin{cases}
+    p<1,&收敛 \\
+    p\ge1,&发散
+\end{cases}</script><script type="math/tex; mode=display">\int_a^b\frac{1}{(b-x)^p}dx\begin{cases}
+    p<1,&收敛 \\
+    p\ge1,&发散
+\end{cases}</script><h2 id="定积分应用"><a href="#定积分应用" class="headerlink" title="定积分应用"></a>定积分应用</h2><h3 id="几何应用"><a href="#几何应用" class="headerlink" title="几何应用"></a>几何应用</h3><p><strong>平面图形的面积</strong><br>设有平面域D,则该平面域D的面积为$\iint_D1d\sigma$<br>(1) 若平面域D由曲线$y=f(x),y=g(x)(f(x)\ge g(x)),x=a,x=b(a&lt;b)$所围成，则<br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/平面图形面积-1.png" alt="photo"></p>
+<script type="math/tex; mode=display">S=\iint_D1d\sigma=\int_a^bdx\int_{g(x)}^{f(x)}1dy=\int_a^b[f(x)-g(x)]dx</script><p>(2) 若平面域D由曲线$r=r(\theta),\theta=\alpha,\theta=\beta(\alpha&lt;\beta)$所围成，则面积为<br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/平面图形面积-2.png" alt="photo"></p>
+<script type="math/tex; mode=display">S=\iint_D1d\sigma=\int_\alpha^\beta d\theta\int_0^{r(\theta)}rdr=\frac{1}{2}\int_\alpha^\beta r^2(\theta)d\theta</script><p><strong>空间体的体积</strong><br>(1) 旋转体的体积<br>平面域D绕直线L:ax+by+c=0(该直线不穿过区域D)旋转所得旋转体体积记为V<br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/旋转体体积-1.png" alt="photo"></p>
+<script type="math/tex; mode=display">r(x,y)=\frac{|ax+by+c|}{\sqrt{a^2+b^2}}</script><script type="math/tex; mode=display">dV=2\pi r(x,y)d\sigma</script><script type="math/tex; mode=display">V=2\pi\iint_Dr(x,y)d\sigma</script><p>特别的，若区域D由曲线$y=f(x)(f(x)\ge0$和直线$x=a,x=b(0\le a\le b)$及x轴所围成，则<br>(1) 区域D绕x轴旋转$(r(x,y)=y)$一周所得旋转体的体积为</p>
+<script type="math/tex; mode=display">V_x=2\pi \iint_Dyd\sigma=2\pi\int_a^bdx\int_0^{f(x)}ydy=\pi\int_a^bf^2(x)dx</script><p>(2) 区域D绕y轴旋转$(r(x,y)=x)$一周所得旋转体的体积为</p>
+<script type="math/tex; mode=display">V_y=2\pi\iint_Dxd\sigma=2\pi\int_a^bdx\int_0^{f(x)}xdy=2\pi\int_a^bxf(x)dx</script><p>(2) 横截面面积的体积<br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/横截面面积的体积.png" alt="photo"></p>
+<script type="math/tex; mode=display">V=\int_a^bS(x)dx</script><p><strong>曲线弧长</strong><br>(1) 设曲线段C由直角坐标方程$y=f(x)(a\le x\le b)$给出，其中$y(x)$在[a,b]上有一阶连续导数，则该曲线段的弧长为</p>
+<script type="math/tex; mode=display">s=\int_a^b\sqrt{1+y'^2}dx</script><p>(2) 设曲线段C由参数方程$\begin{cases}<br>    x=x(t),\\<br>    y=y(t),<br>\end{cases}(a\le t\le \beta)$给出，其中$x(t),y(t)$在$[\alpha,\beta]$上有一阶连续导数，则该曲线段的弧长为</p>
+<script type="math/tex; mode=display">s=\int_\alpha^\beta\sqrt{x'^2(t)+y'^2(t)}dt</script><p>(3) 设曲线段C由极坐标方程$r=r(\theta)(\alpha\le\theta\beta)$给出，其中$r(\theta)$在$[\alpha,\beta]$上有一阶连续导数，则该曲线段的弧长为</p>
+<script type="math/tex; mode=display">s=\int_\alpha^\beta\sqrt{r^2(\theta)+r'^2(\theta)}d\theta</script><p>(4) 旋转体侧面积<br>曲线$y=f(x)(f(x)\ge0)$和直线$x=a,x=b(0\le a\le b)$及x轴所围成区域绕x轴旋转所得旋转体的侧面积是</p>
+<script type="math/tex; mode=display">S=2\pi\int_a^bf(x)\sqrt{1+f'^2(x)}dx</script><h4 id="特殊图形"><a href="#特殊图形" class="headerlink" title="特殊图形"></a>特殊图形</h4><p><strong>星形线</strong><br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/星形线.png" alt="星形线"><br>直角坐标方程：$x^{\frac{2}{3}}+y^{\frac{2}{3}}=a^{\frac{2}{3}}$<br>极坐标方程：$x=a\cos^3t,y=a\sin^3t$<br>围成面积$A=4\int_0^aydx$<br>弧长$L=4\int_0^a\sqrt{1+y’^2}dx$<br>绕x轴体积$V=2\pi\int_a^a y^2dx$<br>旋转体横截面积$2*2\pi\int_0^ay\sqrt{1+y’^2}dx$</p>
+<p><strong>摆线</strong><br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/摆线.png" alt="摆线"><br>极坐标方程：$x=a(t-\sin t),y=a(1-\cos t)$</p>
+<p><strong>心形线</strong><br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/心形线.png" alt="心形线"><br>极坐标方程：$r=a(1+\cos\theta)$</p>
+<p><strong>双纽线</strong><br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/双纽线.png" alt="双纽线"><br>直角坐标方程：$(x^2+y^2)^2=a^2(x^2-y^2)$<br>极坐标方程：$r^2=a^2\cos2\theta$<br>旋转体侧面积：$2\int_0^\frac{\pi}{4}2\pi*r\sin\theta\sqrt{r^2+r’^2(\theta)}d\theta$</p>
+<h3 id="物理应用"><a href="#物理应用" class="headerlink" title="物理应用"></a>物理应用</h3><ol>
+<li>压力<ol>
+<li>水的压力F=水的压强P x 装水的容器的底面积S（F=pghS)</li>
 </ol>
 </li>
-<li>$A\sim B\overset{\Rightarrow}{\nLeftarrow}|\lambda E-A|=|\lambda E-B|$</li>
+<li>变力做功</li>
+<li>引力</li>
 </ol>
-<h2 id="实对称矩阵"><a href="#实对称矩阵" class="headerlink" title="实对称矩阵"></a>实对称矩阵</h2><h3 id="实对称定义"><a href="#实对称定义" class="headerlink" title="实对称定义"></a>实对称定义</h3><p>设A是n阶矩阵，若$A^T=A$，则称A为实对称矩阵</p>
-<h3 id="实对称矩阵的对角化"><a href="#实对称矩阵的对角化" class="headerlink" title="实对称矩阵的对角化"></a>实对称矩阵的对角化</h3><ol>
-<li>实对称矩阵必相似于对角矩阵</li>
-<li>实对称矩阵可用正交矩阵对角化</li>
-<li>实对称矩阵不同特征值的特征向量相互正交</li>
-<li>实对称矩阵的特征值必为实数</li>
-</ol>
-<h3 id="实对称矩阵用正交矩阵对角化的步骤"><a href="#实对称矩阵用正交矩阵对角化的步骤" class="headerlink" title="实对称矩阵用正交矩阵对角化的步骤"></a>实对称矩阵用正交矩阵对角化的步骤</h3><ol>
-<li>设A为n阶实对称矩阵，求A的特征值</li>
-<li>求A的特征向量</li>
-<li>若A的特征值都是单重特征值，则只需单位化。若A的特征值中存在多重特征值，则先对重特征值对应的特征向量进行施密特正交化，再单位化</li>
-<li>由正交单位化后的向量构成正交矩阵Q，则$Q^{-1}AQ=A$</li>
-</ol>
-<h4 id="施密特正交化"><a href="#施密特正交化" class="headerlink" title="施密特正交化"></a>施密特正交化</h4><p>把一组线性无关的向量组转化为一组两两正交且规范的向量组的过程称为施密特正交化<br>设$a_1,a_2,\dotsb,a_s$线性相关，施密特正交互过程分为两个步骤：<br>(1)正交化<br>令$\beta_1=\alpha_1,\beta_2=\alpha_2-\frac{(\alpha_2,\beta_1)}{(\beta_1,\beta_1)}\beta_1,\dotsb,\\\beta_n=\alpha_n-\frac{(\alpha_n\beta_1)}{(\beta_1,\beta_1)}\beta_1-\frac{(\alpha_n\beta_2)}{(\beta_2,\beta_2)}\beta_2-\dotsb-\frac{(\alpha_n\beta_{n-1})}{(\beta_{n-1},\beta_{n-1})}\beta_{n-1}$,<br>则$\beta_1,\beta_2,\dotsb,\beta_n$两两正交<br>(2)规范化<br>令$\gamma_1=\frac{1}{|\beta_1|}\beta_1,\gamma_2=\frac{1}{|\beta_2|}\beta_2,\dotsb,\gamma_b=\frac{1}{|\beta_b|}\beta_b$，则$\gamma_1,\gamma_2,\dotsb,\gamma_n$为两两正交且规范的向量组</p>
-<h2 id="确定参数"><a href="#确定参数" class="headerlink" title="确定参数"></a>确定参数</h2><h3 id="确定参数的常见情形"><a href="#确定参数的常见情形" class="headerlink" title="确定参数的常见情形"></a>确定参数的常见情形</h3><p>确定参数有以下常见情形：<br>(1) 设$A=(a_{ij})_{m\times n},B=(b_{ij})_{m\times n},A\sim B\Rightarrow\begin{cases}<br>    |A|=|B| \\<br>    \sum_{i=1}^na_{ii}=\sum_{i=1}^nb_{ii}<br>\end{cases}$<br>(2) 已知$\lambda_0$是A的一个特征值$\Rightarrow|\lambda_0 -A|=0$<br>(3) 已知$\alpha_0$是A的一个特征向量$\Rightarrow A\alpha_0=\lambda\alpha_0$（解方程组）<br>(4) 对n阶矩阵A,$r(A)&lt;n\Rightarrow|A|=0$(常用方法)<br>(5) $\lambda E-A|=|\lambda E-B|$，且A,B均为实对称矩阵，则$A\sim B$</p>
-<h3 id="矩阵相似的必要条件"><a href="#矩阵相似的必要条件" class="headerlink" title="矩阵相似的必要条件"></a>矩阵相似的必要条件</h3><script type="math/tex; mode=display">A\sim B\begin{cases}
-    |A|=|B| \\
-    \sum_{i=1}^na_{ii}=\sum_{i=1}^nb_{ii}(即tr(A)=tr(B)) \\
-    r(A) = r(B) \\
-    |\lambda E-A|=|\lambda E-B| \\
-    A与B有相同的特征值
-\end{cases}</script>]]></content>
+<p>质心计算公式$r_\sigma=\frac{\sum_im_ir_i}{M}$和$r_\sigma=\frac{\int^b_ax\rho(x)dx}{\int^b_a\rho(x)dx}$</p>
+]]></content>
       <categories>
         <category>数学</category>
       </categories>
       <tags>
-        <tag>线性代数</tag>
+        <tag>高等数学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>高等数学-一元函数微分学</title>
+    <url>/2021/05/16/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E5%BE%AE%E5%88%86%E5%AD%A6/</url>
+    <content><![CDATA[<h2 id="导数与微分的概念"><a href="#导数与微分的概念" class="headerlink" title="导数与微分的概念"></a>导数与微分的概念</h2><h3 id="导数的概念"><a href="#导数的概念" class="headerlink" title="导数的概念"></a>导数的概念</h3><p>函数$f(x)$在$x_0$处可导的充分必要条件是它在该点的左导数与右导数都存在且相等</p>
+<h3 id="微分的概念"><a href="#微分的概念" class="headerlink" title="微分的概念"></a>微分的概念</h3><p>函数$y=f(x)$在$x_0$点处可微的充分必要条件是$f(x)$在点$x_0$处可导，且有$\mathrm{d}y=f’(x_0)\Delta x=f’(x_0)\mathrm{d}x$，在点$x$处，常记$\mathrm{d}y=f’(x)\mathrm{d}x$</p>
+<h2 id="导数公式及求导法则"><a href="#导数公式及求导法则" class="headerlink" title="导数公式及求导法则"></a>导数公式及求导法则</h2><h3 id="基本初等函数的导数公式"><a href="#基本初等函数的导数公式" class="headerlink" title="基本初等函数的导数公式"></a>基本初等函数的导数公式</h3><p><img src="/2021/05/16/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E5%BE%AE%E5%88%86%E5%AD%A6/求导公式-1.png" alt="photo"><br><img src="/2021/05/16/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E5%BE%AE%E5%88%86%E5%AD%A6/求导公式-2.png" alt="photo"></p>
+<h3 id="求导法则"><a href="#求导法则" class="headerlink" title="求导法则"></a>求导法则</h3><h4 id="有理运算"><a href="#有理运算" class="headerlink" title="有理运算"></a>有理运算</h4><p>设$u=u(x),v=v(x)$在x处可导，则</p>
+<ol>
+<li>$(u\pm v)’=u’\pm v’$</li>
+<li>$(uv)’=u’v+uv’$</li>
+<li>$(\frac{u}{v})’=\frac{u’v-uv’}{v2}(v\ne0)$</li>
+</ol>
+<h4 id="复合函数求导"><a href="#复合函数求导" class="headerlink" title="复合函数求导"></a>复合函数求导</h4><p>设$u=\varphi(x)$在x处可导，$y=f(u)$在对应点处可导，则复合函数$y=f[\varphi(x)]$在x处可导，且$\frac{dy}{dx}=\frac{dy}{du}\cdot\frac{du}{dx}=f’(u)\varphi(x)$</p>
+<h4 id="隐函数求导"><a href="#隐函数求导" class="headerlink" title="隐函数求导"></a>隐函数求导</h4><h4 id="反函数求导"><a href="#反函数求导" class="headerlink" title="反函数求导"></a>反函数求导</h4><p>$\varphi’(y)=\frac{1}{f’(x)}\Leftrightarrow\frac{\mathrm{d}x}{\mathrm{d}y}=\frac{1}{\frac{\mathrm{d}y}{\mathrm{d}x}}$<br>$\varphi’’(y)=\frac{\mathrm{d}}{\mathrm{d}x}[\frac{1}{f’(x)}]\cdot\frac{\mathrm{d}x}{\mathrm{d}y}=-\frac{f’’(x)}{f’(x)^2}\cdot\frac{1}{f’(x)}$</p>
+<h4 id="参数方程求导"><a href="#参数方程求导" class="headerlink" title="参数方程求导"></a>参数方程求导</h4><p>设$y=y(x)$是由参数方程<script type="math/tex">\begin{cases}
+   x=\varphi(t)\\
+   y=\psi(t)
+\end{cases}(\alpha<t<\beta)</script>确定的函数，则</p>
+<p>(1) 若$\varphi(t)和\psi(t)$都可导，且$\varphi’(t)\ne0$，则$\frac{dy}{dx}=\frac{\psi’(t)}{\varphi’(t)}$</p>
+<p>(2) 若$\varphi(t)和\psi(t)$二阶可导，且$\varphi’(t)\ne0$，则$\frac{d^2y}{dx^2}=\frac{d}{dt}(\frac{\psi’(t)}{\varphi’(t)})\frac{1}{\varphi’(t)}=\frac{\psi’’(t)\varphi’(t)-\varphi’’(t)\psi’(t)}{\varphi’^3(t)}$</p>
+<h4 id="常用结论"><a href="#常用结论" class="headerlink" title="常用结论"></a>常用结论</h4><p>设$f(x)=\varphi(x)|x-a|$，其$\varphi(x)$在$x=a$处连续，则$f(x)$在$x=a$处可导的充要条件是$\varphi(a)=0$</p>
+<p>$f(x)$可导$\overset{\nrightarrow}{\nleftarrow}|f(x)|$可导<br>设$f(x)$连续<br>(1) 若$f(x_0)\ne0$，则在$x_0$处$f(x)$可导$\Leftrightarrow|f(x)|$可导<br>(2) 若$f(x_0)=0$，则$f’(x_0)=0\Leftrightarrow|f(x)|$在$x_0$处可导</p>
+<h2 id="高阶导数"><a href="#高阶导数" class="headerlink" title="高阶导数"></a>高阶导数</h2><h3 id="常用的高阶导数公式"><a href="#常用的高阶导数公式" class="headerlink" title="常用的高阶导数公式"></a>常用的高阶导数公式</h3><ol>
+<li>$(\sin x)^{(n)}=\sin(x+n\cdot\frac{\pi}{2})$</li>
+<li>$(\cos x)^{(n)}=\cos(x+n\cdot\frac{\pi}{2})$</li>
+<li>$(u\pm v)^{(n)}=u^{(n)}\pm v^{(n)}$</li>
+<li>$(uv)^{(n)}=\sum_{k=0}^nC_n^ku^{(k)}v^{(n-k)}$</li>
+</ol>
+<h2 id="微分中值定理"><a href="#微分中值定理" class="headerlink" title="微分中值定理"></a>微分中值定理</h2><h3 id="费马引理"><a href="#费马引理" class="headerlink" title="费马引理"></a>费马引理</h3><p>设函数$f(x)$在点$x_0$处可导，如果函数$f(x)$在点$x_0$处取得极值，那么$f’(x_0)=0$</p>
+<h3 id="罗尔定理"><a href="#罗尔定理" class="headerlink" title="罗尔定理"></a>罗尔定理</h3><p>如果$f(x)$满足以下条件：<br>(1) 在闭区间[a,b]上连续<br>(2) 在开区间(a,b)内可导<br>(3) $f(a)=f(b)$<br>则在(a,b)内至少存在一点$\xi$，使得$f’(\xi)=0$</p>
+<h3 id="拉格朗日中值定理"><a href="#拉格朗日中值定理" class="headerlink" title="拉格朗日中值定理"></a>拉格朗日中值定理</h3><p>如果$f(x)$满足以下条件：<br>(1) 在闭区间[a,b]上连续<br>(2) 在开区间(a,b)内可导<br>则在(a,b)内至少存在一点$\xi$，使得$f(b)-f(a)=f’(\xi)(b-a)$</p>
+<p>如果在(a,b)内恒有$f’(x)=0$，则在(a,b)内$f(x)$为常数</p>
+<h3 id="柯西中值定理"><a href="#柯西中值定理" class="headerlink" title="柯西中值定理"></a>柯西中值定理</h3><p>如果$f(x),F(x)$满足以下条件：<br>(1) 在闭区间[a,b]上连续<br>(2) 在开区间(a,b)内可导，且$F’(x)$在(a,b)内每一点处均不为零，则在(a,b)内至少存在一点$\xi$，使得$\frac{f(b)-f(a)}{F(b)-F(a)}=\frac{f’(\xi)}{F’(\xi)}$</p>
+<h3 id="皮亚诺型余项泰勒公式"><a href="#皮亚诺型余项泰勒公式" class="headerlink" title="皮亚诺型余项泰勒公式"></a>皮亚诺型余项泰勒公式</h3><p>如果$f(x)$在点$x_0$有直至n阶的导数，则有$f(x)=f(x_0)+f’(x_0)(x-x_0)+\frac{1}{2!}f’’(x_0)(x-x_0)^2+\dotsb+\frac{1}{n!}f^{(n)}(x_0)(x-x_0)^n+o[(x-x_0)^n]$,常称$R_n(x)=o(x-x_0)^n$为皮亚诺余项</p>
+<h3 id="拉格朗日型余项泰勒公式"><a href="#拉格朗日型余项泰勒公式" class="headerlink" title="拉格朗日型余项泰勒公式"></a>拉格朗日型余项泰勒公式</h3><p>设函数$f(x)$在含有$x_0$的开区间(a,b)内有n+1阶导数，则当$x\in(a,b)$时有$f(x)=f(x_0)+f’(x_0)(x-x_0)+\frac{1}{2!}f’’(x_0)(x-x_0)^2+\dotsb+\frac{1}{n!}f^{(n)}(x_0)(x-x_0)^n+R_n(x)$</p>
+<h2 id="导数的应用"><a href="#导数的应用" class="headerlink" title="导数的应用"></a>导数的应用</h2><h3 id="函数的单调性"><a href="#函数的单调性" class="headerlink" title="函数的单调性"></a>函数的单调性</h3><h3 id="函数的极值"><a href="#函数的极值" class="headerlink" title="函数的极值"></a>函数的极值</h3><p><strong>极值必要条件</strong><br>设$y=f(x)$在点$x_0$出可导，如果$x_0$为$f(x)$的极值点，则$f’(x_0)=0$</p>
+<p><strong>极值第一充分条件</strong><br>设$y=f(x)$在点$x_0$的某去心邻域内可导，且$f’(x_0)=0$（或$f(x)$在$x_0$处连续）<br>(1) 若$x<x_0$时，$f'(x)>0,x>x_0$时，$f'(x)<0$，则$x_0$为$f(x)$的极大值点 (2) 若$x<x_0$时，$f'(x)<0,x>x_0$时，$f'(x)>0$，则$x_0$为$f(x)$的极小值点<br>(3) 若$f’(x)$在点$x_0$的两侧同号，则$x_0$不为$f(x)$的极值点</0$，则$x_0$为$f(x)$的极大值点></x_0$时，$f'(x)></p>
+<p><strong>极值的第二充分条件</strong><br>设$y=f(x)$在点$x_0$处二阶可导，且$f’(x_0)=0$<br>(1) 若$f’’(x_0)<0$，则$x_0$为$f(x)$的极大值点 (2) 若$f''(x_0)>0$，则$x_0$为$f(x)$的极小值点<br>(3) 若$f’’(x_0)=0$，则此方法不能判定$x_0$是否为极值点</0$，则$x_0$为$f(x)$的极大值点></p>
+<h3 id="函数的最大值与最小值"><a href="#函数的最大值与最小值" class="headerlink" title="函数的最大值与最小值"></a>函数的最大值与最小值</h3><h3 id="曲线的凹凸性"><a href="#曲线的凹凸性" class="headerlink" title="曲线的凹凸性"></a>曲线的凹凸性</h3><p>设函数$y=f(x)$在[a,b]上连续，在(a,b)内二阶可导，那么<br>(1) 若在(a,b)内有$f’’(x)&gt;0$，则$f(x)$在[a,b]上的图形式凹的<br>(1) 若在(a,b)内有$f’’(x)&lt;0$，则$f(x)$在[a,b]上的图形式凸的</p>
+<p><strong>拐点的必要条件</strong><br>设$y=f(x)$在点$x_0$处二阶可导，且点$(x_0,f(x_0))$为曲线$y=f(x)$的拐点，则$f’’(x_0)=0$</p>
+<p><strong>拐点的第一充分条件</strong><br>设$y=f(x)$在点$x_0$的某去心邻域内二阶可导，且$f’’(x_0)=0$(或$f(x)$在$x_0$处连续)<br>(1) 若$f’’(x)$在$x_0$的左、右两侧异号，则点$(x_0,f(x_0))$为曲线$y=f(x)$的拐点<br>(2) 若$f’’(x)$在$x_0$的左、右两侧同号，则点$(x_0,f(x_0))$不为曲线$y=f(x)$的拐点</p>
+<p><strong>拐点的第二充分条件</strong><br>设$y=f(x)$在点$x_0$处三阶可导，且$f’’(x_0)=0$<br>(1) 若$f’’’(x_0)\ne0$，则点$(x_0,f(x_0))$为曲线$y=f(x)$的拐点<br>(2) 若$f’’’(x_0)=0$，则此方法不能判定$(x_0,f(x_0))$是否为曲线$y=f(x)$的拐点</p>
+<h3 id="曲线的渐近线"><a href="#曲线的渐近线" class="headerlink" title="曲线的渐近线"></a>曲线的渐近线</h3><p><strong>水平渐近线</strong><br>若$\lim\limits_{x\rightarrow\infty}f(x)=A$(或$\lim\limits_{x\rightarrow-\infty}f(x)=A,or\lim\limits_{x\rightarrow+\infty}f(x)=A$)，那么$y=A$是曲线$y=f(x)$水平渐近线</p>
+<p><strong>垂直渐近线</strong><br>若$\lim\limits_{x\rightarrow x_0}f(x)=\infty$(或$\lim\limits_{x\rightarrow x_0^-}f(x)=\infty,or\lim\limits_{x\rightarrow x_0^+}f(x)=\infty$)，那么$x=x_0$是曲线$y=f(x)$的垂直渐近线</p>
+<p><strong>斜渐近线</strong><br>若$\lim\limits_{x\rightarrow\infty}\frac{f(x)}{x}=a$，且$\lim\limits_{x\rightarrow\infty}(f(x)-ax)=b(orx\rightarrow-\infty,orx\rightarrow+\infty)$，那么$y=ax+b$是曲线$y=f(x)$的渐近线</p>
+<h3 id="曲线的弧微分与曲率"><a href="#曲线的弧微分与曲率" class="headerlink" title="曲线的弧微分与曲率"></a>曲线的弧微分与曲率</h3><p><strong>弧微分</strong><br>设$y=f(x)$在(a,b)内有连续导数，则有弧微分$\mathrm{d}s=\sqrt{1+y’^2}\mathrm{d}x$</p>
+<p><strong>曲率</strong><br>设$y=f(x)$有二阶导数，则有曲率$K=\frac{|y’’|}{(1+y’^2)^\frac{3}{2}}$</p>
+<p><strong>曲率圆与曲率半径</strong></p>
+<script type="math/tex; mode=display">R=\frac{1}{K}</script><h2 id="常考题型"><a href="#常考题型" class="headerlink" title="常考题型"></a>常考题型</h2><h3 id="常用不等式"><a href="#常用不等式" class="headerlink" title="常用不等式"></a>常用不等式</h3><p>$\sin x &lt; x &lt;\tan x,a+b &lt; 2\sqrt{ab},\frac{x}{1+x} &lt; \ln(1+x) &lt; x(x&gt;0)$</p>
+<p>$f(\frac{x+y}{2})\le\frac{f(x)+f(y)}{2}$</p>
+<h3 id="微分中值定理证明"><a href="#微分中值定理证明" class="headerlink" title="微分中值定理证明"></a>微分中值定理证明</h3><p><strong>证明存在一个点$\xi\in(a,b)$，使$F[\xi,f(\xi),f’(\xi)]=0$</strong></p>
+<ol>
+<li>分析法<ol>
+<li>确定辅助函数$g(x),g’(x)=F[\xi,f(\xi),f’(\xi)]$</li>
+</ol>
+</li>
+<li>微分方程法<ol>
+<li>求微分方程$F(x,y,y’)=0$的通解$H(x,y)=C$</li>
+<li>设辅助函数：$g(x)=H(x,f(x))$</li>
+</ol>
+</li>
+</ol>
+<p>常用辅助函数<br>(1) 欲证$f’(\xi)+\lambda f(\xi)=0\Rightarrow F(x)=e^{-\lambda x}f(x)$<br>(2) 欲证$\alpha f’(\xi)+\beta f(\xi)=0\Rightarrow F(x)=e^{\frac{\beta}{\alpha}x}f(x)(\alpha\ne0)$<br>(3) 欲证$f’(\xi)+g’(\xi)f(\xi)=0\Rightarrow F(x)=e^{g(x)}f(x)$<br>(4) 欲证$f’(\xi)+g(\xi)f(\xi)=0\Rightarrow F(x)=e^{\int g(x)\mathrm{d}x}f(x)$</p>
+<p><strong>证明存在两个中值点$\xi,\eta\in(a,b)$，使$F[\xi,\eta,f(\xi),f(\eta),f’(\xi),f’(\eta)=0$</strong><br>(1) 不要求$\xi\ne\eta$<br>    在同一区间[a,b]上用两次中值定理<br>(2) 要求$\xi\ne\eta$<br>将区间[a,b]分为两个子区间，在两个子区间上分别用拉格朗日中值定理</p>
+<p>**证明存在一个中值带你$\xi\in(a,b)$，使$F[\xi,f^{(n)}(\xi)]\ge0(n\ge2)$</p>
+<p>用拉格朗日余项的泰勒公式，其中$x_0$点选题目提供函数值和导数信息多的点</p>
+]]></content>
+      <categories>
+        <category>数学</category>
+      </categories>
+      <tags>
+        <tag>高等数学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>高等数学-二重积分</title>
+    <url>/2021/06/11/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%BA%8C%E9%87%8D%E7%A7%AF%E5%88%86/</url>
+    <content><![CDATA[<h2 id="二重积分的概念"><a href="#二重积分的概念" class="headerlink" title="二重积分的概念"></a>二重积分的概念</h2><script type="math/tex; mode=display">\iint_Df(x,y)d\sigma=\lim\limits_{\lambda\rightarrow0}\sum_{i=1}^nf(\xi_i,\eta_i)\Delta\sigma_i</script><h2 id="二重积分的几何意义"><a href="#二重积分的几何意义" class="headerlink" title="二重积分的几何意义"></a>二重积分的几何意义</h2><p>二重积分$\iint_Df(x,y)d\sigma$是一个数。当$f(x,y)\ge0$时，其值等于以积分域D为底，以曲面$z=f(x,y)$为曲顶的曲顶柱体的体积</p>
+<h2 id="二重积分的性质"><a href="#二重积分的性质" class="headerlink" title="二重积分的性质"></a>二重积分的性质</h2><h3 id="不等式性质"><a href="#不等式性质" class="headerlink" title="不等式性质"></a>不等式性质</h3><ol>
+<li>若在D上$f(x,y)\le g(x,y)$，则$\iint_Df(x,y)d\sigma\le\iint_Dg(x,y)d\sigma$</li>
+<li>若$f(x,y)$在D上连续，则$mS\le\iint_Df(x,y)d\sigma\le MS$，其中m和M分别为$f(x,y)$在D上的最小值和最大值，S为积分域D的面积</li>
+<li>$|\iint_Df(x,y)d\sigma|\le\iint_D|f(x,y)|d\sigma$</li>
+</ol>
+<h3 id="积分中值定理"><a href="#积分中值定理" class="headerlink" title="积分中值定理"></a>积分中值定理</h3><p>若$f(x,y)$在D上连续，则$\iint_Df(x,y)d\sigma=f(\xi,\eta)S$，其中$(\xi,\eta)\in D,S$为积分域D的面积</p>
+<h2 id="二重积分的计算"><a href="#二重积分的计算" class="headerlink" title="二重积分的计算"></a>二重积分的计算</h2><h3 id="利用直角坐标计算"><a href="#利用直角坐标计算" class="headerlink" title="利用直角坐标计算"></a>利用直角坐标计算</h3><p><strong>先y后x</strong><br>若积分域D是X型区域，即积分域D可以用不等式$y_1(x)\le y\le y_2(x),a\le x\le b$来表示，则<br><img src="/2021/06/11/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%BA%8C%E9%87%8D%E7%A7%AF%E5%88%86/1-1.png" alt="photo"></p>
+<script type="math/tex; mode=display">\iint_Df(x,y)d\sigma=\int_a^bdx\int_{y_1(x)}^{y_2(x)}f(x,y)dy</script><p><strong>先x后y</strong><br>若积分域D是Y型区域，即积分域D可以用不等式$x_1(y)\le x\le x_2(y),c\le y\le d$来表示，则<br><img src="/2021/06/11/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%BA%8C%E9%87%8D%E7%A7%AF%E5%88%86/1-2.png" alt="photo"></p>
+<script type="math/tex; mode=display">\iint_Df(x,y)d\sigma=\int_c^ddy\int_{x_1(y)}^{x_2(y)}f(x,y)dx</script><h3 id="利用极坐标计算"><a href="#利用极坐标计算" class="headerlink" title="利用极坐标计算"></a>利用极坐标计算</h3><p><strong>先r后$\theta$</strong><br>若积分域D可以用不等式$r_1(\theta)\le r\le r_2(\theta),\alpha\le\theta\le\beta$，来表示，则<br><img src="/2021/06/11/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%BA%8C%E9%87%8D%E7%A7%AF%E5%88%86/2-1.png" alt="photo"></p>
+<script type="math/tex; mode=display">\iint_Df(x,y)d\sigma=\int_\alpha^\beta d\theta\int_{r_1(\theta)}^{r_2(\theta)}f(r\cos\theta,r\sin\theta)rdr</script><h3 id="利用对称性和奇偶性计算"><a href="#利用对称性和奇偶性计算" class="headerlink" title="利用对称性和奇偶性计算"></a>利用对称性和奇偶性计算</h3><p>(1) 若积分域D关于y轴对称，f(x,y)关于x有奇偶性，则：</p>
+<script type="math/tex; mode=display">\iint_Df(x,y)d\sigma=\begin{cases}
+    2\iint_{D_{x\ge0}}f(x,y)d\sigma,&f(-x,y)=f(x,y) \\
+    0,&f(-x,y)=-f(x,y)
+\end{cases}</script><p>(1) 若积分域D关于x轴对称，f(x,y)关于y有奇偶性，则：</p>
+<script type="math/tex; mode=display">\iint_Df(x,y)d\sigma=\begin{cases}
+    2\iint_{D_{y\ge0}}f(x,y)d\sigma,&f(x,-y)=f(x,y) \\
+    0,&f(x,-y)=-f(x,y)
+\end{cases}</script><h3 id="利用变量对称性计算"><a href="#利用变量对称性计算" class="headerlink" title="利用变量对称性计算"></a>利用变量对称性计算</h3><p>二重积分$\iint_Df(x,y)d\sigma$的积分域D是点(x,y)的集合，记为$D_{(x,y)}$，类似一元定积分的值与积分变量用什么记号无关，则<br><img src="/2021/06/11/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%BA%8C%E9%87%8D%E7%A7%AF%E5%88%86/3-1.png" alt="photo"></p>
+<script type="math/tex; mode=display">\iint_{D_{(x,y)}}f(x,y)d\sigma=\iint_{D_{(y,x)}}f(y,x)d\sigma</script><p>即把二重积分的被积函数f(x,y)及积分域$D_{(x,y)}$中的x和y对调，积分值不变</p>
+]]></content>
+      <categories>
+        <category>数学</category>
+      </categories>
+      <tags>
+        <tag>高等数学</tag>
       </tags>
   </entry>
   <entry>
@@ -3157,370 +3780,6 @@ A+(-A)=O</script></li>
       </categories>
       <tags>
         <tag>线性代数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>线性代数-行列式</title>
-    <url>/2021/04/30/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E8%A1%8C%E5%88%97%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="行列式的基本概念与性质"><a href="#行列式的基本概念与性质" class="headerlink" title="行列式的基本概念与性质"></a>行列式的基本概念与性质</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><h4 id="行列式的定义"><a href="#行列式的定义" class="headerlink" title="行列式的定义"></a>行列式的定义</h4><script type="math/tex; mode=display">D=\begin{bmatrix}
-    a_{11} &a_{12} &\dots &a_{1n} \\
-    a_{21} &a_{22} &\dots &a_{2n} \\
-    \vdots &\vdots & &\vdots \\
-    a_{n1}& a_{n2} &\dots &a_{nn}
-\end{bmatrix}=\sum_{j_1,j_2,\dotsb,j_n}(-1)^{\tau(j_1,j_2,\dotsb,j_n)}a_{1j_1}a_{2j_2}\dotsb,a_{2j_n}</script><p>其中$\tau(j_1j_2..j_n)$表示排列$j_1j_2…j_n$的<em>逆序数</em>，即|A|是所有在不同行、不同列的n个元素乘积的代数和</p>
-<p>偶排列：一个排列的逆序数是偶数<br>奇排列：一个排列的逆序数是奇数</p>
-<h4 id="行列式按行（列）展开公式"><a href="#行列式按行（列）展开公式" class="headerlink" title="行列式按行（列）展开公式"></a>行列式按行（列）展开公式</h4><script type="math/tex; mode=display">|A|=a_{i1}A_{i1}+a_{i2}A_{i2}+...+a_{in}A_{in} = \sum_{k=1}^{n}a_{ik}A_{ik},i=1,2,..,n \\
-    |A|=a_{1j}A_{1j}+a_{2j}A_{2j}+...+a_{nj}A_{nj} = \sum_{k=1}^{n}a_{kj}A_{kj},j=1,2,..,n</script><p>其中$A_{ij}$为$a_{ij}$的代数余子式，即$A_{ij}=(-1)^{i+j}M_{ij}$，$M_{ij}$为|A|中去掉第 i 行及 第 j 列元素后的 n - 1 阶行列式<br>说明：<br>行列式的任一行（列）元素与另一行（列）元素的代数余子式乘积之和为0，即</p>
-<script type="math/tex; mode=display">\sum_{k=1}^na_{ik}A_{jk}=a_{i1}A_{j1}+a_{i2}A_{j2}+...+a_{in}A_{jn} = 0,i\not ={j} \\
-\sum_{k=1}^na_{ki}A_{kj}=a_{1i}A_{1j}+a_{2i}A_{2j}+...+a_{ni}A_{nj} = 0,i\not ={j}</script><span id="more"></span>
-<h4 id="行列式的性质"><a href="#行列式的性质" class="headerlink" title="行列式的性质"></a>行列式的性质</h4><p>记$|A|=\left |\begin{array}{cccc}<br>    a_{11} &amp;a_{12} &amp;\dots &amp;a_{1n} \\<br>    a_{21} &amp;a_{22} &amp;\dots &amp;a_{2n} \\<br>    \vdots &amp;\vdots &amp; &amp;\vdots \\<br>    a_{n1}&amp; a_{n2} &amp;\dots &amp;a_{nn}\\<br>\end{array}\right|<br>,\lvert A^T\rvert=\left |\begin{array}{cccc}<br>    a_{11} &amp;a_{21} &amp;\dots &amp;a_{n1} \\<br>    a_{12} &amp;a_{22} &amp;\dots &amp;a_{n2} \\<br>    \vdots &amp;\vdots &amp; &amp;\vdots \\<br>    a_{1n}&amp; a_{2n} &amp;\dots &amp;a_{nn}\\<br>\end{array}\right|$，<br>行列式 $\lvert A^T\rvert$ 称为|A|的转置行列式</p>
-<ol>
-<li>经过转置行列式的值不变，即 $|A^T|=|A|$</li>
-<li>两行（或列）互换位置，行列式的值变号，特别地，两行（或列）相同，行列式的值为0</li>
-<li>某行（或列）如有公因子k，则可把k提出行列式记号外。<br> (1)某行（或列）的元素全为0，行列式的值为0<br> (2)若两行（或列）的元素对应成比例，行列式的值为0</li>
-<li>如果行列式某行（或列）是两个元素之和，则可把行列式拆成两个行列式之和<script type="math/tex; mode=display">\left | \begin{array}{cccc}
-     a_1+b_1 &a_2+b_2 &a_3+b_3 \\
-     c_1 &c_2 &c_3 \\
-     d_1 &d_2 &d_3 \\
- \end{array} \right | = \left | \begin{array}{cccc}
-     a_1 &a_2 &a_3 \\
-     c_1 &c_2 &c_3 \\
-     d_1 &d_2 &d_3 \\
- \end{array} \right | + \left | \begin{array}{cccc}
-     b_1 &b_2 &b_3 \\
-     c_1 &c_2 &c_3 \\
-     d_1 &d_2 &d_3 \\
- \end{array} \right |</script></li>
-<li>把某行（或列）的k倍加到另一行（或列），行列式的值不变<script type="math/tex; mode=display">\left | \begin{array}{cccc}
-     a_1 &a_2 &a_3 \\
-     b_1 &b_2 &b_3 \\
-     c_1 &c_2 &c_3 \\
- \end{array} \right | = \left | \begin{array}{cccc}
-     a_1 &a_2 &a_3 \\
-     b_1+ka_1 &b_2+ka_2 &b_3+ka_3 \\
-     c_1 &c_2 &c_3 \\
- \end{array} \right |</script></li>
-</ol>
-<h4 id="有关行列式的重要公式"><a href="#有关行列式的重要公式" class="headerlink" title="有关行列式的重要公式"></a>有关行列式的重要公式</h4><p>(1) $\lvert A^T\rvert=\lvert A\rvert$;<br>(2) 若A是n阶矩阵，则$\lvert kA\rvert=k^n\lvert A\rvert$;<br>(3) 若A、B是同型矩阵，$\lvert AB\rvert=\lvert A\rvert\cdot\lvert B\rvert$;<br>(4) 若A是n阶可逆矩阵，$\lvert A^{-1}\rvert=\frac{1}{\lvert A\rvert}$;<br>(5) 若A是n阶矩阵，$\lvert A^<em>\rvert=\lvert A\rvert^{n-1}$<br>(7) $AA^</em>=A^*A=|A|E$<br>(6) 若A是n阶矩阵，且A的特征值为$\lambda_1,\lambda_2,\dotsb,\lambda_n$，则$|A|=\lambda_1\lambda_2\dotsb\lambda_n$<br>(8) 若A与B矩阵相似，则$|A|=|B|$</p>
-<h3 id="重要的行列式及定理"><a href="#重要的行列式及定理" class="headerlink" title="重要的行列式及定理"></a>重要的行列式及定理</h3><ol>
-<li>对角形行列式<script type="math/tex; mode=display">\begin{bmatrix}
- a_{11} &0 &\dotsb & 0 \\
- 0 &a_{22} &\dotsb &0 \\
- \vdots &\vdots & &\vdots \\
- 0 &0 &\dotsb &a_{nn}
-\end{bmatrix}=a_{11}a_{22}\dotsb a_{nn}</script></li>
-<li>上（下）三角形行列式的值等于主对角线元素的乘积<script type="math/tex; mode=display">\left | \begin{array}{cccc}
- a_{11} &a_{12} &\cdots &a_{1n} \\
- 0 &a_{22} &\cdots &a_{2n} \\
- 0 &0 &\ddots &\vdots \\
- 0 &0 &0 &a_{nn} \\
-\end{array} \right | ==\left | \begin{array}{cccc}
- a_{11} &0 &0 &0 \\
- a_{21} &a_{22} &0 &0 \\
- \vdots &\vdots &\ddots &0 \\
- a_{n1} &a_{n2} &\cdots &a_{nn} \\
-\end{array} \right | = a_{11}a_{22}\cdots a_{nn}</script></li>
-<li>关于副对角线的行列式<script type="math/tex; mode=display">\left | \begin{array}{cccc}
- a_{11} &a_{12} &\dots &a_{1,n-1} &a_{1n} \\
- a_{21} &a_{22} &\dots &a_{2,n-1} &0 \\
- \vdots &\vdots & &\vdots &\vdots \\
- a_{n1} &0 &\dots &0 &0 \\
-\end{array} \right | = \left | \begin{array}{cccc}
- 0 &\dots &0 &a_{1n} \\
- 0 &\dots &a_{2,n-1} &a_{2n} \\
- \vdots & &\vdots &\vdots \\
- a_{n1} &\dots &a_{n,n-1} &a_{nn} \\
-\end{array} \right | = (-1)^{\frac{n(n-1)}{2}}a_{1n}a_{2,n-1}\dots a_{n1}</script></li>
-<li>两个特殊的拉普拉斯展开式<script type="math/tex; mode=display">\left | \begin{array}{cccc}
- A &\ast \\
- O &B \\
-\end{array} \right | = \left | \begin{array}{cccc}
- A &O \\
- \ast &B \\
-\end{array} \right | = |A| \cdot|B|,\left | \begin{array}{cccc}
- O &A \\
- B &\ast \\
-\end{array} \right | = \left | \begin{array}{cccc}
- \ast &A \\
- B &O \\
-\end{array} \right | = (-1)^{mn}|A|\cdot|B|</script></li>
-<li>范德蒙行列式<script type="math/tex; mode=display">\left | \begin{array}{cccc}
- 1 &1 &\cdots &1 \\
- x_1 &x_2 &\cdots &x_n \\
- x_1^2 &x_2^2 &\cdots &a_n^2 \\
- \vdots &\vdots & &\vdots \\
- x_1^{n-1} &x_2^{n-1} &\cdots &x_n^{n-1} \\
-\end{array} \right |=\prod_{1\le j<i\le n}(x_i-x_j)</script></li>
-<li>箭形行列式<ol>
-<li>一般地，箭形行列式<script type="math/tex; mode=display">D_{n+1}=\left |\begin{array}{cccc}
- \lambda_0 &a_1 &a_2 &\dotsb &a_n \\
- b_1 &\lambda_1 &0 &\dotsb &0 \\
- b_2 &0 &\lambda_2 &\dotsb &0 \\
- \vdots &\vdots &\vdots &\ddots &\vdots \\
-  b_n &0 &0 &\dotsb &\lambda_n
-\end{array}\right |=\left |\begin{array}{cccc}
- \lambda_0-\sum_{i=1}^n\frac{b_ia_i}{\lambda_i} &a_1 & a_2 &\dotsb &a_n \\
- 0 &\lambda_1 &0 &\dotsb &0 \\
- 0 &0 &\lambda_2 &\dotsb &0 \\
- \vdots &\vdots &\vdots &\ddots &\vdots \\
- 0 &0 &0 &\dotsb &\lambda_n
-\end{array} \right |\\=(\lambda_0-\sum_{i=1}^n\frac{b_ia_i}{\lambda_i})\cdot \lambda_1\lambda_2\dotsb\lambda_n(\lambda_i\ne0,i=1,2,\dotsb,n)</script>若$\lambda_i=0(i=1,2,\dotsb,n)$，则$D_{n+1}=0$</li>
-<li>其他箭形行列式也可类似的计算</li>
-</ol>
-</li>
-</ol>
-<h2 id="克拉默法则"><a href="#克拉默法则" class="headerlink" title="克拉默法则"></a>克拉默法则</h2><p>对线性方程组</p>
-<script type="math/tex; mode=display">\begin{cases}
-    a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n = 0 \\
-    a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n = 0 \\
-    \cdots\cdots \\
-    a_{n1}x_1+a_{n2}x_2+\cdots+a_{nn}x_n=0 \\
-\end{cases}\tag{I}</script><p>及</p>
-<script type="math/tex; mode=display">\begin{cases}
-    a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n = b_1 \\
-    a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n = b_2 \\
-    \cdots\cdots \\
-    a_{n1}x_1+a_{n2}x_2+\cdots+a_{nn}x_n=b_n
-\end{cases}\tag{II}</script><p>其中(II)称为非齐次线性方程组,(I)称为(II)对应的齐次线性方程组或(II)的导出方程组<br>令$D=\left | \begin{array}{cccc}<br>        a_{11} &amp;a_{12} &amp;\dotsb &amp;a_{1n} \\<br>        a_{21} &amp;a_{22} &amp;\dotsb &amp;a_{2n} \\<br>        \vdots &amp;\vdots &amp; &amp;\vdots \\<br>        a_{n1} &amp;a_{n2} &amp;\dotsb &amp;a_{nn} \\<br>    \end{array} \right |,D_1=\left | \begin{array}{cccc}<br>        b_{1} &amp;a_{12} &amp;\dotsb &amp;a_{1n} \\<br>        b_{2} &amp;a_{22} &amp;\dotsb &amp;a_{2n} \\<br>        \vdots &amp;\vdots &amp; &amp;\vdots \\<br>        b_{n} &amp;a_{n2} &amp;\dotsb &amp;a_{nn} \\<br>    \end{array} \right |,\dotsb,D_n=\left | \begin{array}{cccc}<br>        a_{11} &amp;a_{12} &amp;\dotsb &amp;b_{1} \\<br>        a_{21} &amp;a_{22} &amp;\dotsb &amp;b_{2} \\<br>        \vdots &amp;\vdots &amp; &amp;\vdots \\<br>        a_{n1} &amp;a_{n2} &amp;\dotsb &amp;b_{n} \\<br>    \end{array} \right |$<br>其中D称为系数行列式，我们有<br><strong>定理1</strong> 方程组(I)只有零解的充分必要条件是$D\ne0$<br>方程组(I)有非零解(或者(I)有无穷多个解)的充分必要条件是$D=0$<br><strong>定理2</strong> 方程组(II)有唯一解的充分必要条件是$D\ne0$,此时$x=\frac{D_i}{D}(i=1,2,\dotsb,n)$,当$D=0$时，方程组(II)要么无解，要么有无穷多个解<br><img src="/2021/04/30/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E8%A1%8C%E5%88%97%E5%BC%8F/克拉默法则.png" alt="图片"></p>
-<h2 id="讨论-A-0的问题"><a href="#讨论-A-0的问题" class="headerlink" title="讨论|A|=0的问题"></a>讨论|A|=0的问题</h2><ol>
-<li>矩阵的秩：A中非零子式的最高阶数称为A的秩，记作$r(A)$</li>
-<li>有关矩阵A的秩的常用表达<ol>
-<li>$r(A)=r\Leftrightarrow A$中至少有r阶子式不为0，且A中任意的r阶以上子式全为0（如果有）</li>
-<li>$r(A)&lt;r\Leftrightarrow A$中任意的r阶及r阶以上子式全为0</li>
-<li>$r(A)\le r\Leftrightarrow A$中任意r阶以上子式全为0</li>
-<li>$r(A)&gt;r\Leftrightarrow A$中至少有r+1阶子式不为0</li>
-<li>$r(A)\ge r\Leftrightarrow A$中至少有r阶子式不为0</li>
-</ol>
-</li>
-<li>设$A_{m\times n}$，则$\begin{cases}<br> r(A)&lt;n\Leftrightarrow |A| = 0\\r(A)=n\Leftrightarrow |A|\ne0<br>\end{cases}$</li>
-<li>$A\ne0\Leftrightarrow r(A)\ge1$</li>
-<li>讨论矩阵秩的常用方法，设A,B均为n阶方阵，则：<ol>
-<li>利用矩阵秩的定义，即讨论矩阵的子式</li>
-<li>利用方程组$Ax=0$有$n-r(A)$个基础解</li>
-<li>$AB=O\Rightarrow\begin{cases}<br> B的列向量都是方程组Ax=0的解\\<br> r(A)+r(B)\le n<br>\end{cases}$</li>
-<li>$r(AB)\le min(r(A),r(B)),r(A+B)\le r(A)+r(B)$<br><img src="/2021/04/30/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-%E8%A1%8C%E5%88%97%E5%BC%8F/秩的使用.png" alt="图片"></li>
-</ol>
-</li>
-<li>证明|A|=0常用方法<ol>
-<li>利用秩$r(A)&lt;n\Leftrightarrow|A|=0$</li>
-<li>利用齐次线性方程组$Ax=0$有非零解$\Leftrightarrow|A|=0$</li>
-<li>反证法</li>
-<li>利用$|A|=\lambda_1\lambda_2\dotsb\lambda_n$，其中$\lambda_1,\lambda_2,\dotsb,\lambda_n$为A的特征值</li>
-</ol>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>数学</category>
-      </categories>
-      <tags>
-        <tag>线性代数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>高等数学-一元函数微分学</title>
-    <url>/2021/05/16/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E5%BE%AE%E5%88%86%E5%AD%A6/</url>
-    <content><![CDATA[<h2 id="导数与微分的概念"><a href="#导数与微分的概念" class="headerlink" title="导数与微分的概念"></a>导数与微分的概念</h2><h3 id="导数的概念"><a href="#导数的概念" class="headerlink" title="导数的概念"></a>导数的概念</h3><p>函数$f(x)$在$x_0$处可导的充分必要条件是它在该点的左导数与右导数都存在且相等</p>
-<h3 id="微分的概念"><a href="#微分的概念" class="headerlink" title="微分的概念"></a>微分的概念</h3><p>函数$y=f(x)$在$x_0$点处可微的充分必要条件是$f(x)$在点$x_0$处可导，且有$\mathrm{d}y=f’(x_0)\Delta x=f’(x_0)\mathrm{d}x$，在点$x$处，常记$\mathrm{d}y=f’(x)\mathrm{d}x$</p>
-<h2 id="导数公式及求导法则"><a href="#导数公式及求导法则" class="headerlink" title="导数公式及求导法则"></a>导数公式及求导法则</h2><h3 id="基本初等函数的导数公式"><a href="#基本初等函数的导数公式" class="headerlink" title="基本初等函数的导数公式"></a>基本初等函数的导数公式</h3><p><img src="/2021/05/16/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E5%BE%AE%E5%88%86%E5%AD%A6/求导公式-1.png" alt="photo"><br><img src="/2021/05/16/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E5%BE%AE%E5%88%86%E5%AD%A6/求导公式-2.png" alt="photo"></p>
-<h3 id="求导法则"><a href="#求导法则" class="headerlink" title="求导法则"></a>求导法则</h3><h4 id="有理运算"><a href="#有理运算" class="headerlink" title="有理运算"></a>有理运算</h4><p>设$u=u(x),v=v(x)$在x处可导，则</p>
-<ol>
-<li>$(u\pm v)’=u’\pm v’$</li>
-<li>$(uv)’=u’v+uv’$</li>
-<li>$(\frac{u}{v})’=\frac{u’v-uv’}{v2}(v\ne0)$</li>
-</ol>
-<h4 id="复合函数求导"><a href="#复合函数求导" class="headerlink" title="复合函数求导"></a>复合函数求导</h4><p>设$u=\varphi(x)$在x处可导，$y=f(u)$在对应点处可导，则复合函数$y=f[\varphi(x)]$在x处可导，且$\frac{dy}{dx}=\frac{dy}{du}\cdot\frac{du}{dx}=f’(u)\varphi(x)$</p>
-<h4 id="隐函数求导"><a href="#隐函数求导" class="headerlink" title="隐函数求导"></a>隐函数求导</h4><h4 id="反函数求导"><a href="#反函数求导" class="headerlink" title="反函数求导"></a>反函数求导</h4><p>$\varphi’(y)=\frac{1}{f’(x)}\Leftrightarrow\frac{\mathrm{d}x}{\mathrm{d}y}=\frac{1}{\frac{\mathrm{d}y}{\mathrm{d}x}}$<br>$\varphi’’(y)=\frac{\mathrm{d}}{\mathrm{d}x}[\frac{1}{f’(x)}]\cdot\frac{\mathrm{d}x}{\mathrm{d}y}=-\frac{f’’(x)}{f’(x)^2}\cdot\frac{1}{f’(x)}$</p>
-<h4 id="参数方程求导"><a href="#参数方程求导" class="headerlink" title="参数方程求导"></a>参数方程求导</h4><h4 id="常用结论"><a href="#常用结论" class="headerlink" title="常用结论"></a>常用结论</h4><p>设$f(x)=\varphi(x)|x-a|$，其$\varphi(x)$在$x=a$处连续，则$f(x)$在$x=a$处可导的充要条件是$\varphi(a)=0$</p>
-<p>$f(x)$可导$\overset{\nrightarrow}{\nleftarrow}|f(x)|$可导<br>设$f(x)$连续<br>(1) 若$f(x_0)\ne0$，则在$x_0$处$f(x)$可导$\Leftrightarrow|f(x)|$可导<br>(2) 若$f(x_0)=0$，则$f’(x_0)=0\Leftrightarrow|f(x)|$在$x_0$处可导</p>
-<h2 id="高阶导数"><a href="#高阶导数" class="headerlink" title="高阶导数"></a>高阶导数</h2><h3 id="常用的高阶导数公式"><a href="#常用的高阶导数公式" class="headerlink" title="常用的高阶导数公式"></a>常用的高阶导数公式</h3><ol>
-<li>$(\sin x)^{(n)}=\sin(x+n\cdot\frac{\pi}{2})$</li>
-<li>$(\cos x)^{(n)}=\cos(x+n\cdot\frac{\pi}{2})$</li>
-<li>$(u\pm v)^{(n)}=u^{(n)}\pm v^{(n)}$</li>
-<li>$(uv)^{(n)}=\sum_{k=0}^nC_n^ku^{(k)}v^{(n-k)}$</li>
-</ol>
-<h2 id="微分中值定理"><a href="#微分中值定理" class="headerlink" title="微分中值定理"></a>微分中值定理</h2><h3 id="费马引理"><a href="#费马引理" class="headerlink" title="费马引理"></a>费马引理</h3><p>设函数$f(x)$在点$x_0$处可导，如果函数$f(x)$在点$x_0$处取得极值，那么$f’(x_0)=0$</p>
-<h3 id="罗尔定理"><a href="#罗尔定理" class="headerlink" title="罗尔定理"></a>罗尔定理</h3><p>如果$f(x)$满足以下条件：<br>(1) 在闭区间[a,b]上连续<br>(2) 在开区间(a,b)内可导<br>(3) $f(a)=f(b)$<br>则在(a,b)内至少存在一点$\xi$，使得$f’(\xi)=0$</p>
-<h3 id="拉格朗日中值定理"><a href="#拉格朗日中值定理" class="headerlink" title="拉格朗日中值定理"></a>拉格朗日中值定理</h3><p>如果$f(x)$满足以下条件：<br>(1) 在闭区间[a,b]上连续<br>(2) 在开区间(a,b)内可导<br>则在(a,b)内至少存在一点$\xi$，使得$f(b)-f(a)=f’(\xi)(b-a)$</p>
-<p>如果在(a,b)内恒有$f’(x)=0$，则在(a,b)内$f(x)$为常数</p>
-<h3 id="柯西中值定理"><a href="#柯西中值定理" class="headerlink" title="柯西中值定理"></a>柯西中值定理</h3><p>如果$f(x),F(x)$满足以下条件：<br>(1) 在闭区间[a,b]上连续<br>(2) 在开区间(a,b)内可导，且$F’(x)$在(a,b)内每一点处均不为零，则在(a,b)内至少存在一点$\xi$，使得$\frac{f(b)-f(a)}{F(b)-F(a)}=\frac{f’(\xi)}{F’(\xi)}$</p>
-<h3 id="皮亚诺型余项泰勒公式"><a href="#皮亚诺型余项泰勒公式" class="headerlink" title="皮亚诺型余项泰勒公式"></a>皮亚诺型余项泰勒公式</h3><p>如果$f(x)$在点$x_0$有直至n阶的导数，则有$f(x)=f(x_0)+f’(x_0)(x-x_0)+\frac{1}{2!}f’’(x_0)(x-x_0)^2+\dotsb+\frac{1}{n!}f^{(n)}(x_0)(x-x_0)^n+o[(x-x_0)^n]$,常称$R_n(x)=o(x-x_0)^n$为皮亚诺余项</p>
-<h3 id="拉格朗日型余项泰勒公式"><a href="#拉格朗日型余项泰勒公式" class="headerlink" title="拉格朗日型余项泰勒公式"></a>拉格朗日型余项泰勒公式</h3><p>设函数$f(x)$在含有$x_0$的开区间(a,b)内有n+1阶导数，则当$x\in(a,b)$时有$f(x)=f(x_0)+f’(x_0)(x-x_0)+\frac{1}{2!}f’’(x_0)(x-x_0)^2+\dotsb+\frac{1}{n!}f^{(n)}(x_0)(x-x_0)^n+R_n(x)$</p>
-<h2 id="导数的应用"><a href="#导数的应用" class="headerlink" title="导数的应用"></a>导数的应用</h2><h3 id="函数的单调性"><a href="#函数的单调性" class="headerlink" title="函数的单调性"></a>函数的单调性</h3><h3 id="函数的极值"><a href="#函数的极值" class="headerlink" title="函数的极值"></a>函数的极值</h3><p><strong>极值必要条件</strong><br>设$y=f(x)$在点$x_0$出可导，如果$x_0$为$f(x)$的极值点，则$f’(x_0)=0$</p>
-<p><strong>极值第一充分条件</strong><br>设$y=f(x)$在点$x_0$的某去心邻域内可导，且$f’(x_0)=0$（或$f(x)$在$x_0$处连续）<br>(1) 若$x<x_0$时，$f'(x)>0,x>x_0$时，$f'(x)<0$，则$x_0$为$f(x)$的极大值点 (2) 若$x<x_0$时，$f'(x)<0,x>x_0$时，$f'(x)>0$，则$x_0$为$f(x)$的极小值点<br>(3) 若$f’(x)$在点$x_0$的两侧同号，则$x_0$不为$f(x)$的极值点</0$，则$x_0$为$f(x)$的极大值点></x_0$时，$f'(x)></p>
-<p><strong>极值的第二充分条件</strong><br>设$y=f(x)$在点$x_0$处二阶可导，且$f’(x_0)=0$<br>(1) 若$f’’(x_0)<0$，则$x_0$为$f(x)$的极大值点 (2) 若$f''(x_0)>0$，则$x_0$为$f(x)$的极小值点<br>(3) 若$f’’(x_0)=0$，则此方法不能判定$x_0$是否为极值点</0$，则$x_0$为$f(x)$的极大值点></p>
-<h3 id="函数的最大值与最小值"><a href="#函数的最大值与最小值" class="headerlink" title="函数的最大值与最小值"></a>函数的最大值与最小值</h3><h3 id="曲线的凹凸性"><a href="#曲线的凹凸性" class="headerlink" title="曲线的凹凸性"></a>曲线的凹凸性</h3><p>设函数$y=f(x)$在[a,b]上连续，在(a,b)内二阶可导，那么<br>(1) 若在(a,b)内有$f’’(x)&gt;0$，则$f(x)$在[a,b]上的图形式凹的<br>(1) 若在(a,b)内有$f’’(x)&lt;0$，则$f(x)$在[a,b]上的图形式凸的</p>
-<p><strong>拐点的必要条件</strong><br>设$y=f(x)$在点$x_0$处二阶可导，且点$(x_0,f(x_0))$为曲线$y=f(x)$的拐点，则$f’’(x_0)=0$</p>
-<p><strong>拐点的第一充分条件</strong><br>设$y=f(x)$在点$x_0$的某去心邻域内二阶可导，且$f’’(x_0)=0$(或$f(x)$在$x_0$处连续)<br>(1) 若$f’’(x)$在$x_0$的左、右两侧异号，则点$(x_0,f(x_0))$为曲线$y=f(x)$的拐点<br>(2) 若$f’’(x)$在$x_0$的左、右两侧同号，则点$(x_0,f(x_0))$不为曲线$y=f(x)$的拐点</p>
-<p><strong>拐点的第二充分条件</strong><br>设$y=f(x)$在点$x_0$处三阶可导，且$f’’(x_0)=0$<br>(1) 若$f’’’(x_0)\ne0$，则点$(x_0,f(x_0))$为曲线$y=f(x)$的拐点<br>(2) 若$f’’’(x_0)=0$，则此方法不能判定$(x_0,f(x_0))$是否为曲线$y=f(x)$的拐点</p>
-<h3 id="曲线的渐近线"><a href="#曲线的渐近线" class="headerlink" title="曲线的渐近线"></a>曲线的渐近线</h3><p><strong>水平渐近线</strong><br>若$\lim\limits_{x\rightarrow\infty}f(x)=A$(或$\lim\limits_{x\rightarrow-\infty}f(x)=A,or\lim\limits_{x\rightarrow+\infty}f(x)=A$)，那么$y=A$是曲线$y=f(x)$水平渐近线</p>
-<p><strong>垂直渐近线</strong><br>若$\lim\limits_{x\rightarrow\infty}f(x)=\infty$(或$\lim\limits_{x\rightarrow-\infty}f(x)=\infty,or\lim\limits_{x\rightarrow+\infty}f(x)=\infty$)，那么$x=x_0$是曲线$y=f(x)$的垂直渐近线</p>
-<p><strong>斜渐近线</strong><br>若$\lim\limits_{x\rightarrow\infty}\frac{f(x)}{x}=a$，且$\lim\limits_{x\rightarrow\infty}(f(x)-ax)=b(orx\rightarrow-\infty,orx\rightarrow+\infty)$，那么$y=ax+b$是曲线$y=f(x)$的渐近线</p>
-<h3 id="曲线的弧微分与曲率"><a href="#曲线的弧微分与曲率" class="headerlink" title="曲线的弧微分与曲率"></a>曲线的弧微分与曲率</h3><p><strong>弧微分</strong><br>设$y=f(x)$在(a,b)内有连续导数，则有弧微分$\mathrm{d}s=\sqrt{1+y’^2}\mathrm{d}x$</p>
-<p><strong>曲率</strong><br>设$y=f(x)$有二阶导数，则有曲率$K=\frac{|y’’|}{(1+y’^2)^\frac{3}{2}}$</p>
-<p><strong>曲率圆与曲率半径</strong></p>
-<script type="math/tex; mode=display">R=\frac{1}{K}</script><h2 id="常考题型"><a href="#常考题型" class="headerlink" title="常考题型"></a>常考题型</h2><h3 id="常用不等式"><a href="#常用不等式" class="headerlink" title="常用不等式"></a>常用不等式</h3><p>$\sin x &lt; x &lt;\tan x,a+b &lt; 2\sqrt{ab},\frac{x}{1+x} &lt; \ln(1+x) &lt; x(x&gt;0)$</p>
-<p>$f(\frac{x+y}{2})\le\frac{f(x)+f(y)}{2}$</p>
-<h3 id="微分中值定理证明"><a href="#微分中值定理证明" class="headerlink" title="微分中值定理证明"></a>微分中值定理证明</h3><p><strong>证明存在一个点$\xi\in(a,b)$，使$F[\xi,f(\xi),f’(\xi)]=0$</strong></p>
-<ol>
-<li>分析法<ol>
-<li>确定辅助函数$g(x),g’(x)=F[\xi,f(\xi),f’(\xi)]$</li>
-</ol>
-</li>
-<li>微分方程法<ol>
-<li>求微分方程$F(x,y,y’)=0$的通解$H(x,y)=C$</li>
-<li>设辅助函数：$g(x)=H(x,f(x))$</li>
-</ol>
-</li>
-</ol>
-<p>常用辅助函数<br>(1) 欲证$f’(\xi)+\lambda f(\xi)=0\Rightarrow F(x)=e^{-\lambda x}f(x)$<br>(2) 欲证$\alpha f’(\xi)+\beta f(\xi)=0\Rightarrow F(x)=e^{\frac{\beta}{\alpha}x}f(x)(\alpha\ne0)$<br>(3) 欲证$f’(\xi)+g’(\xi)f(\xi)=0\Rightarrow F(x)=e^{g(x)}f(x)$<br>(4) 欲证$f’(\xi)+g(\xi)f(\xi)=0\Rightarrow F(x)=e^{\int g(x)\mathrm{d}x}f(x)$</p>
-<p><strong>证明存在两个中值点$\xi,\eta\in(a,b)$，使$F[\xi,\eta,f(\xi),f(\eta),f’(\xi),f’(\eta)=0$</strong><br>(1) 不要求$\xi\ne\eta$<br>    在同一区间[a,b]上用两次中值定理<br>(2) 要求$\xi\ne\eta$<br>将区间[a,b]分为两个子区间，在两个子区间上分别用拉格朗日中值定理</p>
-<p>**证明存在一个中值带你$\xi\in(a,b)$，使$F[\xi,f^{(n)}(\xi)]\ge0(n\ge2)$</p>
-<p>用拉格朗日余项的泰勒公式，其中$x_0$点选题目提供函数值和导数信息多的点</p>
-]]></content>
-      <categories>
-        <category>数学</category>
-      </categories>
-      <tags>
-        <tag>高等数学</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>高等数学-一元函数积分学</title>
-    <url>/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/</url>
-    <content><![CDATA[<h2 id="不定积分"><a href="#不定积分" class="headerlink" title="不定积分"></a>不定积分</h2><h3 id="两个基本概念"><a href="#两个基本概念" class="headerlink" title="两个基本概念"></a>两个基本概念</h3><p><em>原函数</em><br>$F’(x)=f(x)$<br><em>不定积分</em><br>$\int f(x)dx=F(x)+C$</p>
-<h3 id="原函数的存在性"><a href="#原函数的存在性" class="headerlink" title="原函数的存在性"></a>原函数的存在性</h3><p>(1) 若$f(x)$在区间$I$上连续，则$f(x)$在区间$I$上必有原函数<br>(2) 若$f(x)$在区间$I$上有第一类间断点，则$f(x)$在区间$I$上没有原函数<br>(3) 若$f(x)$在区间$I$上只有震荡间断点，则$f(x)$在区间$I$上可能存在原函数（专指不定积分）</p>
-<h3 id="不定积分的性质"><a href="#不定积分的性质" class="headerlink" title="不定积分的性质"></a>不定积分的性质</h3><p><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/不定积分的性质.png" alt="photo"></p>
-<h3 id="基本积分公式"><a href="#基本积分公式" class="headerlink" title="基本积分公式"></a>基本积分公式</h3><p><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/不定积分公式-1.png" alt="积分公式-1"><br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/不定积分公式-2.png" alt="积分公式-2"></p>
-<p>(23) $\int\tan^2xdx=\sec^2x-1+C$</p>
-<p>(24) $\int\arcsin xdx=x\arcsin x+\sqrt{1-x^2}$</p>
-<h3 id="三种主要积分法"><a href="#三种主要积分法" class="headerlink" title="三种主要积分法"></a>三种主要积分法</h3><h4 id="第一类换元法-凑微分"><a href="#第一类换元法-凑微分" class="headerlink" title="第一类换元法(凑微分)"></a>第一类换元法(凑微分)</h4><p>若$\int f(u)du=F(u)+C, and\varphi(x)$可导，则</p>
-<script type="math/tex; mode=display">\int f(\varphi(x))\varphi'(x)dx=\int f(\varphi(x))d\varphi(x)=F(\varphi(x))+C</script><h4 id="第二类换元法"><a href="#第二类换元法" class="headerlink" title="第二类换元法"></a>第二类换元法</h4><p>设函数$x=\varphi(t)$可导，且$\varphi’(t)\ne0$,又设$\int f(\varphi(t))\varphi’(t)dt=F(t)+C$，则$\int f(x)dx=\int f(\varphi(t))\varphi’(t)dt=F(\varphi^{-1}(x))+C$</p>
-<p>三种常用的变量代换<br>(1) 被积函数中含有$\sqrt{a^2-x^2}$时，令$x=a\sin t,or x = a\cos t$<br>(2) 被积函数中含有$\sqrt{a^2-x^2}$时，令$x=a\tan t$<br>(3) 被积函数中含有$\sqrt{a^2-x^2}$时，令$x=a\sec t$</p>
-<h4 id="分部积分法"><a href="#分部积分法" class="headerlink" title="分部积分法"></a>分部积分法</h4><p>设$u(x),v(x)$有连续一阶导数，则$\int udv=uv-\int vdu$</p>
-<h3 id="三类常见可积函数积分"><a href="#三类常见可积函数积分" class="headerlink" title="三类常见可积函数积分"></a>三类常见可积函数积分</h3><h4 id="有理函数积分"><a href="#有理函数积分" class="headerlink" title="有理函数积分"></a>有理函数积分</h4><h4 id="三角有理式积分"><a href="#三角有理式积分" class="headerlink" title="三角有理式积分"></a>三角有理式积分</h4><script type="math/tex; mode=display">\int R(\sin x,\cos x)dx</script><p>(1) 一般方法（万能代换）<br>令$\tan\frac{x}{2}=t$<br>$\sin\alpha=\frac{2\tan\frac{\alpha}{2}}{1+\tan^2\frac{\alpha}{2}}、\cos\alpha=\frac{1-\tan^2\frac{\alpha}{2}}{1+\tan^2\frac{\alpha}{2}}、dx=\frac{2dt}{1+t^2}$</p>
-<script type="math/tex; mode=display">\int R(\sin x,\cos x)dx=\int R(\frac{2t}{1+t^2},\frac{1-t^2}{1+t^2})\frac{2}{1+t^2}du</script><p>(2) 特殊方法（三角变形，换元，分部）</p>
-<ol>
-<li>若$R(-\sin x,\cos x)=-R(\sin x,\cos x)$，则令$u=\cos x$，即凑$d\cos x$</li>
-<li>若$R(\sin x,-\cos x)=-R(\sin x,\cos x)$，则令$u=\sin x$，即凑$d\sin x$</li>
-<li>若$R(-\sin x,-\cos x)=R(\sin x,\cos x)$，则令$u=\tan x$，即凑$d\tan x$</li>
-</ol>
-<h4 id="简单无理函数积分"><a href="#简单无理函数积分" class="headerlink" title="简单无理函数积分"></a>简单无理函数积分</h4><script type="math/tex; mode=display">\int R(x,\sqrt[n]{\frac{ax+b}{cx+d}})dx</script><p>令$\sqrt[n]{\frac{ax+b}{cx+d}}=t$，将其化为有理函数积分进行计算</p>
-<h2 id="定积分"><a href="#定积分" class="headerlink" title="定积分"></a>定积分</h2><h3 id="定积分的概念"><a href="#定积分的概念" class="headerlink" title="定积分的概念"></a>定积分的概念</h3><h3 id="定积分的几何意义"><a href="#定积分的几何意义" class="headerlink" title="定积分的几何意义"></a>定积分的几何意义</h3><ol>
-<li>设$\int_a^bf(x)dx$存在，若在[a,b]上$f(x)\ge0$，则$\int_a^bf(x)dx$的值等于以曲线$y=f(x)$，$y=a,x=b$及x轴所围成的曲边梯形的面积</li>
-<li>若在[a,b]上$f(x)\le0$，则$\int_a^bf(x)dx$的值等于以曲线$y=f(x),x=a,x=b$及x轴所围成的曲边梯形面积的负值</li>
-<li>若在[a,b]上$f(x)$的值有正也有负，则$\int_a^bf(x)dx$在几何上表示$y=f(x),x=a,x=b$及x轴所围成的x轴上方图形的面积减去下方图形的面积所得之差</li>
-</ol>
-<h3 id="可积性"><a href="#可积性" class="headerlink" title="可积性"></a>可积性</h3><p><strong>必要条件</strong><br>若$\int_a^bf(x)dx$存在，则$f(x)$在[a,b]上有界</p>
-<p><strong>充分条件</strong><br>(1) 若$f(x)$在[a,b]上连续，则$\int_a^bf(x)dx$必定存在<br>(2) 若$f(x)$在[a,b]上有界，且只有有限个间断点，则$\int_a^bf(x)dx$必定存在<br>(3) 若$f(x)$在[a,b]上只有有限个第一类间断点，则$\int_a^bf(x)dx$必定存在</p>
-<p>f(x)在[a,b]上可积，则$\int_a^xf(t)dt$连续</p>
-<h3 id="定积分的计算"><a href="#定积分的计算" class="headerlink" title="定积分的计算"></a>定积分的计算</h3><p><strong>牛顿莱布尼茨公式</strong><br>如果函数$F(x)$是连续函数$f(x)$在区间[a,b]上的一个原函数，则$\int_a^bf(x)dx=F(b)-F(a)$</p>
-<p><strong>换元积分法</strong><br>设f(x)在区间[a,b]上连续，函数$x=\varphi(t)满足以下条件$：<br>(1) $\varphi(\alpha)=a,\varphi(\beta)=b$</p>
-<p>(2) $\varphi(t)$在$<a href="or[\beta,\alpha]">\alpha,\beta</a>$上具有连续导数，且其值域$R_\varphi=[a,b]$，则</p>
-<script type="math/tex; mode=display">\int_a^bf(x)dx=\int_\alpha^\beta f(\varphi(t))\varphi'(t)dt</script><p><strong>分部积分法</strong><br>设函数$u(x)、v(x)$在[a,b]上有连续一阶导数，则$\int_a^budv=uv|\overset{b}{a}-\int_a^bvdu$</p>
-<p><strong>利用奇偶性和周期性</strong><br>(1) 设$f(x)$为[-a,a]上的连续函数(a&gt;0)，则</p>
-<script type="math/tex; mode=display">\int_{-a}^a=\begin{cases}
-    0,&f(x)为奇函数\\
-    2\int_a^bf(x)dx,&f(x)为偶函数
-\end{cases}</script><p>(2) 设$f(x)$是以T为周期的连续函数，则对任给数a，总有$\int_a^{a+T}f(x)dx=\int_0^Tf(x)dx$</p>
-<p><strong>利用公式</strong><br>(1) <script type="math/tex">\int_0^{\frac{\pi}{2}}\sin^nxdx=\int_0^\frac{\pi}{2}\cos^nxdx=\begin{cases}
-    \frac{n-1}{n}\cdot\frac{n-3}{n-2}\cdot\dotsb\cdot\frac{1}{2}\cdot\frac{\pi}{2},&n为偶数\\
-    \frac{n-1}{n}\cdot\frac{n-3}{n-2}\cdot\dotsb\cdot\frac{2}{3},&n为大于1的奇数
-\end{cases}</script><br>(2) $\int_0^\pi xf(\sin x)dx=\frac{\pi}{2}\int_0^\pi f(\sin x)dx$(其中$f(x)$连续)</p>
-<h3 id="变上限积分：-int-a-xf-t-dt"><a href="#变上限积分：-int-a-xf-t-dt" class="headerlink" title="变上限积分：$\int_a^xf(t)dt$"></a>变上限积分：$\int_a^xf(t)dt$</h3><p><strong>定理</strong><br>若$f(x)$在[a,b]上连续，则$\int_a^xf(t)dt$在[a,b]上可导且$(\int_a^xf(t)dt)’=f(x)$</p>
-<p><em>有关$F(x)=\int_a^xf(t)dt$在一点处的可导性的结论</em><br>| $f(x)$ | $F(x)=\int_a^xf(t)dt$ |<br>| —- | —- |<br>|连续|可导，且$F’(x_0)=f(x_0)$|<br>|可去间断|可导，且$F’(x_0)=\lim\limits_{x\rightarrow x_0}f(x)$|<br>|跳跃间断|连续但不可导，且$F_+’(x_0)=f(x_0^+),F_-‘(x_0)=f(x_0^-)$|</p>
-<p><strong>变上限求导的三个类型</strong><br>(1) $(\int_{\varphi(x)}^{\psi(x)}f(t)dt)’=\int_{\varphi(x)}^{\psi(x)}\frac{\vartheta f(x,t)}{\vartheta x}dt+f(x,\psi(x))\psi’(x)-f(x,\varphi(x))\varphi’(x)$</p>
-<p>(2) $(\int_a^bf(x,t)dt)’=\int_a^b\frac{\vartheta f(x,t)}{\vartheta x}dt$</p>
-<p><strong>连续性</strong><br>设$f(x)$在[a,b]上可积，则$\int_a^xf(x)dt$在[a,b]上连续</p>
-<p><strong>奇偶性</strong><br>(1) 若$f(x)$为奇函数，则$\int_a^xf(t)dt$为偶函数</p>
-<p>(2) 若$f(x)$为偶函数，则$\int_0^xf(t)dt$为奇函数</p>
-<h3 id="定积分的性质"><a href="#定积分的性质" class="headerlink" title="定积分的性质"></a>定积分的性质</h3><p><strong>不等式</strong><br>(1) 若$f(x)\le g(x),x\in[a,b]$，则$\int_a^bf(x)dx\le\int_a^bg(x)dx$</p>
-<p>(2) 若$f(x)$在[a,b]上连续，则$m(b-a)\le\int_a^bf(x)dx\le M(b-a)$，其中m,M分别为$f(x)$在[a,b]上的最小值与最大值</p>
-<p>(3) $|\int_a^bf(x)dx|\le\int_a^b|f(x)|dx$</p>
-<p><strong>积分中值定理</strong><br>(1) 若$f(x)$在[a,b]上连续，则$\int_a^bf(x)dx=f(\xi)(b-a),a&lt;\xi&lt;b$</p>
-<p>(2) 若$f(x),g(x)$在[a,b]上连续，且$g(x)$不变号，则$\int_a^bf(x)g(x)dx=f(\xi)\int_a^bg(x)dx,a\le\xi\le b$</p>
-<h3 id="积分不等式"><a href="#积分不等式" class="headerlink" title="积分不等式"></a>积分不等式</h3><p>柯西积分不等式：$(\int_a^bf(x)g(x)dx)^2\le\int_a^bf^2(x)dx\int_a^bg^2(x)dx$</p>
-<h2 id="反常积分"><a href="#反常积分" class="headerlink" title="反常积分"></a>反常积分</h2><h3 id="无穷区间上的反常积分"><a href="#无穷区间上的反常积分" class="headerlink" title="无穷区间上的反常积分"></a>无穷区间上的反常积分</h3><p><strong>定义</strong> 设$f(x)$为$(-\infty,+\infty)$上的连续函数，如果反常积分$\int_{-\infty}^0f(x)dx$和$\int_0^{+\infty}f(x)dx$都收敛，则称反常积分$\int_{-\infty}^{+\infty}f(x)dx$收敛，且$\int_{-\infty}^{+\infty}f(x)dx=\int_{-\infty}^0f(x)dx+\int_0^{+\infty}f(x)dx$<br>如果$\int_{-\infty}^0f(x)dx$与$\int_0^{+\infty}f(x)dx$之一发散，则称$\int_{-\infty}^{+\infty}f(x)dx$发散</p>
-<p><strong>定理1（比较判别法）</strong> 设$f(x),g(x)$在$[a,+\infty)$上连续，且$0\le f(x)\le g(x)$，且</p>
-<p>(1) 当$\int_a^{+\infty}g(x)dx$收敛时，$\int_a^{+\infty}f(x)dx$收敛</p>
-<p>(2) 当$\int_a^{+\infty}f(x)dx$发散时，$\int_a^{+\infty}g(x)dx$发散</p>
-<p><strong>定理2（比较法的极限形式）</strong> 设$f(x),g(x)$在$[a,+\infty)$上非负连续，且$\lim\limits_{x\rightarrow+\infty}\frac{f(x)}{g(x)}=\lambda$(有限或无穷)，则</p>
-<p>(1) 当$\lambda\ne0$时，$\int_a^{+\infty}f(x)dx$与$\int_a^{+\infty}g(x)dx$同敛散</p>
-<p>(2) 当$\lambda=0$时，若$\int_a^{+\infty}g(x)dx$收敛，则$\int_a^{+\infty}f(x)dx$也收敛</p>
-<p>(3) 当$\lambda=+\infty$时，若$\int_a^{+\infty}g(x)dx$发散，则$\int_a^{+\infty}f(x)dx$也发散</p>
-<p>常用结论：<script type="math/tex">\int_a^{+\infty}\frac{1}{x^p}dx\begin{cases}
-    p>1,&收敛 \\
-    p\le1,&发散
-\end{cases}\tag{a>0}</script></p>
-<h3 id="无界函数的反常积分"><a href="#无界函数的反常积分" class="headerlink" title="无界函数的反常积分"></a>无界函数的反常积分</h3><p><strong>定理1（比较判别法</strong> 设$f(x),g(x)$在$(a,b]$上连续，且$0\le f(x)\le g(x),x=a$为$f(x)$和$g(x)$的瑕点，则<br>(1) 当$\int_a^bg(x)dx$收敛时，$\int_a^bf(x)dx$收敛<br>(2) 当$\int_a^bf(x)dx$发散时，$\int_a^bg(x)dx$发散</p>
-<p><strong>定理2（比较法的极限形式</strong> 设$f(x),g(x)$在$(a,b]$上非负连续，且$\lim\limits_{x\rightarrow a^+}\frac{f(x)}{g(x)}=\lambda$(有限或无穷)，则<br>(1) 当$\lambda\ne0$时，$\int_a^{b}f(x)dx$与$\int_a^{b}g(x)dx$同敛散<br>(2) 当$\lambda=0$时，若$\int_a^bg(x)dx$收敛，则$\int_a^bf(x)dx$也收敛<br>(3) 当$\lambda=+\infty$时，若$\int_a^bg(x)dx$发散，则$\int_a^bf(x)dx$也发散</p>
-<p>常用结论：</p>
-<script type="math/tex; mode=display">\int_a^b\frac{1}{(x-a)^p}dx\begin{cases}
-    p<1,&收敛 \\
-    p\ge1,&发散
-\end{cases}</script><script type="math/tex; mode=display">\int_a^b\frac{1}{(b-x)^p}dx\begin{cases}
-    p<1,&收敛 \\
-    p\ge1,&发散
-\end{cases}</script><h2 id="定积分应用"><a href="#定积分应用" class="headerlink" title="定积分应用"></a>定积分应用</h2><h3 id="几何应用"><a href="#几何应用" class="headerlink" title="几何应用"></a>几何应用</h3><p><strong>平面图形的面积</strong><br>设有平面域D,则该平面域D的面积为$\iint_D1d\sigma$<br>(1) 若平面域D由曲线$y=f(x),y=g(x)(f(x)\ge g(x)),x=a,x=b(a&lt;b)$所围成，则<br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/平面图形面积-1.png" alt="photo"></p>
-<script type="math/tex; mode=display">S=\iint_D1d\sigma=\int_a^bdx\int_{g(x)}^{f(x)}1dy=\int_a^b[f(x)-g(x)]dx</script><p>(2) 若平面域D由曲线$r=r(\theta),\theta=\alpha,\theta=\beta(\alpha&lt;\beta)$所围成，则面积为<br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/平面图形面积-2.png" alt="photo"></p>
-<script type="math/tex; mode=display">S=\iint_D1d\sigma=\int_\alpha^\beta d\theta\int_0^{r(\theta)}rdr=\frac{1}{2}\int_\alpha^\beta r^2(\theta)d\theta</script><p><strong>空间体的体积</strong><br>(1) 旋转体的体积<br>平面域D绕直线L:ax+by+c=0(该直线不穿过区域D)旋转所得旋转体体积记为V<br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/旋转体体积-1.png" alt="photo"></p>
-<script type="math/tex; mode=display">r(x,y)=\frac{|ax+by+c|}{\sqrt{a^2+b^2}}</script><script type="math/tex; mode=display">dV=2\pi r(x,y)d\sigma</script><script type="math/tex; mode=display">V=2\pi\iint_Dr(x,y)d\sigma</script><p>特别的，若区域D由曲线$y=f(x)(f(x)\ge0$和直线$x=a,x=b(0\le a\le b)$及x轴所围成，则<br>(1) 区域D绕x轴旋转$(r(x,y)=y)$一周所得旋转体的体积为</p>
-<script type="math/tex; mode=display">V_x=2\pi \iint_Dyd\sigma=2\pi\int_a^bdx\int_0^{f(x)}ydy=\pi\int_a^bf^2(x)dx</script><p>(2) 区域D绕y轴旋转$(r(x,y)=x)$一周所得旋转体的体积为</p>
-<script type="math/tex; mode=display">V_y=2\pi\iint_Dxd\sigma=2\pi\int_a^bdx\int_0^{f(x)}xdy=2\pi\int_a^bxf(x)dx</script><p>(2) 横截面积的体积<br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/横截面面积的体积.png" alt="photo"></p>
-<script type="math/tex; mode=display">V=\int_a^bS(x)dx</script><p><strong>曲线弧长</strong><br>(1) 设曲线段C由直角坐标方程$y=f(x)(a\le x\le b)$给出，其中$y(x)$在[a,b]上有一阶连续导数，则该曲线段的弧长为</p>
-<script type="math/tex; mode=display">s=\int_a^b\sqrt{1+y'^2}dx</script><p>(2) 设曲线段C由参数方程$\begin{cases}<br>    x=x(t),\\<br>    y=y(t),<br>\end{cases}(a\le t\le \beta)$给出，其中$x(t),y(t)$在$[\alpha,\beta]$上有一阶连续导数，则该曲线段的弧长为</p>
-<script type="math/tex; mode=display">s=\int_\alpha^\beta\sqrt{x'^2(t)+y'^2(t)}dt</script><p>(3) 设曲线段C由极坐标方程$r=r(\theta)(\alpha\le\theta\beta)$给出，其中$r(\theta)$在$[\alpha,\beta]$上有一阶连续导数，则该曲线段的弧长为</p>
-<script type="math/tex; mode=display">s=\int_\alpha^\beta\sqrt{r^2(\theta)+r'^2(\theta)}d\theta</script><p>(4) 旋转体侧面积<br>曲线$y=f(x)(f(x)\ge0)$和直线$x=a,x=b(0\le a\le b)$及x轴所围成区域绕x轴旋转所得旋转体的侧面积是</p>
-<script type="math/tex; mode=display">S=2\pi\int_a^bf(x)\sqrt{1+f'^2(x)}dx</script><h4 id="特殊图形"><a href="#特殊图形" class="headerlink" title="特殊图形"></a>特殊图形</h4><p><strong>星形线</strong><br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/星形线.png" alt="星形线"><br>直角坐标方程：$x^{\frac{2}{3}}+y^{\frac{2}{3}}=a^{\frac{2}{3}}$<br>极坐标方程：$x=a\cos^3t,y=a\sin^3t$<br>围成面积$A=4\int_0^aydx$<br>弧长$L=4\int_0^a\sqrt{1+y’^2}dx$<br>绕x轴体积$V=2\pi\int_a^a y^2dx$<br>旋转体横截面积$2*2\pi\int_0^ay\sqrt{1+y’^2}dx$</p>
-<p><strong>摆线</strong><br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/摆线.png" alt="摆线"><br>极坐标方程：$x=a(t-\sin t),y=a(1-\cos t)$</p>
-<p><strong>心形线</strong><br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/心形线.png" alt="心形线"><br>极坐标方程：$r=a(1+\cos\theta)$</p>
-<p><strong>双纽线</strong><br><img src="/2021/05/23/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%B8%80%E5%85%83%E5%87%BD%E6%95%B0%E7%A7%AF%E5%88%86%E5%AD%A6/双纽线.png" alt="双纽线"><br>直角坐标方程：$(x^2+y^2)^2=a^2(x^2-y^2)$<br>极坐标方程：$r^2=a^2\cos2\theta$<br>旋转体侧面积：$2\int_0^\frac{\pi}{4}2\pi*r\sin\theta\sqrt{r^2+r’^2(\theta)}d\theta$</p>
-<h3 id="物理应用"><a href="#物理应用" class="headerlink" title="物理应用"></a>物理应用</h3><ol>
-<li>压力<ol>
-<li>水的压力F=水的压强P x 装水的容器的底面积S（F=pghS)</li>
-</ol>
-</li>
-<li>变力做功</li>
-<li>引力</li>
-</ol>
-<p>质心计算公式$r_\sigma=\frac{\sum_im_ir_i}{M}$</p>
-]]></content>
-      <categories>
-        <category>数学</category>
-      </categories>
-      <tags>
-        <tag>高等数学</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>高等数学-二重积分</title>
-    <url>/2021/06/11/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%BA%8C%E9%87%8D%E7%A7%AF%E5%88%86/</url>
-    <content><![CDATA[<h2 id="二重积分的概念"><a href="#二重积分的概念" class="headerlink" title="二重积分的概念"></a>二重积分的概念</h2><script type="math/tex; mode=display">\iint_Df(x,y)d\sigma=\lim\limits_{\lambda\rightarrow0}\sum_{i=1}^nf(\xi_i,\eta_i)\Delta\sigma_i</script><h2 id="二重积分的几何意义"><a href="#二重积分的几何意义" class="headerlink" title="二重积分的几何意义"></a>二重积分的几何意义</h2><p>二重积分$\iint_Df(x,y)d\sigma$是一个数。当$f(x,y)\ge0$时，其值等于以积分域D为底，以曲面$z=f(x,y)$为曲顶的曲顶柱体的体积</p>
-<h2 id="二重积分的性质"><a href="#二重积分的性质" class="headerlink" title="二重积分的性质"></a>二重积分的性质</h2><h3 id="不等式性质"><a href="#不等式性质" class="headerlink" title="不等式性质"></a>不等式性质</h3><ol>
-<li>若在D上$f(x,y)\le g(x,y)$，则$\iint_Df(x,y)d\sigma\le\iint_Dg(x,y)d\sigma$</li>
-<li>若$f(x,y)$在D上连续，则$mS\le\iint_Df(x,y)d\sigma\le MS$，其中m和M分别为$f(x,y)$在D上的最小值和最大值，S为积分域D的面积</li>
-<li>$|\iint_Df(x,y)d\sigma|\le\iint_D|f(x,y)|d\sigma$</li>
-</ol>
-<h3 id="积分中值定理"><a href="#积分中值定理" class="headerlink" title="积分中值定理"></a>积分中值定理</h3><p>若$f(x,y)$在D上连续，则$\iint_Df(x,y)d\sigma=f(\xi,\eta)S$，其中$(\xi,\eta)\in D,S$为积分域D的面积</p>
-<h2 id="二重积分的计算"><a href="#二重积分的计算" class="headerlink" title="二重积分的计算"></a>二重积分的计算</h2><h3 id="利用直角坐标计算"><a href="#利用直角坐标计算" class="headerlink" title="利用直角坐标计算"></a>利用直角坐标计算</h3><p><strong>先y后x</strong><br>若积分域D是X型区域，即积分域D可以用不等式$y_1(x)\le y\le y_2(x),a\le x\le b$来表示，则<br><img src="/2021/06/11/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%BA%8C%E9%87%8D%E7%A7%AF%E5%88%86/1-1.png" alt="photo"></p>
-<script type="math/tex; mode=display">\iint_Df(x,y)d\sigma=\int_a^bdx\int_{y_1(x)}^{y_2(x)}f(x,y)dy</script><p><strong>先x后y</strong><br>若积分域D是Y型区域，即积分域D可以用不等式$x_1(y)\le x\le x_2(y),c\le y\le d$来表示，则<br><img src="/2021/06/11/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%BA%8C%E9%87%8D%E7%A7%AF%E5%88%86/1-2.png" alt="photo"></p>
-<script type="math/tex; mode=display">\iint_Df(x,y)d\sigma=\int_c^ddy\int_{x_1(y)}^{x_2(y)}f(x,y)dx</script><h3 id="利用极坐标计算"><a href="#利用极坐标计算" class="headerlink" title="利用极坐标计算"></a>利用极坐标计算</h3><p><strong>先r后$\theta$</strong><br>若积分域D可以用不等式$r_1(\theta)\le r\le r_2(\theta),\alpha\le\theta\le\beta$，来表示，则<br><img src="/2021/06/11/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%BA%8C%E9%87%8D%E7%A7%AF%E5%88%86/2-1.png" alt="photo"></p>
-<script type="math/tex; mode=display">\iint_Df(x,y)d\sigma=\int_\alpha^\beta d\theta\int_{r_1(\theta)}^{r_2(\theta)}f(r\cos\theta,r\sin\theta)rdr</script><h3 id="利用对称性和奇偶性计算"><a href="#利用对称性和奇偶性计算" class="headerlink" title="利用对称性和奇偶性计算"></a>利用对称性和奇偶性计算</h3><p>(1) 若积分域D关于y轴对称，f(x,y)关于x有奇偶性，则：</p>
-<script type="math/tex; mode=display">\iint_Df(x,y)d\sigma=\begin{cases}
-    2\iint_{D_{x\ge0}}f(x,y)d\sigma,&f(-x,y)=f(x,y) \\
-    0,&f(-x,y)=-f(x,y)
-\end{cases}</script><p>(1) 若积分域D关于x轴对称，f(x,y)关于y有奇偶性，则：</p>
-<script type="math/tex; mode=display">\iint_Df(x,y)d\sigma=\begin{cases}
-    2\iint_{D_{y\ge0}}f(x,y)d\sigma,&f(x,-y)=f(x,y) \\
-    0,&f(x,-y)=-f(x,y)
-\end{cases}</script><h3 id="利用变量对称性计算"><a href="#利用变量对称性计算" class="headerlink" title="利用变量对称性计算"></a>利用变量对称性计算</h3><p>二重积分$\iint_Df(x,y)d\sigma$的积分域D是点(x,y)的集合，记为$D_{(x,y)}$，类似一元定积分的值与积分变量用什么记号无关，则<br><img src="/2021/06/11/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6-%E4%BA%8C%E9%87%8D%E7%A7%AF%E5%88%86/3-1.png" alt="photo"></p>
-<script type="math/tex; mode=display">\iint_{D_{(x,y)}}f(x,y)d\sigma=\iint_{D_{(y,x)}}f(y,x)d\sigma</script><p>即把二重积分的被积函数f(x,y)及积分域$D_{(x,y)}$中的x和y对调，积分值不变</p>
-]]></content>
-      <categories>
-        <category>数学</category>
-      </categories>
-      <tags>
-        <tag>高等数学</tag>
       </tags>
   </entry>
   <entry>
@@ -3644,7 +3903,8 @@ A+(-A)=O</script></li>
 <p>(3) 利用结论：若$\lim\alpha(x)=0,\lim\beta(x)=\infty,$且$\lim\alpha(x)\beta(x)=A$，则$\lim[1+\alpha(x)]^{\beta(x)}=e^A$</p>
 <h3 id="无穷小量的比较"><a href="#无穷小量的比较" class="headerlink" title="无穷小量的比较"></a>无穷小量的比较</h3><p>结论：若$f(x)$在$x=0$的某邻域内连续，且当$x\rightarrow0$时$f(x)$是$x$的$m$阶无穷小，$\varphi(x)$是$x$的$n$阶无穷小，则当$x\rightarrow0$时$F(x)=\int_0^{\varphi(x)}f(t)dt$是$x$的$n(m+1)$阶无穷小</p>
 <h2 id="连续"><a href="#连续" class="headerlink" title="连续"></a>连续</h2><h3 id="连续的概念"><a href="#连续的概念" class="headerlink" title="连续的概念"></a>连续的概念</h3><p>若$f(x)$在$x_0$某去心邻域有定义，但在$x_0$处不连续，则称点$x=x_0$为函数$f(x)$的间断点</p>
-<h3 id="间断点及其类型"><a href="#间断点及其类型" class="headerlink" title="间断点及其类型"></a>间断点及其类型</h3><p>(1) 第一类间断点：左、右极限均存在的间断点<br>可去间断点：左、右极限存在且相等的间断点<br>跳跃间断点：左、右极限都存在但不相等的间断点<br>(2) 第二类间断点：左、右极限中至少有一个不存在的间断点<br>无穷间断点：左、右极限中至少有一个为无穷，如$x=0$为$f(x)=\frac{1}{x}$的无穷间断点<br>震荡间断点：如$x=0$为$f(x)=\sin\frac{1}{x}$的震荡间断点</p>
+<h3 id="间断点及其类型"><a href="#间断点及其类型" class="headerlink" title="间断点及其类型"></a>间断点及其类型</h3><p>(1) 第一类间断点：左、右极限均存在的间断点<br>可去间断点：左、右极限存在且相等的间断点<br>跳跃间断点：左、右极限都存在但不相等的间断点<br>(2) 第二类间断点：左、右极限中至少有一个不存在的间断点<br>无穷间断点：左、右极限中至少有一个为无穷，如$x=0$为$f(x)=\frac{1}{x}$的无穷间断点</p>
+<p>震荡间断点：如$x=0$为$f(x)=\sin\frac{1}{x}$的震荡间断点</p>
 <h3 id="连续函数的性质"><a href="#连续函数的性质" class="headerlink" title="连续函数的性质"></a>连续函数的性质</h3><ol>
 <li>连续函数的和、差、积(分母不为零)仍复合连续</li>
 <li>基本初等函数在定义域内连续；初等函数在其定义区间内连续</li>
