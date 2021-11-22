@@ -8,8 +8,15 @@ MySQL的较为系统语法学习。
 <!--more-->
 ## MySQL语法
 
-### 登录
-> mysql -u root -p
+### 启动mysql数据库服务
+
+1. 服务方式启动（界面）
+2. net stop mysql服务名
+3. net start mysql服务名
+
+### 命令行窗口连接MySQL数据库
+
+> mysql -u root(用户名) -P 端口(默认3306) -h 主机名(默认本机) -p(密码)  //(ryb)
 
 **先输入set names gbk;**
 
@@ -22,26 +29,35 @@ MySQL的较为系统语法学习。
 #### 创建数据库
 
 **查看字符集**
+
 > show charset;
 
 **查看可用校对规则**
 > show collation;
 
 **创建数据库**
-> create database 数据库名 [charset 字符集名称] [clooate 校对规则（一般不写）];
+
+> create database 数据库名 [charset 字符集名称] [COLLATE 校对规则（一般不写）];
 
 例：create database php charset utf8;
 
+1. COLLATE默认为utf8_general_ci 不区分大小写，utf8_bin 区分大小写
+
 **查看数据库**
+
+> show databases
+
+**显示数据库创建语句**
+
 > show create database 数据库名;
 
 其实就是能看到指定数据的完整创建语句（含默认值的选项，比如charset，collate）。
 
 #### 删除现有数据库
 
-> drop database 数据库名;
+> drop database 数据库名 [if exists];
 
-#### 修改数据库 
+#### 修改数据库
 
 > alter database 数据库名 charset 新的字符集名称 collate 新的校对规则名;
 
@@ -65,7 +81,7 @@ MySQL的较为系统语法学习。
 
 #### 查看数据表结构
 
-> desc 表名; 
+> desc 表名;
 
 #### 查看数据表的创建语句
 
@@ -77,22 +93,22 @@ MySQL的较为系统语法学习。
 
 #### 修改数据表
 
-**添加字段：**
-> alter table 表明 add 字段名 字段类型 [字段属性...] [after 某字段名 或first];
+**添加列：**
+> alter table 表名 add 字段名 字段类型 [字段属性...] [after 某字段名 或first];
 
 默认放到最后
-**修改字段**
+**修改列**
 > alter table 表名 change 旧字段名 新字段 字段类型 [字段属性...];
 > alter table 表名 modify 要修改的字段名 字段类型 [字段属性..];
 
-**删除字段**
+**删除列**
 > alter table 表名 drop 要删除的字段名;
 
 **修改表名**
-> alter table 表名 rename 新的表名;
+> Rename table 表名 to 新表名
 
 **修改字符集**
-> alter table 表名 charset=新的字符集;
+> alter table 表名 character set 新的字符集;
 
 ### 数据操作
 
@@ -102,7 +118,10 @@ MySQL的较为系统语法学习。
 
 #### 查询数据
 
-> select 字段名1,字段名2,.... from 表名 [where 条件];
+> select [DISTINCT] 字段名1,字段名2,.... from 表名 [where 条件];
+
+where子句常用运算符
+![photo](MySQL语法/where字句运算符.png)
 
 #### 删除数据
 
@@ -114,40 +133,45 @@ MySQL的较为系统语法学习。
 
 ### 数值类型
 
-#### 整性
+![photo](MySQL语法/数据类型.png)
 
-> tinyint 微整型 [-128,127] 或 [0,255]
-> smallint 小整型[-32768,32767]
-> mediumint 中整型[-8388608,8388607]
-> int 整型
-> bigint 大整型
+#### 整型
+
+> tinyint [1个字节] [-128,127] 或 [0,255]
+> smallint [2个字节][-32768,32767]
+> mediumint [3个字节][-8388608,8388607]
+> int [4个字节]
+> bigint [8个字节]
 
 #### 小数型
 
-##### 浮点小数
+> float[单精度 4个字节]
+> double[双精度 8个字节]
+> decimal[M,D] (M是小数位数的总数，D是小数点后面的位数) [大小不确定]
 
-不精确的小数
+#### 二进制数据类型
 
-##### 定点小数
-
-精确的小数
+> blob[0~2^16-1]
+> longblob[0~2^32-1]
 
 #### 日期时间型
 
 > date 格式"0000-00-00"
 > time 格式"00:00:00"
+> datatime [年月日 时分秒 YYYY-MM-DD HH:mm:ss]
 > timestamp 格式"0000-00-00 00:00:00"
 > year 格式"0000"
 
-#### 字符串类型
+#### 文本类型(字符串类型)
 
 ##### char
 
-固定长度，最长设定255个字符
+4个字符数，固定长度，最长设定255个字符
 
 ##### varchar
 
 可变长度，最长65532个字符
+本身还需要占用1-3个字节来记录存放内容长度
 
 ##### text
 
@@ -172,27 +196,35 @@ longtext(40亿左右）
 2. 多个列属性空格隔开就行；
 
 * null,not null
-    * 设定为空，或非空，表明该列数据是否可为空值（null）。
+  * 设定为空，或非空，表明该列数据是否可为空值（null）。
 * default
-    * 用于设定列默认值（不给值或给空值null,就会自动使用该值）
-    * 使用形式：default 默认值。
+  * 用于设定列默认值（不给值或给空值null,就会自动使用该值）
+  * 使用形式：default 默认值。
 * primary key
-    * 用于设定主键
-    * 主键就是一个表中数据的“关键值”，通过该关键值就可以找到该特定的数据行。
-    * 一个表的主键值不能重复（相等），比如文章表中的文章编号id，比如用户表中的用户名。
-    * 主键字段必须有值（不能为空）。
-    * 一个表只能有一个主键（但一个主键可以是1个字段或2个以上的字段联合构成）
+  * 用于设定主键
+  * 主键就是一个表中数据的“关键值”，通过该关键值就可以找到该特定的数据行。
+  * 一个表的主键值不能重复（相等），比如文章表中的文章编号id，比如用户表中的用户名。
+  * 主键字段必须有值（不能为空）。
+  * 一个表只能有一个主键（但一个主键可以是1个字段或2个以上的字段联合构成）
+* foreign key
+  * 用于设定外键
+  * 外键指向的表的字段，要求是primary key或者是unique
+  * 表的类型是innodb，这样的表才支持外键
+  * 外键字段的类型要和主键字段的类型一致（长度可以不同）
+  * 外键字段的值，必须在主键字段中出现过，或者为null
+  * 一旦建立主外键的关系，数据不能随意删除了
 * auto_increment
-    * 用于设定一个整数字段的值是“自增长的”，通常用于一个表中的数据行的编号（比如文章编号）。
-    * 默认情况下自增长值从1开始。
-    * 一个表只能设定一个字段为自增长特性。
+  * 用于设定一个整数字段的值是“自增长的”，通常用于一个表中的数据行的编号（比如文章编号）
+  * 默认情况下自增长值从1开始
+  * 一个表只能设定一个字段为自增长特性
 * unique key
-    * 用于设定“唯一键”的特性。
-    * 唯一键表示一个表中的某字段的值是“唯一的”，“不重复的”。
-    * 唯一键有点类似primay key，但其值可以为空（null）。
+  * 用于设定“唯一键”的特性。
+  * 唯一键表示一个表中的某字段的值是“唯一的”，“不重复的”。
+  * 唯一键有点类似primay key，但其值可以为空（null）
+* check
 * comment
-    * 用于设定字段的说明性内容，类似注释，但又不是注释（属于有效的代码）
-    * 使用形式：comment ‘文字内容'
+  * 用于设定字段的说明性内容，类似注释，但又不是注释（属于有效的代码）
+  * 使用形式：comment ‘文字内容'
 
 ### 高级查询
 
@@ -214,6 +246,33 @@ select 子句
 例：
 select 1 as dl,2+3 as d2;
 
+#### 合计/统计函数
+
+> select count(*)|count(列名) from table_name [where ...] (如果为null不会统计 )
+> select sum(列名) from table_name [where ...]
+> select avg(列名) from table_name [where ...]
+> select max/min(列名) from table_name [where ...]
+
+#### 字符串函数
+
+![photo](MySQL语法/字符串函数.png)
+
+#### 数学函数
+
+![photo](MySQL语法/数学相关函数.png)
+
+#### 日期函数
+
+![photo](MySQL语法/时间函数.png)
+
+#### 加密函数和系统函数
+
+![photo](MySQL语法/加密和系统函数.png)
+
+#### 流程控制函数
+
+![photo](MySQL语法/流程控制函数.png)
+
 #### 使用distinct消除查询结果重复行
 
 **语法形式：**
@@ -221,13 +280,13 @@ select 1 as dl,2+3 as d2;
 
 #### 运算符
 
-##### like模糊查找运算符：
+##### like模糊查找运算符
 
 用于判断某个字符型字段的值是否包含给定的字符。
 **语法形式：**
 > xxx字段 like '%关键字%';
 
-##### between 范围限定运算符：
+##### between 范围限定运算符
 
 用于判断某个字段的值是否在给定的两个数据范围之间。
 **语法形式：**
@@ -277,6 +336,7 @@ having 的含义跟where的含义一样，只是having是用于对group by分组
 > limit 起始行号，行数
 
 **说明：**
+
 1. limit表示对前面所取得的数据再进行数量上的筛选，取得从某行开始的多少行。
 2. 行号就是前面所取得数据的“自然顺序号”，从0开始算起一一注意不是id，或任何其他实际数据。
 3. 起始行号可以省略，此时limit后只用一个数字，表示从第0行开始去除多少行。
@@ -297,7 +357,7 @@ having 的含义跟where的含义一样，只是having是用于对group by分组
 要求：
     插入语句的字段个数，跟select语句的字段个数相等。
     插入语句的字段类型，跟select语句的字段类型相符。
-    
+
 #### set语法插入数据
 
 **语句形式：**
@@ -356,6 +416,20 @@ having 的含义跟where的含义一样，只是having是用于对group by分组
 1，order by用于设定更新数据时的更新顺序，跟select 语句中的orderby子句道理一样。
 2，limit 用于设定更新数据时要更新的行数，即更新的数据量可能少于条件筛选出来的数据量。
 
+### 分页查询
+
+```sql
+select ... limit start,rows // 表示从start + 1行开始去，取出rows行，start从0开始计算
+```
+
+### 多表查询
+
+默认情况下，当两个表查询时，规则
+
+1. 从第一张表中，取出一行和第二张表的每一行进行组合，返回结果
+2. 一共返回的记录数 第一张表行数*第二张表的行数
+3. 这样多表查询默认吹返回的结果，称为迪卡尔集
+
 ### 联合查询
 
 #### 联合查询概念
@@ -365,7 +439,8 @@ having 的含义跟where的含义一样，只是having是用于对group by分组
 #### 联合查询语法
 
 **语法形式**
-```
+
+```sql
 select 查询1
 union [all 或 distinct]
 select 查询2
@@ -419,14 +494,16 @@ union [all 或 distinct]
 
 **左外连接**
 语法形式：
-> from 表1 left [outer] join 表2 on 连接条件
+> select .. from 表1 left [outer] join 表2 on 连接条件
 
 说明：
-1，左外连接其实是保证左边表的数据都能够取出的一种连接。
-2，左外连接其实是在内连接的基础上，再加上左边表中所有不能满足条件的数据3，关键字“outer”可以省略。
+
+1. 左外连接其实是保证左边表的数据都能够取出的一种连接
+2. 左外连接其实是在内连接的基础上，再加上左边表中所有不能满足条件的数据3，关键字“outer”可以省略
+
 **右外连接**
 语法形式：
-> from 表1 right [outer] join 表2 on 连接条件
+> select from 表1 right [outer] join 表2 on 连接条件
 
 说明：
 1，右外连接其实是保证右边表的数据都能够取出的一种连接。
@@ -492,17 +569,84 @@ all 关键字用在比较操作操符的后面，表示查询结果的多个数�
 > where exists （任何子查询）
 
 含义：
-该子查询如果“有数据”，则该existsO的结果为“true”，即相当于 where true（恒真）该子查询如果“没有数据”，则该exists0的结果为“false”，即相当于where 
+该子查询如果“有数据”，则该existsO的结果为“true”，即相当于 where true（恒真）该子查询如果“没有数据”，则该exists0的结果为“false”，即相当于where
 false（恒假）
 说明： 此子查询语句通常需要用到主查询语句中的字段作为查询条件。
+
+### 索引
+
+提高数据库性能
+
+1. 主键索引，主键自动的为主索引
+2. 唯一索引
+3. 普通索引
+4. 全文索引（开发中考虑：全文搜索Solr和ElasticSearch）
+
+#### 索引使用
+
+添加索引
+
+> create [unique] index index_name on tbl_name (col_name[(length)]) [ASC|DESC],...)
+> alter table table_name ADD INDEX [index_name] (index_col_name,...)
+
+添加主键索引
+
+> alter table 表名 add primary key(列名,..)
+
+删除索引
+
+> drop index index_name on tbl_name
+> alter table table_name drop index index_name
+
+删除主键索引
+
+> alter table t_b drop primary key
+
+查询索引
+
+> show index from table_name
+> show indexes from table_name
+> show keys from table_name
+
+### 事务
+
+事务用于保证数据的一致性，它由一组相关的dml语句组成，该组的dml语句要么全部成功，要么全部失败
+
+#### mysql数据库控制台事务的几个重要操作
+
+1. start transaction  -- 开始一个事务
+2. savepoint 保存点名--设置保存点
+3. rollback to 保存点名 --回退事务
+4. rollback --回退全部事务
+5. commit --提交事务，所有的操作生效，不能回退
+
+#### 注意事项
+
+1. 如果不开始事务，默认情况下，dml操作是自动提交的，不能回滚
+2. 如果开始一个事务，没有创建保存点，可以执行rollback，默认是回退到事务开始的状态
+3. 可以在这个事务没有提交时，创建多个保存点
+4. 可以在事务没有提交前，选择回退到哪个保存点
+5. mysql的事务机制需要innodb的存储引擎才可以使用
+6. 开始一个事务 start transaction，set autocommit=off
+
+#### 事务隔离
+
+多个连接开启各自事务操作数据库中数据时，数据库系统要负责隔离操作，以保证各个连接在获取数据时的准确性
+
+脏读：当一个事务读取另一个事务尚未提交的修改时，产生脏读
+
+不可重复读：同一查询在同一事务中多次进行，由于其他提交事务所做的修改或删除，每次返回不同的结果集，此时发生不可重复读
+
+幻读：同一查询在同一事务中多次进行，由于其他提交事务所做的插入操作，每次返回不同的结果集，此时发生幻读
+
+![photo](MySQL语法/事务隔离.png)
 
 ### 数据管理
 
 #### 数据备份
 
 **备份整个数据库**
-
-> mysqldump.exe -h 主机地址 -u 用户名 -p 密码 数据库名 > 备份文件名（含路径）
+> mysqldump.exe -h 主机地址 -u 用户名 -p 密码(不输入) -B 数据库名 > 备份文件名.sql（含路径）
 
 说明：
 1，跟登录mysql类似，密码可以不写，则随后会提示输入
@@ -510,7 +654,7 @@ false（恒假）
 
 **备份单个表**
 命令形式：
-> mysqldump.exe -h 主机地址 -u 用户名 -p 密码 数据库名 > 备份文件名（含路径）
+> mysqldump.exe -h 主机地址 -u 用户名 -p 密码 数据库 表1 表2 > 备份文件名.sql（含路径）
 
 说明：
 1，跟登录mysql类似，密码可以不写，则随后会提示输入2，该语句是mysql/bin中的一个命令，不是sql 语句（即不应该登录mysql后再去使用）
@@ -521,6 +665,7 @@ false（恒假）
 还原其实不分整个库还是单个表，都是一样的。
 命令形式：
 > mysql.exe -h 主机地址 -u 用户名 -p 密码 目标数据库名 < 想要还原的备份文件名（含路径）
+> 或(Source 文件名.sql)
 
 ### 用户管理
 
