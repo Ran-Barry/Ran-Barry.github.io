@@ -127,7 +127,17 @@ Mysql在5.0以上版本加入了 information_schema 这个系统自带库 其中
 
 ### 通过UpdateXml报错
 
-> and 1=(updatexml(1,concat(0x3a,(select user())),1))
+> and updatexml(1,concat(0x5c,(select user()),0x5c),1)
+
+其中concat函数是将其连接成一个字符串，因此不会符合XPath_string的格式，从而出现格式错误，爆出ERROR 1105 (HY000): XPATH syntax error: root@localhost
+
+updatexml()函数
+
+UPDATEXML(XML_document,XPath_string,new_value);
+第一个参数：XML_document是String格式，为XML文档对象的名称，文中为Doc
+第二个参数：XPath_string(Xpath格式的字符串)
+第三参数：new_value,String格式，替换查找到的符合条件的数据
+作用：改变文档中符合条件的节点的值
 
 ### 通过NAME_CONST报错注入
 
@@ -135,7 +145,7 @@ Mysql在5.0以上版本加入了 information_schema 这个系统自带库 其中
 
 ### 通过join报错注入
 
-> select * from(select * from mysql.user ajoin mysql.user b)c;
+> select * from (select * from mysql.user a join mysql.user b)c;
 
 ### 通过exp报错注入
 
@@ -166,6 +176,45 @@ Mysql在5.0以上版本加入了 information_schema 这个系统自带库 其中
 > and linestring (()select * from(select user() )a)b;
 
 ## POST注入
+
+### 头部POST注入
+
+**常用的请求头**
+
+* HostHost
+    Host请求报头域主要用于指定被请求资源的Internet主机和端口号。
+    如：Host: localhost:8088
+
+* User-Agent
+    User-Agent请求报头域允许客户端将它的操作系统、浏览器和其他属性告诉服务器。登录一些网站时，很多时候都可以见到显示我们的浏览器、系统信息，这些都是此头的作用。
+    如：User-Agent: Mozilla/5.0
+
+* Referer
+    Referer包含一个URL，代表当前访问URL的上一个URL，也就是说，用户是从什么地方来到本页面。
+    如：Referer: http://192.168.33.1/sqli/Less-18/
+
+* Cookie
+    Cookie是非常重要的请求头，它是一段文本，常用来表示请求者身份等。
+    如：Cookie: username=admin; password=admin
+
+* Range
+    Range可以请求实体的部分内容，多线程下载一定会用到此请求头。
+    如：表示头500字节：Range: bytes=0~499
+      表示第二个500字节：Range: bytes=500~999
+      表示最后500字节：Range: bytes=-500
+      表示500字节以后的范围：Range: bytes=500-
+
+* X-Forwarded-For
+    X-Forwarded-For即XXF头，它代表请求端的IP，可以有多个，中间以逗号隔开。
+    如：X-Forwarded-For: 8.8.8.8
+
+* Accept
+    Accept请求报头域用于指定客户端接收哪些MIME类型的信息。
+    如：Accept: text/html
+
+* Accept-Charset
+    Accept-Charset请求报头域用于指定客户端接收的字符集。如果在请求消息中没有设置这个域，默认是任何字符集都可以接收。
+    如： Accept-Charset: gb2312
 
 ## 二次注入
 

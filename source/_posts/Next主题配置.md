@@ -617,7 +617,7 @@ live2d:
 
 在本地对博客修改（包括修改主题样式、发布新文章等）后
 
-1. 执行git add .，git commit -m “提交文件”，git push origin Hexo来提交Hexo网站源文件；
+1. 执行git add .，git commit -m “提交文件”，git push origin hexo来提交Hexo网站源文件；
 
 2. 执行hexo g -d 生成静态网页部署到github上；
 
